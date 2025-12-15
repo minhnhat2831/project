@@ -3,7 +3,7 @@ import InputField from "../../../component/common/input"
 import type { loginRequest } from "../types/auth";
 import { loginAdmin } from "../api/api";
 import { useNavigate } from "react-router";
-import { API } from "../../../api/api";
+import { API } from "../../../services/api";
 import { toast, ToastContainer } from "react-toastify";
 
 export default function LoginPage() {
@@ -24,7 +24,7 @@ export default function LoginPage() {
             localStorage.setItem("accessToken", accessToken);
             localStorage.setItem("refreshToken", refreshToken);
 
-            navigate(`${API.BASE_URL}/admin/admins`);
+            navigate(`${API.BASE_URL}/admin`);
         } catch (error: any) {
             (error.response?.data?.message);
             toast("Đăng nhập thất bại")

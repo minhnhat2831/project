@@ -7,7 +7,7 @@ export const DEFAULT_API = {
 } 
 
 export const API = {
-    BASE_URL : 'http://localhost:5173/'
+    BASE_URL : 'http://localhost:5173'
 }
 
 export const API_ENDPOINTS = {
