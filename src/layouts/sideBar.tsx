@@ -1,8 +1,8 @@
 import { Menu } from "lucide-react";
 import { ROUTER_SIDEBAR } from "../constants/router";
-import NavTo from "../component/common/navlink";
+import NavTo from "../components/common/NavLink";
 import { useState } from "react";
-import Popup from "../component/common/popup";
+import Popup from "../components/common/Popup";
 
 export default function SideBar() {
     const [open , setOpen] = useState(false)
@@ -18,7 +18,7 @@ export default function SideBar() {
     }
 
     return (<>
-        <div className="w-60 h-full border fixed z-999">
+        <div className="w-60 h-full border fixed z-10">
             <div className="w-full h-1/12 border flex justify-between items-center px-3 bg-[#390099]">
                 <div className="text-white font-bold"><p>NurtureWave</p></div>
                 <div><Menu color='white' /></div>

@@ -11,7 +11,7 @@ export default function InputField({ label,error, ...rest }: InputFieldProps) {
             {label && <label className="block mb-1">{label}</label>}
             <input
                 {...rest}
-                className="border w-full h-10 pl-2 rounded"
+                className="border w-full h-10 pl-2 pr-2 rounded"
             />
             {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
         </div>

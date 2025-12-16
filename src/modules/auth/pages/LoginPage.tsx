@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form"
-import InputField from "../../../component/common/input"
+import InputField from "../../../components/common/Input"
 import type { loginRequest } from "../types/auth";
 import { loginAdmin } from "../api/api";
 import { useNavigate } from "react-router";
