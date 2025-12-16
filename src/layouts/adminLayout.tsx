@@ -1,10 +1,10 @@
 import { Outlet } from "react-router";
-import SideBar from "./sideBar";
+import SideBar from "./Sidebar";
 
 export default function AdminLayout(){
     return(<>
         <SideBar />
-        <main>
+        <main className="ml-60">
             <Outlet />
         </main>
     </>)
