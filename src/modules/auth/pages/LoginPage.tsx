@@ -8,7 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 
 export default function LoginPage() {
     const navigate = useNavigate();
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors } } = useForm<loginRequest>({
         defaultValues: {
             username: "",
             password: ""

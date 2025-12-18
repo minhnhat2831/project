@@ -1,13 +1,18 @@
 import { Route, Routes } from "react-router"
-import LoginPage from "../modules/auth/pages/LoginPage"
-import AdminLayout from "../layouts/AdminLayout"
 
-import { AdminPage } from "./LazyRouter"
 import { Suspense } from "react"
 import LoadingSpinner from "../components/common/Loading"
 import AuthContext from "../components/context/AuthContext"
 import PublicRoute from "../components/context/PublicRoute"
 import NotFoundPage from "../modules/error/pages/NotFoundPage"
+
+import { 
+  AdminPage,
+  LoginPage,
+  AdminLayout,
+  DoulaPage,
+  ClientPage,
+} from "./LazyRouter"
 function App() {
 
   return (
@@ -32,7 +37,9 @@ function App() {
               </AuthContext>}
           >
             <Route index element={<AdminPage />}></Route>
-            <Route path="/admin/admins" element={<AdminPage />}></Route>
+            <Route path="/admin" element={<AdminPage />}></Route>
+            <Route path="/admin/doulas" element={<DoulaPage />}></Route>
+            <Route path="/admin/clients" element={<ClientPage />}></Route>
           </Route>
           
           <Route path="*" element={<NotFoundPage />}></Route>
