@@ -17,6 +17,6 @@ export const API_ENDPOINTS = {
     API_REFRESH_TOKEN : '/admins/auth/refresh-access-token',
 
     //Admin admin
-    API_ADMIN_ADMINS : 'admins/admins',
+    API_ADMIN_ADMINS : '/admins/admins',
     API_ADMIN_ADMINS_ID : (id : string) => `/admins/admins/${id}`
 }
