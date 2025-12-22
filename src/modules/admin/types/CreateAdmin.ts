@@ -1,4 +1,4 @@
-export interface CreateAdmin {
+export interface CreateAdminRequest {
     username : string,
     password: string,
     firstName: string,

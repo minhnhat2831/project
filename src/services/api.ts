@@ -18,5 +18,14 @@ export const API_ENDPOINTS = {
 
     //Admin admin
     API_ADMIN_ADMINS : '/admins/admins',
-    API_ADMIN_ADMINS_ID : (id : string) => `/admins/admins/${id}`
+    API_ADMIN_ADMINS_ID : (id : string) => `/admins/admins/${id}`,
+
+    //Admin doula
+    API_ADMIN_DOULA : '/admins/doulas',
+    API_ADMIN_DOULA_ID : (id : string) => `/admins/doulas/${id}`,
+
+    //Admin client
+    API_ADMIN_CLIENT : '/admins/users',
+    API_ADMIN_CLIENT_ID : (id : string) => `/admins/users/${id}`,
 }
+
