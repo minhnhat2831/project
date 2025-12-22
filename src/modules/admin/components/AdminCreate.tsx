@@ -1,10 +1,12 @@
 import { useForm } from "react-hook-form";
-import InputField from "../../../components/common/Input";
-import Select from "../../../components/common/Select";
-import type { CreateAdmin } from "../types/CreateAdmin";
+import InputField from "../../../components/common/form/Input";
+import Select from "../../../components/common/form/Select";
+import type { CreateAdminRequest } from "../types/CreateAdmin";
 import { toast } from "react-toastify";
-import { createAdmin } from "../api/api";
-import Button from "../../../components/common/Button";
+import { CreateAdmin } from "../api/api";
+import Button from "../../../components/common/form/Button";
+import { useState } from "react";
+import PopupConfirm from "../../../components/common/PopupComfirm";
 
 interface prop {
     open: boolean, 
@@ -13,7 +15,8 @@ interface prop {
 }
 
 export default function AdminCreatePopup({ open, setOpen, onSuccess }: prop) {
-    const { register, handleSubmit, formState: { errors } } = useForm<CreateAdmin>({
+    const [comfirm , setComfirm] = useState(false)
+    const { register, handleSubmit, formState: { errors } } = useForm<CreateAdminRequest>({
         defaultValues: {
             username: "",
             password: "",
@@ -24,10 +27,10 @@ export default function AdminCreatePopup({ open, setOpen, onSuccess }: prop) {
         }
     })
 
-    const onsubmit = async (data: CreateAdmin) => {
+    const onsubmit = async (data: CreateAdminRequest) => {
         try {
             console.log(data)
-            const res = await createAdmin(data)
+            const res = await CreateAdmin(data)
             console.log(res)
             toast.success("Tạo admin thành công")
             onSuccess?.()
@@ -39,12 +42,12 @@ export default function AdminCreatePopup({ open, setOpen, onSuccess }: prop) {
     }
 
     return (<>
-        <div className="w-full h-1/9 border-b px-5 flex justify-between items-center">
+        <div className="w-full h-1/12 border-b px-5 flex justify-between items-center">
             <p className="text-2xl font-bold">Create Admin User</p>
             <button className="hover:bg-gray-200 font-bold rounded-l-lg w-5" onClick={() => setOpen(!open)}>X</button>
         </div>
-        <form onSubmit={handleSubmit(onsubmit)}>
-            <div className="py-2 h-6/9">
+        <form onSubmit={handleSubmit(onsubmit)} className="flex flex-col h-full">
+            <div className="py-2 px-5 h-6/9 flex-1">
                 <InputField
                     label="UserName"
                     placeholder="Username"
@@ -108,9 +111,14 @@ export default function AdminCreatePopup({ open, setOpen, onSuccess }: prop) {
                     error={errors.password?.message}>
                 </InputField>
             </div>
-            <div className="px-2 mt-8">
+            <div className="px-6 py-4 mt-auto border-t bg-white">
                 <Button>Create</Button>
             </div>
         </form>
+        <PopupConfirm open={comfirm} onOpenChange={setComfirm}>
+            <div>
+
+            </div>
+        </PopupConfirm>
     </>)
 }

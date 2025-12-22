@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form"
-import InputField from "../../../components/common/Input"
-import Select from "../../../components/common/Select"
+import InputField from "../../../components/common/form/Input"
+import Select from "../../../components/common/form/Select"
 import { toast } from "react-toastify"
-import { editAdmin } from "../api/api"
+import { EditAdmin } from "../api/api"
 import type { EditAdminResquest } from "../types/EditAdmin"
 import type { Admin } from "../types/Admin"
-import Button from "../../../components/common/Button"
+import Button from "../../../components/common/form/Button"
 
 interface Props {
     open: boolean
@@ -28,7 +28,7 @@ export default function AdminEditPopup({ open, setOpen, admin,onSuccess }: Props
 
     const onSubmit = async (data: EditAdminResquest) => {
         try {
-            await editAdmin(data, admin.id)
+            await EditAdmin(data, admin.id)
             toast.success("Cập nhật admin thành công")
             onSuccess?.()
             setOpen(false)
@@ -44,7 +44,7 @@ export default function AdminEditPopup({ open, setOpen, admin,onSuccess }: Props
                 <button className="hover:bg-gray-200 font-bold rounded-l-lg w-5" onClick={() => setOpen(false)}>X</button>
             </div>
 
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full">
                 <div className="px-2">
                     <label className="block mb-1">Username<span className="text-red-500">*</span></label>
                     <input

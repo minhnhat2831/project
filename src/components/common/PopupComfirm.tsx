@@ -6,7 +6,7 @@ interface PopupProps {
   children: React.ReactNode;
 }
 
-export default function PopupConfirm({open, onOpenChange,children} : PopupProps){
+export default function PopupConfirm({open, onOpenChange, children} : PopupProps){
     return (
         <Dialog.Root open={open} onOpenChange={onOpenChange}>
           <Dialog.Portal>

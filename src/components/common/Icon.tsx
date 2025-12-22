@@ -9,6 +9,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export const Icons = {
   Person: PersonIcon,
@@ -21,5 +25,9 @@ export const Icons = {
   Menu : MenuIcon,
   Pen : BorderColorIcon,
   Trash : DeleteOutlineIcon,
-  Error : ErrorOutlineIcon
+  Error : ErrorOutlineIcon,
+  Eye : RemoveRedEyeIcon,
+  NonAvatar : AccountCircleIcon,
+  ExpandLess : ExpandLessIcon,
+  ExpandMore : ExpandMoreIcon
 };

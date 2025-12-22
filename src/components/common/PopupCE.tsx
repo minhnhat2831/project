@@ -12,7 +12,7 @@ export default function PopupCE({ open, onOpenChange, children }: PopupProps) {
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-40 bg-black/40" />
         <Dialog.Content
-          className="fixed top-0 right-0 z-50 h-screen lg:w-1/3 w-2/3 bg-white shadow-xl focus:outline-none"
+          className="fixed top-0 right-0 bottom-0 z-50 lg:w-1/3 w-2/3 flex flex-col h-screen bg-white shadow-xl focus:outline-none"
           onInteractOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
         >

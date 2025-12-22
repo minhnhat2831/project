@@ -1,4 +1,4 @@
-import InputField from "../components/common/Input";
+import InputField from "../components/common/form/Input";
 import { type ReactNode } from "react";
 
 interface prop {

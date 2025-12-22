@@ -2,7 +2,7 @@ import axiosInstance from "../../../services/axios";
 import { API_ENDPOINTS } from "../../../services/api";
 import type { loginRequest, loginResponse } from "../types/auth";
 
-export const loginAdmin = async (
+export const LoginAdmin = async (
   payload: loginRequest
 ): Promise<loginResponse> => {
   const res = await axiosInstance.post(

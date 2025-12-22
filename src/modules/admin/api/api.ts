@@ -1,11 +1,11 @@
 import axiosInstance from "../../../services/axios"
 import { API_ENDPOINTS } from "../../../services/api"
 import type { GetAdminsParams, GetAdminsResponse } from "../types/Admin"
-import type { CreateAdmin, CreateAdminsResponse } from "../types/CreateAdmin"
+import type { CreateAdminRequest, CreateAdminsResponse } from "../types/CreateAdmin"
 import type { EditAdminResquest, EditAdminsResponse } from "../types/EditAdmin"
 import type { DeleteAdminsResponse } from "../types/DeleteAdmin"
 
-export const getAdmins = async (
+export const GetAdmins = async (
   params: GetAdminsParams
 ): Promise<GetAdminsResponse> => {
   const respond = await axiosInstance.get<GetAdminsResponse>(
@@ -16,8 +16,8 @@ export const getAdmins = async (
   return respond.data
 }
 
-export const createAdmin = async (
-  data: CreateAdmin
+export const CreateAdmin = async (
+  data: CreateAdminRequest
 ): Promise<CreateAdminsResponse> => {
   const respond = await axiosInstance.post<CreateAdminsResponse>(
     API_ENDPOINTS.API_ADMIN_ADMINS,
@@ -31,7 +31,7 @@ export const createAdmin = async (
   return respond.data
 }
 
-export const editAdmin = async (
+export const EditAdmin = async (
   data: EditAdminResquest,
   id: string
 ): Promise<EditAdminsResponse> => {
