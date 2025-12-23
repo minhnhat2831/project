@@ -1,35 +1,35 @@
-import Header from "../../../layouts/Header"
+import Header from "@/layouts/Header"
 import { useReactTable, getCoreRowModel } from "@tanstack/react-table"
 import { columns } from "../components/AdminColumn"
-import TableData from "../../../components/common/TableData"
+import TableData from "@/components/common/TableData"
 import { useAdminData } from "../hooks/useAdminData"
-import { useState } from "react"
-import PopupCE from "../../../components/common/PopupCE"
+import PopupCE from "@/components/common/PopupCE"
 import AdminCreatePopup from "../components/AdminCreate"
 import AdminEditPopup from "../components/AdminEdit"
 import type { Admin } from "../types/Admin"
-import PopupConfirm from "../../../components/common/PopupComfirm"
+import PopupConfirm from "@/components/common/PopupComfirm"
 import AdminDelete from "../components/AdminDelete"
-import TablePagination from "../../../components/common/TablePagination"
+import TablePagination from "@/components/common/TablePagination"
+import { useState } from "react"
+import { usePaginationStore } from "@/store/usePageStore"
 
 export default function AdminPage() {
     const [open, setOpen] = useState(false)
     const [confirm, setconfirm] = useState(false)
     const [openEdit, setOpenEdit] = useState(false)
     const [selectedAdmin, setSelectedAdmin] = useState<Admin | null>(null)
-    const [pagination, setPagination] = useState({
-        pageIndex: 0,
-        pageSize: 25,
-    })
-    const page = pagination.pageIndex + 1
-    const limit = pagination.pageSize
+
+    const { pageIndex, pageSize, setPagination } = usePaginationStore()
+    const page = pageIndex + 1
+    const limit = pageSize
+
     const { data, loading, refetch, metadata } = useAdminData(page, limit)
 
     const table = useReactTable({
         data,
         columns,
         state: {
-            pagination,
+            pagination: { pageIndex, pageSize },
         },
         manualPagination: true,
         pageCount: metadata?.totalPages ?? 0,
@@ -49,7 +49,6 @@ export default function AdminPage() {
 
     return (
         <>
-            {/* Popup CUD */}
             <Header href="/admin" childrenHref="Admin / Admin Manager"
                 children={
                     <>
@@ -90,9 +89,10 @@ export default function AdminPage() {
             <TableData
                 loading={loading}
                 table={table}
-                pagination={<TablePagination table={table} totalCount={metadata?.totalCount}/>}
+                pagination={<TablePagination
+                    table={table}
+                    totalCount={metadata?.totalCount} />}
             />
-
         </>
     )
 }

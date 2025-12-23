@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form"
-import InputField from "../../../components/common/form/Input"
+import InputField from "@/components/common/form/Input"
 import type { loginRequest } from "../types/auth";
 import { LoginAdmin } from "../api/api";
 import { useNavigate } from "react-router";
-import { API } from "../../../services/api";
+import { API } from "@/services/api";
 import { toast, ToastContainer } from "react-toastify";
 
 export default function LoginPage() {

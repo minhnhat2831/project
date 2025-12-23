@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form"
-import InputField from "../../../components/common/form/Input"
-import Select from "../../../components/common/form/Select"
+import InputField from "@/components/common/form/Input"
+import Select from "@/components/common/form/Select"
 import { toast } from "react-toastify"
 import { EditAdmin } from "../api/api"
 import type { EditAdminResquest } from "../types/EditAdmin"
 import type { Admin } from "../types/Admin"
-import Button from "../../../components/common/form/Button"
+import Button from "@/components/common/form/Button"
 
 interface Props {
     open: boolean

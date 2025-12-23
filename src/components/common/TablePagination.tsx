@@ -15,45 +15,45 @@ export default function TablePagination<T>({ table, totalCount = 0, }: Props<T>)
     const to = Math.min((pageIndex + 1) * pageSize, totalCount)
 
     return (<>
-    <div className="w-full flex justify-between">
-        <div className="flex items-center justify-between px-4 py-2 text-sm text-gray-600">
-            <div>
-                Showing <strong>{from}</strong> to <strong>{to}</strong> of{" "}
-                <strong>{totalCount}</strong> entries
+        <div className="w-full flex justify-between">
+            <div className="flex items-center justify-between px-4 py-2 text-sm text-gray-600">
+                <div>
+                    Showing <strong>{from}</strong> to <strong>{to}</strong> of{" "}
+                    <strong>{totalCount}</strong> entries
+                </div>
+            </div>
+
+            <div className="flex items-center justify-between px-4 py-2">
+                <div className="flex items-center gap-2">
+                    <span className="text-sm font-bold">Per page</span>
+                    <select
+                        value={pageSize}
+                        onChange={(e) => {
+                            table.setPageSize(Number(e.target.value))
+                            table.setPageIndex(0)
+                        }}
+                        className="border rounded px-2 py-1"
+                    >
+                        {PAGE_SIZES.map((size) => (
+                            <option key={size} value={size}>
+                                {size}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <Stack spacing={2} alignItems="center" className="py-4">
+                    <MuiPagination
+                        count={table.getPageCount()}
+                        page={pageIndex + 1}
+                        onChange={(_, page) => table.setPageIndex(page - 1)}
+                        color="primary"
+                        showFirstButton
+                        showLastButton
+                    />
+                </Stack>
             </div>
         </div>
-
-        <div className="flex items-center justify-between px-4 py-2">
-            <div className="flex items-center gap-2">
-                <span className="text-sm font-bold">Per page</span>
-                <select
-                    value={pageSize}
-                    onChange={(e) => {
-                        table.setPageSize(Number(e.target.value))
-                        table.setPageIndex(0)
-                    }}
-                    className="border rounded px-2 py-1"
-                >
-                    {PAGE_SIZES.map((size) => (
-                        <option key={size} value={size}>
-                            {size}
-                        </option>
-                    ))}
-                </select>
-            </div>
-        
-        <Stack spacing={2} alignItems="center" className="py-4">
-            <MuiPagination
-                count={table.getPageCount()}
-                page={pageIndex + 1}
-                onChange={(_, page) => table.setPageIndex(page - 1)}
-                color="primary"
-                showFirstButton
-                showLastButton
-            />
-        </Stack>
-</div>
-    </div>
     </>
     )
 }

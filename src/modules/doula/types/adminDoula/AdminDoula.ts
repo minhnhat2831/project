@@ -10,7 +10,7 @@ export interface GetDoulaParams {
 
 export interface GetDoulaResponse {
     message: string,
-    data: Doula[],
+    data: AdminDoula[],
     metadata: {
         page: number
         limit: number
@@ -20,7 +20,7 @@ export interface GetDoulaResponse {
     }
 }
 
-export interface Doula {
+export interface AdminDoula {
     id: string,
     title: string,
     status: string,

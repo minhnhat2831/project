@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react"
-import type { Doula, GetDoulaResponse } from "../types/Doula"
+import type { AdminDoula, GetDoulaResponse } from "../types/adminDoula/AdminDoula"
 import { GetAllDoula } from "../api/api"
 
 export const useDouleFetch = (page: number, limit: number) => {
-    const [data, setData] = useState<Doula[]>([])
+    const [data, setData] = useState<AdminDoula[]>([])
     const [loading, setLoading] = useState(false)
     const [metadata, setMetadata] = useState<GetDoulaResponse["metadata"] | null>(null)
 

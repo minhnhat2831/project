@@ -1,5 +1,5 @@
-import { API_ENDPOINTS } from "../../../services/api";
-import axiosInstance from "../../../services/axios";
+import { API_ENDPOINTS } from "@/services/api";
+import axiosInstance from "@/services/axios";
 import type { GetClientResponse, GetClientParams } from "../types/Client";
 import type { ClientDelete } from "../types/ClientDelete";
 import type { ClientEditRequest, ClientEditResponse } from "../types/ClientEdit";

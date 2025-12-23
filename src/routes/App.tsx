@@ -13,6 +13,7 @@ import {
   DoulaPage,
   ClientPage,
 } from "./LazyRouter"
+import DoulaViewPage from "../modules/doula/pages/DoulaViewPage"
 function App() {
 
   return (
@@ -39,6 +40,7 @@ function App() {
             <Route index element={<AdminPage />}></Route>
             <Route path="/admin" element={<AdminPage />}></Route>
             <Route path="/admin/doulas" element={<DoulaPage />}></Route>
+            <Route path="/admin/doulas/:id" element={<DoulaViewPage />}></Route>
             <Route path="/admin/clients" element={<ClientPage />}></Route>
           </Route>
           

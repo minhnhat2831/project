@@ -1,5 +1,5 @@
-import axiosInstance from "../../../services/axios"
-import { API_ENDPOINTS } from "../../../services/api"
+import axiosInstance from "@/services/axios"
+import { API_ENDPOINTS } from "@/services/api"
 import type { GetAdminsParams, GetAdminsResponse } from "../types/Admin"
 import type { CreateAdminRequest, CreateAdminsResponse } from "../types/CreateAdmin"
 import type { EditAdminResquest, EditAdminsResponse } from "../types/EditAdmin"

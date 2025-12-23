@@ -1,5 +1,5 @@
-import { Link, NavLink } from "react-router"
-import pic from "../../../assets/warning.jpg"
+import { Link } from "react-router"
+import pic from "@/assets/warning.jpg"
 export default function NotFoundPage() {
     return (<>
         <div className="text-center mt-20">

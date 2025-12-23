@@ -1,9 +1,11 @@
-import type { GetDoulaParams, GetDoulaResponse } from "../types/Doula";
-import axiosInstance from "../../../services/axios";
-import { API_ENDPOINTS } from "../../../services/api";
-import type { GetDoulaId } from "../types/DoulaId";
-import type { GetDoulaEditRequest, GetDoulaEditResponse } from "../types/DoulaEdit";
+import type { GetDoulaParams, GetDoulaResponse } from "../types/adminDoula/AdminDoula";
+import axiosInstance from "@/services/axios";
+import { API_ENDPOINTS } from "@/services/api";
+import type { GetDoulaId } from "../types/adminDoula/AdminDoulaId";
+import type { GetDoulaEditRequest, GetDoulaEditResponse } from "../types/adminDoula/AdminDoulaEdit";
 import type { DeleteAdminsResponse } from "../../admin/types/DeleteAdmin";
+import type { GetTransactions, TransactionParams } from "../types/transactions/Transactions";
+import type { GetDoulaSubscriptionsId } from "../types/doula-subscription/DoulaSubscription";
 
 export const GetAllDoula = async (
     params : GetDoulaParams
@@ -44,4 +46,25 @@ export const DoulaDelete = async (
         API_ENDPOINTS.API_ADMIN_DOULA_ID(id)
     )
     return respond.data
+}
+
+export const GetTransaction = async (
+    params : TransactionParams
+): Promise<GetTransactions> => {
+    const response = await axiosInstance.get<GetTransactions>(
+        API_ENDPOINTS.API_TRANSACTIONS,
+        {
+            params
+        }
+    )
+    return response.data
+}
+
+export const GetDoulaSubscription = async (
+    id : string
+): Promise<GetDoulaSubscriptionsId> => {
+    const response = await axiosInstance.get<GetDoulaSubscriptionsId>(
+        API_ENDPOINTS.API_DOULA_SUBSCRIPTIONS_ID(id)
+    )
+    return response.data
 }
