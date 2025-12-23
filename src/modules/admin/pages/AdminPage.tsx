@@ -11,20 +11,20 @@ import PopupConfirm from "@/components/common/PopupComfirm"
 import AdminDelete from "../components/AdminDelete"
 import TablePagination from "@/components/common/TablePagination"
 import { useState } from "react"
-import { usePaginationStore } from "@/store/usePageStore"
+import { usePaginationStore } from "@/hooks/usePageStore"
+import { useFilterStore } from "@/hooks/useFilterStore"
 
 export default function AdminPage() {
     const [open, setOpen] = useState(false)
     const [confirm, setconfirm] = useState(false)
     const [openEdit, setOpenEdit] = useState(false)
     const [selectedAdmin, setSelectedAdmin] = useState<Admin | null>(null)
-
     const { pageIndex, pageSize, setPagination } = usePaginationStore()
     const page = pageIndex + 1
     const limit = pageSize
-
-    const { data, loading, refetch, metadata } = useAdminData(page, limit)
-
+    const search = useFilterStore(state => state.search)
+    const setSearch = useFilterStore(state => state.setSearch)
+    const { data, loading, refetch, metadata } = useAdminData(page, limit, search)
     const table = useReactTable({
         data,
         columns,
@@ -64,6 +64,7 @@ export default function AdminPage() {
                         </PopupCE>
                     </>
                 }
+                searchValue={search} onSearchChange={setSearch}
             />
             <PopupCE open={openEdit} onOpenChange={setOpenEdit}>
                 {selectedAdmin && (

@@ -35,7 +35,7 @@ export interface GetAdminsParams {
   page?: number
   limit?: number
   offset?: number
-  search?: string
+  search?: string | null
   sort?: string               
   f_username?: string
   f_email?: string

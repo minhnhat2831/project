@@ -3,7 +3,7 @@ export interface ClientEditRequest{
     middleName?: string,
     lastName?: string,
     picture?: string,
-    birthDate?: Date,
+    birthDate?: string,
     email?: string,
     phoneNumber?: string,
     status: "active" | "inactive"
@@ -22,7 +22,7 @@ export interface ClientEditResponse{
     lastName?: string,
     accountType?: string,
     picture?: string,
-    birthDate?: Date,
+    birthDate?: string,
     addressId?: string,
     email?: string,
     phoneNumber?: string,
@@ -32,9 +32,9 @@ export interface ClientEditResponse{
     verifiedEmail?: boolean,
     countryCode?: string,
     verifiedPhoneNumber?: boolean,
-    updatedBy?: Date,
-    deletedBy?: Date,
-    createdAt: Date,
-    updatedAt?: Date
+    updatedBy?: string,
+    deletedBy?: string,
+    createdAt: string,
+    updatedAt?: string
   }
 }

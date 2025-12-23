@@ -4,7 +4,7 @@ import { columns } from "../../components/model/SubscriptionColumns";
 import TableData from "@/components/common/TableData";
 import TablePagination from "@/components/common/TablePagination";
 import { useTransactionFetch } from "../../hooks/useTransactionFetch";
-import { usePaginationStore } from "@/store/usePageStore";
+import { usePaginationStore } from "@/hooks/usePageStore";
 import { useParams } from "react-router";
 import { useDoulaSubscription } from "../../hooks/useDoulaSubscription";
 import { formatDate } from "@/components/common/FormatDate";

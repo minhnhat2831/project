@@ -1,6 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { AdminDoula } from "../../types/adminDoula/AdminDoula";
 import { Icons } from "@/components/common/Icon"
+import { formatDate } from "@/components/common/FormatDate";
 export const columns: ColumnDef<AdminDoula>[] = [
   {
     accessorKey: "picture.uri",
@@ -36,7 +37,11 @@ export const columns: ColumnDef<AdminDoula>[] = [
   },
   {
     accessorKey: "user.birthDate",
-    header: "birthDate"
+    header: "birthDate",
+    cell : ({ getValue }) => {
+      const bd = getValue<Date>()
+      return <div>{formatDate(bd)}</div>
+    }
   },
   {
     accessorKey: "address.fullAddress",
@@ -44,7 +49,11 @@ export const columns: ColumnDef<AdminDoula>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "createdAt"
+    header: "createdAt",
+    cell : ({ getValue }) => {
+      const createdAt = getValue<Date>()
+      return <div>{formatDate(createdAt)}</div>
+    }
   },
   {
     accessorKey: "status",

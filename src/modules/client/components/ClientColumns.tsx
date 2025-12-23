@@ -1,6 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { Client } from "../types/Client";
 import { Icons } from "@/components/common/Icon";
+import { formatDate } from "@/components/common/FormatDate";
 
 export const columns: ColumnDef<Client>[] = [
     {
@@ -37,7 +38,11 @@ export const columns: ColumnDef<Client>[] = [
     },
     {
         accessorKey: "birthDate",
-        header: "birthDate"
+        header: "birthDate",
+        cell: ({ getValue }) => {
+            const birthday = getValue<Date>()
+            return <div>{formatDate(birthday)}</div>
+        }
     },
     {
         accessorKey: "address.fullAddress",
@@ -45,7 +50,11 @@ export const columns: ColumnDef<Client>[] = [
     },
     {
         accessorKey: "createdAt",
-        header: "createdAt"
+        header: "createdAt",
+        cell: ({ getValue }) => {
+            const createdAt = getValue<Date>()
+            return <div>{formatDate(createdAt)}</div>
+        }
     },
     {
         accessorKey: "status",
