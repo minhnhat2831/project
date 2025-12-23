@@ -4,16 +4,19 @@ import Header from "@/layouts/Header";
 import { columns } from "../components/model/DoulaColumns"
 import { useDouleFetch } from "../hooks/useDoulaFetch";
 import TablePagination from "@/components/common/TablePagination";
-import { usePaginationStore } from "@/store/usePageStore";
+import { usePaginationStore } from "@/hooks/usePageStore";
 import type { AdminDoula } from "../types/adminDoula/AdminDoula";
 import { useNavigate } from "react-router";
+import { useFilterStore } from "@/hooks/useFilterStore";
 
 export default function DoulaPage() {
     const nav = useNavigate()
     const { pageIndex, pageSize, setPagination } = usePaginationStore()
     const page = pageIndex + 1
     const limit = pageSize
-    const { data, loading, metadata } = useDouleFetch(page, limit)
+    const search = useFilterStore(state => state.search)
+    const setSearch = useFilterStore(state => state.setSearch)
+    const { data, loading, metadata } = useDouleFetch(page, limit, search)
     const table = useReactTable({
         data,
         columns,
@@ -39,7 +42,7 @@ export default function DoulaPage() {
         getCoreRowModel: getCoreRowModel(),
     })
     return (<>
-        <Header href="/admin/doulas" childrenHref="Admin / Doula Management" />
+        <Header href="/admin/doulas" childrenHref="Admin / Doula Management" searchValue={search} onSearchChange={setSearch} />
         <TableData
             loading={loading}
             table={table}
