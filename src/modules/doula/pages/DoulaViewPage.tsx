@@ -2,12 +2,14 @@ import { useNavigate, useParams } from "react-router";
 import Header from "@/layouts/Header";
 import { Icons } from "@/components/common/Icon";
 import Nav from "../components/common/Nav";
-import pic from "@/assets/warning.jpg"
 import Information from "./tab_content/Information";
 import Subscription from "./tab_content/Subscription";
 import Packages from "./tab_content/Packages";
 import Reviews from "./tab_content/Reviews";
 import { useState } from "react";
+import { useDoulaInfomation } from "../hooks/useDoulaInformation";
+import { formatDate } from "@/components/common/FormatDate";
+import Avatar from "@mui/material/Avatar";
 
 const tabs = [
     { name: "Information", key: "information" },
@@ -20,9 +22,10 @@ export default function DoulaViewPage() {
     const { id } = useParams<{ id: string }>()
     const nav = useNavigate()
     const [activeTab, setActiveTab] = useState("information");
+    const { data: doula } = useDoulaInfomation(id);
 
     return (<>
-        <Header href={`/admin/doulas/${id}`} childrenHref={`Account / Doula Management /s`} />
+        <Header href={`/admin/doulas/${id}`} childrenHref={`Account / Doula Management /${doula?.user.fullName}`} />
 
         <div className="w-full h-screen py-2 px-5 bg-gray-100">
             <div className="flex justify-between px-2 py-4">
@@ -31,21 +34,50 @@ export default function DoulaViewPage() {
             </div>
             <div className="px-2 py-2 bg-white">
                 {/* info */}
-                <div className="overflow-auto text-wrap bg-gray-200">
-                    <div className="flex gap-10 py-2">
-                        <img src={pic} alt="avatar" className="rounded-full w-10 h-10 ml-5"></img>
-                        <p>Full Name</p>
-                        <p>Status</p>
-                        <p>Email</p>
-                        <p>Phone</p>
-                        <p>Birthday</p>
-                        <p>Address</p>
-                        <p>Business name</p>
+                <div className="overflow-auto text-wrap bg-gray-100">
+                    <div className="flex gap-10 py-2 px-5 text-nowrap">
+                        <Avatar src={doula?.picture?.uri} alt="avatar" className="rounded-full w-15 h-10"></Avatar>
+                        <div>
+                            <p>Full Name</p>
+                            <p>{doula?.user?.fullName}</p>
+                        </div>
+                        <div>
+                            <p>Status</p>
+                            <div className="flex items-baseline">
+                                <span
+                                    className={`h-2 w-2 flex mr-1 items-center rounded-full ${doula?.status === "active" ? "bg-green-400" : "bg-gray-400"
+                                        }`}
+                                ></span>
+                                <p>{doula?.status === "active" ? "Active" : "Inactive"}</p>
+                            </div>
+                        </div>
+                        <div>
+                            <p>Email</p>
+                            <p>{doula?.user.email}</p>
+                        </div>
+                        <div>
+                            <p>Phone</p>
+                            <p>{doula?.user.phoneNumber}</p>
+                        </div>
+
+                        <div>
+                            <p>Birthday</p>
+                            <p>{formatDate(doula?.user.birthDate)}</p>
+                        </div>
+                        <div>
+                            <p>Address</p>
+                            <p>{doula?.address.fullAddress}</p>
+                        </div>
+
+                        <div>
+                            <p>Business name</p>
+                            <p>{doula?.businessName}</p>
+                        </div>
                     </div>
 
                     <div className="px-5">
                         <p>About Doulas</p>
-                        <p>-</p>
+                        <p>{doula?.description ? doula?.description : "-"}</p>
                     </div>
                 </div>
 

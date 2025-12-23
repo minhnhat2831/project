@@ -1,15 +1,15 @@
 import type { GetDoulaParams, GetDoulaResponse } from "../types/adminDoula/AdminDoula";
 import axiosInstance from "@/services/axios";
 import { API_ENDPOINTS } from "@/services/api";
-import type { GetDoulaId } from "../types/adminDoula/AdminDoulaId";
+import type { GetDoulaId, GetDoulaIdResponse } from "../types/adminDoula/AdminDoulaId";
 import type { GetDoulaEditRequest, GetDoulaEditResponse } from "../types/adminDoula/AdminDoulaEdit";
 import type { DeleteAdminsResponse } from "../../admin/types/DeleteAdmin";
 import type { GetTransactions, TransactionParams } from "../types/transactions/Transactions";
 import type { GetDoulaSubscriptionsId } from "../types/doula-subscription/DoulaSubscription";
 
 export const GetAllDoula = async (
-    params : GetDoulaParams
-) : Promise<GetDoulaResponse> => {
+    params: GetDoulaParams
+): Promise<GetDoulaResponse> => {
     const respond = await axiosInstance.get<GetDoulaResponse>(
         API_ENDPOINTS.API_ADMIN_DOULA,
         {
@@ -20,7 +20,7 @@ export const GetAllDoula = async (
 }
 
 export const GetById = async (
-    id : string
+    id: string
 ): Promise<GetDoulaId> => {
     const respond = await axiosInstance.get<GetDoulaId>(
         API_ENDPOINTS.API_ADMIN_DOULA_ID(id)
@@ -29,19 +29,19 @@ export const GetById = async (
 }
 
 export const DoulaEdit = async (
-    id : string,
-    data : GetDoulaEditRequest
-) : Promise<GetDoulaEditResponse> => {
+    id: string,
+    data: GetDoulaEditRequest
+): Promise<GetDoulaEditResponse> => {
     const respond = await axiosInstance.put<GetDoulaEditResponse>(
         API_ENDPOINTS.API_ADMIN_DOULA_ID(id),
-        {data}
+        { data }
     )
     return respond.data
 }
 
 export const DoulaDelete = async (
-    id : string
-) : Promise<DeleteAdminsResponse> => {
+    id: string
+): Promise<DeleteAdminsResponse> => {
     const respond = await axiosInstance.delete<DeleteAdminsResponse>(
         API_ENDPOINTS.API_ADMIN_DOULA_ID(id)
     )
@@ -49,7 +49,7 @@ export const DoulaDelete = async (
 }
 
 export const GetTransaction = async (
-    params : TransactionParams
+    params: TransactionParams
 ): Promise<GetTransactions> => {
     const response = await axiosInstance.get<GetTransactions>(
         API_ENDPOINTS.API_TRANSACTIONS,
@@ -61,10 +61,19 @@ export const GetTransaction = async (
 }
 
 export const GetDoulaSubscription = async (
-    id : string
+    id: string
 ): Promise<GetDoulaSubscriptionsId> => {
     const response = await axiosInstance.get<GetDoulaSubscriptionsId>(
         API_ENDPOINTS.API_DOULA_SUBSCRIPTIONS_ID(id)
+    )
+    return response.data
+}
+
+export const GetDoulaInfo = async (
+    id: string
+): Promise<GetDoulaIdResponse> => {
+    const response = await axiosInstance.get<GetDoulaIdResponse>(
+        API_ENDPOINTS.API_DOULA_ID(id)
     )
     return response.data
 }

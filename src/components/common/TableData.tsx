@@ -46,7 +46,7 @@ export default function TableData<T>({ loading, pagination, table }: Iprops<T>) 
                     </tbody>
                 </table>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center">
                 {pagination}
             </div></>
         }
