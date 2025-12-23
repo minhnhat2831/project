@@ -27,5 +27,15 @@ export const API_ENDPOINTS = {
     //Admin client
     API_ADMIN_CLIENT : '/admins/users',
     API_ADMIN_CLIENT_ID : (id : string) => `/admins/users/${id}`,
+
+    //Doula
+    API_DOULA_ME : 'doulas/me',
+    API_DOULA_ID : (id : string) => `/admins/doulas/${id}`,
+    API_DOUALA_ID_PACKAGE : (id : string) => `/admins/doulas/${id}/packages`,
+    API_DOULA_SUBSCRIPTIONS_ID : (id : string) => `/admins/doula-subscriptions/${id}`,
+
+    //transactions
+    API_TRANSACTIONS : '/admins/transactions',
+    API_TRANSACTIONS_ID : (id : string) => `/admins/transactions/${id}`,
 }
 

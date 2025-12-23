@@ -1,6 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { Client } from "../types/Client";
-import { Icons } from "../../../components/common/Icon";
+import { Icons } from "@/components/common/Icon";
 
 export const columns: ColumnDef<Client>[] = [
     {

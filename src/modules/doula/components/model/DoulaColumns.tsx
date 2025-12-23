@@ -1,7 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import type { Doula } from "../types/Doula";
-import { Icons } from "../../../components/common/Icon"
-export const columns: ColumnDef<Doula>[] = [
+import type { AdminDoula } from "../../types/adminDoula/AdminDoula";
+import { Icons } from "@/components/common/Icon"
+export const columns: ColumnDef<AdminDoula>[] = [
   {
     accessorKey: "picture.uri",
     header: "Avatar",
@@ -65,17 +65,20 @@ export const columns: ColumnDef<Doula>[] = [
   {
     id: "action",
     header: "Action",
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
+      const doula = row.original
+      const { onView } = table.options.meta as any
+      const { onEdit } = table.options.meta as any
+      const { onDelete } = table.options.meta as any
       return (
         <div className="flex gap-3">
-          <button>
+          <button onClick={() => onView(doula)}>
             <Icons.Eye className="text-red-400 cursor-pointer" />
           </button>
-          <button>
+          <button onClick={() => onEdit(doula)}>
             <Icons.Pen className="text-red-400 cursor-pointer" />
           </button>
-
-          <button>
+          <button onClick={() => onDelete(doula)}>
             <Icons.Trash className="text-gray-600 cursor-pointer" />
           </button>
         </div>

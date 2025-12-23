@@ -1,5 +1,5 @@
-import axiosInstance from "../../../services/axios";
-import { API_ENDPOINTS } from "../../../services/api";
+import axiosInstance from "@/services/axios";
+import { API_ENDPOINTS } from "@/services/api";
 import type { loginRequest, loginResponse } from "../types/auth";
 
 export const LoginAdmin = async (

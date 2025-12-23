@@ -13,6 +13,8 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import DescriptionIcon from '@mui/icons-material/Description';
 
 export const Icons = {
   Person: PersonIcon,
@@ -29,5 +31,7 @@ export const Icons = {
   Eye : RemoveRedEyeIcon,
   NonAvatar : AccountCircleIcon,
   ExpandLess : ExpandLessIcon,
-  ExpandMore : ExpandMoreIcon
+  ExpandMore : ExpandMoreIcon,
+  ArrowBack : ArrowBackIcon,
+  Subscription : DescriptionIcon
 };

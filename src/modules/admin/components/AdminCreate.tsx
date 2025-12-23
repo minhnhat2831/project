@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
-import InputField from "../../../components/common/form/Input";
-import Select from "../../../components/common/form/Select";
+import InputField from "@/components/common/form/Input";
+import Select from "@/components/common/form/Select";
 import type { CreateAdminRequest } from "../types/CreateAdmin";
 import { toast } from "react-toastify";
 import { CreateAdmin } from "../api/api";
-import Button from "../../../components/common/form/Button";
+import Button from "@/components/common/form/Button";
 import { useState } from "react";
-import PopupConfirm from "../../../components/common/PopupComfirm";
+import PopupConfirm from "@/components/common/PopupComfirm";
 
 interface prop {
     open: boolean, 
