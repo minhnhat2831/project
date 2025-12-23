@@ -2,22 +2,23 @@ import type { ColumnDef } from "@tanstack/react-table";
 import type { AdminDoula } from "../../types/adminDoula/AdminDoula";
 import { Icons } from "@/components/common/Icon"
 import { formatDate } from "@/components/common/FormatDate";
+import Avatar from "@mui/material/Avatar";
 export const columns: ColumnDef<AdminDoula>[] = [
   {
     accessorKey: "picture.uri",
     header: "Avatar",
     cell: ({ getValue }) => {
-    const src = getValue() as string | null;
+      const src = getValue() as string | null;
 
-    return src ? (
-      <img
-        src={src}
-        className="w-10 h-10 rounded-full"
-      />
-    ) : (
-      <div><Icons.NonAvatar fontSize="large" /></div>
-    );
-  },
+      return src ? (
+        <Avatar
+          src={src}
+          className="w-10 h-10 rounded-full"
+        />
+      ) : (
+        <Avatar />
+      );
+    },
   },
   {
     accessorKey: "user.fullName",
@@ -30,7 +31,7 @@ export const columns: ColumnDef<AdminDoula>[] = [
   {
     accessorKey: "user.phoneNumber",
     header: "Phone",
-    cell:({ cell }) => {
+    cell: ({ cell }) => {
       const phone = cell.getValue() as string | null
       return phone ? <div>+65 {cell.getValue() as string}</div> : null
     }
@@ -38,7 +39,7 @@ export const columns: ColumnDef<AdminDoula>[] = [
   {
     accessorKey: "user.birthDate",
     header: "birthDate",
-    cell : ({ getValue }) => {
+    cell: ({ getValue }) => {
       const bd = getValue<Date>()
       return <div>{formatDate(bd)}</div>
     }
@@ -50,7 +51,7 @@ export const columns: ColumnDef<AdminDoula>[] = [
   {
     accessorKey: "createdAt",
     header: "createdAt",
-    cell : ({ getValue }) => {
+    cell: ({ getValue }) => {
       const createdAt = getValue<Date>()
       return <div>{formatDate(createdAt)}</div>
     }

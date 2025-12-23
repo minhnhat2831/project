@@ -2,6 +2,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import type { Client } from "../types/Client";
 import { Icons } from "@/components/common/Icon";
 import { formatDate } from "@/components/common/FormatDate";
+import Avatar from "@mui/material/Avatar";
 
 export const columns: ColumnDef<Client>[] = [
     {
@@ -11,12 +12,12 @@ export const columns: ColumnDef<Client>[] = [
             const src = getValue() as string | null;
 
             return src ? (
-                <img
+                <Avatar
                     src={src}
                     className="w-10 h-10 rounded-full"
                 />
             ) : (
-                <div><Icons.NonAvatar fontSize="large" /></div>
+                <Avatar />
             );
         },
     },

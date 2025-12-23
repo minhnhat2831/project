@@ -4,7 +4,7 @@ export interface GetDoulaId {
 
 export interface GetDoulaIdResponse {
     message: string,
-    data: Doula[]
+    data: Doula
 }
 
 export interface Doula {
@@ -13,19 +13,60 @@ export interface Doula {
     description?: string,
     businessName?: string | null,
     status: "active" | "inactive",
-    photos?: [],
-    qualifications?: [],
-    createdAt: Date,
-    updatedAt?: Date | null,
-    deletedAt?: Date | null,
+    isTrialed: boolean,
+    stripeCustomerId: string,
+    photos: [{
+        id: string,
+        media: {
+            createdAt: string,
+            id: string,
+            metadata: {
+                medium: {
+                    key: string,
+                    uri: string,
+                },
+                thumbnail: {
+                    key: string,
+                    uri: string,
+                }
+            },
+            type: string,
+            uri: string,
+        }
+    }],
+    picture?: {
+        id: string,
+        createdAt: string,
+        metadata: {
+            medium: {
+                key: string,
+                uri: string,
+            },
+            thumbnail: {
+                key: string,
+                uri: string,
+            }
+        },
+        type: string,
+        uri: string,
+    },
+    qualifications?: [string],
+    createdAt: string,
+    updatedAt?: string | null,
+    deletedAt?: string | null,
+    deletedBy?: string | null,
     cometChatUid: string,
+    starAvg: number,
     user: {
         fullName: string,
         firstName: string,
         middleName?: string,
         lastName?: string,
-        picture?: string,
-        birthDate: Date
+        phoneNumber: string,
+        birthDate: string | null,
+        countryCode: string,
+        email: string,
+        id: string
     },
     categories?: [
         {
