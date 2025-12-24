@@ -7,7 +7,7 @@ interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export default function InputField({ label,error, ...rest }: InputFieldProps) {
     return (
-        <div className="px-2">
+        <div className="px-4">
             {label && <label className="block mb-1">{label}<span className="text-red-500"> *</span></label>}
             <input
                 {...rest}

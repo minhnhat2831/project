@@ -7,7 +7,6 @@ export default function AdminLayout(){
     return(<>
         <SideBar />
         <div className="ml-60">
-            <Header />
                 <main className="pt-15">
                     <Outlet />
                 </main>

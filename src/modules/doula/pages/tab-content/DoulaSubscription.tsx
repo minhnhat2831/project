@@ -1,6 +1,6 @@
 import { Icons } from "@/components/common/Icon";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { columns } from "../../components/model/SubscriptionColumns";
+import { columns } from "../../components/model/TransactionColumns";
 import TableData from "@/components/common/TableData";
 import TablePagination from "@/components/common/TablePagination";
 import { useTransactionFetch } from "../../hooks/useTransactionFetch";
@@ -9,7 +9,7 @@ import { useParams } from "react-router";
 import { useDoulaSubscription } from "../../hooks/useDoulaSubscription";
 import { formatDate } from "@/components/common/FormatDate";
 
-export default function Subscription() {
+export default function DoulaSubscription() {
     const { pageIndex, pageSize, setPagination } = usePaginationStore()
     const { id } = useParams<{ id?: string }>()
     const page = pageIndex + 1
@@ -40,7 +40,7 @@ export default function Subscription() {
                                 <Icons.Subscription />
                                 <p>{subscription?.subscription.name}</p>
                             </div>
-                            <p className="text-xl font-bold text-red-500">{subscription?.status}</p>
+                            <p className={`${subscription?.status === "cancelled" ? "text-xl font-bold text-red-500" : "text-xl font-bold text-green-500"}`}>{subscription?.status}</p>
                         </div>
                         <div className="flex justify-between">
                             <p>Amount</p>

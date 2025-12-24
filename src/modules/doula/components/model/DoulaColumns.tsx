@@ -1,25 +1,22 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import type { AdminDoula } from "../../types/adminDoula/AdminDoula";
+import type { AdminDoula } from "../../types/admin-doula/AdminDoula";
 import { Icons } from "@/components/common/Icon"
 import { formatDate } from "@/components/common/FormatDate";
 import Avatar from "@mui/material/Avatar";
 export const columns: ColumnDef<AdminDoula>[] = [
   {
-    accessorKey: "picture.uri",
+    accessorFn: (row) => row.picture?.uri ?? null,
     header: "Avatar",
     cell: ({ getValue }) => {
-      const src = getValue() as string | null;
-
+      const src = getValue<string | null>();
       return src ? (
-        <Avatar
-          src={src}
-          className="w-10 h-10 rounded-full"
-        />
+        <Avatar src={src} className="w-10 h-10 rounded-full" />
       ) : (
         <Avatar />
       );
     },
-  },
+  }
+  ,
   {
     accessorKey: "user.fullName",
     header: "Full name"
@@ -30,12 +27,9 @@ export const columns: ColumnDef<AdminDoula>[] = [
   },
   {
     accessorKey: "user.phoneNumber",
-    header: "Phone",
-    cell: ({ cell }) => {
-      const phone = cell.getValue() as string | null
-      return phone ? <div>+65 {cell.getValue() as string}</div> : null
-    }
-  },
+    header: "Phone"
+  }
+  ,
   {
     accessorKey: "user.birthDate",
     header: "birthDate",

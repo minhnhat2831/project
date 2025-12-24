@@ -3,7 +3,7 @@ import { useDoulaInfomation } from "../../hooks/useDoulaInformation";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 
-export default function Information() {
+export default function DoulaInformation() {
     const { id } = useParams<{ id: string }>()
     const { data: doula } = useDoulaInfomation(id);
     return (<>

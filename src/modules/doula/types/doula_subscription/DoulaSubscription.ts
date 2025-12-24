@@ -7,7 +7,7 @@ export interface DoulaSubscriptions {
     id: string,
     subscriptionPlanName: string,
     endTime: string | null,
-    status: "active" | "inactive",
+    status: "active" | "cancelled",
     createdAt: string,
     subscription: {
         id: string,

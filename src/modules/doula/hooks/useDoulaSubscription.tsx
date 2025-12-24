@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import type { DoulaSubscriptions } from "../types/doula-subscription/DoulaSubscription"
+import type { DoulaSubscriptions } from "../types/doula_subscription/DoulaSubscription"
 import { GetDoulaSubscription } from "../api/api"
 
 export const useDoulaSubscription = (id?: string) => {

@@ -40,7 +40,7 @@ export default function AdminEditPopup({ open, setOpen, admin,onSuccess }: Props
     return (
         <>
             <div className="w-full border-b px-5 flex justify-between items-center h-15">
-                <p className="text-2xl font-bold">Edit Admin User</p>
+                <p className="text-xl">Edit Admin User</p>
                 <button className="hover:bg-gray-200 font-bold rounded-l-lg w-5" onClick={() => setOpen(false)}>X</button>
             </div>
 

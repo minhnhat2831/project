@@ -61,8 +61,8 @@ export default function LoginPage() {
                             error={errors.password?.message}
                         />
                     </div>
-                    <div>
-                        <button className="bg-indigo-400 w-40 h-10 mt-2 rounded cursor-pointer">Login</button>
+                    <div className="px-4">
+                        <button className="bg-indigo-400 w-full h-10 mt-2 rounded cursor-pointer">Login</button>
                     </div>
                 </form>
             </div>

@@ -9,9 +9,9 @@ import { useState } from "react";
 import PopupConfirm from "@/components/common/PopupComfirm";
 
 interface prop {
-    open: boolean, 
+    open: boolean,
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
-    onSuccess? : () => void
+    onSuccess?: () => void
 }
 
 export default function AdminCreatePopup({ open, setOpen, onSuccess }: prop) {
@@ -29,9 +29,7 @@ export default function AdminCreatePopup({ open, setOpen, onSuccess }: prop) {
 
     const onsubmit = async (data: CreateAdminRequest) => {
         try {
-            console.log(data)
-            const res = await CreateAdmin(data)
-            console.log(res)
+            await CreateAdmin(data)
             toast.success("Tạo admin thành công")
             onSuccess?.()
             setOpen(false)
@@ -43,7 +41,7 @@ export default function AdminCreatePopup({ open, setOpen, onSuccess }: prop) {
 
     return (<>
         <div className="w-full h-1/12 border-b px-5 flex justify-between items-center">
-            <p className="text-2xl font-bold">Create Admin User</p>
+            <p className="text-xl">Create Admin User</p>
             <button className="hover:bg-gray-200 font-bold rounded-l-lg w-5" onClick={() => setOpen(!open)}>X</button>
         </div>
         <form onSubmit={handleSubmit(onsubmit)} className="flex flex-col h-full">
@@ -115,9 +113,9 @@ export default function AdminCreatePopup({ open, setOpen, onSuccess }: prop) {
                 <Button>Create</Button>
             </div>
         </form>
-        <PopupConfirm open={comfirm} onOpenChange={setComfirm}>
+         <PopupConfirm open={comfirm} onOpenChange={setComfirm}>
             <div>
-
+                    
             </div>
         </PopupConfirm>
     </>)
