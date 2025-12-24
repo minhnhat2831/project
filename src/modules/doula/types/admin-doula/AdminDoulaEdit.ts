@@ -5,7 +5,7 @@ export interface GetDoulaEditId{
 export interface GetDoulaEditRequest {
     user : {
         countryCode : string,
-        phoneNumber :  string,
+        phoneNumber? :  string,
     },
     deletedPhotos? : [
         string

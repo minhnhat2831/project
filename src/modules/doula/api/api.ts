@@ -1,11 +1,13 @@
-import type { GetDoulaParams, GetDoulaResponse } from "../types/adminDoula/AdminDoula";
+import type { GetDoulaParams, GetDoulaResponse } from "../types/admin-doula/AdminDoula";
 import axiosInstance from "@/services/axios";
 import { API_ENDPOINTS } from "@/services/api";
-import type { GetDoulaId, GetDoulaIdResponse } from "../types/adminDoula/AdminDoulaId";
-import type { GetDoulaEditRequest, GetDoulaEditResponse } from "../types/adminDoula/AdminDoulaEdit";
+import type { GetDoulaId, GetDoulaIdResponse } from "../types/admin-doula/AdminDoulaId";
+import type { GetDoulaEditRequest, GetDoulaEditResponse } from "../types/admin-doula/AdminDoulaEdit";
 import type { DeleteAdminsResponse } from "../../admin/types/DeleteAdmin";
 import type { GetTransactions, TransactionParams } from "../types/transactions/Transactions";
-import type { GetDoulaSubscriptionsId } from "../types/doula-subscription/DoulaSubscription";
+import type { GetDoulaSubscriptionsId } from "../types/doula_subscription/DoulaSubscription";
+import type { DoulaPackageParams, DoulaPackageResponse } from "../types/doula-package/DoulaPackage";
+import type { DoulaReviewParams, DoulaReviewResponse } from "../types/doula-review/DoulaReview";
 
 export const GetAllDoula = async (
     params: GetDoulaParams
@@ -28,13 +30,13 @@ export const GetById = async (
     return respond.data
 }
 
-export const DoulaEdit = async (
+export const UpdateDoula = async (
     id: string,
     data: GetDoulaEditRequest
 ): Promise<GetDoulaEditResponse> => {
     const respond = await axiosInstance.put<GetDoulaEditResponse>(
         API_ENDPOINTS.API_ADMIN_DOULA_ID(id),
-        { data }
+        data 
     )
     return respond.data
 }
@@ -74,6 +76,30 @@ export const GetDoulaInfo = async (
 ): Promise<GetDoulaIdResponse> => {
     const response = await axiosInstance.get<GetDoulaIdResponse>(
         API_ENDPOINTS.API_DOULA_ID(id)
+    )
+    return response.data
+}
+
+export const GetDoulaPackage = async (
+    params : DoulaPackageParams
+):Promise<DoulaPackageResponse> => {
+    const response = await axiosInstance.get<DoulaPackageResponse>(
+        API_ENDPOINTS.API_DOULA_PACKAGE,
+        {
+            params
+        }
+    )
+    return response.data
+}
+
+export const GetDoulaReview = async (
+    params : DoulaReviewParams
+):Promise<DoulaReviewResponse> => {
+    const response = await axiosInstance.get<DoulaReviewResponse>(
+        API_ENDPOINTS.API_DOULA_REVIEW,
+        {
+            params
+        }
     )
     return response.data
 }

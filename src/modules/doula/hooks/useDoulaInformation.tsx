@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react"
 import { GetDoulaInfo } from "../api/api"
-import type { Doula } from "../types/adminDoula/AdminDoulaId"
+import type { Doula } from "../types/admin-doula/AdminDoulaId"
 
 export const useDoulaInfomation = (id?: string) => {
   const [data, setData] = useState<Doula | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    if (!id) return
+  useEffect(() => {  
+    fetchData()
+  }, [id])
+
+    
     const fetchData = async () => {
+      if (!id) return
       setLoading(true)
       try {
         const res = await GetDoulaInfo(id)
@@ -20,8 +24,6 @@ export const useDoulaInfomation = (id?: string) => {
         setLoading(false)
       }
     }
-    fetchData()
-  }, [id])
 
-  return { data, loading, error }
+  return { data, loading, error, refetch : fetchData }
 }

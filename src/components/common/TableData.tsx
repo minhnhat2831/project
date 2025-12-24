@@ -29,7 +29,7 @@ export default function TableData<T>({ loading, pagination, table }: Iprops<T>) 
                                 ))}
                             </tr>
                         ))}
-                    </thead>
+                    </thead>  
                     <tbody>
                         {table.getRowModel().rows.map(row => (
                             <tr key={row.id} className="border-b">
@@ -42,7 +42,7 @@ export default function TableData<T>({ loading, pagination, table }: Iprops<T>) 
                                     </td>
                                 ))}
                             </tr>
-                        ))}
+                        ))} 
                     </tbody>
                 </table>
             </div>

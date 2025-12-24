@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import type { AdminDoula, GetDoulaResponse } from "../types/adminDoula/AdminDoula"
+import type { AdminDoula, GetDoulaResponse } from "../types/admin-doula/AdminDoula"
 import { GetAllDoula } from "../api/api"
 
 export const useDouleFetch = (page: number, limit: number, search? : string) => {
