@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { GetDoulaInfo } from "../api/api"
 import type { Doula } from "../types/admin-doula/AdminDoulaId"
+import { toast } from "react-toastify"
 
 export const useDoulaInfomation = (id?: string) => {
   const [data, setData] = useState<Doula | null>(null)
@@ -11,7 +12,6 @@ export const useDoulaInfomation = (id?: string) => {
     fetchData()
   }, [id])
 
-    
     const fetchData = async () => {
       if (!id) return
       setLoading(true)
@@ -19,7 +19,7 @@ export const useDoulaInfomation = (id?: string) => {
         const res = await GetDoulaInfo(id)
         setData(res.data)
       } catch (err: any) {
-        setError(err.message)
+        toast.error(err.response.data.message)
       } finally {
         setLoading(false)
       }

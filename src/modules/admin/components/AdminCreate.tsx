@@ -7,16 +7,17 @@ import { CreateAdmin } from "../api/api";
 import Button from "@/components/common/form/Button";
 import { useState } from "react";
 import PopupConfirm from "@/components/common/PopupComfirm";
+import { Icons } from "@/components/common/Icon";
 
 interface prop {
     open: boolean,
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>
+    setOpen: (open : boolean) => void,
     onSuccess?: () => void
 }
 
 export default function AdminCreatePopup({ open, setOpen, onSuccess }: prop) {
-    const [comfirm , setComfirm] = useState(false)
-    const { register, handleSubmit, formState: { errors } } = useForm<CreateAdminRequest>({
+    const [comfirm, setComfirm] = useState(false)
+    const { register, handleSubmit, setError, formState: { errors } } = useForm<CreateAdminRequest>({
         defaultValues: {
             username: "",
             password: "",
@@ -29,25 +30,49 @@ export default function AdminCreatePopup({ open, setOpen, onSuccess }: prop) {
 
     const onsubmit = async (data: CreateAdminRequest) => {
         try {
-            await CreateAdmin(data)
-            toast.success("Tạo admin thành công")
+            const response = await CreateAdmin(data)
+            toast.success(response?.message)
             onSuccess?.()
             setOpen(false)
         } catch (error: any) {
-            (error.response?.data?.message);
-            toast.error("Tạo admin thất bại")
+            const message = error.response?.data?.message
+            if (message.toLowerCase().includes("username")) {
+                setError("username", {
+                    type: "server",
+                    message
+                })
+                return
+            }
+
+            if (message.toLowerCase().includes("email")) {
+                setError("email", {
+                    type: "server",
+                    message
+                })
+                return
+            }
+
+            if (message.toLowerCase().includes("password")) {
+                setError("password", {
+                    type: "server",
+                    message
+                })
+                return
+            }
+            toast.error("Tạo admin thất bại");
         }
     }
 
     return (<>
         <div className="w-full h-1/12 border-b px-5 flex justify-between items-center">
             <p className="text-xl">Create Admin User</p>
-            <button className="hover:bg-gray-200 font-bold rounded-l-lg w-5" onClick={() => setOpen(!open)}>X</button>
+            <button className="font-bold rounded-full mr-2 cursor-pointer hover:bg-gray-200 w-6" onClick={() => setOpen(!open)}><Icons.Close /></button>
         </div>
         <form onSubmit={handleSubmit(onsubmit)} className="flex flex-col h-full">
             <div className="py-2 px-5 h-6/9 flex-1">
                 <InputField
                     label="UserName"
+                    inputSize="lg"
                     placeholder="Username"
                     {...register("username", {
                         required: "Username is required",
@@ -57,6 +82,7 @@ export default function AdminCreatePopup({ open, setOpen, onSuccess }: prop) {
                 <div className="flex">
                     <InputField
                         label="First Name"
+                        inputSize="sm"
                         placeholder="First name"
                         {...register("firstName", {
                             required: "firstName is required",
@@ -65,6 +91,7 @@ export default function AdminCreatePopup({ open, setOpen, onSuccess }: prop) {
                     </InputField>
                     <InputField
                         label="Last Name"
+                        inputSize="sm"
                         placeholder="Last name"
                         {...register("lastName", {
                             required: "lastName is required",
@@ -76,6 +103,7 @@ export default function AdminCreatePopup({ open, setOpen, onSuccess }: prop) {
                 <InputField
                     label="Email"
                     type="email"
+                    inputSize="lg"
                     placeholder="Email"
                     {...register("email", {
                         required: "email is required",
@@ -98,24 +126,25 @@ export default function AdminCreatePopup({ open, setOpen, onSuccess }: prop) {
                 <InputField
                     label="Password"
                     type="password"
+                    inputSize="lg"
                     placeholder="Password"
                     {...register("password", {
                         required: "password is required",
-                        minLength: {
-                            value: 8,
-                            message: "Password must be at least 8 characters long"
-                        }
                     })}
                     error={errors.password?.message}>
                 </InputField>
             </div>
             <div className="px-6 py-4 mt-auto border-t bg-white">
-                <Button>Create</Button>
+                <Button
+                    type="submit"
+                    variant="create">
+                    Create
+                </Button>
             </div>
         </form>
-         <PopupConfirm open={comfirm} onOpenChange={setComfirm}>
+        <PopupConfirm open={comfirm} onOpenChange={setComfirm}>
             <div>
-                    
+
             </div>
         </PopupConfirm>
     </>)

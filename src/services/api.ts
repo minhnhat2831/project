@@ -31,9 +31,11 @@ export const API_ENDPOINTS = {
     //Doula
     API_DOULA_ME : 'doulas/me',
     API_DOULA_ID : (id : string) => `/admins/doulas/${id}`,
-    API_DOUALA_ID_PACKAGE : (id : string) => `/admins/doulas/${id}/packages`,
     API_DOULA_SUBSCRIPTIONS_ID : (id : string) => `/admins/doula-subscriptions/${id}`,
+
+    //Doula Package
     API_DOULA_PACKAGE : `/admins/doula-packages`,
+    API_DOULA_PACKAGE_ID : (id : string) => `/admins/doula-packages/${id}`,
 
     //review
     API_DOULA_REVIEW : `/admins/reviews`,

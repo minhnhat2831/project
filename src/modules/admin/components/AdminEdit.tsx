@@ -6,16 +6,17 @@ import { EditAdmin } from "../api/api"
 import type { EditAdminResquest } from "../types/EditAdmin"
 import type { Admin } from "../types/Admin"
 import Button from "@/components/common/form/Button"
+import { Icons } from "@/components/common/Icon"
 
 interface Props {
     open: boolean
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>
+    setOpen: (open : boolean) => void,
     admin: Admin,
     onSuccess? : () => void
 }
 
-export default function AdminEditPopup({ open, setOpen, admin,onSuccess }: Props) {
-    const { register, handleSubmit, formState: { errors } } =
+export default function AdminEditPopup({ open, setOpen, admin, onSuccess }: Props) {
+    const { register, handleSubmit,setError, formState: { errors } } =
         useForm<EditAdminResquest>({
             defaultValues: {
                 username: admin.username,
@@ -28,11 +29,18 @@ export default function AdminEditPopup({ open, setOpen, admin,onSuccess }: Props
 
     const onSubmit = async (data: EditAdminResquest) => {
         try {
-            await EditAdmin(data, admin.id)
-            toast.success("Cập nhật admin thành công")
-            onSuccess?.()
+            const response = await EditAdmin(data, admin.id)
+            toast.success(response?.message)
             setOpen(false)
-        } catch {
+        } catch (error : any) {
+            const message = error.response?.data?.message
+            if (message.toLowerCase().includes("password")) {
+                setError("password", {
+                    type: "server",
+                    message
+                })
+                return
+            }
             toast.error("Cập nhật admin thất bại")
         }
     }
@@ -41,41 +49,42 @@ export default function AdminEditPopup({ open, setOpen, admin,onSuccess }: Props
         <>
             <div className="w-full border-b px-5 flex justify-between items-center h-15">
                 <p className="text-xl">Edit Admin User</p>
-                <button className="hover:bg-gray-200 font-bold rounded-l-lg w-5" onClick={() => setOpen(false)}>X</button>
+                <button className="font-bold rounded-full mr-2 cursor-pointer hover:bg-gray-200 w-6" onClick={() => setOpen(false)}><Icons.Close /></button>
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full">
-                <div className="px-2">
-                    <label className="block mb-1">Username<span className="text-red-500">*</span></label>
-                    <input
-                        disabled
-                        className="bg-gray-200 border w-full h-10 pl-2 pr-2 rounded shadow-md"
-                        {...register("username")}
-                    />
-                </div>
-
+                <InputField 
+                    label="User name"
+                    inputSize="lg"
+                    variant="disable"
+                    {...register("username")}
+                    error={errors.username?.message}
+                    disabled
+                />
 
                 <div className="flex">
                     <InputField
                         label="First Name"
+                        inputSize="lg"
                         {...register("firstName", { required: true })}
                         error={errors.firstName?.message}
                     />
                     <InputField
                         label="Last Name"
+                        inputSize="lg"
                         {...register("lastName", { required: true })}
                         error={errors.lastName?.message}
                     />
                 </div>
 
-                <div className="px-2">
-                    <label className="block mb-1">email<span className="text-red-500">*</span></label>
-                    <input
-                        disabled
-                        className="bg-gray-200 border w-full h-10 pl-2 pr-2 rounded shadow-md"
-                        {...register("email")}
-                    />
-                </div>
+                <InputField 
+                    label="User name"
+                    variant="disable"
+                    inputSize="lg"
+                    {...register("email")}
+                    error={errors.email?.message}
+                    disabled
+                />
 
                 <Select label="Status" {...register("status")}>
                     <option value="active">Active</option>
@@ -85,12 +94,13 @@ export default function AdminEditPopup({ open, setOpen, admin,onSuccess }: Props
                 <InputField
                     label="Password"
                     type="password"
+                    inputSize="lg"
                     {...register("password")}
                     error={errors.password?.message}
                 />
 
-                <div className="px-2 mt-8">
-                    <Button>Update</Button>
+                <div className="px-6 py-4 mt-auto border-t bg-white">
+                    <Button type="submit" variant="edit">Update</Button>
                 </div>
 
             </form>

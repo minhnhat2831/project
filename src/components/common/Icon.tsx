@@ -16,6 +16,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DescriptionIcon from '@mui/icons-material/Description';
 import StarIcon from '@mui/icons-material/Star';
+import CloseIcon from '@mui/icons-material/Close';
 
 export const Icons = {
   Person: PersonIcon,
@@ -35,5 +36,6 @@ export const Icons = {
   ExpandMore : ExpandMoreIcon,
   ArrowBack : ArrowBackIcon,
   Subscription : DescriptionIcon,
-  Star : StarIcon
+  Star : StarIcon,
+  Close : CloseIcon
 };

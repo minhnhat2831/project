@@ -4,24 +4,22 @@ import Header from "@/layouts/Header";
 import { columns } from "../components/model/DoulaColumns"
 import { useDouleFetch } from "../hooks/useDoulaFetch";
 import TablePagination from "@/components/common/TablePagination";
-import { usePaginationStore } from "@/hooks/usePageStore";
 import { useNavigate } from "react-router";
-import { useFilterStore } from "@/hooks/useFilterStore";
 import { useState } from "react";
 import PopupCE from "@/components/common/PopupCE";
 import DoulaEdit from "../components/model/DoulaEdit";
 import type { Doula } from "../types/admin-doula/AdminDoulaId";
+import PopupConfirm from "@/components/common/PopupComfirm";
+import DoulaDelete from "../components/model/DoulaDelete";
+import { useStore } from "@/hooks/useStore";
 
 export default function DoulaPage() {
     const nav = useNavigate()
-    const { pageIndex, pageSize, setPagination } = usePaginationStore()
-    const page = pageIndex + 1
-    const limit = pageSize
-    const search = useFilterStore(state => state.search)
-    const setSearch = useFilterStore(state => state.setSearch)
+    const {search , setSearch, pageIndex, pageSize, setPagination} = useStore()
     const [openEdit, setOpenEdit] = useState(false)
     const [selectedDoula, setSelectedDoula] = useState<Doula | null>(null)
-    const { data, loading, metadata, refetch } = useDouleFetch(page, limit, search)
+    const [confirm, setConfirm] = useState(false)
+    const { data, loading, metadata, refetch } = useDouleFetch(pageIndex + 1, pageSize, search)
     const table = useReactTable({
         data,
         columns,
@@ -36,10 +34,10 @@ export default function DoulaPage() {
                 setSelectedDoula(doula)
                 setOpenEdit(true)
             },
-            // onDelete: (admin: Admin) => {
-            //     setSelectedAdmin(admin)
-            //     setconfirm(true)
-            // }
+            onDelete: (doula : Doula) => {
+                setSelectedDoula(doula)
+                setConfirm(true)
+            }
         },
         manualPagination: true,
         pageCount: metadata?.totalPages ?? 0,
@@ -59,6 +57,16 @@ export default function DoulaPage() {
                 />
             )}
         </PopupCE>
+        <PopupConfirm open={confirm} onOpenChange={setConfirm}>
+            {selectedDoula && (
+                <DoulaDelete 
+                    open={confirm}
+                    setOpen={setConfirm}
+                    doula={selectedDoula}
+                    onSuccess={refetch}
+                    />
+            )}
+        </PopupConfirm>
 
         <TableData
             loading={loading}

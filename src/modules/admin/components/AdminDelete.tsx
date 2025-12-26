@@ -2,9 +2,10 @@ import type { Admin } from "../types/Admin"
 import { Icons } from "@/components/common/Icon"
 import { DeleteAdmin } from "../api/api"
 import { toast } from "react-toastify"
+import Button from "@/components/common/form/Button"
 interface Props {
     open: boolean
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>
+    setOpen: (open : boolean) => void,
     admin: Admin,
     onSuccess?: () => void,
 }
@@ -12,12 +13,13 @@ interface Props {
 export default function AdminDelete({ open, setOpen, admin, onSuccess }: Props) {
     const handleDelete = async () => {
         try {
-            await DeleteAdmin(admin.id)
-            toast.success("Xóa admin thành công")
+            const response = await DeleteAdmin(admin.id)
+            toast.success(response?.message)
             onSuccess?.()
             setOpen(false)
-        } catch {
-            toast.error("Xóa admin thất bại")
+        } catch (error: any) {
+            const message = error.response?.data.message
+            toast.error(message)
         }
     }
 
@@ -31,8 +33,19 @@ export default function AdminDelete({ open, setOpen, admin, onSuccess }: Props) 
                 <p className="leading-8">Are you sure you want to delete this admin?</p>
             </div>
             <div className="flex px-8 h-8 mt-6">
-                <button className="w-full border bg-white text-gray-500 font-black cursor-pointer rounded" onClick={() => setOpen(!open)}>Cancel</button>
-                <button className="w-full border bg-red-500 text-black font-black cursor-pointer rounded" onClick={handleDelete}>Delete</button>
+                <Button
+                    type="button"
+                    variant="cancel"
+                    onClick={() => setOpen(!open)}>
+                    Cancel
+                </Button>
+                
+                <Button
+                    type="button"
+                    variant="delete"
+                    onClick={handleDelete}>
+                    Delete
+                </Button>
             </div>
         </>
     )

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import type { DoulaReview, DoulaReviewResponse } from "../types/doula-review/DoulaReview"
 import { GetDoulaReview } from "../api/api"
+import { toast } from "react-toastify"
 
 export const useDoulaReview = (page: number, limit: number, f_doulaId?: string) => {
     const [data, setData] = useState<DoulaReview[]>([])
@@ -12,7 +13,8 @@ export const useDoulaReview = (page: number, limit: number, f_doulaId?: string) 
     }, [page, limit, f_doulaId])
 
     const fetchData = async () => {
-        setLoading(true)
+        try{
+            setLoading(true)
         const response = await GetDoulaReview({
             page,
             limit,
@@ -21,6 +23,10 @@ export const useDoulaReview = (page: number, limit: number, f_doulaId?: string) 
         setData(response.data)
         setLoading(false)
         setMetadata(response.metadata)
+        }catch(err : any){
+            toast.error(err.response.data.message)
+        }
+        
     }
     return { data, loading, metadata, refetch: fetchData }
 }

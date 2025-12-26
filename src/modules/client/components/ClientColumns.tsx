@@ -76,7 +76,7 @@ export const columns: ColumnDef<Client>[] = [
     {
         id: "action",
         header: "Action",
-        cell: ({ row }) => {
+        cell: ({ }) => {
             return (
                 <div className="flex gap-3">
                     <button>

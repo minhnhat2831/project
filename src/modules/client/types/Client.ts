@@ -7,6 +7,7 @@ export interface GetClientParams {
     f_email?: string,
     f_firstName?: string,
     f_lastName?: string,
+    embed : string
 }
 
 export interface GetClientResponse {
