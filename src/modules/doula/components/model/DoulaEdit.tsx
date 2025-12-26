@@ -5,6 +5,8 @@ import type { GetDoulaEditRequest } from "../../types/admin-doula/AdminDoulaEdit
 import { UpdateDoula } from "../../api/api"
 import type { Doula } from "../../types/admin-doula/AdminDoulaId"
 import InputField from "@/components/common/form/Input"
+import { toast } from "react-toastify"
+import { Icons } from "@/components/common/Icon"
 
 interface props {
     open: boolean
@@ -25,46 +27,41 @@ export default function DoulaEdit({ open, setOpen, doula, onSuccess }: props) {
 
     const onSubmit = async (data: GetDoulaEditRequest) => {
         try {
-            await UpdateDoula(doula.id, data);
-            if (onSuccess) onSuccess();
+            const response = await UpdateDoula(doula.id, data);
+            toast.success(response?.message)
+            onSuccess?.()
             setOpen(false);
-        } catch (err) {
-            console.error("Update failed", err);
+        } catch (error: any) {
+            toast.error(error.response?.data?.message)
         }
     };
 
-
     return (<>
-        <div className="w-full border-b px-5 flex justify-between items-center h-15">
+        <div className="w-full border-b px-5 flex justify-between items-center h-1/12">
             <p className="text-xl">Update Doula</p>
-            <button className="hover:bg-gray-200 font-bold rounded-l-lg w-5" onClick={() => setOpen(false)}>X</button>
+            <button className="font-bold rounded-full mr-2 cursor-pointer hover:bg-gray-200 w-6" onClick={() => setOpen(false)}><Icons.Close /></button>
         </div>
-        <div>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div>
-                    <InputField 
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full">
+            <div className="h-6/9 flex-1">
+                <InputField
+                    inputSize="lg"
                     label="PhoneNumber"
                     type="number"
                     {...register("user.phoneNumber")}                >
-                    </InputField>
-                </div>
+                </InputField>
 
-                <div>
-                    <Select
-                        label="Status"
-                        {...register("status")}
-                        error={errors.status?.message}
-                    >
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
-                    </Select>
-
-                </div>
-
-                <div className="px-2 mt-8">
-                    <Button>Update</Button>
-                </div>
-            </form>
-        </div>
+                <Select
+                    label="Status"
+                    {...register("status")}
+                    error={errors.status?.message}
+                >
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </Select>
+            </div>
+            <div className="px-6 py-4 mt-auto border-t bg-white">
+                <Button>Update</Button>
+            </div>
+        </form>
     </>)
 }

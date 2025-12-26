@@ -4,17 +4,15 @@ import { columns } from "../../components/model/TransactionColumns";
 import TableData from "@/components/common/TableData";
 import TablePagination from "@/components/common/TablePagination";
 import { useTransactionFetch } from "../../hooks/useTransactionFetch";
-import { usePaginationStore } from "@/hooks/usePageStore";
 import { useParams } from "react-router";
 import { useDoulaSubscription } from "../../hooks/useDoulaSubscription";
 import { formatDate } from "@/components/common/FormatDate";
+import { useStore } from "@/hooks/useStore";
 
 export default function DoulaSubscription() {
-    const { pageIndex, pageSize, setPagination } = usePaginationStore()
+    const { pageIndex, pageSize, setPagination } = useStore()
     const { id } = useParams<{ id?: string }>()
-    const page = pageIndex + 1
-    const limit = pageSize
-    const { data, loading, metadata } = useTransactionFetch(page, limit, id)
+    const { data, loading, metadata } = useTransactionFetch(pageIndex + 1, pageSize, id)
     const table = useReactTable({
         data,
         columns,

@@ -8,6 +8,7 @@ import type { GetTransactions, TransactionParams } from "../types/transactions/T
 import type { GetDoulaSubscriptionsId } from "../types/doula_subscription/DoulaSubscription";
 import type { DoulaPackageParams, DoulaPackageResponse } from "../types/doula-package/DoulaPackage";
 import type { DoulaReviewParams, DoulaReviewResponse } from "../types/doula-review/DoulaReview";
+import type { DoulaPackageIdResponse } from "../types/doula-package/DoulaPackageId";
 
 export const GetAllDoula = async (
     params: GetDoulaParams
@@ -41,7 +42,7 @@ export const UpdateDoula = async (
     return respond.data
 }
 
-export const DoulaDelete = async (
+export const DoulaRemove = async (
     id: string
 ): Promise<DeleteAdminsResponse> => {
     const respond = await axiosInstance.delete<DeleteAdminsResponse>(
@@ -88,6 +89,15 @@ export const GetDoulaPackage = async (
         {
             params
         }
+    )
+    return response.data
+}
+
+export const GetDoulaPackageId = async (
+    id : string
+):Promise<DoulaPackageIdResponse> => {
+    const response = await axiosInstance.get(
+        API_ENDPOINTS.API_DOULA_PACKAGE_ID(id)
     )
     return response.data
 }
