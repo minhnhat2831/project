@@ -1,8 +1,11 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import type { Client } from "../types/Client";
+import type { Client } from "../types/client/Client";
 import { Icons } from "@/components/common/Icon";
 import { formatDate } from "@/components/common/FormatDate";
 import Avatar from "@mui/material/Avatar";
+import { useClientStore } from "../store/useSeletedClient";
+import { useNavigate } from "react-router";
+import { useModalStore } from "@/hooks/useModalStore";
 
 export const columns: ColumnDef<Client>[] = [
     {
@@ -32,9 +35,11 @@ export const columns: ColumnDef<Client>[] = [
     {
         accessorKey: "phoneNumber",
         header: "Phone",
-        cell: ({ cell }) => {
-            const phone = cell.getValue() as string | null
-            return phone ? <div>+65 {cell.getValue() as string}</div> : null
+        cell: ({ getValue, row }) => {
+            const client = row.original
+            const phone = getValue<string>()
+            const countryCode = client.countryCode
+            return <div>{countryCode} {phone}</div>
         }
     },
     {
@@ -76,17 +81,34 @@ export const columns: ColumnDef<Client>[] = [
     {
         id: "action",
         header: "Action",
-        cell: ({ }) => {
+        cell: ({ row }) => {
+            const client = row.original;
+            const nav = useNavigate();
+            const { setSelectedClient } = useClientStore();
+            const { setOpenEdit, setConfirm } = useModalStore()
+            const handleView = () => {
+                setSelectedClient(client)
+                nav(`/admin/clients/${client.id}`)
+            }
+
+            const handleEdit = () => {
+                setSelectedClient(client)
+                setOpenEdit(true)
+            }
+
+            const handleDelete = () => {
+                setSelectedClient(client)
+                setConfirm(true)
+            }
             return (
                 <div className="flex gap-3">
-                    <button>
+                    <button onClick={handleView}>
                         <Icons.Eye className="text-red-400 cursor-pointer" />
                     </button>
-                    <button>
+                    <button onClick={handleEdit}>
                         <Icons.Pen className="text-red-400 cursor-pointer" />
                     </button>
-
-                    <button>
+                    <button onClick={handleDelete}>
                         <Icons.Trash className="text-gray-600 cursor-pointer" />
                     </button>
                 </div>

@@ -3,19 +3,21 @@ import { Icons } from "@/components/common/Icon"
 import { DeleteAdmin } from "../api/api"
 import { toast } from "react-toastify"
 import Button from "@/components/common/form/Button"
+import { useRefetchData } from "@/hooks/useRefetch"
+
 interface Props {
     open: boolean
     setOpen: (open : boolean) => void,
     admin: Admin,
-    onSuccess?: () => void,
 }
 
-export default function AdminDelete({ open, setOpen, admin, onSuccess }: Props) {
+export default function AdminDelete({ open, setOpen, admin }: Props) {
+    const { refetch } = useRefetchData()
     const handleDelete = async () => {
         try {
             const response = await DeleteAdmin(admin.id)
             toast.success(response?.message)
-            onSuccess?.()
+            refetch?.()
             setOpen(false)
         } catch (error: any) {
             const message = error.response?.data.message

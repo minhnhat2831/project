@@ -31,7 +31,8 @@ export interface AdminDoula {
         lastName?: string,
         birthDate?: Date,
         email?: string,
-        phoneNumber? : string | null
+        phoneNumber? : string,
+        countryCode?: string,
     },
     address: {
         id?: string,

@@ -1,0 +1,38 @@
+import type { ColumnDef } from "@tanstack/react-table";
+import type { Cares } from "../types/cares/cares";
+import { formatDate } from "@/components/common/FormatDate";
+
+export const columns:ColumnDef<Cares>[] = [
+    {
+        accessorKey : "doula.title",
+        header : "Package Name"
+    },
+    {
+        accessorKey : "doula.user.fullName",
+        header : "Doulas Full Name"
+    },
+    {
+        accessorKey : "startDate",
+        header : "start Date",
+        cell : ({ getValue }) => {
+            const date = getValue<string>()
+            return <div>{formatDate(date)}</div>
+        }
+    },
+    {
+        accessorKey : "status",
+        header : "Status",
+        cell : ({ getValue }) => {
+            const status = getValue<string>()
+            return (
+                <div className="flex items-center gap-2">
+                    <span
+                        className={`h-2 w-2 rounded-full ${status === "active" ? "bg-green-400" : "bg-gray-400"
+                            }`}
+                    ></span>
+                    {status === "active" ? "Active" : "Inactive"}
+                </div>
+            )
+        }
+    }
+]

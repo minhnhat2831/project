@@ -5,10 +5,19 @@ import { useAdminData } from "../hooks/useAdminData"
 import TablePagination from "@/components/common/TablePagination"
 import { useStore } from "@/hooks/useStore"
 import { Container } from "../container/AdminContainer"
+import { useRefetchData } from "@/hooks/useRefetch"
+import { useEffect } from "react"
 
 export default function AdminPage() {
-    const { search, pageIndex, pageSize, setPagination } = useStore()
-    const { data, loading, metadata, refetch } = useAdminData(pageIndex + 1, pageSize, search)
+    const { pageIndex, pageSize, setPagination } = useStore()
+    const { data, loading, metadata, refetch } = useAdminData()
+    
+    const { setRefetch } = useRefetchData()
+
+    useEffect(() => {
+        setRefetch(refetch)
+    },[setRefetch])
+
     const table = useReactTable({
         data,
         columns,

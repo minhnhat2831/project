@@ -12,9 +12,11 @@ import {
   AdminLayout,
   DoulaPage,
   ClientPage,
-  PackagePage
+  PackagePage,
+  DoulaViewPage,
+  ClientViewPage
 } from "./LazyRouter"
-import DoulaViewPage from "../modules/doula/pages/DoulaViewPage"
+
 function App() {
 
   return (
@@ -43,6 +45,7 @@ function App() {
             <Route path="doulas/:id" element={<DoulaViewPage />}></Route>
             <Route path="clients" element={<ClientPage />}></Route>
             <Route path="package/:id" element={<PackagePage />}></Route>
+            <Route path="clients/:id" element={<ClientViewPage />}></Route>
           </Route>
           
           <Route path="*" element={<NotFoundPage />}></Route>

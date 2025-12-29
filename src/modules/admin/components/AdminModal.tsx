@@ -7,7 +7,7 @@ import PopupConfirm from "@/components/common/PopupComfirm";
 import AdminDelete from "./AdminDelete";
 import { useModalStore } from "@/hooks/useModalStore";
 import { useStore } from "@/hooks/useStore";
-import { useAdminStore } from "../store/useAdminStore";
+import { useAdminStore } from "../store/useSeletedAdminStore";
 
 export default function AdminModal() {
     const { open, setOpen, confirm, setConfirm, openEdit, setOpenEdit } = useModalStore()
@@ -21,7 +21,8 @@ export default function AdminModal() {
                     <Button
                         type="button"
                         variant="create"
-                        className="w-20 mr-5"
+                        size="sm"
+                        className="mr-4"
                         onClick={() => setOpen(true)}
                     >
                         Create

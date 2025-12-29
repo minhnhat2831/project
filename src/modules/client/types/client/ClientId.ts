@@ -1,6 +1,6 @@
 export interface GetClientIdResponse{
     message :string,
-    data : ClientId[]
+    data : ClientId
 }
 
 export interface ClientId{

@@ -11,3 +11,4 @@ export const useAdminStore = create<AdminStore>((set) =>({
 
     setSelectedAdmin: (admin) => set({ selectedAdmin: admin }),
 }))
+

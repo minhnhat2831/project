@@ -6,7 +6,6 @@ import { toast } from "react-toastify"
 export const useDoulaInfomation = (id?: string) => {
   const [data, setData] = useState<Doula | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
-  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {  
     fetchData()
@@ -25,5 +24,5 @@ export const useDoulaInfomation = (id?: string) => {
       }
     }
 
-  return { data, loading, error, refetch : fetchData }
+  return { data, loading, refetch : fetchData }
 }

@@ -10,13 +10,13 @@ export interface GetDoulaEditRequest {
     deletedPhotos? : [
         string
     ],
-    newPhotos : [
+    newPhotos? : [
         string
     ],
     title? : string,
     description? : string,
     qualifications? :  [string],
-    categoryIds : [string],
+    categoryIds? : [string],
     businessName? : string,
     status: "active" | "inactive",
 }

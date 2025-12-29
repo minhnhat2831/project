@@ -8,12 +8,13 @@ interface Iprops<T> {
 }
 
 export default function TableData<T>({ loading, pagination, table }: Iprops<T>) {
-
+    const rows = table.getRowModel().rows
+    const columnCount = table.getAllColumns().length
     return (<>
         {loading ? <div><LoadingSpinner /></div> : <>
             <div className="overflow-x-auto px-4 py-4 border-gray-300 rounded-sm max-h-[calc(100vh-140px)] overflow-y-auto">
-                <table className="w-full text-sm">
-                    <thead className="sticky -top-8 z-20 border bg-white">
+                <table className="w-full text-sm border">
+                    <thead className="sticky -top-4 z-20 border bg-white">
                         {table.getHeaderGroups().map(headerGroup => (
                             <tr key={headerGroup.id} className="border-b-2">
                                 {headerGroup.headers.map(header => (
@@ -29,8 +30,17 @@ export default function TableData<T>({ loading, pagination, table }: Iprops<T>) 
                                 ))}
                             </tr>
                         ))}
-                    </thead>  
+                    </thead>
+
                     <tbody>
+                        {rows.length === 0 ? (<tr>
+                            <td
+                                colSpan={columnCount}
+                                className="py-6 text-center font-bold text-gray-500"
+                            >
+                                No result
+                            </td>
+                        </tr>) : <>
                         {table.getRowModel().rows.map(row => (
                             <tr key={row.id} className="border-b">
                                 {row.getVisibleCells().map(cell => (
@@ -42,13 +52,13 @@ export default function TableData<T>({ loading, pagination, table }: Iprops<T>) 
                                     </td>
                                 ))}
                             </tr>
-                        ))} 
+                        ))}</>}
                     </tbody>
-                </table>
-            </div>
-            <div className="flex items-center">
-                {pagination}
-            </div></>
+            </table>
+        </div>
+        <div className="flex items-center">
+            {pagination}
+        </div></>
         }
     </>)
 }

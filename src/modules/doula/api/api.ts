@@ -1,7 +1,7 @@
 import type { GetDoulaParams, GetDoulaResponse } from "../types/admin-doula/AdminDoula";
 import axiosInstance from "@/services/axios";
 import { API_ENDPOINTS } from "@/services/api";
-import type { GetDoulaId, GetDoulaIdResponse } from "../types/admin-doula/AdminDoulaId";
+import type { GetDoulaIdResponse } from "../types/admin-doula/AdminDoulaId";
 import type { GetDoulaEditRequest, GetDoulaEditResponse } from "../types/admin-doula/AdminDoulaEdit";
 import type { DeleteAdminsResponse } from "../../admin/types/DeleteAdmin";
 import type { GetTransactions, TransactionParams } from "../types/transactions/Transactions";
@@ -24,8 +24,8 @@ export const GetAllDoula = async (
 
 export const GetById = async (
     id: string
-): Promise<GetDoulaId> => {
-    const respond = await axiosInstance.get<GetDoulaId>(
+): Promise<GetDoulaIdResponse> => {
+    const respond = await axiosInstance.get<GetDoulaIdResponse>(
         API_ENDPOINTS.API_ADMIN_DOULA_ID(id)
     )
     return respond.data

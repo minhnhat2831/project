@@ -3,33 +3,38 @@ import InputField from "@/components/common/form/Input"
 import Select from "@/components/common/form/Select"
 import { toast } from "react-toastify"
 import { EditAdmin } from "../api/api"
-import type { EditAdminResquest } from "../types/EditAdmin"
-import type { Admin } from "../types/Admin"
 import Button from "@/components/common/form/Button"
 import { Icons } from "@/components/common/Icon"
+import type { EditAdminResquest } from "../types/EditAdmin"
+import { useAdminIdFetch } from "../hooks/useAdminId"
+import type { Admin } from "../types/Admin"
+import { useRefetchData } from "@/hooks/useRefetch"
 
 interface Props {
     open: boolean
     setOpen: (open : boolean) => void,
     admin: Admin,
-    onSuccess? : () => void
 }
 
-export default function AdminEditPopup({ open, setOpen, admin, onSuccess }: Props) {
+export default function AdminEditPopup({ open, setOpen, admin }: Props) {
+    const { data } = useAdminIdFetch(admin.id)
+    const { refetch } = useRefetchData()
     const { register, handleSubmit,setError, formState: { errors } } =
         useForm<EditAdminResquest>({
-            defaultValues: {
-                username: admin.username,
-                firstName: admin.firstName,
-                lastName: admin.lastName,
-                email: admin.email,
-                status: admin.status,
-            },
+            values: data
+                ? {
+                username: data?.username,
+                firstName: data?.firstName,
+                lastName: data?.lastName,
+                email: data?.email,
+                status: data?.status,
+            } : undefined,
         })
 
     const onSubmit = async (data: EditAdminResquest) => {
         try {
             const response = await EditAdmin(data, admin.id)
+            refetch?.()
             toast.success(response?.message)
             setOpen(false)
         } catch (error : any) {

@@ -6,7 +6,6 @@ import { GetDoulaPackageId } from "../api/api"
 export const usePackageFetch = (id?: string) => {
   const [data, setData] = useState<DoulaPackageId | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
-  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {  
     fetchData()
@@ -25,5 +24,5 @@ export const usePackageFetch = (id?: string) => {
       }
     }
 
-  return { data, loading, error, refetch : fetchData }
+  return { data, loading, refetch : fetchData }
 }

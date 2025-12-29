@@ -1,19 +1,19 @@
 import { Icons } from "@/components/common/Icon"
-import { DoulaRemove } from "../../api/api"
-import { toast } from "react-toastify"
-import type { AdminDoula } from "../../types/admin-doula/AdminDoula"
 import { useRefetchData } from "@/hooks/useRefetch"
+import type { Client } from "../types/client/Client"
+import { DeleteClient } from "../api/api"
+import { toast } from "react-toastify"
 interface Props {
     open: boolean
     setOpen: (open : boolean) => void,
-    doula: AdminDoula,
+    client: Client,
 }
 
-export default function DoulaDelete({ open, setOpen, doula}: Props) {
+export default function ClientDelete({ open, setOpen, client}: Props) {
     const { refetch } = useRefetchData()
     const handleDelete = async () => {
         try {
-            const response = await DoulaRemove(doula.id)
+            const response = await DeleteClient(client.id)
             toast.success(response?.message)
             refetch?.()
             setOpen(false)
@@ -29,7 +29,7 @@ export default function DoulaDelete({ open, setOpen, doula}: Props) {
                 <Icons.Error className="text-red-500" fontSize="large" />
             </div>
             <div className="px-8">
-                <h1 className="text-2xl font-bold">Confirm Delete Doula?</h1>
+                <h1 className="text-2xl font-bold">Confirm Delete Client?</h1>
                 <p className="leading-8">Are you sure you want to delete this items?</p>
             </div>
             <div className="flex px-8 h-8 mt-6">

@@ -6,17 +6,20 @@ export interface ClientEditRequest{
     birthDate?: string,
     email?: string,
     phoneNumber?: string,
-    status: "active" | "inactive"
-    verifiedEmail: boolean,
-    countryCode: string,
-    verifiedPhoneNumber: boolean
+    status?: "active" | "inactive"
+    verifiedEmail?: boolean,
+    countryCode?: string,
+    verifiedPhoneNumber?: boolean,
 }
 
 export interface ClientEditResponse{
   message: string,
-  data: {
+  data: ClientEdit
+}
+
+export interface ClientEdit {
     fullName?: string
-    id: string,
+    id?: string,
     firstName?: string,
     middleName?: string,
     lastName?: string,
@@ -37,4 +40,3 @@ export interface ClientEditResponse{
     createdAt: string,
     updatedAt?: string
   }
-}
