@@ -4,7 +4,7 @@ interface ModalStoreState {
     open: boolean
     openEdit: boolean
     confirm: boolean
-    
+
     setOpen: (value: boolean) => void
     setOpenEdit: (value: boolean) => void
     setConfirm: (value: boolean) => void

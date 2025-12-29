@@ -1,50 +1,48 @@
-import Select from "@/components/common/form/Select"
-import Button from "@/components/common/form/Button"
-import { useForm } from "react-hook-form"
-import type { GetDoulaEditRequest } from "../../types/admin-doula/AdminDoulaEdit"
-import { UpdateDoula } from "../../api/api"
-import InputField from "@/components/common/form/Input"
-import { toast } from "react-toastify"
-import { Icons } from "@/components/common/Icon"
-import { useDouleIdFetch } from "../../hooks/useDoulaId"
-import type { AdminDoula } from "../../types/admin-doula/AdminDoula"
-import { useRefetchData } from "@/hooks/useRefetch"
+import InputField from "@/components/common/form/Input";
+import type { Client } from "../types/client/Client";
+import { useForm } from "react-hook-form";
+import type { ClientEditRequest } from "../types/client/ClientEdit";
+import { useRefetchData } from "@/hooks/useRefetch";
+import { EditClient } from "../api/api";
+import { toast } from "react-toastify";
+import Select from "@/components/common/form/Select";
+import Button from "@/components/common/form/Button";
+import { useClientIdFetch } from "../hooks/useClientId";
+import { Icons } from "@/components/common/Icon";
 
 interface props {
     open: boolean
     setOpen: (open: boolean) => void,
-    doula: AdminDoula,
+    client: Client,
 }
-export default function DoulaEdit({ open, setOpen, doula }: props) {
-    const { data } = useDouleIdFetch(doula.id)
+
+export default function ClientEdit({ open, setOpen, client }: props) {
     const { refetch } = useRefetchData()
+    const { data } = useClientIdFetch(client.id)
     const { register, handleSubmit, formState: { errors } } =
-        useForm<GetDoulaEditRequest>({
-            values: data
-                ? {
-                    user: {
-                        phoneNumber: data.user?.phoneNumber ?? "",
-                        countryCode: data.user?.countryCode ?? ""
-                    },
-                    status: data.status
+        useForm<ClientEditRequest>({
+            values: 
+                {
+                    phoneNumber: data?.phoneNumber,
+                    countryCode: data?.countryCode,
+                    status: data?.status
                 }
-                : undefined
         })
 
-    const onSubmit = async (data: GetDoulaEditRequest) => {
+    const onSubmit = async (data: ClientEditRequest) => {
         try {
-            const response = await UpdateDoula(doula.id, data);
+            const response = await EditClient(client.id,data)
             toast.success(response?.message)
             refetch?.()
             setOpen(false);
-        } catch (error: any) {
+        }catch (error: any) {
             toast.error(error.response?.data?.message)
         }
-    };
+    }
 
     return (<>
         <div className="w-full border-b px-5 flex justify-between items-center h-1/12">
-            <p className="text-xl">Update Doula</p>
+            <p className="text-xl">Update Client</p>
             <button className="font-bold rounded-full mr-2 cursor-pointer hover:bg-gray-200 w-6" onClick={() => setOpen(false)}><Icons.Close /></button>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full">
@@ -53,14 +51,14 @@ export default function DoulaEdit({ open, setOpen, doula }: props) {
                 <div className="flex">
                     <InputField
                         inputSize="sm"
-                        {...register("user.countryCode")}
+                        {...register('countryCode')}
                     >
                     </InputField>
                     <InputField
                         inputSize="lg"
                         className="-ml-8 mr-80"
                         type="number"
-                        {...register("user.phoneNumber")}                >
+                        {...register("phoneNumber")}                >
                     </InputField>
                 </div>
 

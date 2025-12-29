@@ -9,6 +9,7 @@ export const Search = ({ Svalue, onChange }: SearchProps) => {
   return (
     <InputField
       className="sm:w-full lg:w-150"
+      variant="search"
       value={Svalue ?? ""}
       placeholder="Search"
       onChange={(e) => onChange?.(e.target.value)}

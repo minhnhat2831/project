@@ -5,15 +5,24 @@ import { useClientFetch } from "../hooks/useClientFetch";
 import { columns } from "../components/ClientColumns"
 import TablePagination from "@/components/common/TablePagination";
 import { useStore } from "@/hooks/useStore";
+import { Container } from "../container/Container";
+import { useRefetchData } from "@/hooks/useRefetch";
+import { useEffect } from "react";
 
 export default function ClientPage() {
-    const {search , setSearch, pageIndex, pageSize, setPagination} = useStore()
-    const { data, loading, metadata } = useClientFetch(pageIndex + 1, pageSize,search)
+    const { search, setSearch, pageIndex, pageSize, setPagination } = useStore()
+    const { data, loading, metadata, refetch } = useClientFetch(pageIndex + 1, pageSize, search)
+    const { setRefetch } = useRefetchData()
+
+    useEffect(() => {
+        setRefetch(refetch)
+    },[setRefetch])
+    
     const table = useReactTable({
         data,
         columns,
         state: {
-            pagination : {pageIndex, pageSize},
+            pagination: { pageIndex, pageSize },
         },
         manualPagination: true,
         pageCount: metadata?.totalPages ?? 0,
@@ -21,14 +30,16 @@ export default function ClientPage() {
         getCoreRowModel: getCoreRowModel(),
     })
     return (<>
-        <Header href="/admin/clients" childrenHref="Admin / Client Management" searchValue={search} onSearchChange={setSearch} />
-        <TableData
-            loading={loading}
-            table={table}
-            pagination={
-                <TablePagination table={table} totalCount={metadata?.totalCount}/>
-            }
-        >
-        </TableData>
+        <Container>
+            <Header href="/admin/clients" childrenHref="Admin / Client Management" searchValue={search} onSearchChange={setSearch} />
+            <TableData
+                loading={loading}
+                table={table}
+                pagination={
+                    <TablePagination table={table} totalCount={metadata?.totalCount} />
+                }
+            >
+            </TableData>
+        </Container>
     </>)
 }

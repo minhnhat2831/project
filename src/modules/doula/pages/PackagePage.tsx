@@ -3,11 +3,22 @@ import Header from "@/layouts/Header";
 import { useNavigate, useParams } from "react-router";
 import { usePackageFetch } from "../hooks/usePackageFetch";
 import { formatDate } from "@/components/common/FormatDate";
+import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { columns } from "../components/model/PackageColumns";
+import TableData from "@/components/common/TableData";
+import TablePagination from "@/components/common/TablePagination";
 
 export default function PackagePage() {
     const { id } = useParams<{ id: string }>()
     const nav = useNavigate()
-    const { data: packageData } = usePackageFetch(id)
+    const { data : packageData , loading } = usePackageFetch(id)
+    const table = useReactTable({
+            data: packageData?.cares ?? [],
+            columns,
+            manualPagination: true,
+            getCoreRowModel: getCoreRowModel()
+        })
+
     return (<>
         <Header href={`/admin/package/${id}`} childrenHref={`Package / ${id}`} />
 
@@ -64,6 +75,7 @@ export default function PackagePage() {
                     </div>
                 </div>
             </div>
+            <TableData table={table} loading={loading} pagination={<TablePagination table={table}/>}/>
         </div>
     </>)
 }

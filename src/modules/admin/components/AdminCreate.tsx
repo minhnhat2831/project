@@ -8,14 +8,14 @@ import Button from "@/components/common/form/Button";
 import { useState } from "react";
 import PopupConfirm from "@/components/common/PopupComfirm";
 import { Icons } from "@/components/common/Icon";
+import { useRefetchData } from "@/hooks/useRefetch";
 
 interface prop {
     open: boolean,
     setOpen: (open : boolean) => void,
-    onSuccess?: () => void
 }
 
-export default function AdminCreatePopup({ open, setOpen, onSuccess }: prop) {
+export default function AdminCreatePopup({ open, setOpen }: prop) {
     const [comfirm, setComfirm] = useState(false)
     const { register, handleSubmit, setError, formState: { errors } } = useForm<CreateAdminRequest>({
         defaultValues: {
@@ -27,12 +27,12 @@ export default function AdminCreatePopup({ open, setOpen, onSuccess }: prop) {
             email: ""
         }
     })
-
+    const { refetch } = useRefetchData()
     const onsubmit = async (data: CreateAdminRequest) => {
         try {
             const response = await CreateAdmin(data)
             toast.success(response?.message)
-            onSuccess?.()
+            refetch?.()
             setOpen(false)
         } catch (error: any) {
             const message = error.response?.data?.message
@@ -82,7 +82,7 @@ export default function AdminCreatePopup({ open, setOpen, onSuccess }: prop) {
                 <div className="flex">
                     <InputField
                         label="First Name"
-                        inputSize="sm"
+                        inputSize="lg"
                         placeholder="First name"
                         {...register("firstName", {
                             required: "firstName is required",
@@ -91,7 +91,7 @@ export default function AdminCreatePopup({ open, setOpen, onSuccess }: prop) {
                     </InputField>
                     <InputField
                         label="Last Name"
-                        inputSize="sm"
+                        inputSize="lg"
                         placeholder="Last name"
                         {...register("lastName", {
                             required: "lastName is required",

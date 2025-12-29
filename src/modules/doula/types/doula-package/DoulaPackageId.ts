@@ -15,23 +15,7 @@ export interface DoulaPackageId {
     createdAt: string | null,
     updatedAt: string | null,
     deletedAt: string | null,
-    cares: [
-        {
-            id: string | null,
-            createdAt: string | null,
-            status: "active" | "inactive",
-            user: {
-                fullName: string | null,
-                lastName: string | null,
-                firstName: string | null,
-                middleName: string | null,
-                picture: string | null,
-                email: string | null,
-                status: "active" | "inactive",
-                picture2: string | null
-            }
-        }
-    ] | null,
+    cares: Cares[],
     picture?: {
         createAt: string | null,
         id: string | null,
@@ -48,5 +32,36 @@ export interface DoulaPackageId {
             }
         } | null,
     } | null,
-    
+
+}
+
+export interface Cares {
+    id: string | null,
+    createdAt: string | null,
+    status: "active" | "inactive",
+    user: {
+        fullName: string | null,
+        lastName: string | null,
+        firstName: string | null,
+        middleName: string | null,
+        email: string | null,
+        status: "active" | "inactive",
+        picture2: string | null,
+        picture: {
+            createAt: string | null,
+            id: string | null,
+            type: string | null,
+            uri: string,
+            metadata?: {
+                thumbnail: {
+                    uri: string,
+                    key: string,
+                },
+                medium: {
+                    uri: string,
+                    key: string,
+                }
+            } | null,
+        } ,
+    }
 }

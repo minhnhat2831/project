@@ -2,7 +2,7 @@ import type { ColumnDef } from "@tanstack/react-table"
 import type { Admin } from "../types/Admin"
 import { Icons } from "@/components/common/Icon"
 import { useModalStore } from "@/hooks/useModalStore"
-import { useAdminStore } from "../store/useAdminStore"
+import { useAdminStore } from "../store/useSeletedAdminStore"
 
 export const columns: ColumnDef<Admin>[] = [
   {

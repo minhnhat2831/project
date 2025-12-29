@@ -1,9 +1,9 @@
 export const buttonVariants = {
-    base : 'w-full h-9 rounded border font-bold cursor-pointer',
+    base : 'h-9 rounded border font-bold cursor-pointer',
     size : {
-        sm : "",
-        md : "",
-        lg : ""
+        sm : "w-20",
+        md : "w-full",
+        lg : "w-fit"
     },
     variant : {
         create : "bg-blue-500 hover:bg-blue-800",

@@ -8,7 +8,7 @@ export interface GetDoulaIdResponse {
 }
 
 export interface Doula {
-    id: string,
+    id?: string,
     title?: string,
     description?: string,
     businessName?: string | null,
@@ -62,9 +62,9 @@ export interface Doula {
         firstName: string,
         middleName?: string,
         lastName?: string,
-        phoneNumber: string,
+        phoneNumber?: string,
         birthDate: string | null,
-        countryCode: string,
+        countryCode?: string,
         email: string,
         id: string
     },

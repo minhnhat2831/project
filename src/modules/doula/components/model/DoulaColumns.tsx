@@ -3,6 +3,9 @@ import type { AdminDoula } from "../../types/admin-doula/AdminDoula";
 import { Icons } from "@/components/common/Icon"
 import { formatDate } from "@/components/common/FormatDate";
 import Avatar from "@mui/material/Avatar";
+import { useDoulaStore } from "../../store/useSeletedDoula";
+import { useModalStore } from "@/hooks/useModalStore";
+import { useNavigate } from "react-router";
 export const columns: ColumnDef<AdminDoula>[] = [
   {
     accessorFn: (row) => row.picture?.uri ?? null,
@@ -27,7 +30,12 @@ export const columns: ColumnDef<AdminDoula>[] = [
   },
   {
     accessorKey: "user.phoneNumber",
-    header: "Phone"
+    header: "Phone",
+    cell: ({ getValue, row }) => {
+      const phone = getValue<string>()
+      const countryCode = row.original.user.countryCode
+      return <div>{countryCode} {phone}</div>
+    }
   }
   ,
   {
@@ -69,20 +77,36 @@ export const columns: ColumnDef<AdminDoula>[] = [
   {
     id: "action",
     header: "Action",
-    cell: ({ row, table }) => {
+    cell: ({ row }) => {
       const doula = row.original
-      const { onView } = table.options.meta as any
-      const { onEdit } = table.options.meta as any
-      const { onDelete } = table.options.meta as any
+      const nav = useNavigate()
+      const { setSelectedDoula } = useDoulaStore()
+      const { setOpenEdit, setConfirm} = useModalStore()
+
+      const handleView = () => {
+          setSelectedDoula(doula)
+          nav(`/admin/doulas/${doula.id}`)
+      }
+
+      const handleEdit = () => {
+          setSelectedDoula(doula)
+          setOpenEdit(true)
+      }
+
+      const handleDelete = () => {
+          setSelectedDoula(doula)
+          setConfirm(true)
+      }
+      
       return (
         <div className="flex gap-3">
-          <button onClick={() => onView(doula)}>
+          <button onClick={handleView}>
             <Icons.Eye className="text-red-400 cursor-pointer" />
           </button>
-          <button onClick={() => onEdit(doula)}>
+          <button onClick={handleEdit}>
             <Icons.Pen className="text-red-400 cursor-pointer" />
           </button>
-          <button onClick={() => onDelete(doula)}>
+          <button onClick={handleDelete}>
             <Icons.Trash className="text-gray-600 cursor-pointer" />
           </button>
         </div>

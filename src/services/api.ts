@@ -45,6 +45,10 @@ export const API_ENDPOINTS = {
     API_TRANSACTIONS : '/admins/transactions',
     API_TRANSACTIONS_ID : (id : string) => `/admins/transactions/${id}`,
 
+    //Cares
+    API_CARES : '/admins/cares',
+    API_CARES_ID : (id : string) => `/admins/cares/${id}`,
+
     
 }
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import type { Client, GetClientResponse } from "../types/Client"
+import type { Client, GetClientResponse } from "../types/client/Client"
 import { GetAllClient } from "../api/api"
 
 export const useClientFetch = (page: number, limit: number, search? : string, embed? : string) => {
