@@ -45,7 +45,7 @@ export default function DoulaEdit({ open, setOpen, doula }: props) {
     return (<>
         <div className="w-full border-b px-5 flex justify-between items-center h-1/12">
             <p className="text-xl">Update Doula</p>
-            <button className="font-bold rounded-full mr-2 cursor-pointer hover:bg-gray-200 w-6" onClick={() => setOpen(false)}><Icons.Close /></button>
+            <button className="font-bold rounded-full mr-2 cursor-pointer hover:bg-gray-200 w-6" onClick={() => setOpen(!open)}><Icons.Close /></button>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full">
             <div className="h-6/9 flex-1">
@@ -60,7 +60,7 @@ export default function DoulaEdit({ open, setOpen, doula }: props) {
                         inputSize="lg"
                         className="-ml-8 mr-80"
                         type="number"
-                        {...register("user.phoneNumber")}                >
+                        {...register("user.phoneNumber")}>
                     </InputField>
                 </div>
 

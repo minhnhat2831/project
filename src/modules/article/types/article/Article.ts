@@ -1,0 +1,41 @@
+export interface GetArticleParams {
+    page? : number,
+    limit? : number,
+    offset? : number,
+    search? : string,
+    sort? : "id" | "title" | "status" | "author" | "createdAt" | "updatedAt" | "category.name" | "index",
+    f_type? : "article" | "pd",
+    f_categoryId? : string,
+    f_status? : "published" | "unpublished" | "draft"
+}
+
+export interface ArticleResponse {
+    message : string,
+    data : Article[],
+    metadata : {
+        page : number,
+        limit : number,
+        totalPages : number,
+        totalCount : number,
+        hasNextPage : boolean
+    }
+}
+
+export interface Article {
+    id : string,
+    slug : string,
+    title : string,
+    picture : string,
+    content : string,
+    status : "published" | "unpublished" | "draft",
+    type : string,
+    author : string,
+    categoryId : string,
+    timeToRead : number | null,
+    createdAt : string,
+    updatedAt? : string | null,
+    category? : {
+        id : string,
+        name : string
+    }
+}

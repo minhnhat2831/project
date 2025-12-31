@@ -49,6 +49,14 @@ export const API_ENDPOINTS = {
     API_CARES : '/admins/cares',
     API_CARES_ID : (id : string) => `/admins/cares/${id}`,
 
+    //article
+    API_ARTICLE : `/admins/articles`,
+    API_ARTICLE_ID : (id : string) => `/admins/articles/${id}`,
+
+    //categoies
+    API_CATEGOIES : '/admins/categories',
     
+    //Media
+    API_MEDIA : "/medias/signed-url",
 }
 

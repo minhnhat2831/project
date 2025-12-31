@@ -54,7 +54,7 @@ export default function AdminEditPopup({ open, setOpen, admin }: Props) {
         <>
             <div className="w-full border-b px-5 flex justify-between items-center h-15">
                 <p className="text-xl">Edit Admin User</p>
-                <button className="font-bold rounded-full mr-2 cursor-pointer hover:bg-gray-200 w-6" onClick={() => setOpen(false)}><Icons.Close /></button>
+                <button className="font-bold rounded-full mr-2 cursor-pointer hover:bg-gray-200 w-6" onClick={() => setOpen(!open)}><Icons.Close /></button>
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full">

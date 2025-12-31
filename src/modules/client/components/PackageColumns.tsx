@@ -1,5 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import type { Cares } from "../types/cares/cares";
+import type { Cares } from "../types/cares/Cares";
 import { formatDate } from "@/components/common/FormatDate";
 
 export const columns:ColumnDef<Cares>[] = [

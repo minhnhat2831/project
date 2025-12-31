@@ -4,7 +4,7 @@ import type { GetClientResponse, GetClientParams } from "../types/client/Client"
 import type { ClientDelete } from "../types/client/ClientDelete";
 import type { ClientEditRequest, ClientEditResponse } from "../types/client/ClientEdit";
 import type { GetClientIdResponse } from "../types/client/ClientId";
-import type { GetAllCaresResponse, GetCaresParams } from "../types/cares/cares";
+import type { GetAllCaresResponse, GetCaresParams } from "../types/cares/Cares";
 
 export const GetAllClient = async (
     params : GetClientParams

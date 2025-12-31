@@ -1,6 +1,6 @@
 import { toast } from "react-toastify"
 import { useStore } from "@/hooks/useStore"
-import type { Cares, GetAllCaresResponse } from "../types/cares/cares"
+import type { Cares, GetAllCaresResponse } from "../types/cares/Cares"
 import { useEffect, useState } from "react"
 import { GetCares } from "../api/api"
 

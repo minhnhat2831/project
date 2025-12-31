@@ -8,3 +8,4 @@ export const ClientPage = lazy(() => import("../modules/client/pages/ClientPage"
 export const PackagePage = lazy(() => import("../modules/doula/pages/PackagePage"))
 export const DoulaViewPage = lazy(() => import("../modules/doula/pages/DoulaViewPage"))
 export const ClientViewPage = lazy(() => import("../modules/client/pages/ClientViewPage"))
+export const ArticlePage = lazy(() => import("../modules/article/pages/ArticlePage"))
