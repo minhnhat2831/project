@@ -64,6 +64,9 @@ export const API_ENDPOINTS = {
     API_VOUCHERS : "/admins/vouchers",
     API_VOUCHERS_ID : (id : string) => `/admins/vouchers/${id}`,
 
+    //Doula-Voucher
+    API_DOULA_VOUCHER : "/admins/doula-vouchers",
+
     //help document
     API_HELP_DOCUMENT : "/admins/help-documents",
     API_HELP_DOCUMENT_ID : (id : string) => `/admins/help-documents/${id}`,

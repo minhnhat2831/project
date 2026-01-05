@@ -4,7 +4,10 @@ import type { PaginationState, OnChangeFn } from "@tanstack/react-table"
 interface Store extends PaginationState {
   setPagination?: OnChangeFn<PaginationState>
   search?: string
-  setSearch?: (value: string) => void
+  setSearch?: (value: string) => void,
+  sort?: string
+  setSort: (value: string) => void
+
 }
 
 export const useStore  = create<Store>((set) => ({
@@ -27,5 +30,9 @@ export const useStore  = create<Store>((set) => ({
       set({
         search: value.trim() ? value : undefined,
       }),
+
+    sort: undefined,
+    setSort: (value) => set({ sort: value }),
+
   }))
 

@@ -6,7 +6,7 @@ interface SelectedArticle {
     setSelectedArticle: (article: Article | null) => void
 }
 
-export const useSelectedArticle = create<SelectedArticle>((set) => ({
+export const useArticleStore = create<SelectedArticle>((set) => ({
     selectedArticle: null,
     setSelectedArticle: (article) => set(() => ({ selectedArticle: article }))
 }))

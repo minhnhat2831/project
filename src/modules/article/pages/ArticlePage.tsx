@@ -10,7 +10,7 @@ import { useEffect } from "react"
 
 export default function ArticlePage() {
     const { data, loading, metadata, refetch } = useArticleData()
-    const { pageIndex, pageSize } = useStore()
+    const { pageIndex, pageSize, setPagination } = useStore()
     const { setRefetch } = useRefetchData()
 
     useEffect(() =>{
@@ -25,6 +25,7 @@ export default function ArticlePage() {
         },
         manualPagination: true,
         pageCount: metadata?.totalPages ?? 0,
+        onPaginationChange: setPagination,
         getCoreRowModel: getCoreRowModel(),
     })
     return (

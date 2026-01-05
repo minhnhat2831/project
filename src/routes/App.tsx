@@ -17,7 +17,9 @@ import {
   ClientViewPage,
   ArticlePage,
   PdSessionPage,
-  CategoryPage
+  CategoryPage,
+  VoucherPage,
+  VoucherViewPage
 } from "./LazyRouter"
 
 function App() {
@@ -52,6 +54,8 @@ function App() {
             <Route path="articles" element={<ArticlePage />}></Route>
             <Route path="pd-sessions" element={<PdSessionPage />}></Route>
             <Route path="categories" element={<CategoryPage />}></Route>
+            <Route path="voucher" element={<VoucherPage />}></Route>
+            <Route path="voucher/:id" element={<VoucherViewPage />}></Route>
           </Route>
           
           <Route path="*" element={<NotFoundPage />}></Route>

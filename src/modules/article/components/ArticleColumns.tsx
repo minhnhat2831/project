@@ -2,32 +2,33 @@ import type { ColumnDef } from "@tanstack/react-table";
 import type { Article } from "../types/article/Article";
 import { useModalStore } from "@/hooks/useModalStore";
 import { Icons } from "@/components/common/Icon";
-import { useSelectedArticle } from "../store/useSeletedArticle";
+import { useArticleStore } from "../store/useSeletedArticle";
+import { SortHeader } from "@/components/common/SortHeader";
 
 export const ArticleColumns: ColumnDef<Article>[] = [
     {
         accessorKey: "id",
-        header: "ID"
+        header: () => <SortHeader columnKey="id" title="ID" />,
     },
     {
         accessorKey: "title",
-        header: "Title"
+        header: () => <SortHeader columnKey="title" title="Title" />,
     },
     {
         accessorKey: "author",
-        header: "Author",
+        header: () => <SortHeader columnKey="author" title="Author" />,
     },
     {
         accessorKey: "category.name",
-        header: "Category"
+        header: () => <SortHeader columnKey="category.name" title="Category" />,
     },
     {
         accessorKey: "createdAt",
-        header: "Created Date"
+        header: () => <SortHeader columnKey="createdAt" title="Created Date" />,
     },
     {
         accessorKey: "status",
-        header: "Status",
+        header: () => <SortHeader columnKey="status" title="Status" />,
         cell: ({ getValue }) => {
             const status = getValue<string>()
 
@@ -60,7 +61,7 @@ export const ArticleColumns: ColumnDef<Article>[] = [
     cell: ({ row }) => {
       const article = row.original
       const { setOpenEdit, setConfirm} = useModalStore()
-      const { setSelectedArticle } = useSelectedArticle()
+      const { setSelectedArticle } = useArticleStore()
 
       const handleEdit = () => {
           setSelectedArticle(article)

@@ -4,7 +4,7 @@ import { useModalStore } from "@/hooks/useModalStore";
 import Header from "@/layouts/Header";
 import CategoryCreate from "./CategoryCreate";
 import { useStore } from "@/hooks/useStore";
-import { useSelectedCategory } from "../store/useSelectedCategory";
+import { useCategoryStore } from "../store/useSelectedCategory";
 import CategoryEdit from "./CategoryEdit";
 import CategoryDelete from "./CategoryDelete";
 import PopupConfirm from "@/components/common/PopupComfirm";
@@ -12,7 +12,7 @@ import PopupConfirm from "@/components/common/PopupComfirm";
 export default function CategoryModal() {
     const { open, setOpen, openEdit, setOpenEdit, confirm, setConfirm } = useModalStore()
     const { search, setSearch } = useStore()
-    const { selectedCategory } = useSelectedCategory()
+    const { selectedCategory } = useCategoryStore()
     return (<>
         <Header href="/admin/categories" childrenHref={"Categories"} children={
             <>

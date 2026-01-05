@@ -3,7 +3,7 @@ export interface GetPdParams {
     limit? : number,
     offset? : number,
     search? : string,
-    sort? : "id" | "title" | "status" | "author" | "createdAt" | "updatedAt" | "category.name" | "index",
+    sort? : "id" | "title" | "status" | "author" | "createdAt" | "updatedAt" | "category.name" | "index" | string,
     f_type? : "article" | "pd",
     f_categoryId? : string,
     f_status? : "published" | "unpublished" | "draft"

@@ -8,13 +8,12 @@ export const usePdData = () => {
     const [data, setData] = useState<Pd[]>([])
     const [loading, setLoading] = useState(false)
     const [metadata, setMetadata] = useState<PdResponse["metadata"] | null>(null)
-    const { pageIndex, pageSize, search } = useStore()
+    const { pageIndex, pageSize, search, sort } = useStore()
     const f_type = "pd"
-    const sort = "index"
-    
+
     useEffect(() => {
         fetchData()
-    },[pageIndex, pageSize, search])
+    },[pageIndex, pageSize, search, sort])
 
     const fetchData = async () => {
         try{

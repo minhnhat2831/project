@@ -2,32 +2,33 @@ import type { ColumnDef } from "@tanstack/react-table";
 import type { Pd } from "../types/Pd";
 import { Icons } from "@/components/common/Icon";
 import { useModalStore } from "@/hooks/useModalStore";
-import { useSelectedPd } from "../store/useSeletedPd";
+import { usedPdStore } from "../store/useSeletedPd";
+import { SortHeader } from "@/components/common/SortHeader";
 
 export const columns: ColumnDef<Pd>[] = [
-    {
+{
         accessorKey: "id",
-        header: "ID"
+        header: () => <SortHeader columnKey="id" title="ID" />,
     },
     {
         accessorKey: "title",
-        header: "Title"
+        header: () => <SortHeader columnKey="title" title="Title" />,
     },
     {
         accessorKey: "author",
-        header: "Author",
+        header: () => <SortHeader columnKey="author" title="Author" />,
     },
     {
         accessorKey: "category.name",
-        header: "Category"
+        header: () => <SortHeader columnKey="category.name" title="Category" />,
     },
     {
         accessorKey: "createdAt",
-        header: "Created Date"
+        header: () => <SortHeader columnKey="createdAt" title="Created Date" />,
     },
     {
         accessorKey: "status",
-        header: "Status",
+        header: () => <SortHeader columnKey="status" title="Status" />,
         cell: ({ getValue }) => {
             const status = getValue<string>()
 
@@ -60,7 +61,7 @@ export const columns: ColumnDef<Pd>[] = [
         cell: ({ row }) => {
             const pdsession = row.original
             const { setOpenEdit, setConfirm } = useModalStore()
-            const { setSelectedPd } = useSelectedPd()
+            const { setSelectedPd } = usedPdStore()
 
             const handleEdit = () => {
                 setSelectedPd(pdsession)

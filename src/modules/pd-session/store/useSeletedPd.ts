@@ -6,7 +6,7 @@ interface SelectedPdSession{
     setSelectedPd: (pd: Pd | null) => void
 }
 
-export const useSelectedPd = create<SelectedPdSession>((set) => ({
+export const usedPdStore = create<SelectedPdSession>((set) => ({
     selectedPd: null,
     setSelectedPd: (pd) => set(() => ({ selectedPd: pd }))
 }))

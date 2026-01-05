@@ -8,11 +8,11 @@ export const useCaresInfo = (id? : string) => {
     const [data, setData] = useState<Cares[]>([])
     const [loading, setLoading] = useState(false)
     const [metadata, setMetadata] = useState<GetAllCaresResponse["metadata"] | null>(null)
-    const { pageIndex, pageSize } = useStore()
+    const { pageIndex, pageSize, sort } = useStore()
     
     useEffect(() => {
         fetchCares()
-    }, [pageIndex, pageSize, id])
+    }, [pageIndex, pageSize, id, sort])
 
     const fetchCares = async () => {
         try {
@@ -21,6 +21,7 @@ export const useCaresInfo = (id? : string) => {
                 page : pageIndex + 1,
                 limit : pageSize,
                 f_userId : id,
+                sort
             })
             setData(res.data)
             setMetadata(res.metadata)

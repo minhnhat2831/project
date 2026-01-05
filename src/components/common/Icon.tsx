@@ -17,6 +17,9 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DescriptionIcon from '@mui/icons-material/Description';
 import StarIcon from '@mui/icons-material/Star';
 import CloseIcon from '@mui/icons-material/Close';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 
 export const Icons = {
   Person: PersonIcon,
@@ -37,5 +40,8 @@ export const Icons = {
   ArrowBack : ArrowBackIcon,
   Subscription : DescriptionIcon,
   Star : StarIcon,
-  Close : CloseIcon
+  Close : CloseIcon,
+  ArrowUp : KeyboardArrowUpIcon,
+  ArrowDown : KeyboardArrowDownIcon,
+  Sort : UnfoldMoreIcon
 };

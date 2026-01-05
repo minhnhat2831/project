@@ -6,6 +6,7 @@ import Avatar from "@mui/material/Avatar";
 import { useDoulaStore } from "../../store/useSeletedDoula";
 import { useModalStore } from "@/hooks/useModalStore";
 import { useNavigate } from "react-router";
+import { SortHeader } from "@/components/common/SortHeader";
 export const columns: ColumnDef<AdminDoula>[] = [
   {
     accessorFn: (row) => row.picture?.uri ?? null,
@@ -22,11 +23,11 @@ export const columns: ColumnDef<AdminDoula>[] = [
   ,
   {
     accessorKey: "user.fullName",
-    header: "Full name"
+    header: () => <SortHeader columnKey="user.firstName" title="Full Name" />
   },
   {
     accessorKey: "user.email",
-    header: "Email"
+    header: () => <SortHeader columnKey="user.email" title="Email" />
   },
   {
     accessorKey: "user.phoneNumber",
@@ -52,7 +53,7 @@ export const columns: ColumnDef<AdminDoula>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "createdAt",
+    header: () => <SortHeader columnKey="createdAt" title="CreatedAt" />,
     cell: ({ getValue }) => {
       const createdAt = getValue<Date>()
       return <div>{formatDate(createdAt)}</div>
@@ -60,7 +61,7 @@ export const columns: ColumnDef<AdminDoula>[] = [
   },
   {
     accessorKey: "status",
-    header: "Status",
+    header: () => <SortHeader columnKey="status" title="Status" />,
     cell: ({ getValue }) => {
       const status = getValue<string>()
       return (

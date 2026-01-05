@@ -6,6 +6,7 @@ import Avatar from "@mui/material/Avatar";
 import { useClientStore } from "../store/useSeletedClient";
 import { useNavigate } from "react-router";
 import { useModalStore } from "@/hooks/useModalStore";
+import { SortHeader } from "@/components/common/SortHeader";
 
 export const columns: ColumnDef<Client>[] = [
     {
@@ -26,11 +27,11 @@ export const columns: ColumnDef<Client>[] = [
     },
     {
         accessorKey: "fullName",
-        header: "Full name"
+        header: () => <SortHeader columnKey="firstName" title="Full Name" />,
     },
     {
         accessorKey: "email",
-        header: "Email"
+        header: () => <SortHeader columnKey="email" title="Email" />,
     },
     {
         accessorKey: "phoneNumber",
@@ -56,7 +57,7 @@ export const columns: ColumnDef<Client>[] = [
     },
     {
         accessorKey: "createdAt",
-        header: "createdAt",
+        header: () => <SortHeader columnKey="createdAt" title="CreatedAt" />,
         cell: ({ getValue }) => {
             const createdAt = getValue<Date>()
             return <div>{formatDate(createdAt)}</div>
@@ -64,7 +65,7 @@ export const columns: ColumnDef<Client>[] = [
     },
     {
         accessorKey: "status",
-        header: "Status",
+        header: () => <SortHeader title="Status" columnKey="status" />,
         cell: ({ getValue }) => {
             const status = getValue<string>()
             return (
