@@ -3,7 +3,7 @@ import PopupCE from "@/components/common/PopupCE";
 import { useModalStore } from "@/hooks/useModalStore";
 import Header from "@/layouts/Header";
 import ArticleCreate from "./ArticleCreate";
-import { useSelectedArticle } from "../store/useSeletedArticle";
+import { useArticleStore } from "../store/useSeletedArticle";
 import ArticleEdit from "./ArticleEdit";
 import PopupConfirm from "@/components/common/PopupComfirm";
 import ArticleDelete from "./ArticleDelete";
@@ -12,7 +12,7 @@ import { useStore } from "@/hooks/useStore";
 
 export default function ArticleModal() {
     const { open, setOpen, openEdit, setOpenEdit, confirm, setConfirm } = useModalStore()
-    const { selectedArticle } = useSelectedArticle()
+    const { selectedArticle } = useArticleStore()
     const { search, setSearch } = useStore();
     return (<>
         <Header href="/admin/article" childrenHref="Article" children={

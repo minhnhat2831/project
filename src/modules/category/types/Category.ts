@@ -3,7 +3,7 @@ export interface GetCategoryParams {
     limit? : number,
     offset?: number,
     search? : string | null,
-    sort? : "createdAt" | "name" | null,
+    sort? : "createdAt" | "name" | string,
     f_name? : string | null
 }
 

@@ -8,11 +8,11 @@ export const useCategoryData = () => {
     const [data, setData] = useState<Category[]>([])
     const [loading, setLoading] = useState(false)
     const [metadata, setMetadata] = useState<GetCategoryList["metadata"] | null>(null)
-    const { pageIndex, pageSize, search } = useStore()
+    const { pageIndex, pageSize, search, sort } = useStore()
 
     useEffect(() => {
         fetchData()
-    },[pageIndex,pageSize,search])
+    },[pageIndex,pageSize,search,sort])
 
     const fetchData = async () => {
         try{
@@ -20,7 +20,8 @@ export const useCategoryData = () => {
             const response = await GetAllCategory({
                 page : pageIndex + 1,
                 limit : pageSize,
-                search
+                search,
+                sort
             })
             setData(response.data)
             setMetadata(response.metadata)

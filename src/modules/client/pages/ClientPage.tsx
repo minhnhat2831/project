@@ -11,7 +11,7 @@ import { useEffect } from "react";
 
 export default function ClientPage() {
     const { search, setSearch, pageIndex, pageSize, setPagination } = useStore()
-    const { data, loading, metadata, refetch } = useClientFetch(pageIndex + 1, pageSize, search)
+    const { data, loading, metadata, refetch } = useClientFetch()
     const { setRefetch } = useRefetchData()
 
     useEffect(() => {

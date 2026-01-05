@@ -8,13 +8,11 @@ export const useArticleData = () => {
     const [data, setData] = useState<Article[]>([])
     const [loading, setLoading] = useState(false)
     const [metadata, setMetadata] = useState<ArticleResponse["metadata"] | null>(null)
-    const { pageIndex, pageSize, search } = useStore()
+    const { pageIndex, pageSize, search, sort } = useStore()
     const f_type = "article"
-    const sort = "index"
-    
     useEffect(() => {
         fetchData()
-    },[pageIndex, pageSize, search])
+    },[pageIndex, pageSize, search, sort])
 
     const fetchData = async () => {
         try{

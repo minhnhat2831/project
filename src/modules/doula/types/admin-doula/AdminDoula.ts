@@ -1,6 +1,6 @@
 export interface GetDoulaParams {
     search?: string,
-    sort?: string,
+    sort?: "user.firstName" | "user.lastName" | "user.email" | "status" | "createdAt" | string,
     page?: number,
     limit?: number,
     offset?: number,

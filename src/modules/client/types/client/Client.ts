@@ -1,6 +1,6 @@
 export interface GetClientParams {
     search?: string,
-    sort?: string,
+    sort?: "email" | "firstName" | "lastName" | "status" | "createdAt" | "updatedAt" | string,
     page: number,
     limit: number,
     offset?: number,

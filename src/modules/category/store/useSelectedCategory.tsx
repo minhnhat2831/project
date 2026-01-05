@@ -6,7 +6,7 @@ interface SelectedCategory{
     setSelectedCategory : (category : Category | null) => void
 }
 
-export const useSelectedCategory = create<SelectedCategory>((set) => ({
+export const useCategoryStore = create<SelectedCategory>((set) => ({
     selectedCategory: null,
     setSelectedCategory: (category) => set(() => ({ selectedCategory: category }))
 }))

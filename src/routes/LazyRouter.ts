@@ -11,3 +11,5 @@ export const ClientViewPage = lazy(() => import("../modules/client/pages/ClientV
 export const ArticlePage = lazy(() => import("../modules/article/pages/ArticlePage"))
 export const PdSessionPage = lazy(() => import("../modules/pd-session/page/PdSessionPage"))
 export const CategoryPage = lazy(() => import("../modules/category/page/CategoryPage"))
+export const VoucherPage = lazy(() => import("../modules/voucher/pages/VoucherPage"))
+export const VoucherViewPage = lazy(() => import("../modules/voucher/pages/VoucherViewPage"))

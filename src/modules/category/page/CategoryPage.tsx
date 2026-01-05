@@ -9,7 +9,7 @@ import TableData from "@/components/common/TableData";
 import TablePagination from "@/components/common/TablePagination";
 
 export default function CategoryPage() {
-    const { pageIndex, pageSize } = useStore();
+    const { pageIndex, pageSize, setPagination } = useStore();
     const { data, loading, metadata, refetch } = useCategoryData()
     const { setRefetch } = useRefetchData()
 
@@ -25,6 +25,7 @@ export default function CategoryPage() {
         },
         manualPagination: true,
         pageCount: metadata?.totalPages ?? 0,
+        onPaginationChange: setPagination,
         getCoreRowModel: getCoreRowModel()
     })
     return (<>

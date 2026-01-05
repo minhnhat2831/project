@@ -10,7 +10,7 @@ import { usePdData } from "../hooks/usePdData"
 
 export default function PdSessionPage() {
     const { data, loading, metadata, refetch } = usePdData()
-    const { pageIndex, pageSize } = useStore()
+    const { pageIndex, pageSize, setPagination } = useStore()
     const { setRefetch } = useRefetchData()
 
     useEffect(() => {
@@ -25,6 +25,7 @@ export default function PdSessionPage() {
         },
         manualPagination: true,
         pageCount: metadata?.totalPages ?? 0,
+        onPaginationChange: setPagination,
         getCoreRowModel: getCoreRowModel(),
     })
     return (

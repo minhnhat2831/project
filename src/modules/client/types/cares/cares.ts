@@ -49,7 +49,7 @@ export interface GetCaresParams {
     limit?: number,
     search?: string,
     offset? : number,
-    sortBy? : "createdAt" | "startDate" | "endDate",
+    sort? : "createdAt" | "startDate" | "endDate" | string,
     f_userId? : string,
     f_doulaId? : string,
     f_status? : "active" | "completed"

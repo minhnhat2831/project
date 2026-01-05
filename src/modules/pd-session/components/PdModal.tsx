@@ -1,5 +1,5 @@
 import { useModalStore } from "@/hooks/useModalStore"
-import { useSelectedPd } from "../store/useSeletedPd"
+import { usedPdStore } from "../store/useSeletedPd"
 import Header from "@/layouts/Header"
 import Button from "@/components/common/form/Button"
 import PopupCE from "@/components/common/PopupCE"
@@ -11,7 +11,7 @@ import { useStore } from "@/hooks/useStore"
 
 export default function PdModal() {
     const { open, setOpen, openEdit, setOpenEdit, confirm, setConfirm } = useModalStore()
-    const { selectedPd } = useSelectedPd()
+    const { selectedPd } = usedPdStore()
     const { search, setSearch } = useStore();
 
     return (<>

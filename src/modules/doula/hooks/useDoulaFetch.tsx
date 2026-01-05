@@ -8,11 +8,11 @@ export const useDouleFetch = () => {
     const [data, setData] = useState<AdminDoula[]>([])
     const [loading, setLoading] = useState(false)
     const [metadata, setMetadata] = useState<GetDoulaResponse["metadata"] | null>(null)
-    const { pageIndex, pageSize, search } = useStore()
+    const { pageIndex, pageSize, search, sort } = useStore()
     
     useEffect(() => {
         fetchDoula()
-    }, [pageIndex, pageSize, search])
+    }, [pageIndex, pageSize, search, sort])
 
     const fetchDoula = async () => {
         try {
@@ -20,7 +20,8 @@ export const useDouleFetch = () => {
             const res = await GetAllDoula({
                 page : pageIndex + 1,
                 limit : pageSize,
-                search
+                search,
+                sort
             })
             setData(res.data)
             setMetadata(res.metadata)

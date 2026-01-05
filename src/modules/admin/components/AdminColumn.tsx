@@ -3,23 +3,25 @@ import type { Admin } from "../types/Admin"
 import { Icons } from "@/components/common/Icon"
 import { useModalStore } from "@/hooks/useModalStore"
 import { useAdminStore } from "../store/useSeletedAdminStore"
+import { SortHeader } from "@/components/common/SortHeader"
 
 export const columns: ColumnDef<Admin>[] = [
   {
     accessorKey: "username",
-    header: "Username",
+    header: () => <SortHeader columnKey="username" title="Username" />,
+
   },
   {
     accessorKey: "firstName",
-    header: "First Name",
+    header: () => <SortHeader columnKey="firstName" title="First Name" />,
   },
   {
     accessorKey: "lastName",
-    header: "Last Name",
+    header: () => <SortHeader columnKey="lastName" title="Last Name" />,
   },
   {
     accessorKey: "email",
-    header: "Email",
+    header: () => <SortHeader columnKey="email" title="Email" />,
   },
   {
     accessorKey: "role",

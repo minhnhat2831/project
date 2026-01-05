@@ -3,12 +3,13 @@ import type { Category } from "../types/Category";
 import { formatDate } from "@/components/common/FormatDate";
 import { Icons } from "@/components/common/Icon";
 import { useModalStore } from "@/hooks/useModalStore";
-import { useSelectedCategory } from "../store/useSelectedCategory";
+import { useCategoryStore } from "../store/useSelectedCategory";
+import { SortHeader } from "@/components/common/SortHeader";
 
 export const columns: ColumnDef<Category>[] = [
     {
         accessorKey: "name",
-        header: "Name",
+        header: () => <SortHeader columnKey="name" title="Name" />,
     },
     {
         accessorFn: (row) => row.picture?.uri ?? null,
@@ -37,7 +38,7 @@ export const columns: ColumnDef<Category>[] = [
     },
     {
         accessorKey: "createdAt",
-        header: "Created Date",
+        header: () => <SortHeader columnKey="createdAt" title="Created Date" />,
         cell: ({ getValue }) => {
             const date = getValue<string>()
             return <div>{formatDate(date)}</div>
@@ -49,7 +50,7 @@ export const columns: ColumnDef<Category>[] = [
         cell: ({ row }) => {
             const category = row.original
             const { setOpenEdit, setConfirm } = useModalStore()
-            const { setSelectedCategory } = useSelectedCategory()
+            const { setSelectedCategory } = useCategoryStore()
 
             const handleEdit = () => {
                 setSelectedCategory(category)
