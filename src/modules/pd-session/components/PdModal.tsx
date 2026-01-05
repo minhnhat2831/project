@@ -1,21 +1,21 @@
-import Button from "@/components/common/form/Button";
-import PopupCE from "@/components/common/PopupCE";
-import { useModalStore } from "@/hooks/useModalStore";
-import Header from "@/layouts/Header";
-import ArticleCreate from "./ArticleCreate";
-import { useSelectedArticle } from "../store/useSeletedArticle";
-import ArticleEdit from "./ArticleEdit";
-import PopupConfirm from "@/components/common/PopupComfirm";
-import ArticleDelete from "./ArticleDelete";
-import { useStore } from "@/hooks/useStore";
+import { useModalStore } from "@/hooks/useModalStore"
+import { useSelectedPd } from "../store/useSeletedPd"
+import Header from "@/layouts/Header"
+import Button from "@/components/common/form/Button"
+import PopupCE from "@/components/common/PopupCE"
+import PopupConfirm from "@/components/common/PopupComfirm"
+import PdCreate from "./PdCreate"
+import PdEdit from "./PdEdit"
+import PdDelete from "./PdDelete"
+import { useStore } from "@/hooks/useStore"
 
-
-export default function ArticleModal() {
+export default function PdModal() {
     const { open, setOpen, openEdit, setOpenEdit, confirm, setConfirm } = useModalStore()
-    const { selectedArticle } = useSelectedArticle()
+    const { selectedPd } = useSelectedPd()
     const { search, setSearch } = useStore();
+
     return (<>
-        <Header href="/admin/article" childrenHref="Article" children={
+        <Header href="/admin/pd-sessions" childrenHref="Pd Session" children={
             <>
                 <Button
                     variant="create"
@@ -26,7 +26,7 @@ export default function ArticleModal() {
                 </Button>
 
                 <PopupCE open={open} onOpenChange={setOpen}>
-                    {<ArticleCreate
+                    {<PdCreate
                         open={open}
                         setOpen={setOpen}
                     />}
@@ -37,20 +37,20 @@ export default function ArticleModal() {
         />
 
         <PopupCE open={openEdit} onOpenChange={setOpenEdit}>
-            {selectedArticle && (
-                <ArticleEdit
+            {selectedPd && (
+                <PdEdit
                     open={openEdit}
                     setOpen={setOpenEdit}
-                    article={selectedArticle}
+                    pdsession={selectedPd}
                 />
             )}
         </PopupCE>
         <PopupConfirm open={confirm} onOpenChange={setConfirm}>
-            {selectedArticle && (
-                <ArticleDelete
+            {selectedPd && (
+                <PdDelete
                     open={confirm}
                     setOpen={setConfirm}
-                    article={selectedArticle} />
+                    pdsession={selectedPd} />
             )}
         </PopupConfirm>
     </>)

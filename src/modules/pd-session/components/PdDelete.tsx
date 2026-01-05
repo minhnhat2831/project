@@ -1,23 +1,22 @@
-import { Icons } from "@/components/common/Icon"
-import type { Article } from "../types/article/Article"
-import { useRefetchData } from "@/hooks/useRefetch"
-import { DeleteArticle } from "../api/api"
-import { toast } from "react-toastify"
-import type { ArticleDelete } from "../types/article/ArticleDelete"
+import { useRefetchData } from "@/hooks/useRefetch";
+import type { Pd } from "../types/Pd";
+import { toast } from "react-toastify";
+import { DeletePd } from "../api/api";
+import { Icons } from "@/components/common/Icon";
 
-interface props {
-    open: boolean
+interface prop {
+    open: boolean,
     setOpen: (open: boolean) => void,
-    article: Article,
+    pdsession: Pd,
 }
 
-export default function ArticleDelete({ open, setOpen, article }: props) {
+export default function PdDelete({ open, setOpen, pdsession }: prop) {
     const { refetch } = useRefetchData()
 
     const handleDelete = async () => {
         try {
-            const response = await DeleteArticle({
-                ids: [article.id]
+            const response = await DeletePd({
+                ids: [pdsession.id]
             })
             toast.success(response?.message)
             refetch?.()
@@ -33,7 +32,7 @@ export default function ArticleDelete({ open, setOpen, article }: props) {
             <Icons.Error className="text-red-500" fontSize="large" />
         </div>
         <div className="px-8">
-            <h1 className="text-2xl font-bold">Confirm Delete Article?</h1>
+            <h1 className="text-2xl font-bold">Confirm Delete Pd-Session?</h1>
             <p className="leading-8">Are you sure you want to delete this items?</p>
         </div>
         <div className="flex px-8 h-8 mt-6">

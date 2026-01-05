@@ -55,8 +55,21 @@ export const API_ENDPOINTS = {
 
     //categoies
     API_CATEGOIES : '/admins/categories',
+    API_CATEGOIES_ID : (id : string) => `/admins/categories/${id}`,
     
     //Media
     API_MEDIA : "/medias/signed-url",
+
+    //Vouchers
+    API_VOUCHERS : "/admins/vouchers",
+    API_VOUCHERS_ID : (id : string) => `/admins/vouchers/${id}`,
+
+    //help document
+    API_HELP_DOCUMENT : "/admins/help-documents",
+    API_HELP_DOCUMENT_ID : (id : string) => `/admins/help-documents/${id}`,
+
+    //Search-setting
+    API_SEARCH_SETTING : "/admins/trending-keywords",
+    API_SEARCH_SETTING_ID : (id : string) => `/admins/trending-keywords/${id}`
 }
 

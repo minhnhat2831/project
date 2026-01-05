@@ -94,7 +94,6 @@ export default function ArticleEdit({ open, setOpen, article }: props) {
                         error={errors.categoryId?.message}>
                         {category.map((category, index) => (
                             <>
-                                <option value="" hidden>Select</option>
                                 <option key={index} value={category.id}>{category.name}</option>
                             </>
                         ))}

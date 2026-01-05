@@ -1,0 +1,76 @@
+import type { ColumnDef } from "@tanstack/react-table";
+import type { Category } from "../types/Category";
+import { formatDate } from "@/components/common/FormatDate";
+import { Icons } from "@/components/common/Icon";
+import { useModalStore } from "@/hooks/useModalStore";
+import { useSelectedCategory } from "../store/useSelectedCategory";
+
+export const columns: ColumnDef<Category>[] = [
+    {
+        accessorKey: "name",
+        header: "Name",
+    },
+    {
+        accessorFn: (row) => row.picture?.uri ?? null,
+        header: "Image",
+        cell: ({ getValue }) => {
+            const image = getValue<string>()
+            return <div>{image ? (<img src={image} width={150} height={50}></img>) : ""}</div>
+        }
+    },
+    {
+        accessorKey: "status",
+        header: "Status",
+        cell: ({ getValue }) => {
+            const status = getValue<string>()
+            return (
+                <div className="flex items-center gap-2">
+                    <span
+                        className={`h-2 w-2 rounded-full ${status === "active" ? "bg-green-400" : "bg-gray-400"
+                            }`}
+                    ></span>
+                    {status === "active" ? "Active" : "Inactive"}
+                </div>
+            )
+        }
+
+    },
+    {
+        accessorKey: "createdAt",
+        header: "Created Date",
+        cell: ({ getValue }) => {
+            const date = getValue<string>()
+            return <div>{formatDate(date)}</div>
+        }
+    },
+    {
+        id: "action",
+        header: "Action",
+        cell: ({ row }) => {
+            const category = row.original
+            const { setOpenEdit, setConfirm } = useModalStore()
+            const { setSelectedCategory } = useSelectedCategory()
+
+            const handleEdit = () => {
+                setSelectedCategory(category)
+                setOpenEdit(true)
+            }
+
+            const handleDelete = () => {
+                setSelectedCategory(category)
+                setConfirm(true)
+            }
+
+            return (
+                <div className="flex gap-3">
+                    <button onClick={handleEdit}>
+                        <Icons.Pen className="text-red-400 cursor-pointer" />
+                    </button>
+                    <button onClick={handleDelete}>
+                        <Icons.Trash className="text-gray-600 cursor-pointer" />
+                    </button>
+                </div>
+            )
+        },
+    },
+]
