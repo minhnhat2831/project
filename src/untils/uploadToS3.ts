@@ -3,8 +3,19 @@ import type { Media } from "@/types/media/Media.type"
 export const uploadToS3 = async (media: Media, file: File) => {
   const formData = new FormData()
 
+  let finalKey = media.fields.key
+
   Object.entries(media.fields).forEach(([key, value]) => {
-    formData.append(key, value as any)
+    if (key === "key") {
+      const replacedKey = String(value).replace(
+        "${filename}",
+        file.name
+      )
+      finalKey = replacedKey
+      formData.append("key", replacedKey)
+    } else {
+      formData.append(key, value as any)
+    }
   })
 
   formData.append("file", file)
@@ -18,5 +29,5 @@ export const uploadToS3 = async (media: Media, file: File) => {
     throw new Error("Upload failed")
   }
 
-  return media.fields.key 
+  return `${media.url}/${finalKey}`
 }
