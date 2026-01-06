@@ -6,7 +6,7 @@ import { toast } from "react-toastify"
 import Button from "@/components/common/form/Button"
 import InputField from "@/components/common/form/Input"
 import Select from "@/components/common/form/Select"
-import { Icons } from "@/components/common/Icon"
+import { Icons } from "@/components/common/base/Icon"
 
 interface prop {
     open: boolean,

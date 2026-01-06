@@ -1,7 +1,7 @@
-import PopupCE from "@/components/common/PopupCE";
+import PopupCE from "@/components/common/base/PopupCE";
 import DoulaEdit from "./DoulaEdit";
 import DoulaDelete from "./DoulaDelete";
-import PopupConfirm from "@/components/common/PopupComfirm";
+import PopupConfirm from "@/components/common/base/PopupComfirm";
 import { useDoulaStore } from "../../store/useSeletedDoula";
 import { useModalStore } from "@/hooks/useModalStore";
 

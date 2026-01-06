@@ -1,7 +1,7 @@
-import { Icons } from "@/components/common/Icon";
+import { Icons } from "@/components/common/base/Icon";
 import { useDoulaReview } from "../../hooks/useDoulaReview";
-import TableData from "@/components/common/TableData";
-import TablePagination from "@/components/common/TablePagination";
+import TableData from "@/components/common/base/TableData";
+import TablePagination from "@/components/common/base/TablePagination";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { columns } from "../../components/model/DoulaReviewColumns";
 import { useParams } from "react-router";

@@ -1,9 +1,9 @@
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import TableData from "@/components/common/TableData";
+import TableData from "@/components/common/base/TableData";
 import Header from "@/layouts/Header";
 import { useClientFetch } from "../hooks/useClientFetch";
 import { columns } from "../components/ClientColumns"
-import TablePagination from "@/components/common/TablePagination";
+import TablePagination from "@/components/common/base/TablePagination";
 import { useStore } from "@/hooks/useStore";
 import { Container } from "../container/Container";
 import { useRefetchData } from "@/hooks/useRefetch";

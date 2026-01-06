@@ -1,8 +1,8 @@
-import PopupCE from "@/components/common/PopupCE";
+import PopupCE from "@/components/common/base/PopupCE";
 import { useModalStore } from "@/hooks/useModalStore";
 import { useClientStore } from "../store/useSeletedClient";
 import ClientEdit from "./ClientEdit";
-import PopupConfirm from "@/components/common/PopupComfirm";
+import PopupConfirm from "@/components/common/base/PopupComfirm";
 import ClientDelete from "./ClientDelete";
 
 export default function ClientModal() {

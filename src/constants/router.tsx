@@ -1,4 +1,4 @@
-import { Icons } from '../components/common/Icon';
+import { Icons } from '../components/common/base/Icon';
 
 export const ROUTER_SIDEBAR = [
  {

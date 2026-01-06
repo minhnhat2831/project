@@ -5,8 +5,8 @@ import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { columns } from "../components/CategoryColumns";
 import { useRefetchData } from "@/hooks/useRefetch";
 import { useEffect } from "react";
-import TableData from "@/components/common/TableData";
-import TablePagination from "@/components/common/TablePagination";
+import TableData from "@/components/common/base/TableData";
+import TablePagination from "@/components/common/base/TablePagination";
 
 export default function CategoryPage() {
     const { pageIndex, pageSize, setPagination } = useStore();

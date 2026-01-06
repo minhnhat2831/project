@@ -3,8 +3,8 @@ import { Container } from "../container/Container";
 import { useStore } from "@/hooks/useStore";
 import { useHelpDocumentData } from "../hooks/useHelpDocumentData";
 import { columns } from "../components/HelpDocumentColumns";
-import TableData from "@/components/common/TableData";
-import TablePagination from "@/components/common/TablePagination";
+import TableData from "@/components/common/base/TableData";
+import TablePagination from "@/components/common/base/TablePagination";
 import { useRefetchData } from "@/hooks/useRefetch";
 import { useEffect } from "react";
 export default function HelpDocumentPage() {

@@ -1,4 +1,4 @@
-import InputField from "./form/Input"
+import InputField from "../form/Input"
 
 type SearchProps = {
   Svalue?: string

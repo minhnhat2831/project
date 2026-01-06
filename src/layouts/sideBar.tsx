@@ -1,6 +1,6 @@
-import { Icons } from '../components/common/Icon';
+import { Icons } from '../components/common/base/Icon';
 import { ROUTER_SIDEBAR } from "../constants/router";
-import NavTo from "../components/common/NavLink";
+import NavTo from "../components/common/base/NavLink";
 import { useState } from "react";
 import Popup from "../modules/auth/components/Popup";
 import { useNavigate } from 'react-router';

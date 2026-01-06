@@ -1,9 +1,9 @@
 import Button from "@/components/common/form/Button";
-import PopupCE from "@/components/common/PopupCE";
+import PopupCE from "@/components/common/base/PopupCE";
 import Header from "@/layouts/Header";
 import AdminCreatePopup from "./AdminCreate";
 import AdminEditPopup from "./AdminEdit";
-import PopupConfirm from "@/components/common/PopupComfirm";
+import PopupConfirm from "@/components/common/base/PopupComfirm";
 import AdminDelete from "./AdminDelete";
 import { useModalStore } from "@/hooks/useModalStore";
 import { useStore } from "@/hooks/useStore";

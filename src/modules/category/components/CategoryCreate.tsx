@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form"
 import { type CreateCategoryRequest } from "../types/CategoryCreate"
-import { Icons } from "@/components/common/Icon"
+import { Icons } from "@/components/common/base/Icon"
 import InputField from "@/components/common/form/Input"
 import Select from "@/components/common/form/Select"
 import Image from "@/components/common/form/Image"

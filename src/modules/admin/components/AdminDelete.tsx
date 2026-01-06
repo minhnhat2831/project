@@ -1,5 +1,5 @@
 import type { Admin } from "../types/Admin"
-import { Icons } from "@/components/common/Icon"
+import { Icons } from "@/components/common/base/Icon"
 import { DeleteAdmin } from "../api/api"
 import { toast } from "react-toastify"
 import Button from "@/components/common/form/Button"

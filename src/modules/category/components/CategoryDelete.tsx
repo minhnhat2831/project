@@ -1,4 +1,4 @@
-import { Icons } from "@/components/common/Icon"
+import { Icons } from "@/components/common/base/Icon"
 import type { Category } from "../types/Category"
 import { toast } from "react-toastify"
 import { useRefetchData } from "@/hooks/useRefetch"

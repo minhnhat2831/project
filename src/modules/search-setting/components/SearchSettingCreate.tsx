@@ -1,6 +1,6 @@
 import Button from "@/components/common/form/Button"
 import InputField from "@/components/common/form/Input"
-import { Icons } from "@/components/common/Icon"
+import { Icons } from "@/components/common/base/Icon"
 import { toast } from "react-toastify"
 import { CreateSetting } from "../api/api"
 import type { SearchSettingCreateRequest } from "../types/SearchSettingCreate"

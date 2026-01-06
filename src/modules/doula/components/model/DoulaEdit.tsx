@@ -5,7 +5,7 @@ import type { GetDoulaEditRequest } from "../../types/admin-doula/AdminDoulaEdit
 import { UpdateDoula } from "../../api/api"
 import InputField from "@/components/common/form/Input"
 import { toast } from "react-toastify"
-import { Icons } from "@/components/common/Icon"
+import { Icons } from "@/components/common/base/Icon"
 import { useDouleIdFetch } from "../../hooks/useDoulaId"
 import type { AdminDoula } from "../../types/admin-doula/AdminDoula"
 import { useRefetchData } from "@/hooks/useRefetch"

@@ -1,7 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table"
 import type { Cares } from "../../types/doula-package/DoulaPackageId"
 import Avatar from "@mui/material/Avatar"
-import { formatDate } from "@/components/common/FormatDate"
+import { formatDate } from "@/components/common/base/FormatDate"
 
 export const columns: ColumnDef<Cares>[] = [
   {

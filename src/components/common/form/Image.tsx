@@ -25,7 +25,7 @@ export default function Image({
     <div className="px-4">
       {label && (
         <label className="block mb-1 font-medium">
-          {label} <span className="text-red-500">*</span>
+          {label}
         </label>
       )}
 

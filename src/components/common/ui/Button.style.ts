@@ -1,5 +1,5 @@
 export const buttonVariants = {
-    base : 'h-9 rounded border font-bold cursor-pointer',
+    base : 'h-9 rounded font-bold cursor-pointer',
     size : {
         sm : "w-20",
         md : "w-full",

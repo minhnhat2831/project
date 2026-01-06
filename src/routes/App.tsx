@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router"
 
 import { Suspense } from "react"
-import LoadingSpinner from "../components/common/Loading"
+import LoadingSpinner from "../components/common/base/Loading"
 import AuthContext from "../components/context/AuthContext"
 import PublicRoute from "../components/context/PublicRoute"
 
