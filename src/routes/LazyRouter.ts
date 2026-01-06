@@ -13,3 +13,6 @@ export const PdSessionPage = lazy(() => import("../modules/pd-session/page/PdSes
 export const CategoryPage = lazy(() => import("../modules/category/page/CategoryPage"))
 export const VoucherPage = lazy(() => import("../modules/voucher/pages/VoucherPage"))
 export const VoucherViewPage = lazy(() => import("../modules/voucher/pages/VoucherViewPage"))
+export const HelpDocumentPage = lazy(() => import("../modules/help-document/pages/HelpDocumentPage"))
+export const SearchSettingPage = lazy(() => import("../modules/search-setting/page/SearchSettingPage"))
+export const NotFoundPage = lazy(() => import("../modules/error/pages/NotFoundPage"))
