@@ -1,4 +1,4 @@
-import { Search } from "@/components/common/Search";
+import { Search } from "@/components/common/base/Search";
 import { type ReactNode } from "react";
 
 interface prop {

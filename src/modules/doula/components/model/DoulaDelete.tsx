@@ -1,4 +1,4 @@
-import { Icons } from "@/components/common/Icon"
+import { Icons } from "@/components/common/base/Icon"
 import { DoulaRemove } from "../../api/api"
 import { toast } from "react-toastify"
 import type { AdminDoula } from "../../types/admin-doula/AdminDoula"

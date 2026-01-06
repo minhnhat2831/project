@@ -10,8 +10,6 @@ interface ButtonProps
   variant?: ButtonVariant
   size?: ButtonSize
   loading?: boolean
-  leftIcon?: React.ReactNode
-  rightIcon?: React.ReactNode
 }
 
 export default function Button({
@@ -19,8 +17,6 @@ export default function Button({
   variant = "create",
   size = "md",
   loading = false,
-  leftIcon,
-  rightIcon,
   children,
   disabled,
   ...props
@@ -39,12 +35,7 @@ export default function Button({
       {loading && (
         <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
       )}
-
-      {!loading && leftIcon && <span className="mr-2">{leftIcon}</span>}
-
       {children}
-
-      {!loading && rightIcon && <span className="ml-2">{rightIcon}</span>}
     </button>
   )
 }

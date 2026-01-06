@@ -1,6 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { DoulaVoucher } from "../types/DoulaVoucher";
-import { formatDate } from "@/components/common/FormatDate";
+import { formatDate } from "@/components/common/base/FormatDate";
 
 export const columns:ColumnDef<DoulaVoucher>[] = [
     {

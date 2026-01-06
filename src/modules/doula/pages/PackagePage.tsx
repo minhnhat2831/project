@@ -1,12 +1,12 @@
-import { Icons } from "@/components/common/Icon";
+import { Icons } from "@/components/common/base/Icon";
 import Header from "@/layouts/Header";
 import { useNavigate, useParams } from "react-router";
 import { usePackageFetch } from "../hooks/usePackageFetch";
-import { formatDate } from "@/components/common/FormatDate";
+import { formatDate } from "@/components/common/base/FormatDate";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { columns } from "../components/model/PackageColumns";
-import TableData from "@/components/common/TableData";
-import TablePagination from "@/components/common/TablePagination";
+import TableData from "@/components/common/base/TableData";
+import TablePagination from "@/components/common/base/TablePagination";
 
 export default function PackagePage() {
     const { id } = useParams<{ id: string }>()

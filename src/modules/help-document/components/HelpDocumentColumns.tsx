@@ -1,8 +1,8 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { HelpDocument } from "../types/HelpDocument";
-import { SortHeader } from "@/components/common/SortHeader";
-import { formatDate } from "@/components/common/FormatDate";
-import { Icons } from "@/components/common/Icon";
+import { SortHeader } from "@/components/common/base/SortHeader";
+import { formatDate } from "@/components/common/base/FormatDate";
+import { Icons } from "@/components/common/base/Icon";
 import { useModalStore } from "@/hooks/useModalStore";
 import { useDocumentStore } from "../store/useSeletedDocument";
 

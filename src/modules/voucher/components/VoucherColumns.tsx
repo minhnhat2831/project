@@ -1,11 +1,11 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { Voucher } from "../types/Voucher";
-import { formatDate } from "@/components/common/FormatDate";
+import { formatDate } from "@/components/common/base/FormatDate";
 import { useModalStore } from "@/hooks/useModalStore";
 import { useVoucherStore } from "../store/useSelectedVoucher";
-import { Icons } from "@/components/common/Icon";
+import { Icons } from "@/components/common/base/Icon";
 import { useNavigate } from "react-router";
-import { SortHeader } from "@/components/common/SortHeader";
+import { SortHeader } from "@/components/common/base/SortHeader";
 
 export const columns: ColumnDef<Voucher>[] = [
     {

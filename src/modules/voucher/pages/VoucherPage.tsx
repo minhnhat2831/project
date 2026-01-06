@@ -3,8 +3,8 @@ import { Container } from "../container/Container";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { columns } from "../components/VoucherColumns";
 import { useStore } from "@/hooks/useStore";
-import TableData from "@/components/common/TableData";
-import TablePagination from "@/components/common/TablePagination";
+import TableData from "@/components/common/base/TableData";
+import TablePagination from "@/components/common/base/TablePagination";
 import { useEffect } from "react";
 import { useVoucherData } from "../hooks/useVoucherData";
 

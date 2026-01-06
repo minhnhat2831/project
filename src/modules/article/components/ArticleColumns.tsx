@@ -1,10 +1,10 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { Article } from "../types/article/Article";
 import { useModalStore } from "@/hooks/useModalStore";
-import { Icons } from "@/components/common/Icon";
+import { Icons } from "@/components/common/base/Icon";
 import { useArticleStore } from "../store/useSeletedArticle";
-import { SortHeader } from "@/components/common/SortHeader";
-import { formatDate } from "@/components/common/FormatDate";
+import { SortHeader } from "@/components/common/base/SortHeader";
+import { formatDate } from "@/components/common/base/FormatDate";
 
 export const ArticleColumns: ColumnDef<Article>[] = [
     {

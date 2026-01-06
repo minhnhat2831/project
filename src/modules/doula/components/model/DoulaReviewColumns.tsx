@@ -1,7 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { DoulaReview } from "../../types/doula-review/DoulaReview";
-import { formatDate } from "@/components/common/FormatDate";
-import { Icons } from "@/components/common/Icon";
+import { formatDate } from "@/components/common/base/FormatDate";
+import { Icons } from "@/components/common/base/Icon";
 import Avatar from "@mui/material/Avatar";
 
 export const columns: ColumnDef<DoulaReview>[] = [

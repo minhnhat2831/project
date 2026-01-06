@@ -3,10 +3,10 @@ import { useStore } from "@/hooks/useStore"
 import { useDocumentStore } from "../store/useSeletedDocument"
 import Header from "@/layouts/Header"
 import Button from "@/components/common/form/Button"
-import PopupCE from "@/components/common/PopupCE"
+import PopupCE from "@/components/common/base/PopupCE"
 import HelpDocumentCreate from "./HelpDocumentCreate"
 import HelpDocumentEdit from "./HelpDocumentEdit"
-import PopupConfirm from "@/components/common/PopupComfirm"
+import PopupConfirm from "@/components/common/base/PopupComfirm"
 import HelpDocumentDelete from "./HelpDocumentDelete"
 
 export default function HelpDocumentModal() {

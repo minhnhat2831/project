@@ -1,4 +1,4 @@
-import { Icons } from "@/components/common/Icon"
+import { Icons } from "@/components/common/base/Icon"
 import type { Article } from "../types/article/Article"
 import { useRefetchData } from "@/hooks/useRefetch"
 import { DeleteArticle } from "../api/api"

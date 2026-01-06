@@ -5,9 +5,7 @@ import type { CreateAdminRequest } from "../types/CreateAdmin";
 import { toast } from "react-toastify";
 import { CreateAdmin } from "../api/api";
 import Button from "@/components/common/form/Button";
-import { useState } from "react";
-import PopupConfirm from "@/components/common/PopupComfirm";
-import { Icons } from "@/components/common/Icon";
+import { Icons } from "@/components/common/base/Icon";
 import { useRefetchData } from "@/hooks/useRefetch";
 
 interface prop {
@@ -16,7 +14,6 @@ interface prop {
 }
 
 export default function AdminCreatePopup({ open, setOpen }: prop) {
-    const [comfirm, setComfirm] = useState(false)
     const { register, handleSubmit, setError, formState: { errors } } = useForm<CreateAdminRequest>({
         defaultValues: {
             username: "",
@@ -142,10 +139,5 @@ export default function AdminCreatePopup({ open, setOpen }: prop) {
                 </Button>
             </div>
         </form>
-        <PopupConfirm open={comfirm} onOpenChange={setComfirm}>
-            <div>
-
-            </div>
-        </PopupConfirm>
     </>)
 }

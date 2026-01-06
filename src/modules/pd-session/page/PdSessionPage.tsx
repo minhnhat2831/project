@@ -1,5 +1,5 @@
-import TableData from "@/components/common/TableData"
-import TablePagination from "@/components/common/TablePagination"
+import TableData from "@/components/common/base/TableData"
+import TablePagination from "@/components/common/base/TablePagination"
 import { useRefetchData } from "@/hooks/useRefetch"
 import { useStore } from "@/hooks/useStore"
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table"

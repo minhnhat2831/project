@@ -1,7 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { Cares } from "../types/cares/Cares";
-import { formatDate } from "@/components/common/FormatDate";
-import { SortHeader } from "@/components/common/SortHeader";
+import { formatDate } from "@/components/common/base/FormatDate";
+import { SortHeader } from "@/components/common/base/SortHeader";
 
 export const columns:ColumnDef<Cares>[] = [
     {

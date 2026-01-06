@@ -12,8 +12,6 @@ interface InputFieldProps
     variant?: InputVariant
     inputSize?: InputSize
     loading?: boolean
-    leftIcon?: React.ReactNode
-    rightIcon?: React.ReactNode
 }
 
 export default function InputField({ 
@@ -23,8 +21,6 @@ export default function InputField({
     variant = "form",
     inputSize = "md",
     loading = false,
-    leftIcon,
-    rightIcon,
     children,
     disabled,
     ...rest 
@@ -45,13 +41,7 @@ export default function InputField({
             {loading && (
                 <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
             )}
-
-            {!loading && leftIcon && <span className="mr-2">{leftIcon}</span>}
-
             {children}
-
-            {!loading && rightIcon && <span className="ml-2">{rightIcon}</span>}
-            
             {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
         </div>
     );

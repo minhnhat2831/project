@@ -3,8 +3,8 @@ import Container from "../container/Container";
 import { columns } from "../components/SearchSettingColumns";
 import { useSearchSettingData } from "../hooks/useSearchSettingData";
 import { useStore } from "@/hooks/useStore";
-import TableData from "@/components/common/TableData";
-import TablePagination from "@/components/common/TablePagination";
+import TableData from "@/components/common/base/TableData";
+import TablePagination from "@/components/common/base/TablePagination";
 import { useRefetchData } from "@/hooks/useRefetch";
 import { useEffect } from "react";
 export default function SearchSettingPage(){

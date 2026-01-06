@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import Select from "@/components/common/form/Select";
 import Button from "@/components/common/form/Button";
 import { useClientIdFetch } from "../hooks/useClientId";
-import { Icons } from "@/components/common/Icon";
+import { Icons } from "@/components/common/base/Icon";
 
 interface props {
     open: boolean

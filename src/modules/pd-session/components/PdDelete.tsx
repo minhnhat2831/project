@@ -2,7 +2,7 @@ import { useRefetchData } from "@/hooks/useRefetch";
 import type { Pd } from "../types/Pd";
 import { toast } from "react-toastify";
 import { DeletePd } from "../api/api";
-import { Icons } from "@/components/common/Icon";
+import { Icons } from "@/components/common/base/Icon";
 
 interface prop {
     open: boolean,

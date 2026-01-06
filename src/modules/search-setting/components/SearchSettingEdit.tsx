@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import type { SearchSettingEditRequest } from "../types/SearchSettingEdit";
 import { useRefetchData } from "@/hooks/useRefetch";
-import { Icons } from "@/components/common/Icon";
+import { Icons } from "@/components/common/base/Icon";
 
 interface props {
     open: boolean,

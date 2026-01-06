@@ -1,11 +1,11 @@
 import Button from "@/components/common/form/Button";
-import PopupCE from "@/components/common/PopupCE";
+import PopupCE from "@/components/common/base/PopupCE";
 import { useModalStore } from "@/hooks/useModalStore";
 import { useStore } from "@/hooks/useStore";
 import Header from "@/layouts/Header";
 import { useVoucherStore } from "../store/useSelectedVoucher";
 import VoucherCreate from "./VoucherCreate";
-import PopupConfirm from "@/components/common/PopupComfirm";
+import PopupConfirm from "@/components/common/base/PopupComfirm";
 import VoucherEdit from "./VoucherEdit";
 
 export default function VoucherModal() {

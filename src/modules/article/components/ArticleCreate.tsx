@@ -1,6 +1,6 @@
 import Button from "@/components/common/form/Button";
 import InputField from "@/components/common/form/Input";
-import { Icons } from "@/components/common/Icon";
+import { Icons } from "@/components/common/base/Icon";
 import { useForm } from "react-hook-form";
 import type { ArticleCreateRequest } from "../types/article/ArticleCreate";
 import Select from "@/components/common/form/Select";

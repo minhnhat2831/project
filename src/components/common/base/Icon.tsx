@@ -17,8 +17,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DescriptionIcon from '@mui/icons-material/Description';
 import StarIcon from '@mui/icons-material/Star';
 import CloseIcon from '@mui/icons-material/Close';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 
 export const Icons = {
@@ -41,7 +39,5 @@ export const Icons = {
   Subscription : DescriptionIcon,
   Star : StarIcon,
   Close : CloseIcon,
-  ArrowUp : KeyboardArrowUpIcon,
-  ArrowDown : KeyboardArrowDownIcon,
   Sort : UnfoldMoreIcon
 };

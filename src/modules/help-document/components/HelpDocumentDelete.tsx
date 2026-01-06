@@ -2,7 +2,7 @@ import { useRefetchData } from "@/hooks/useRefetch"
 import type { HelpDocument } from "../types/HelpDocument"
 import { DeleteHelpDocument } from "../api/api"
 import { toast } from "react-toastify"
-import { Icons } from "@/components/common/Icon"
+import { Icons } from "@/components/common/base/Icon"
 
 interface props {
     open: boolean,

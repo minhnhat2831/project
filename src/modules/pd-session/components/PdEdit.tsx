@@ -11,7 +11,7 @@ import { useCategoryData } from "@/hooks/useCategoryData"
 import type { PdEditRequest } from "../types/PdEdit"
 import { useForm } from "react-hook-form"
 import usePdId from "../hooks/usePdId"
-import { Icons } from "@/components/common/Icon"
+import { Icons } from "@/components/common/base/Icon"
 
 interface props {
     open: boolean

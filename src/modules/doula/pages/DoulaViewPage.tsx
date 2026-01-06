@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router";
 import Header from "@/layouts/Header";
-import { Icons } from "@/components/common/Icon";
+import { Icons } from "@/components/common/base/Icon";
 import Nav from "../components/common/Nav";
 import DoulaInformation from "./tab-content/DoulaInformation";
 import DoulaSubscription from "./tab-content/DoulaSubscription";
@@ -8,7 +8,7 @@ import DoulaPackages from "./tab-content/DoulaPackages";
 import DoulaReviews from "./tab-content/DoulaReviews";
 import { useEffect, useState } from "react";
 import { useDoulaInfomation } from "../hooks/useDoulaInformation";
-import { formatDate } from "@/components/common/FormatDate";
+import { formatDate } from "@/components/common/base/FormatDate";
 import Avatar from "@mui/material/Avatar";
 import { useRefetchData } from "@/hooks/useRefetch";
 import { useDoulaStore } from "../store/useSeletedDoula";
