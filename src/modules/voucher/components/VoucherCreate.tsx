@@ -106,7 +106,7 @@ export default function VoucherCreate({ open, setOpen }: prop) {
     }
     return (<>
         <div className="w-full h-1/12 border-b px-5 flex justify-between items-center">
-            <p className="text-xl">Create Pd-Session</p>
+            <p className="text-xl">Create Voucher</p>
             <button className="font-bold rounded-full mr-2 cursor-pointer hover:bg-gray-200 w-6" onClick={() => setOpen(!open)}><Icons.Close /></button>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full overflow-auto">

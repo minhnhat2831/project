@@ -4,9 +4,10 @@ import { Icons } from "@/components/common/Icon";
 import { useModalStore } from "@/hooks/useModalStore";
 import { usedPdStore } from "../store/useSeletedPd";
 import { SortHeader } from "@/components/common/SortHeader";
+import { formatDate } from "@/components/common/FormatDate";
 
 export const columns: ColumnDef<Pd>[] = [
-{
+    {
         accessorKey: "id",
         header: () => <SortHeader columnKey="id" title="ID" />,
     },
@@ -25,6 +26,10 @@ export const columns: ColumnDef<Pd>[] = [
     {
         accessorKey: "createdAt",
         header: () => <SortHeader columnKey="createdAt" title="Created Date" />,
+        cell: ({ getValue }) => {
+            const date = getValue<string>()
+            return <div>{formatDate(date)}</div>
+        }
     },
     {
         accessorKey: "status",

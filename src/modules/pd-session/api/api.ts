@@ -4,7 +4,7 @@ import type { GetCategoriesParams, GetCategoriesResponse } from "@/types/categor
 import type { MediaUrlRequest, MediaUrlResponse } from "@/types/media/Media.type";
 import type { GetPdParams, PdResponse } from "../types/Pd";
 import type { PDIdResponse } from "../types/PdId";
-import type { PdCreateRequest, PdCreateResponse } from "../types/PDCreate";
+import type { PdCreateRequest, PdCreateResponse } from "../types/PdCreate";
 import type { PdEditRequest, PdEditResponse } from "../types/PdEdit";
 import type { PdDelete, PdDeleteResponse } from "../types/PdDelete";
 

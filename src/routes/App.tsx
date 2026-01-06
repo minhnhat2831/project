@@ -4,7 +4,6 @@ import { Suspense } from "react"
 import LoadingSpinner from "../components/common/Loading"
 import AuthContext from "../components/context/AuthContext"
 import PublicRoute from "../components/context/PublicRoute"
-import NotFoundPage from "../modules/error/pages/NotFoundPage"
 
 import { 
   AdminPage,
@@ -19,7 +18,10 @@ import {
   PdSessionPage,
   CategoryPage,
   VoucherPage,
-  VoucherViewPage
+  VoucherViewPage,
+  HelpDocumentPage,
+  SearchSettingPage,
+  NotFoundPage
 } from "./LazyRouter"
 
 function App() {
@@ -56,6 +58,8 @@ function App() {
             <Route path="categories" element={<CategoryPage />}></Route>
             <Route path="voucher" element={<VoucherPage />}></Route>
             <Route path="voucher/:id" element={<VoucherViewPage />}></Route>
+            <Route path="help-documents" element={<HelpDocumentPage />}></Route>
+            <Route path="search-settings" element={<SearchSettingPage />}></Route>
           </Route>
           
           <Route path="*" element={<NotFoundPage />}></Route>
