@@ -8,10 +8,11 @@ import { toast } from "react-toastify"
 import { EditPd } from "../api/api"
 import { useRefetchData } from "@/hooks/useRefetch"
 import { useCategoryData } from "@/hooks/useCategoryData"
-import type { PdEditRequest } from "../types/PdEdit"
 import { useForm } from "react-hook-form"
 import usePdId from "../hooks/usePdId"
 import { Icons } from "@/components/common/base/Icon"
+import { PdScheme, type PdForm } from "../util/PdSchema"
+import { zodResolver } from "@hookform/resolvers/zod"
 
 interface props {
     open: boolean
@@ -22,7 +23,8 @@ interface props {
 export default function PdEdit({ open, setOpen, pdsession }: props) {
     const { data: pdsessionId } = usePdId(pdsession.id)
     const { register, handleSubmit, control, formState: { errors } } =
-        useForm<PdEditRequest>({
+        useForm<PdForm>({
+            resolver : zodResolver(PdScheme) as any,
             values: pdsessionId
                 ? {
                     title: pdsessionId?.title ?? "",
@@ -30,18 +32,18 @@ export default function PdEdit({ open, setOpen, pdsession }: props) {
                     status: pdsessionId?.status ?? "",
                     categoryId: pdsessionId?.categoryId ?? "",
                     timeToRead: pdsessionId?.timeToRead ?? 0,
-                    picture: pdsessionId?.picture ?? "",
+                    picture: pdsessionId?.picture?.uri ?? pdsession?.picture?.uri ?? "" ,
                     content: pdsessionId?.content ?? "",
-                    type: "pd"
                 }
                 : undefined
         })
     const { refetch } = useRefetchData()
     const { data: category } = useCategoryData()
 
-    const onSubmit = async (data: PdEditRequest) => {
+    const onSubmit = async (data: PdForm) => {
         try {
-            const response = await EditPd(pdsession.id, data);
+            const pddata = { ...(data as any) }
+            const response = await EditPd(pdsession.id, pddata);
             toast.success(response?.message)
             refetch?.()
             setOpen(false);
@@ -52,7 +54,11 @@ export default function PdEdit({ open, setOpen, pdsession }: props) {
     return (<>
         <div className="w-full h-1/12 border-b px-5 flex justify-between items-center">
             <p className="text-xl">Edit Pd-Session</p>
-            <button className="font-bold rounded-full mr-2 cursor-pointer hover:bg-gray-200 w-6" onClick={() => setOpen(!open)}><Icons.Close /></button>
+            <Button
+                variant="close"
+                size="sm"
+                onClick={() => setOpen(!open)}><Icons.Close />
+            </Button>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full overflow-auto">
             <div className="py-2 px-2 h-6/9 flex-1 overflow-auto">
@@ -61,9 +67,7 @@ export default function PdEdit({ open, setOpen, pdsession }: props) {
                     variant="form"
                     inputSize="lg"
                     placeholder="Title"
-                    {...register("title", {
-                        required: "This field is required",
-                    })}
+                    {...register("title")}
                     error={errors.title?.message}>
                 </InputField>
                 <InputField
@@ -71,15 +75,11 @@ export default function PdEdit({ open, setOpen, pdsession }: props) {
                     variant="form"
                     inputSize="lg"
                     placeholder="Author"
-                    {...register("author", {
-                        required: "This field is required",
-                    })}
+                    {...register("author")}
                     error={errors.author?.message}>
                 </InputField>
                 <Select label="Status"
-                    {...register("status", {
-                        required: "This field is required"
-                    })}
+                    {...register("status")}
                     error={errors.status?.message}>
                     <option value="" hidden>Select Status</option>
                     <option value="published">Published</option>
@@ -88,9 +88,7 @@ export default function PdEdit({ open, setOpen, pdsession }: props) {
                 </Select>
 
                 <Select label="Category"
-                    {...register("categoryId", {
-                        required: "This field is required"
-                    })}
+                    {...register("categoryId")}
                     error={errors.categoryId?.message}>
                     {category.map((category, index) => (
                         <>
@@ -105,25 +103,21 @@ export default function PdEdit({ open, setOpen, pdsession }: props) {
                     inputSize="lg"
                     type="number"
                     placeholder="Time To Read"
-                    {...register("timeToRead", {
-                        required: "This field is required",
-                    })}
+                    {...register("timeToRead")}
                     error={errors.timeToRead?.message}>
                 </InputField>
                 <Image
-                    name="image"
+                    name="picture"
                     label="Image"
                     control={control}
                     error={errors.picture?.message}
-
+                    defaultImage={pdsessionId?.picture?.uri ?? pdsession?.picture?.id  ?? ""}
                 />
 
                 <TextArea
                     label="Content"
                     placeholder="Write article content..."
-                    {...register("content", {
-                        required: "This field is required",
-                    })}
+                    {...register("content")}
                     error={errors.content?.message}
                 />
             </div>

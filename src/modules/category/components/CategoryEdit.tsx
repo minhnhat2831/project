@@ -5,11 +5,12 @@ import InputField from "@/components/common/form/Input"
 import Button from "@/components/common/form/Button"
 import { Icons } from "@/components/common/base/Icon"
 import { useRefetchData } from "@/hooks/useRefetch"
-import type { EditCategoryRequest } from "../types/CategoryEdit"
 import { EditCategory } from "../api/api"
 import { toast } from "react-toastify"
 import { useForm } from "react-hook-form"
 import useCategoryId from "../hooks/useCategoryId"
+import { type CategoryForm, CategorySchema } from "../util/CategorySchema"
+import { zodResolver } from "@hookform/resolvers/zod"
 
 interface props {
     open: boolean,
@@ -19,18 +20,20 @@ interface props {
 
 export default function CategoryEdit({ open, setOpen, category }: props) {
     const { data } = useCategoryId(category.id)
-    const { register, handleSubmit, setError, control, formState: { errors } } = useForm<EditCategoryRequest>({
-        values : data ? {
+    const { register, handleSubmit, setError, control, formState: { errors } } = useForm<CategoryForm>({
+        resolver : zodResolver(CategorySchema) as any,
+        values: data ? {
             title: data.title,
             name: data.name,
             status: data.status,
-            image: data.picture?.uri
-        } : undefined 
+            image : data.picture?.uri
+        } : undefined
     })
     const { refetch } = useRefetchData()
-    const onSubmit = async (data: EditCategoryRequest) => {
+    const onSubmit = async (data: CategoryForm) => {
         try {
-            const response = await EditCategory(category.id, data)
+            const category = { ...(data as any)}
+            const response = await EditCategory(category.id, category)
             toast.success(response?.message)
             refetch?.()
             setOpen(false)
@@ -70,7 +73,11 @@ export default function CategoryEdit({ open, setOpen, category }: props) {
     return (<>
         <div className="w-full h-1/12 border-b px-5 flex justify-between items-center">
             <p className="text-xl">Create Category</p>
-            <button className="font-bold rounded-full mr-2 cursor-pointer hover:bg-gray-200 w-6" onClick={() => setOpen(!open)}><Icons.Close /></button>
+            <Button
+                variant="close"
+                size="sm"
+                onClick={() => setOpen(!open)}><Icons.Close />
+            </Button>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full overflow-auto">
             <div className="py-2 px-2 h-6/9 flex-1 overflow-auto">
@@ -110,6 +117,7 @@ export default function CategoryEdit({ open, setOpen, category }: props) {
                     label="Image"
                     control={control}
                     error={errors.image?.message}
+                    defaultImage={category.picture?.uri ?? data?.picture?.uri ?? ""}
                 />
 
             </div>

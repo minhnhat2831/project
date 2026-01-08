@@ -42,7 +42,6 @@ export const countryCodes = [
 
   { code: "+45", label: "Denmark" },
   { code: "+253", label: "Djibouti" },
-  { code: "+1", label: "Dominican Republic" },
 
   { code: "+593", label: "Ecuador" },
   { code: "+20", label: "Egypt" },
@@ -76,7 +75,6 @@ export const countryCodes = [
   { code: "+81", label: "Japan" },
   { code: "+962", label: "Jordan" },
 
-  { code: "+7", label: "Kazakhstan" },
   { code: "+254", label: "Kenya" },
   { code: "+82", label: "Korea (South)" },
   { code: "+965", label: "Kuwait" },
@@ -99,7 +97,6 @@ export const countryCodes = [
   { code: "+95", label: "Myanmar" },
 
   { code: "+31", label: "Netherlands" },
-  { code: "+64", label: "New Zealand" },
   { code: "+234", label: "Nigeria" },
   { code: "+47", label: "Norway" },
 
@@ -132,7 +129,7 @@ export const countryCodes = [
   { code: "+380", label: "Ukraine" },
   { code: "+971", label: "United Arab Emirates" },
   { code: "+44", label: "United Kingdom" },
-  { code: "+1", label: "United States" },
+  { code: "+64", label: "United States" },
 
   { code: "+598", label: "Uruguay" },
   { code: "+998", label: "Uzbekistan" },

@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form"
-import { type CreateCategoryRequest } from "../types/CategoryCreate"
 import { Icons } from "@/components/common/base/Icon"
 import InputField from "@/components/common/form/Input"
 import Select from "@/components/common/form/Select"
@@ -8,6 +7,8 @@ import Button from "@/components/common/form/Button"
 import { CreateCategory } from "../api/api"
 import { toast } from "react-toastify"
 import { useRefetchData } from "@/hooks/useRefetch"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { type CategoryForm, CategorySchema } from "../util/CategorySchema"
 
 interface props {
     open: boolean,
@@ -15,18 +16,14 @@ interface props {
 }
 
 export default function CategoryCreate({ open, setOpen }: props) {
-    const { register, handleSubmit, setError, control, formState: { errors } } = useForm<CreateCategoryRequest>({
-        defaultValues: {
-            title: "",
-            name: "",
-            status: "active",
-            image : ""
-        }
+    const { register, handleSubmit, setError, control, formState: { errors } } = useForm<CategoryForm>({
+        resolver: zodResolver(CategorySchema) as any,
     })
     const { refetch } = useRefetchData()
-    const onSubmit = async (data: CreateCategoryRequest) => {
+    const onSubmit = async (data: CategoryForm) => {
         try {
-            const response = await CreateCategory(data)
+            const category = { ...(data as any) }
+            const response = await CreateCategory(category)
             toast.success(response?.message)
             refetch?.()
             setOpen(false)
@@ -66,7 +63,11 @@ export default function CategoryCreate({ open, setOpen }: props) {
     return (<>
         <div className="w-full h-1/12 border-b px-5 flex justify-between items-center">
             <p className="text-xl">Create Category</p>
-            <button className="font-bold rounded-full mr-2 cursor-pointer hover:bg-gray-200 w-6" onClick={() => setOpen(!open)}><Icons.Close /></button>
+            <Button
+                variant="close"
+                size="sm"
+                onClick={() => setOpen(!open)}><Icons.Close />
+            </Button>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full overflow-auto">
             <div className="py-2 px-2 h-6/9 flex-1 overflow-auto">
@@ -74,9 +75,7 @@ export default function CategoryCreate({ open, setOpen }: props) {
                     label="Title"
                     placeholder="Title"
                     inputSize="lg"
-                    {...register("title", {
-                        required: "This field is required"
-                    })}
+                    {...register("title")}
                     error={errors.title?.message}>
                 </InputField>
 
@@ -84,19 +83,16 @@ export default function CategoryCreate({ open, setOpen }: props) {
                     label="Name"
                     placeholder="Name"
                     inputSize="lg"
-                    {...register("name", {
-                        required: "This field is required"
-                    })}
+                    {...register("name")}
                     error={errors.name?.message}>
                 </InputField>
 
                 <Select
                     label="Status"
-                    {...register("status", {
-                        required: "This field is required"
-                    })}
+                    {...register("status")}
                     error={errors.status?.message}
                 >
+                    <option value="" hidden>Select status</option>
                     <option value="active">Active</option>
                     <option value="inactive">Inactive</option>
                 </Select>
@@ -107,7 +103,7 @@ export default function CategoryCreate({ open, setOpen }: props) {
                     control={control}
                     error={errors.image?.message}
                 />
-                
+
             </div>
             <div className="px-6 py-4 mt-auto border-t bg-white">
                 <Button

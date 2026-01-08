@@ -42,7 +42,7 @@ export default function DoulaViewPage() {
 
     return (<>
         <Container>
-            <Header href={`/admin/doulas/${id}`} childrenHref={`Account / Doula Management /${doula?.user.fullName}`} />
+            <Header href={`/admin/doulas/${id}`} childrenHref={`Account / Doula Management /${doula?.user.fullName}`} hidden={"hidden"} />
 
             <div className="w-full h-screen py-2 px-5 bg-gray-100">
                 <div className="flex justify-between px-2 py-4">
@@ -88,7 +88,7 @@ export default function DoulaViewPage() {
 
                             <div>
                                 <p>Business name</p>
-                                <p>{doula?.businessName}</p>
+                                <p>{doula?.businessName ? doula?.businessName : "-"}</p>
                             </div>
                         </div>
 

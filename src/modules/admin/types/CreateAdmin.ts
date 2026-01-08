@@ -3,7 +3,7 @@ export interface CreateAdminRequest {
     password: string,
     firstName: string,
     lastName: string,
-    status?: "active" | "inactive",
+    status: "active" | "inactive" | string,
     picture?: string | null,
     email : string
 }

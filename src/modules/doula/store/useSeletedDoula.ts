@@ -8,6 +8,5 @@ interface DoulaStore {
 
 export const useDoulaStore = create<DoulaStore>((set) =>({
     selectedDoula : null,
-
     setSelectedDoula: (Doula) => set({ selectedDoula: Doula }),
 }))

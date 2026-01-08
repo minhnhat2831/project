@@ -8,6 +8,5 @@ interface HelpDocumentStore {
 
 export const useDocumentStore = create<HelpDocumentStore>((set) =>({
     selectedDocument : null,
-
     setSelectedDocument: (HelpDocument) => set({ selectedDocument: HelpDocument }),
 }))

@@ -16,7 +16,7 @@ export const columns: ColumnDef<Category>[] = [
         header: "Image",
         cell: ({ getValue }) => {
             const image = getValue<string>()
-            return <div>{image ? (<img src={image} width={150} height={50}></img>) : ""}</div>
+            return <div>{image ? (<img src={image} width={50} height={50}></img>) : ""}</div>
         }
     },
     {

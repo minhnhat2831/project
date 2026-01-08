@@ -13,6 +13,7 @@ export default function SideBar() {
     const handleLogout = () => {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
+        localStorage.removeItem("admin");
         nav("/")
     }
     const adminData = localStorage.getItem("admin")
@@ -23,7 +24,6 @@ export default function SideBar() {
         <div className="w-60 h-full border fixed z-10 bg-white">
             <div className="w-full h-1/12 border flex justify-between items-center px-3 bg-[#390099]">
                 <div className="text-white font-bold"><p>NurtureWave</p></div>
-                <div><Icons.Menu className='text-white' /></div>
             </div>
             <div className="px-3 w-full h-5/6 overflow-y-auto">
                 {ROUTER_SIDEBAR.map((router, index) => {

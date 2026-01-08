@@ -5,47 +5,43 @@ import { toast } from "react-toastify"
 import { EditAdmin } from "../api/api"
 import Button from "@/components/common/form/Button"
 import { Icons } from "@/components/common/base/Icon"
-import type { EditAdminResquest } from "../types/EditAdmin"
 import { useAdminIdFetch } from "../hooks/useAdminId"
 import type { Admin } from "../types/Admin"
 import { useRefetchData } from "@/hooks/useRefetch"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { EditAdminUserSchema, type AdminFormEdit } from "../util/AdminUserSchema"
 
 interface Props {
     open: boolean
-    setOpen: (open : boolean) => void,
+    setOpen: (open: boolean) => void,
     admin: Admin,
 }
 
 export default function AdminEditPopup({ open, setOpen, admin }: Props) {
     const { data } = useAdminIdFetch(admin.id)
     const { refetch } = useRefetchData()
-    const { register, handleSubmit,setError, formState: { errors } } =
-        useForm<EditAdminResquest>({
-            values: data
-                ? {
-                username: data?.username,
-                firstName: data?.firstName,
-                lastName: data?.lastName,
-                email: data?.email,
-                status: data?.status,
-            } : undefined,
+
+    const { register, handleSubmit, formState: { errors } } =
+        useForm<AdminFormEdit>({
+            resolver: zodResolver(EditAdminUserSchema),
+            values : data ? {
+                username : data?.username,
+                firstName : data?.firstName,
+                lastName : data?.lastName,
+                email : data?.email,
+                status : data?.status,
+                password : ""
+            } : undefined
         })
 
-    const onSubmit = async (data: EditAdminResquest) => {
+    const onSubmit = async (data: AdminFormEdit) => {
         try {
-            const response = await EditAdmin(data, admin.id)
+            const AdminForm = { ...(data as any) }
+            const response = await EditAdmin(AdminForm, admin.id)
             refetch?.()
             toast.success(response?.message)
             setOpen(false)
-        } catch (error : any) {
-            const message = error.response?.data?.message
-            if (message.toLowerCase().includes("password")) {
-                setError("password", {
-                    type: "server",
-                    message
-                })
-                return
-            }
+        } catch (error: any) {
             toast.error("Cập nhật admin thất bại")
         }
     }
@@ -54,11 +50,15 @@ export default function AdminEditPopup({ open, setOpen, admin }: Props) {
         <>
             <div className="w-full border-b px-5 flex justify-between items-center h-15">
                 <p className="text-xl">Edit Admin User</p>
-                <button className="font-bold rounded-full mr-2 cursor-pointer hover:bg-gray-200 w-6" onClick={() => setOpen(!open)}><Icons.Close /></button>
+                <Button
+                    variant="close"
+                    size="sm"
+                    onClick={() => setOpen(!open)}><Icons.Close />
+                </Button>
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full">
-                <InputField 
+                <InputField
                     label="User name"
                     inputSize="lg"
                     variant="disable"
@@ -71,18 +71,20 @@ export default function AdminEditPopup({ open, setOpen, admin }: Props) {
                     <InputField
                         label="First Name"
                         inputSize="lg"
-                        {...register("firstName", { required: true })}
+                        className="mr-10"
+                        {...register("firstName")}
                         error={errors.firstName?.message}
                     />
                     <InputField
                         label="Last Name"
                         inputSize="lg"
-                        {...register("lastName", { required: true })}
+                        className="mr-10"
+                        {...register("lastName")}
                         error={errors.lastName?.message}
                     />
                 </div>
 
-                <InputField 
+                <InputField
                     label="User name"
                     variant="disable"
                     inputSize="lg"

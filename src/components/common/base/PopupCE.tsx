@@ -16,6 +16,7 @@ export default function PopupCE({ open, onOpenChange, children }: PopupProps) {
           onInteractOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
         >
+          <Dialog.Title></Dialog.Title>
           {children}
         </Dialog.Content>
       </Dialog.Portal>

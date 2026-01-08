@@ -32,7 +32,7 @@ export default function DoulaPage() {
 
     return (<>
         <Container>
-            <Header href="/admin/doulas" childrenHref="Admin / Doula Management" searchValue={search} onSearchChange={setSearch} />
+            <Header href="/admin/doulas" childrenHref="Admin / Doula Management" searchValue={search} onSearchChange={setSearch}/>
             <TableData
                 loading={loading}
                 table={table}

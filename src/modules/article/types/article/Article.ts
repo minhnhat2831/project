@@ -25,7 +25,22 @@ export interface Article {
     id : string,
     slug : string,
     title : string,
-    picture : string,
+    picture : {
+        id? : string,
+        uri? : string,
+        type? : string,
+        metadata? : {
+            thumb? : {
+                uri? : string,
+                key? : string
+            },
+            medium? : {
+                uri? : string,
+                key? : string
+            }
+        },
+        createdAt? : string
+    },
     content : string,
     status : "published" | "unpublished" | "draft",
     type : string,

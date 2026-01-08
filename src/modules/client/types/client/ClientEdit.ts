@@ -5,10 +5,10 @@ export interface ClientEditRequest{
     picture?: string,
     birthDate?: string,
     email?: string,
-    phoneNumber?: string,
-    status?: "active" | "inactive"
+    phoneNumber?: number,
+    status: "active" | "inactive" | string,
     verifiedEmail?: boolean,
-    countryCode?: string,
+    countryCode: string | null,
     verifiedPhoneNumber?: boolean,
 }
 
@@ -28,12 +28,12 @@ export interface ClientEdit {
     birthDate?: string,
     addressId?: string,
     email?: string,
-    phoneNumber?: string,
+    phoneNumber?: number,
     googleId?: string,
     appleId?: string,
-    status: "active" | "inactive"
+    status: "active" | "inactive" | string,
     verifiedEmail?: boolean,
-    countryCode?: string,
+    countryCode: string | null,
     verifiedPhoneNumber?: boolean,
     updatedBy?: string,
     deletedBy?: string,

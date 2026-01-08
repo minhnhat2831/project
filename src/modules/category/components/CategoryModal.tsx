@@ -17,11 +17,14 @@ export default function CategoryModal() {
         <Header href="/admin/categories" childrenHref={"Categories"} children={
             <>
                 <Button
+                    type="button"
                     variant="create"
                     size="sm"
-                    className="mr-4"
-                    onClick={() => setOpen(!open)}
-                >Create</Button>
+                    className="mr-8"
+                    onClick={() => setOpen(true)}
+                >
+                    Create
+                </Button>
                 <PopupCE open={open} onOpenChange={setOpen}>
                     <CategoryCreate open={open} setOpen={setOpen} />
                 </PopupCE>

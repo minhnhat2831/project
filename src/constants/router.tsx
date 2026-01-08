@@ -5,7 +5,7 @@ export const ROUTER_SIDEBAR = [
     name: "Accounts",
     icon: <Icons.Person />,
     children: [
-      { name: "Admin Management", href: "/admin" },
+      { name: "Admin Management", href: "/admin"},
       { name: "Doula Management", href: "/admin/doulas" },
       { name: "Client Management", href: "/admin/clients" },
     ],

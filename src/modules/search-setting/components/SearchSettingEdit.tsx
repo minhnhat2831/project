@@ -4,9 +4,10 @@ import InputField from "@/components/common/form/Input";
 import { EditSetting } from "../api/api";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import type { SearchSettingEditRequest } from "../types/SearchSettingEdit";
 import { useRefetchData } from "@/hooks/useRefetch";
 import { Icons } from "@/components/common/base/Icon";
+import { SearchSettingScheme, type SearchSettingForm } from "../util/SearchSettingSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface props {
     open: boolean,
@@ -15,18 +16,18 @@ interface props {
 }
 
 export default function SearchSettingEdit({ open, setOpen, keyword }: props) {
-    const { register, handleSubmit, setError, formState: { errors } } = useForm<SearchSettingEditRequest>({
+    const { register, handleSubmit, setError, formState: { errors } } = useForm<SearchSettingForm>({
+        resolver : zodResolver(SearchSettingScheme) as any,
         defaultValues: {
             keyword: keyword.keyword,
-            count: 1,
-            isSuggestion: true,
         }
     })
     const { refetch } = useRefetchData()
 
-    const onSubmit = async (data: SearchSettingEditRequest) => {
+    const onSubmit = async (data: SearchSettingForm) => {
         try {
-            const response = await EditSetting(keyword.id, data)
+            const searchSettingData = { ...(data as any), count : 1, isSuggestion : true}
+            const response = await EditSetting(keyword.id, searchSettingData)
             toast.success(response?.message)
             refetch?.()
             setOpen(false)
@@ -44,7 +45,11 @@ export default function SearchSettingEdit({ open, setOpen, keyword }: props) {
     return (<>
         <div className="w-full h-1/12 border-b px-5 flex justify-between items-center">
             <p className="text-xl">Edit Keyword</p>
-            <button className="font-bold rounded-full mr-2 cursor-pointer hover:bg-gray-200 w-6" onClick={() => setOpen(!open)}><Icons.Close /></button>
+            <Button
+                variant="close"
+                size="sm"
+                onClick={() => setOpen(!open)}><Icons.Close />
+            </Button>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full overflow-auto">
             <div className="py-2 px-2 h-6/9 flex-1 overflow-auto">
@@ -53,9 +58,7 @@ export default function SearchSettingEdit({ open, setOpen, keyword }: props) {
                     variant="form"
                     inputSize="lg"
                     placeholder="Text"
-                    {...register("keyword", {
-                        required: "This field is required",
-                    })}
+                    {...register("keyword")}
                     error={errors.keyword?.message}>
                 </InputField>
             </div>

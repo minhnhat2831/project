@@ -1,7 +1,7 @@
 import { Controller } from "react-hook-form"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useMediaData } from "@/hooks/useMediaData"
-import { uploadToS3 } from "@/untils/uploadToS3"
+import { uploadToS3 } from "@/utils/uploadToS3"
 
 interface Props {
   name: string
@@ -18,14 +18,24 @@ export default function Image({
   error,
   defaultImage,
 }: Props) {
-  const [preview, setPreview] = useState<string | null>(defaultImage || null)
+  const [preview, setPreview] = useState<string | null>(
+  defaultImage ? defaultImage : null
+)
   const { getUploadUrl, loading } = useMediaData()
+
+   useEffect(() => {
+    if (defaultImage) {
+      setPreview(defaultImage)  
+    }
+  }, [defaultImage])
 
   return (
     <div className="px-4">
+      
       {label && (
-        <label className="block mb-1 font-medium">
+        <label className="block mb-1">
           {label}
+          <span className="text-red-500"> *</span>
         </label>
       )}
 
@@ -38,7 +48,7 @@ export default function Image({
               type="file"
               accept="image/*"
               disabled={loading}
-              className="border bg-gray-200 h-7 px-2 w-23 rounded shadow-xl"
+              className="border h-8 px-2 w-full rounded shadow-xl"
               onChange={async (e) => {
                 const file = e.target.files?.[0]
                 if (!file) return

@@ -13,7 +13,6 @@ export const GetAdmins = async (
     API_ENDPOINTS.API_ADMIN_ADMINS,
     { params }
   )
-
   return response.data
 }
 

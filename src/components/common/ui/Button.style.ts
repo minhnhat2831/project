@@ -11,6 +11,7 @@ export const buttonVariants = {
         delete : "bg-red-500 hover:bg-red-700 ",
         outline : "border-2",
         disable : "bg-gray-500 text-black cursor-not-allowed",
-        cancel : "bg-white text-gray-500 hover:bg-gray-200"
+        cancel : "bg-white text-gray-500 hover:bg-gray-200",
+        close : "mr-2 hover:bg-gray-200 w-6 h-8"
     }
 } as const

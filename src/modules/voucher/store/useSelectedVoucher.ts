@@ -9,6 +9,5 @@ interface VoucherStore {
 
 export const useVoucherStore = create<VoucherStore>((set) =>({
     selectedVoucher : null,
-
     setSelectedVoucher: (Voucher) => set({ selectedVoucher: Voucher }),
 }))

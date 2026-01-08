@@ -8,7 +8,6 @@ interface AdminStore {
 
 export const useAdminStore = create<AdminStore>((set) =>({
     selectedAdmin : null,
-
     setSelectedAdmin: (admin) => set({ selectedAdmin: admin }),
 }))
 
