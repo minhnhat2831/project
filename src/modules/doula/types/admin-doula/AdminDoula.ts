@@ -32,7 +32,7 @@ export interface AdminDoula {
         birthDate?: Date,
         email?: string,
         phoneNumber? : string,
-        countryCode?: string,
+        countryCode?: string | null,
     },
     address: {
         id?: string,

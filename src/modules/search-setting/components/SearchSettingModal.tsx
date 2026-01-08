@@ -19,7 +19,7 @@ export default function SearchSettingModal(){
             <>
             <Button
                 variant="create"
-                size="lg"
+                size="sm"
                 className="mr-4"
                 onClick={() => setOpen(!open)}
             >

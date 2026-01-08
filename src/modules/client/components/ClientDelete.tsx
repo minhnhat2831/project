@@ -3,13 +3,14 @@ import { useRefetchData } from "@/hooks/useRefetch"
 import type { Client } from "../types/client/Client"
 import { DeleteClient } from "../api/api"
 import { toast } from "react-toastify"
+import Button from "@/components/common/form/Button"
 interface Props {
     open: boolean
-    setOpen: (open : boolean) => void,
+    setOpen: (open: boolean) => void,
     client: Client,
 }
 
-export default function ClientDelete({ open, setOpen, client}: Props) {
+export default function ClientDelete({ open, setOpen, client }: Props) {
     const { refetch } = useRefetchData()
     const handleDelete = async () => {
         try {
@@ -17,7 +18,7 @@ export default function ClientDelete({ open, setOpen, client}: Props) {
             toast.success(response?.message)
             refetch?.()
             setOpen(false)
-        } catch(error : any){
+        } catch (error: any) {
             console.log(error.response?.data?.message)
             toast.error(error.response?.data?.message)
         }
@@ -33,8 +34,19 @@ export default function ClientDelete({ open, setOpen, client}: Props) {
                 <p className="leading-8">Are you sure you want to delete this items?</p>
             </div>
             <div className="flex px-8 h-8 mt-6">
-                <button className="w-full border bg-white text-gray-500 font-black cursor-pointer rounded" onClick={() => setOpen(!open)}>Cancel</button>
-                <button className="w-full border bg-red-500 text-black font-black cursor-pointer rounded" onClick={handleDelete}>Delete</button>
+                <Button
+                    type="button"
+                    variant="cancel"
+                    onClick={() => setOpen(!open)}>
+                    Cancel
+                </Button>
+
+                <Button
+                    type="button"
+                    variant="delete"
+                    onClick={handleDelete}>
+                    Delete
+                </Button>
             </div>
         </>
     )

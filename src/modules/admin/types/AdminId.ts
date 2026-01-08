@@ -11,7 +11,7 @@ export interface AdminId {
     role : string,
     status : "active" | "inactive",
     email : string,
-    picture : string,
+    picture? : string | null,
     createdAt : string,
     updatedAt : string | null,
     picture2 : {

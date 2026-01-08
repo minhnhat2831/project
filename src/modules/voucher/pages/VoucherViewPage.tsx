@@ -27,7 +27,7 @@ export default function VoucherViewPage() {
         getCoreRowModel: getCoreRowModel(),
     })
     return (<>
-        <Header href={`/admin/voucher/${id}`} childrenHref={`Voucher /${id}`} />
+        <Header href={`/admin/voucher/${id}`} childrenHref={`Voucher /${id}`} hidden={"hidden"}/>
 
         <div className="w-full h-screen py-2 px-5 bg-gray-100">
             <div className="flex justify-between px-2 py-4">

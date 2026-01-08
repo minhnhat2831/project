@@ -1,30 +1,43 @@
 import { useForm } from "react-hook-form"
 import InputField from "@/components/common/form/Input"
-import type { loginRequest } from "../types/auth";
 import { LoginAdmin } from "../api/api";
 import { useNavigate } from "react-router";
 import { API } from "@/services/api";
 import { toast, ToastContainer } from "react-toastify";
 import Button from "@/components/common/form/Button";
-
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LoginSchema, type LoginForm } from "../util/UserSchema"
 export default function LoginPage() {
     const navigate = useNavigate();
-    const { register, handleSubmit, formState: { errors } } = useForm<loginRequest>({
-        defaultValues: {
-            username: "",
-            password: ""
-        },
+    const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>({
+        resolver : zodResolver(LoginSchema) as any
     })
 
-    const onSubmit = async (data: loginRequest) => {
+    const onSubmit = async (data: LoginForm) => {
         try {
-            const res = await LoginAdmin(data);
+            const submitData = { ...(data as any)};
+            const res = await LoginAdmin(submitData);
+
             const { accessToken, refreshToken } = res.data.tokens;
+
+            //Lưu thông tin user
             localStorage.setItem("admin", JSON.stringify(res.data.admin));
+
+            //Lưu accessToken và refreshToken
             localStorage.setItem("accessToken", accessToken);
             localStorage.setItem("refreshToken", refreshToken);
 
-            navigate(`${API.BASE_URL}/admin`);
+            //Lấy thông tin user
+            const adminData = localStorage.getItem("admin")
+            const admin = adminData ? JSON.parse(adminData) : null
+
+            //Chuyển hướng nếu khác role superAdmin
+            if(admin.role == "superAdmin"){
+                navigate(`${API.BASE_URL}/admin`);
+            }else{
+                navigate(`${API.BASE_URL}/admin/doulas`);
+            }
+                
         } catch (error: any) {
             toast.error(error.response?.data?.message);
         }
@@ -33,7 +46,7 @@ export default function LoginPage() {
     return (<>
         <ToastContainer />
         <div className="h-screen justify-center flex items-center bg-[url(/bg.jpg)] bg-cover">
-            <div className="w-90 h-90 rounded-3xl bg-white px-8 py-16">
+            <div className="w-90 h-100 rounded-3xl bg-white px-8 py-15">
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="text-center w-full h-10">
                         <p className="font-bold text-2xl">CMS Login</p>
@@ -43,10 +56,9 @@ export default function LoginPage() {
                             type="text"
                             inputSize="lg"
                             placeholder="Username or email"
+                            className="mb-2"
                             label="UserName or Email"
-                            {...register("username", {
-                                required: "Username is required",
-                            })}
+                            {...register("username")}
                             error={errors.username?.message}
                         />
                     </div>
@@ -55,10 +67,9 @@ export default function LoginPage() {
                             type="password"
                             inputSize="lg"
                             placeholder="Password"
+                            className="mb-2"
                             label="Password"
-                            {...register('password', {
-                                required: "Password is required"
-                            })}
+                            {...register('password')}
                             error={errors.password?.message}
                         />
                     </div>

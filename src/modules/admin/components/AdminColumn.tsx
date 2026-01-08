@@ -9,7 +9,6 @@ export const columns: ColumnDef<Admin>[] = [
   {
     accessorKey: "username",
     header: () => <SortHeader columnKey="username" title="Username" />,
-
   },
   {
     accessorKey: "firstName",

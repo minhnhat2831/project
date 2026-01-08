@@ -42,7 +42,7 @@ export default function TableData<T>({ loading, pagination, table }: Iprops<T>) 
                             </td>
                         </tr>) : <>
                         {table.getRowModel().rows.map(row => (
-                            <tr key={row.id} className="border-b">
+                            <tr key={row.id}>
                                 {row.getVisibleCells().map(cell => (
                                     <td key={cell.id} className="px-3 py-3 border font-serif">
                                         {flexRender(

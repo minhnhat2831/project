@@ -5,10 +5,10 @@ export interface VoucherCreateRequest {
     endDate: string,
     status: "active" | "inactive",
     type: "fixed" | "percentage" | string,
-    amount: number | string,
-    quantityUse: number | string,
-    minPayAmount: number | string,
-    maxDiscountAmount: number | string
+    amount: number,
+    quantityUse: number ,
+    minPayAmount: number ,
+    maxDiscountAmount: number
 }
 
 export interface VoucherCreateResponse {

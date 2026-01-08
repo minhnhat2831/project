@@ -6,15 +6,16 @@ interface prop {
     childrenHref?: string | null,
     children?: ReactNode | null,
     searchValue?: string
-    onSearchChange?: ((value: string) => any)
+    onSearchChange?: ((value: string) => any),
+    hidden? : string
 }
-export default function Header({ href, childrenHref, children, searchValue, onSearchChange }: prop) {
+export default function Header({ href, childrenHref, children, searchValue, onSearchChange, hidden }: prop) {
     
     return (<>
-        <div className="fixed top-0 left-60 right-0 h-15 border flex justify-between items-center z-50 bg-white">
+        <div className="fixed top-0 left-60 right-0 h-15 flex justify-between items-center z-50 bg-white">
             <div className="flex items-center gap-8 p-5">
                 <a href={href}>{childrenHref}</a>
-                <Search Svalue={searchValue} onChange={onSearchChange} />
+                <Search Svalue={searchValue} onChange={onSearchChange} hidden={hidden} />
             </div>
             {children}
         </div>

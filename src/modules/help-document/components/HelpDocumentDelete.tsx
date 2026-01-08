@@ -3,6 +3,7 @@ import type { HelpDocument } from "../types/HelpDocument"
 import { DeleteHelpDocument } from "../api/api"
 import { toast } from "react-toastify"
 import { Icons } from "@/components/common/base/Icon"
+import Button from "@/components/common/form/Button"
 
 interface props {
     open: boolean,
@@ -34,8 +35,19 @@ export default function HelpDocumentDelete({ open, setOpen, document }: props) {
                 <p className="leading-8">Are you sure you want to delete this items?</p>
             </div>
             <div className="flex px-8 h-8 mt-6">
-                <button className="w-full border bg-white text-gray-500 font-black cursor-pointer rounded" onClick={() => setOpen(!open)}>Cancel</button>
-                <button className="w-full border bg-red-500 text-black font-black cursor-pointer rounded" onClick={handleDelete}>Delete</button>
+                <Button
+                    type="button"
+                    variant="cancel"
+                    onClick={() => setOpen(!open)}>
+                    Cancel
+                </Button>
+
+                <Button
+                    type="button"
+                    variant="delete"
+                    onClick={handleDelete}>
+                    Delete
+                </Button>
             </div>
         </>
     )

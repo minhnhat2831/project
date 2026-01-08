@@ -1,31 +1,26 @@
 import { useForm } from "react-hook-form";
 import InputField from "@/components/common/form/Input";
 import Select from "@/components/common/form/Select";
-import type { CreateAdminRequest } from "../types/CreateAdmin";
 import { toast } from "react-toastify";
 import { CreateAdmin } from "../api/api";
 import Button from "@/components/common/form/Button";
 import { Icons } from "@/components/common/base/Icon";
 import { useRefetchData } from "@/hooks/useRefetch";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { CreateAdminUserSchema, type AdminFormCreate } from "../util/AdminUserSchema";
 
 interface prop {
     open: boolean,
-    setOpen: (open : boolean) => void,
+    setOpen: (open: boolean) => void,
 }
 
 export default function AdminCreatePopup({ open, setOpen }: prop) {
-    const { register, handleSubmit, setError, formState: { errors } } = useForm<CreateAdminRequest>({
-        defaultValues: {
-            username: "",
-            password: "",
-            firstName: "",
-            lastName: "",
-            status: "active",
-            email: ""
-        }
+    const { register, handleSubmit, setError, formState: { errors } } = useForm<AdminFormCreate>({
+        resolver: zodResolver(CreateAdminUserSchema)
     })
+
     const { refetch } = useRefetchData()
-    const onsubmit = async (data: CreateAdminRequest) => {
+    const onsubmit = async (data: AdminFormCreate) => {
         try {
             const response = await CreateAdmin(data)
             toast.success(response?.message)
@@ -48,14 +43,6 @@ export default function AdminCreatePopup({ open, setOpen }: prop) {
                 })
                 return
             }
-
-            if (message.toLowerCase().includes("password")) {
-                setError("password", {
-                    type: "server",
-                    message
-                })
-                return
-            }
             toast.error("Tạo admin thất bại");
         }
     }
@@ -63,36 +50,34 @@ export default function AdminCreatePopup({ open, setOpen }: prop) {
     return (<>
         <div className="w-full h-1/12 border-b px-5 flex justify-between items-center">
             <p className="text-xl">Create Admin User</p>
-            <button className="font-bold rounded-full mr-2 cursor-pointer hover:bg-gray-200 w-6" onClick={() => setOpen(!open)}><Icons.Close /></button>
+            <Button
+                variant="close"
+                size="sm"
+                onClick={() => setOpen(!open)}><Icons.Close />
+            </Button>
         </div>
         <form onSubmit={handleSubmit(onsubmit)} className="flex flex-col h-full">
-            <div className="py-2 px-5 h-6/9 flex-1">
+            <div className="py-2 h-6/9 flex-1">
                 <InputField
                     label="UserName"
                     inputSize="lg"
                     placeholder="Username"
-                    {...register("username", {
-                        required: "Username is required",
-                    })}
+                    {...register("username")}
                     error={errors.username?.message}>
                 </InputField>
-                <div className="flex">
+                <div className="flex gap-15">
                     <InputField
                         label="First Name"
                         inputSize="lg"
                         placeholder="First name"
-                        {...register("firstName", {
-                            required: "firstName is required",
-                        })}
+                        {...register("firstName")}
                         error={errors.firstName?.message}>
                     </InputField>
                     <InputField
                         label="Last Name"
                         inputSize="lg"
                         placeholder="Last name"
-                        {...register("lastName", {
-                            required: "lastName is required",
-                        })}
+                        {...register("lastName")}
                         error={errors.lastName?.message}>
                     </InputField>
                 </div>
@@ -102,20 +87,17 @@ export default function AdminCreatePopup({ open, setOpen }: prop) {
                     type="email"
                     inputSize="lg"
                     placeholder="Email"
-                    {...register("email", {
-                        required: "email is required",
-                    })}
+                    {...register("email")}
                     error={errors.email?.message}
                 >
                 </InputField>
 
                 <Select
                     label="Status"
-                    {...register("status", {
-                        required: "status is required",
-                    })}
+                    {...register("status")}
                     error={errors.status?.message}
                 >
+                    <option value='' hidden>Select Status</option>
                     <option value="active">Active</option>
                     <option value="inactive">Inactive</option>
                 </Select>
@@ -125,9 +107,7 @@ export default function AdminCreatePopup({ open, setOpen }: prop) {
                     type="password"
                     inputSize="lg"
                     placeholder="Password"
-                    {...register("password", {
-                        required: "password is required",
-                    })}
+                    {...register("password")}
                     error={errors.password?.message}>
                 </InputField>
             </div>

@@ -9,7 +9,8 @@ import { useRefetchData } from "@/hooks/useRefetch"
 import { useCategoryData } from "@/hooks/useCategoryData"
 import { useForm } from "react-hook-form"
 import { Icons } from "@/components/common/base/Icon"
-import type { PdCreateRequest } from "../types/PdCreate"
+import { PdScheme, type PdForm } from "../util/PdSchema"
+import { zodResolver } from "@hookform/resolvers/zod"
 
 interface prop {
     open: boolean,
@@ -17,24 +18,16 @@ interface prop {
 }
 
 export default function PdCreate({ open, setOpen }: prop) {
-    const { register, handleSubmit, setError, control, formState: { errors } } = useForm<PdCreateRequest>({
-        defaultValues: {
-            title: "",
-            content: "",
-            picture: "",
-            status: "",
-            timeToRead: "",
-            categoryId: "",
-            author: "",
-            type: "pd"
-        }
+    const { register, handleSubmit, setError, control, formState: { errors } } = useForm<PdForm>({
+        resolver : zodResolver(PdScheme) as any,
     })
     const { data: category } = useCategoryData()
     const { refetch } = useRefetchData()
 
-    const onSubmit = async (data: PdCreateRequest) => {
+    const onSubmit = async (data: PdForm) => {
         try {
-            const response = await Createpd(data)
+            const pdData = { ...(data as any), type: "pd" };
+            const response = await Createpd(pdData)
             toast.success(response?.message)
             refetch?.()
             setOpen(false)
@@ -94,7 +87,11 @@ export default function PdCreate({ open, setOpen }: prop) {
     return (<>
         <div className="w-full h-1/12 border-b px-5 flex justify-between items-center">
             <p className="text-xl">Create Pd-Session</p>
-            <button className="font-bold rounded-full mr-2 cursor-pointer hover:bg-gray-200 w-6" onClick={() => setOpen(!open)}><Icons.Close /></button>
+            <Button
+                variant="close"
+                size="sm"
+                onClick={() => setOpen(!open)}><Icons.Close />
+            </Button>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full overflow-auto">
             <div className="py-2 px-2 h-6/9 flex-1 overflow-auto">
@@ -103,9 +100,7 @@ export default function PdCreate({ open, setOpen }: prop) {
                     variant="form"
                     inputSize="lg"
                     placeholder="Title"
-                    {...register("title", {
-                        required: "This field is required",
-                    })}
+                    {...register("title")}
                     error={errors.title?.message}>
                 </InputField>
                 <InputField
@@ -113,15 +108,11 @@ export default function PdCreate({ open, setOpen }: prop) {
                     variant="form"
                     inputSize="lg"
                     placeholder="Author"
-                    {...register("author", {
-                        required: "This field is required",
-                    })}
+                    {...register("author")}
                     error={errors.author?.message}>
                 </InputField>
                 <Select label="Status"
-                    {...register("status", {
-                        required: "This field is required"
-                    })}
+                    {...register("status")}
                     error={errors.status?.message}>
                     <option value="" hidden>Select Status</option>
                     <option value="published">Published</option>
@@ -130,13 +121,11 @@ export default function PdCreate({ open, setOpen }: prop) {
                 </Select>
 
                 <Select label="Category"
-                    {...register("categoryId", {
-                        required: "This field is required"
-                    })}
+                    {...register("categoryId")}
                     error={errors.categoryId?.message}>
                     {category.map((category, index) => (
                         <>
-                            <option value="" hidden>Select</option>
+                            <option value="" hidden>Select category</option>
                             <option key={index} value={category.id}>{category.name}</option>
                         </>
                     ))}
@@ -148,9 +137,7 @@ export default function PdCreate({ open, setOpen }: prop) {
                     inputSize="lg"
                     type="number"
                     placeholder="Time To Read"
-                    {...register("timeToRead", {
-                        required: "This field is required",
-                    })}
+                    {...register("timeToRead")}
                     error={errors.timeToRead?.message}>
                 </InputField>
                 <Image
@@ -163,9 +150,7 @@ export default function PdCreate({ open, setOpen }: prop) {
                 <TextArea
                     label="Content"
                     placeholder="Write article content..."
-                    {...register("content", {
-                        required: "This field is required",
-                    })}
+                    {...register("content")}
                     error={errors.content?.message}
                 />
 

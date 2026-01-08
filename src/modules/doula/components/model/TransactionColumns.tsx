@@ -1,15 +1,20 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { Transaction } from "../../types/transactions/Transactions";
+import { formatDate } from "@/components/common/base/FormatDate";
 
 export const columns: ColumnDef<Transaction>[] = [
     {
         accessorKey: "updatedAt",
-        header: "Date"
+        header: "Date",
+        cell: ({ getValue }) => {
+            const createdAt = getValue<string>()
+            return <div>{formatDate(createdAt)}</div>
+        }
     },
     {
         accessorKey: "amount",
         header: "Amount",
-        cell : ({getValue}) => {
+        cell: ({ getValue }) => {
             const amount = getValue<number>()
             return (
                 <span>${amount}</span>
@@ -33,15 +38,15 @@ export const columns: ColumnDef<Transaction>[] = [
         },
     },
     {
-        accessorKey : "stripeInvoiceId",
-        header : "Invoice",
-        cell : ({getValue}) =>{
+        accessorKey: "stripeInvoiceId",
+        header: "Invoice",
+        cell: ({ getValue }) => {
             const link = getValue<string>()
             return (
                 <div>
                     <a className="text-blue-500" href={`https://dashboard.stripe.com/test/invoices/${link}`}>Invoice</a>
                 </div>
-                
+
             )
         }
     }

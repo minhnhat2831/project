@@ -64,7 +64,7 @@ export interface Doula {
         lastName?: string,
         phoneNumber?: string,
         birthDate: string | null,
-        countryCode?: string,
+        countryCode?: string | null,
         email: string,
         id: string
     },

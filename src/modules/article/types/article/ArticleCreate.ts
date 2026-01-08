@@ -1,11 +1,11 @@
 export interface ArticleCreateRequest {
     title: string,
     content: string,
-    picture: string,
-    status: "published" | "unpublished" | "draft" | "",
-    type: "article" | "pd",
+    picture?: string | null,
+    status: "published" | "unpublished" | "draft" | string,
+    type: "article" | "pd" | string,
     timeToRead: string,
-    categoryId: string | "",
+    categoryId: string | string,
     author: string
 }
 

@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form"
-import type { VoucherCreateRequest } from "../types/VoucherCreate"
 import { useRefetchData } from "@/hooks/useRefetch"
 import { CreateVoucher } from "../api/api"
 import { toast } from "react-toastify"
@@ -7,6 +6,8 @@ import Button from "@/components/common/form/Button"
 import InputField from "@/components/common/form/Input"
 import Select from "@/components/common/form/Select"
 import { Icons } from "@/components/common/base/Icon"
+import { VoucherScheme, type VoucherForm } from "../util/VoucherSchema"
+import { zodResolver } from "@hookform/resolvers/zod"
 
 interface prop {
     open: boolean,
@@ -14,26 +15,16 @@ interface prop {
 }
 
 export default function VoucherCreate({ open, setOpen }: prop) {
-    const { register, handleSubmit, setError, formState: { errors } } = useForm<VoucherCreateRequest>({
-        defaultValues: {
-            code: "",
-            description: "",
-            startDate: "",
-            endDate: "",
-            quantityUse: "",
-            amount: "",
-            minPayAmount: "",
-            maxDiscountAmount: "",
-            type: "",
-            status: "active"
-        }
+    const { register, handleSubmit, setError, formState: { errors } } = useForm<VoucherForm>({
+        resolver : zodResolver(VoucherScheme) as any
     })
 
     const { refetch } = useRefetchData()
 
-    const onSubmit = async (data: VoucherCreateRequest) => {
+    const onSubmit = async (data: VoucherForm) => {
         try {
-            const response = await CreateVoucher(data)
+            const voucherData = { ...(data as any), status : "active" }
+            const response = await CreateVoucher(voucherData)
             toast.success(response?.message)
             refetch?.()
             setOpen(false)
@@ -107,7 +98,11 @@ export default function VoucherCreate({ open, setOpen }: prop) {
     return (<>
         <div className="w-full h-1/12 border-b px-5 flex justify-between items-center">
             <p className="text-xl">Create Voucher</p>
-            <button className="font-bold rounded-full mr-2 cursor-pointer hover:bg-gray-200 w-6" onClick={() => setOpen(!open)}><Icons.Close /></button>
+            <Button
+                variant="close"
+                size="sm"
+                onClick={() => setOpen(!open)}><Icons.Close />
+            </Button>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full overflow-auto">
             <div className="py-2 px-2 h-6/9 flex-1 overflow-auto">
@@ -116,9 +111,7 @@ export default function VoucherCreate({ open, setOpen }: prop) {
                     variant="form"
                     inputSize="lg"
                     placeholder="Code"
-                    {...register("code", {
-                        required: "This field is required",
-                    })}
+                    {...register("code")}
                     error={errors.code?.message}>
                 </InputField>
                 <InputField
@@ -126,9 +119,7 @@ export default function VoucherCreate({ open, setOpen }: prop) {
                     variant="form"
                     inputSize="lg"
                     placeholder="Description"
-                    {...register("description", {
-                        required: "This field is required",
-                    })}
+                    {...register("description")}
                     error={errors.description?.message}>
                 </InputField>
                 <div className="flex">
@@ -138,33 +129,28 @@ export default function VoucherCreate({ open, setOpen }: prop) {
                         inputSize="lg"
                         type="Date"
                         placeholder="Start Date"
-                        {...register("startDate", {
-                            required: "This field is required",
-                        })}
-                        error={errors.startDate?.message}>       
+                        {...register("startDate")}
+                        error={errors.startDate?.message}>
                     </InputField>
                     <InputField
                         label="End Date"
                         variant="form"
                         inputSize="lg"
                         type="Date"
+                        className="mr-5"
                         placeholder="End Date"
-                        {...register("endDate", {
-                            required: "This field is required",
-                        })}
-                        error={errors.endDate?.message}>       
+                        {...register("endDate")}
+                        error={errors.endDate?.message}>
                     </InputField>
                 </div>
-                
+
                 <InputField
                     label="Quantity "
                     variant="form"
                     inputSize="lg"
                     type="number"
                     placeholder="Quantity "
-                    {...register("quantityUse", {
-                        required: "This field is required",
-                    })}
+                    {...register("quantityUse")}
                     error={errors.quantityUse?.message}>
                 </InputField>
 
@@ -184,9 +170,7 @@ export default function VoucherCreate({ open, setOpen }: prop) {
                     inputSize="lg"
                     type="number"
                     placeholder="Amount"
-                    {...register("amount", {
-                        required: "This field is required",
-                    })}
+                    {...register("amount")}
                     error={errors.amount?.message} >
                 </InputField>
 
@@ -196,9 +180,7 @@ export default function VoucherCreate({ open, setOpen }: prop) {
                     inputSize="lg"
                     type="number"
                     placeholder="Condition"
-                    {...register("minPayAmount", {
-                        required: "This field is required",
-                    })}
+                    {...register("minPayAmount")}
                     error={errors.minPayAmount?.message} >
                 </InputField>
 
@@ -208,9 +190,7 @@ export default function VoucherCreate({ open, setOpen }: prop) {
                     inputSize="lg"
                     type="number"
                     placeholder="Condition max of discount"
-                    {...register("maxDiscountAmount", {
-                        required: "This field is required",
-                    })}
+                    {...register("maxDiscountAmount")}
                     error={errors.maxDiscountAmount?.message} >
                 </InputField>
 

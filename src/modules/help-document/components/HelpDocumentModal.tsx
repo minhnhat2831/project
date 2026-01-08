@@ -19,38 +19,39 @@ export default function HelpDocumentModal() {
             <Header href="/admin/help-documents" childrenHref="Help Document"
                 children={<>
                     <Button
+                        type="button"
                         variant="create"
-                        size="lg"
-                        className="mr-4"
-                        onClick={() => setOpen(!open)}
+                        size="sm"
+                        className="mr-8"
+                        onClick={() => setOpen(true)}
                     >
                         Create
                     </Button>
                     <PopupCE open={open} onOpenChange={setOpen}>
-                        <HelpDocumentCreate 
-                            open={open} 
+                        <HelpDocumentCreate
+                            open={open}
                             setOpen={setOpen} />
                     </PopupCE>
-                </>} 
+                </>}
                 searchValue={search} onSearchChange={setSearch}
-                />
+            />
 
             <PopupCE open={openEdit} onOpenChange={setOpenEdit}>
-                {selectedDocument && 
-                    <HelpDocumentEdit 
-                        open={openEdit} 
+                {selectedDocument &&
+                    <HelpDocumentEdit
+                        open={openEdit}
                         setOpen={setOpenEdit}
                         document={selectedDocument} />
                 }
             </PopupCE>
 
             <PopupConfirm open={confirm} onOpenChange={setConfirm}>
-                {selectedDocument && 
-                <HelpDocumentDelete 
-                    open={confirm} 
-                    setOpen={setConfirm} 
-                    document={selectedDocument}/>}
-                
+                {selectedDocument &&
+                    <HelpDocumentDelete
+                        open={confirm}
+                        setOpen={setConfirm}
+                        document={selectedDocument} />}
+
             </PopupConfirm>
         </>)
 }

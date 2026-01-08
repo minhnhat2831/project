@@ -41,12 +41,11 @@ export default function ClientViewPage() {
     }
     return (<>
     <Container>
-        <Header href={`/admin/client/${client?.id}`} childrenHref={`Admin / Client Management / ${client?.id}`} />
+        <Header href={`/admin/client/${client?.id}`} childrenHref={`Admin / Client Management / ${client?.id}`} hidden={"hidden"} />
         <div className="w-full h-screen py-2 px-5 bg-gray-100">
             <div className="flex justify-between px-2 py-4">
                <button className="cursor-pointer" onClick={() => nav('/admin/clients')}><Icons.ArrowBack />Back</button>
                <button className="cursor-pointer" onClick={handleEdit}><Icons.Pen className="text-red-500"/>Edit</button>
-                
             </div>
             <div className="px-2 py-2 bg-white">
                 {/* info */}

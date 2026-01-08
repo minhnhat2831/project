@@ -8,6 +8,5 @@ interface ClientStore {
 
 export const useClientStore = create<ClientStore>((set) =>({
     selectedClient : null,
-
     setSelectedClient: (Client) => set({ selectedClient: Client }),
 }))

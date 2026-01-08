@@ -8,6 +8,5 @@ interface SearchSettingStore {
 
 export const useSettingStore = create<SearchSettingStore>((set) =>({
     selectedSearchSetting : null,
-
     setSelectedSearchSetting: (SearchSetting) => set({ selectedSearchSetting: SearchSetting }),
 }))
