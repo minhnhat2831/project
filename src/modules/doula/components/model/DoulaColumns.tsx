@@ -82,7 +82,7 @@ export const columns: ColumnDef<AdminDoula>[] = [
       const doula = row.original
       const nav = useNavigate()
       const { setSelectedDoula } = useDoulaStore()
-      const { setOpenEdit, setConfirm} = useModalStore()
+      const { setOpen, setTypeMode } = useModalStore()
 
       const handleView = () => {
           setSelectedDoula(doula)
@@ -91,12 +91,14 @@ export const columns: ColumnDef<AdminDoula>[] = [
 
       const handleEdit = () => {
           setSelectedDoula(doula)
-          setOpenEdit(true)
+          setTypeMode("edit")
+          setOpen(true)
       }
 
       const handleDelete = () => {
           setSelectedDoula(doula)
-          setConfirm(true)
+          setTypeMode("delete")
+          setOpen(true)
       }
       
       return (

@@ -1,25 +1,10 @@
 export interface PdEditRequest {
     title: string,
     content: string,
-    picture: {
-        id?: string,
-        uri?: string,
-        type?: string,
-        metadata?: {
-            thumb?: {
-                uri?: string,
-                key?: string
-            },
-            medium?: {
-                uri?: string,
-                key?: string
-            }
-        },
-        createdAt?: string
-    },
-    status: "published" | "unpublished" | "draft",
-    type?: string,
-    timeToRead?: number | null,
+    picture?: string,
+    status: "published" | "unpublished" | "draft" | string,
+    type: string,
+    timeToRead: number,
     categoryId: string,
     author: string
 }
@@ -30,24 +15,24 @@ export interface PdEditResponse {
         id: string,
         title: string,
         content: string,
-        picture: {
-            id?: string,
-            uri?: string,
-            type?: string,
-            metadata?: {
-                thumb?: {
-                    uri?: string,
-                    key?: string
+        picture?: {
+            id: string,
+            uri: string,
+            type: string,
+            metadata: {
+                thumb: {
+                    uri: string,
+                    key: string
                 },
-                medium?: {
-                    uri?: string,
-                    key?: string
+                medium: {
+                    uri: string,
+                    key: string
                 }
             },
             createdAt?: string
         },
-        status: "published" | "unpublished" | "draft",
-        type?: string,
+        status: "published" | "unpublished" | "draft" | string,
+        type: string,
         timeToRead: number,
         categoryId: string,
         author: {

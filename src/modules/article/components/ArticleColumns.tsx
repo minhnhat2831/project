@@ -65,17 +65,19 @@ export const ArticleColumns: ColumnDef<Article>[] = [
         header: "Action",
         cell: ({ row }) => {
             const article = row.original
-            const { setOpenEdit, setConfirm } = useModalStore()
+            const { setOpen, setTypeMode } = useModalStore()
             const { setSelectedArticle } = useArticleStore()
 
             const handleEdit = () => {
                 setSelectedArticle(article)
-                setOpenEdit(true)
+                setTypeMode("edit")
+                setOpen(true)
             }
 
             const handleDelete = () => {
                 setSelectedArticle(article)
-                setConfirm(true)
+                setTypeMode("delete")
+                setOpen(true)
             }
 
             return (

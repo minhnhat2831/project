@@ -1,8 +1,8 @@
 export interface EditCategoryRequest {
     title: string,
     name: string,
-    image?: string | null,
-    status: "active" | "inactive"
+    image: string | null,
+    status: "active" | "inactive" | string
 }
 
 export interface EditCategoryResponse {

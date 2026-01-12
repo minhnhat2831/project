@@ -45,16 +45,18 @@ export const columns: ColumnDef<HelpDocument>[] = [
     cell: ({ row }) => {
       const helpDocument = row.original
       const { setSelectedDocument } = useDocumentStore()
-      const { setOpenEdit, setConfirm } = useModalStore()
+      const { setOpen, setTypeMode } = useModalStore()
 
       const handleEdit = () => {
         setSelectedDocument(helpDocument)
-        setOpenEdit(true)
+        setTypeMode("edit")
+        setOpen(true)
       }
 
       const handleDelete = () => {
         setSelectedDocument(helpDocument)
-        setConfirm(true)
+        setTypeMode("delete")
+        setOpen(true)
       }
 
       return (

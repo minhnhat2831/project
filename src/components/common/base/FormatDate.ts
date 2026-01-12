@@ -6,7 +6,5 @@ export const formatDate = (date: Date | string | null | undefined) => {
     year: "numeric",
     hour: "2-digit",
     minute: "2-digit",
-    hour12: true,
-    timeZone: "Asia/Ho_Chi_Minh"
   }).format(new Date(date))
 }

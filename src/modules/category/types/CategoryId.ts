@@ -8,7 +8,7 @@ export interface CategoryId {
     slug : string,
     title : string,
     name : string,
-    picture?: {
+    picture: {
         id: string
         uri?: string | null
         type?: string
@@ -22,8 +22,8 @@ export interface CategoryId {
                 key?: string,
             }
         } | null,
-        createdAt: Date
-    },
+        createdAt: string
+    } | null,
     content : string,
     status : "active" | "inactive",
     type : string,

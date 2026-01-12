@@ -1,17 +1,24 @@
-import PopupCE from "@/components/common/base/PopupCE";
 import { useModalStore } from "@/hooks/useModalStore";
 import { useStore } from "@/hooks/useStore";
 import Header from "@/layouts/Header";
-import { useVoucherStore } from "../store/useSelectedVoucher";
-import VoucherCreate from "./VoucherCreate";
-import PopupConfirm from "@/components/common/base/PopupComfirm";
-import VoucherEdit from "./VoucherEdit";
 import Button from "@/components/common/form/Button";
+import VoucherFormModal from "./VoucherFormModal";
+import VoucherEdit from "./VoucherEdit";
 
 export default function VoucherModal() {
-    const { open, setOpen, confirm, setConfirm } = useModalStore()
+    const { setOpen, typeMode, setTypeMode } = useModalStore()
     const { search, setSearch } = useStore()
-    const { selectedVoucher } = useVoucherStore()
+    
+    const renderModal = () => {
+        switch(typeMode){
+            case "create" : 
+                return <VoucherFormModal type={"create"} />
+            case "edit" : 
+                return <VoucherEdit />
+            default:
+                return null
+        }
+    }
     return (<>
         <Header href="/admin/voucher" childrenHref={"Voucher"}
             children={<>
@@ -20,24 +27,17 @@ export default function VoucherModal() {
                     variant="create"
                     size="sm"
                     className="mr-8"
-                    onClick={() => setOpen(true)}
+                    onClick={() => {
+                        setTypeMode("create")
+                        setOpen(true)
+                    }}
                 >
                     Create
-                </Button>
-
-                <PopupCE open={open} onOpenChange={setOpen}>
-                    {<VoucherCreate open={open} setOpen={setOpen} />}
-                </PopupCE>
+                </Button>      
             </>}
 
             searchValue={search} onSearchChange={setSearch}
         />
-
-        <PopupConfirm open={confirm} onOpenChange={setConfirm}>
-            {selectedVoucher &&
-                <VoucherEdit open={confirm} setOpen={setConfirm} voucher={selectedVoucher} />
-            }
-        </PopupConfirm>
-
+        {renderModal()}
     </>)
 }

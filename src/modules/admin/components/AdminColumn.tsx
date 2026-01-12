@@ -47,17 +47,19 @@ export const columns: ColumnDef<Admin>[] = [
     header: "Action",
     cell: ({ row }) => {
       const admin = row.original
-      const { setOpenEdit, setConfirm } = useModalStore()
+      const { setOpen, setTypeMode } = useModalStore()
       const { setSelectedAdmin } = useAdminStore()
       
       const handleEdit = () => {
         setSelectedAdmin(admin)
-        setOpenEdit(true)
+        setTypeMode("edit")
+        setOpen(true)
       }
 
       const handleDelete = () => {
         setSelectedAdmin(admin)
-        setConfirm(true)
+        setTypeMode("delete")
+        setOpen(true)
       }
 
       return (

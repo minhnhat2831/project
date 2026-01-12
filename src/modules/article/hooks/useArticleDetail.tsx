@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
+import { type ArticleById } from "../types/article/ArticleById";
 import { GetById } from "../api/api";
 import { toast } from "react-toastify";
-import type { PDId } from "../types/PdId";
 
-export default function usePdId(id? : string) {
-    const [data, setData] = useState<PDId | null>(null)
+export default function useArticleDetail(id? : string) {
+    const [data, setData] = useState<ArticleById | null>(null)
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {

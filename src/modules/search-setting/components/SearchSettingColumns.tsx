@@ -32,16 +32,18 @@ export const columns: ColumnDef<SearchSetting>[] = [
         cell: ({ row }) => {
             const searchSetting = row.original
             const { setSelectedSearchSetting } = useSettingStore()
-            const { setOpenEdit, setConfirm } = useModalStore()
+            const { setOpen, setTypeMode } = useModalStore()
 
             const handleEdit = () => {
                 setSelectedSearchSetting(searchSetting)
-                setOpenEdit(true)
+                setTypeMode("edit")
+                setOpen(true)
             }
 
             const handleDelete = () => {
                 setSelectedSearchSetting(searchSetting)
-                setConfirm(true)
+                setTypeMode("delete")
+                setOpen(true)
             }
 
             return (

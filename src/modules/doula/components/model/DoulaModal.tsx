@@ -1,33 +1,21 @@
-import PopupCE from "@/components/common/base/PopupCE";
-import DoulaEdit from "./DoulaEdit";
-import DoulaDelete from "./DoulaDelete";
-import PopupConfirm from "@/components/common/base/PopupComfirm";
-import { useDoulaStore } from "../../store/useSeletedDoula";
 import { useModalStore } from "@/hooks/useModalStore";
+import DoulaFormModal from "./DoulaFormModal";
+import DoulaDelete from "./DoulaDelete";
 
 export default function DoulaModal() {
-    const { confirm, openEdit, setOpenEdit, setConfirm} = useModalStore()
-    const { selectedDoula } = useDoulaStore()
+    const { typeMode } = useModalStore()
     
+    const renderModal = () => {
+        switch(typeMode){
+            case "edit" :
+                return <DoulaFormModal type={"edit"} />
+            case "delete" : 
+                return <DoulaDelete />
+            default :
+                return null
+        }
+    }
     return (<>
-    
-        <PopupCE open={openEdit} onOpenChange={setOpenEdit}>
-            {selectedDoula && (
-                <DoulaEdit
-                    open={openEdit}
-                    setOpen={setOpenEdit}
-                    doula={selectedDoula}
-                />
-            )}
-        </PopupCE>
-        <PopupConfirm open={confirm} onOpenChange={setConfirm}>
-            {selectedDoula && (
-                <DoulaDelete
-                    open={confirm}
-                    setOpen={setConfirm}
-                    doula={selectedDoula}
-                />
-            )}
-        </PopupConfirm>
+        {renderModal()}
     </>)
 }

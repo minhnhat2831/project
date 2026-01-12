@@ -8,5 +8,5 @@ export const CategorySchema = z.object({
     title: z.string().min(1, required),
     name: z.string().min(1, required),
     status: z.string().min(1, required), 
-    image: z.string().nullable().optional(),
+    image: z.string().min(1,required),
 })

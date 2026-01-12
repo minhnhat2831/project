@@ -1,31 +1,21 @@
 import { create } from "zustand"
 
+type Mode = "create" | "edit" | "delete" 
 interface ModalStoreState {
     open: boolean
-    openEdit: boolean
-    confirm: boolean
-
     setOpen: (value: boolean) => void
-    setOpenEdit: (value: boolean) => void
-    setConfirm: (value: boolean) => void
-
     reset: () => void
+    typeMode : Mode
+    setTypeMode : (typeMode : Mode ) => void
 }
 
 export const useModalStore = create<ModalStoreState>((set) => ({
     open: false,
-    openEdit: false,
-    confirm: false,
-
+    typeMode : "create",
     setOpen: (open) => set({ open }),
-    setOpenEdit: (openEdit) => set({ openEdit }),
-    setConfirm: (confirm) => set({ confirm }),
-
+    setTypeMode: (typeMode) => set({ typeMode }),
     reset: () =>
         set({
             open: false,
-            openEdit: false,
-            confirm: false,
         }),
-
 }))

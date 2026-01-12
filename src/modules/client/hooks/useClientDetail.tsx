@@ -3,7 +3,7 @@ import { toast } from "react-toastify"
 import { GetClientId } from "../api/api"
 import type { ClientId } from "../types/client/ClientId"
 
-export const useClientIdFetch = (id?: string) => {
+export const useClientDetail = (id?: string) => {
     const [data, setData] = useState<ClientId | null>(null)
     const [loading, setLoading] = useState(false)
 

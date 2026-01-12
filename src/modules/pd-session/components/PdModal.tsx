@@ -1,18 +1,26 @@
 import { useModalStore } from "@/hooks/useModalStore"
-import { usedPdStore } from "../store/useSeletedPd"
 import Header from "@/layouts/Header"
 import Button from "@/components/common/form/Button"
-import PopupCE from "@/components/common/base/PopupCE"
-import PopupConfirm from "@/components/common/base/PopupComfirm"
-import PdCreate from "./PdCreate"
-import PdEdit from "./PdEdit"
-import PdDelete from "./PdDelete"
 import { useStore } from "@/hooks/useStore"
+import PdFormModal from "./PdFormModal"
+import PdDelete from "./PdDelete"
 
 export default function PdModal() {
-    const { open, setOpen, openEdit, setOpenEdit, confirm, setConfirm } = useModalStore()
-    const { selectedPd } = usedPdStore()
+    const { setOpen, typeMode, setTypeMode } = useModalStore()
     const { search, setSearch } = useStore();
+
+    const renderModal = () => {
+        switch(typeMode){
+            case "create":
+                return <PdFormModal type={"create"} />
+            case "edit":
+                return <PdFormModal type={"edit"} />
+            case "delete":
+                return <PdDelete />
+            default:
+                return null
+        }
+    }
 
     return (<>
         <Header href="/admin/pd-sessions" childrenHref="Pd Session" children={
@@ -21,37 +29,15 @@ export default function PdModal() {
                     variant="create"
                     size="sm"
                     className="mr-8"
-                    onClick={() => setOpen(true)}>
+                    onClick={() => {
+                        setTypeMode("create")
+                        setOpen(true)}}>
                     Create
-                </Button>
-
-                <PopupCE open={open} onOpenChange={setOpen}>
-                    {<PdCreate
-                        open={open}
-                        setOpen={setOpen}
-                    />}
-                </PopupCE>
+                </Button>     
             </>
         } 
             searchValue={search} onSearchChange={setSearch}
         />
-
-        <PopupCE open={openEdit} onOpenChange={setOpenEdit}>
-            {selectedPd && (
-                <PdEdit
-                    open={openEdit}
-                    setOpen={setOpenEdit}
-                    pdsession={selectedPd}
-                />
-            )}
-        </PopupCE>
-        <PopupConfirm open={confirm} onOpenChange={setConfirm}>
-            {selectedPd && (
-                <PdDelete
-                    open={confirm}
-                    setOpen={setConfirm}
-                    pdsession={selectedPd} />
-            )}
-        </PopupConfirm>
+        {renderModal()}
     </>)
 }

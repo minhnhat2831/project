@@ -1,13 +1,14 @@
 export const inputVariants = {
-    base: 'border h-10 pl-2 pr-2 rounded shadow-md ',
+    base: 'border h-12 px-4 rounded shadow-md text-md',
     size: {
         sm: "w-12",
         md: "w-fit",
         lg: "w-full"
     },
     variant: {
-        form: "focus:outline focus:outline-green-300",
+        form: "focus:outline focus:outline-green-300 hover:outline hover:outline-green-300 mb-4 mt-1",
         search: "focus:outline focus:outline-sky-500",
-        disable: "bg-gray-200"
+        disable: "bg-gray-200 mb-4 mt-1",
+        error : "border-red-500"
     }
 } as const

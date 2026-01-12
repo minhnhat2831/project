@@ -3,7 +3,7 @@ import Header from "@/layouts/Header";
 import Avatar from "@mui/material/Avatar";
 import { useNavigate, useParams } from "react-router";
 import { useCaresInfo } from "../hooks/useCaresFetch";
-import { useClientIdFetch } from "../hooks/useClientId";
+import { useClientDetail } from "../hooks/useClientDetail";
 import { formatDate } from "@/components/common/base/FormatDate";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { columns } from "../components/PackageColumns";
@@ -18,10 +18,10 @@ export default function ClientViewPage() {
     const nav = useNavigate()
     const { id } = useParams<{ id: string }>()
     const { data: cares, loading, metadata } = useCaresInfo(id)
-    const { data: client } = useClientIdFetch(id)
+    const { data: client } = useClientDetail(id)
     const { pageIndex, pageSize, setPagination} = useStore()
     const { selectedClient } = useClientStore()
-    const { setOpenEdit } = useModalStore()
+    const { setOpen, setTypeMode } = useModalStore()
 
     const table = useReactTable({
         data : cares,
@@ -37,7 +37,8 @@ export default function ClientViewPage() {
 
     const handleEdit = () => {
         selectedClient?.id == client?.id
-        setOpenEdit(true)
+        setTypeMode("edit")
+        setOpen(true)
     }
     return (<>
     <Container>

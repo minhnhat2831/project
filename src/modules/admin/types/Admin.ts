@@ -36,7 +36,7 @@ export interface GetAdminsParams {
   limit?: number
   offset?: number
   search?: string | null
-  sort?: "username" | "firstName" | "lastName" | "email" | "createdAt" | "updatedAt" | string 
+  sort?: string 
   f_username?: string
   f_email?: string
 }
