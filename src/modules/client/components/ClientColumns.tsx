@@ -86,7 +86,7 @@ export const columns: ColumnDef<Client>[] = [
             const client = row.original;
             const nav = useNavigate();
             const { setSelectedClient } = useClientStore();
-            const { setOpenEdit, setConfirm } = useModalStore()
+            const { setOpen, setTypeMode } = useModalStore()
             const handleView = () => {
                 setSelectedClient(client)
                 nav(`/admin/clients/${client.id}`)
@@ -94,12 +94,14 @@ export const columns: ColumnDef<Client>[] = [
 
             const handleEdit = () => {
                 setSelectedClient(client)
-                setOpenEdit(true)
+                setTypeMode("edit")
+                setOpen(true)
             }
 
             const handleDelete = () => {
                 setSelectedClient(client)
-                setConfirm(true)
+                setTypeMode("delete")
+                setOpen(true)
             }
             return (
                 <div className="flex gap-3">

@@ -29,11 +29,12 @@ export default function DoulaViewPage() {
     const { data: doula, refetch } = useDoulaInfomation(id);
     const { setRefetch } = useRefetchData()
     const { selectedDoula } = useDoulaStore()
-    const { setOpenEdit } = useModalStore()
+    const { setOpen, setTypeMode } = useModalStore()
 
     const handleEdit = () => {
         selectedDoula?.id == doula?.id
-        setOpenEdit(true)
+        setTypeMode("edit")
+        setOpen(true)
     }
 
     useEffect(() => {

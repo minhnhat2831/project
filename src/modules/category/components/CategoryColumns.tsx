@@ -49,17 +49,19 @@ export const columns: ColumnDef<Category>[] = [
         header: "Action",
         cell: ({ row }) => {
             const category = row.original
-            const { setOpenEdit, setConfirm } = useModalStore()
+            const { setOpen, setTypeMode } = useModalStore()
             const { setSelectedCategory } = useCategoryStore()
 
             const handleEdit = () => {
                 setSelectedCategory(category)
-                setOpenEdit(true)
+                setTypeMode("edit")
+                setOpen(true)
             }
 
             const handleDelete = () => {
                 setSelectedCategory(category)
-                setConfirm(true)
+                setTypeMode("delete")
+                setOpen(true)
             }
 
             return (

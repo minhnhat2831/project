@@ -1,60 +1,51 @@
 import Button from "@/components/common/form/Button";
-import PopupCE from "@/components/common/base/PopupCE";
 import Header from "@/layouts/Header";
-import AdminCreatePopup from "./AdminCreate";
-import AdminEditPopup from "./AdminEdit";
-import PopupConfirm from "@/components/common/base/PopupComfirm";
-import AdminDelete from "./AdminDelete";
 import { useModalStore } from "@/hooks/useModalStore";
 import { useStore } from "@/hooks/useStore";
-import { useAdminStore } from "../store/useSeletedAdminStore";
+import AdminFormModal from "./AdminFormModal";
+import AdminDelete from "./AdminDelete";
 
 export default function AdminModal() {
-    const { open, setOpen, confirm, setConfirm, openEdit, setOpenEdit } = useModalStore()
-    const { selectedAdmin } = useAdminStore()
+    const { setOpen, setTypeMode, typeMode } = useModalStore()
     const { search, setSearch } = useStore()
+    const adminData = localStorage.getItem("admin")
+    const admin = adminData ? JSON.parse(adminData) : null
 
+    const renderModal = () => {
+        switch (typeMode) {
+            case "create":
+                return <AdminFormModal type={"create"} />
+            case "edit":
+                return <AdminFormModal type={"edit"} />
+            case "delete":
+                return <AdminDelete />
+            default:
+                return null
+        }
+    }
     return (<>
         <Header href="/admin" childrenHref="Admin / Admin Manager"
             children={
                 <>
+                {admin.role == "superAdmin" && (
                     <Button
                         type="button"
                         variant="create"
                         size="sm"
                         className="mr-4"
-                        onClick={() => setOpen(true)}
+
+                        onClick={() => {
+                            setTypeMode("create");
+                            setOpen(true);
+                        }}
                     >
                         Create
                     </Button>
-
-                    <PopupCE open={open} onOpenChange={setOpen}>
-                        <AdminCreatePopup
-                            open={open}
-                            setOpen={setOpen}
-                        />
-                    </PopupCE>
+                )}
                 </>
             }
             searchValue={search} onSearchChange={setSearch}
         />
-        <PopupCE open={openEdit} onOpenChange={setOpenEdit}>
-            {selectedAdmin && (
-                <AdminEditPopup
-                    open={openEdit}
-                    setOpen={setOpenEdit}
-                    admin={selectedAdmin}
-                />
-            )}
-        </PopupCE>
-        <PopupConfirm open={confirm} onOpenChange={setConfirm}>
-            {selectedAdmin && (
-                <AdminDelete
-                    open={confirm}
-                    setOpen={setConfirm}
-                    admin={selectedAdmin}
-                />
-            )}
-        </PopupConfirm>
+        {renderModal()}
     </>)
 }

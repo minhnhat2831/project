@@ -1,7 +1,7 @@
 export interface HelpDocumentCreateRequest {
     title: string,
     content: string,
-    status: "active" | "inactive"
+    status: "active" | "inactive" | string
 }
 
 export interface HelpDocumentCreateResponse {
@@ -10,7 +10,7 @@ export interface HelpDocumentCreateResponse {
         id: string,
         title: string,
         content: string,
-        status: "active" | "inactive",
+        status: "active" | "inactive" | string,
         createdAt: string,
         updatedAt: string | null,
         deletedAt: string | null

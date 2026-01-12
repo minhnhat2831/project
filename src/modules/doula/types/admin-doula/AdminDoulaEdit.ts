@@ -18,7 +18,7 @@ export interface GetDoulaEditRequest {
     qualifications? :  [string],
     categoryIds? : [string],
     businessName? : string,
-    status: "active" | "inactive",
+    status: "active" | "inactive" | string,
 }
 
 export interface GetDoulaEditResponse {
@@ -31,7 +31,7 @@ export interface Doula {
     title?: string,
     description?: string,
     businessName?: string | null,
-    status: "active" | "inactive",
+    status: "active" | "inactive" | string,
     photos?: [string],
     qualifications?: [string],
     createdAt: Date,

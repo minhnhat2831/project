@@ -1,18 +1,26 @@
 import Button from "@/components/common/form/Button";
-import PopupCE from "@/components/common/base/PopupCE";
 import { useModalStore } from "@/hooks/useModalStore";
 import Header from "@/layouts/Header";
-import CategoryCreate from "./CategoryCreate";
 import { useStore } from "@/hooks/useStore";
-import { useCategoryStore } from "../store/useSelectedCategory";
-import CategoryEdit from "./CategoryEdit";
+import CategoryFormModal from "./CategoryFormModal";
 import CategoryDelete from "./CategoryDelete";
-import PopupConfirm from "@/components/common/base/PopupComfirm";
 
 export default function CategoryModal() {
-    const { open, setOpen, openEdit, setOpenEdit, confirm, setConfirm } = useModalStore()
+    const { setOpen, typeMode, setTypeMode } = useModalStore()
     const { search, setSearch } = useStore()
-    const { selectedCategory } = useCategoryStore()
+
+    const renderModal = () => {
+        switch (typeMode) {
+            case "create":
+                return <CategoryFormModal type={"create"} />
+            case "edit":
+                return <CategoryFormModal type={"edit"} />
+            case "delete":
+                return <CategoryDelete />
+            default:
+                return null
+        }
+    }
     return (<>
         <Header href="/admin/categories" childrenHref={"Categories"} children={
             <>
@@ -21,34 +29,17 @@ export default function CategoryModal() {
                     variant="create"
                     size="sm"
                     className="mr-8"
-                    onClick={() => setOpen(true)}
+                    onClick={() => {
+                        setTypeMode("create")
+                        setOpen(true)
+                    }}
                 >
                     Create
                 </Button>
-                <PopupCE open={open} onOpenChange={setOpen}>
-                    <CategoryCreate open={open} setOpen={setOpen} />
-                </PopupCE>
             </>
         }
             searchValue={search} onSearchChange={setSearch}
         />
-
-        <PopupCE open={openEdit} onOpenChange={setOpenEdit}>
-            {selectedCategory &&
-                <CategoryEdit
-                    open={openEdit}
-                    setOpen={setOpenEdit}
-                    category={selectedCategory} />
-            }
-        </PopupCE>
-
-        <PopupConfirm open={confirm} onOpenChange={setConfirm}>
-            {selectedCategory &&
-                <CategoryDelete
-                    open={confirm}
-                    setOpen={setConfirm}
-                    category={selectedCategory} />
-            }
-        </PopupConfirm>
+        {renderModal()}
     </>)
 }

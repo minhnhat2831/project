@@ -64,7 +64,7 @@ export const columns: ColumnDef<Voucher>[] = [
         cell: ({ row }) => {
           const voucher = row.original
           const nav = useNavigate()
-          const { setConfirm} = useModalStore()
+          const { setOpen, setTypeMode } = useModalStore()
           const { setSelectedVoucher } = useVoucherStore()
     
           const handleView = () => {
@@ -73,7 +73,8 @@ export const columns: ColumnDef<Voucher>[] = [
     
           const handleDelete = () => {
               setSelectedVoucher(voucher)
-              setConfirm(true)
+              setTypeMode("edit")
+              setOpen(true)
           }
           
           return (

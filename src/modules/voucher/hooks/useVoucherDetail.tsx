@@ -3,7 +3,7 @@ import { VoucherById } from "../api/api"
 import { toast } from "react-toastify"
 import type { VoucherId } from "../types/VoucherId"
 
-export const useVoucherId = (id?: string) => {
+export const useVoucherDetail = (id?: string) => {
   const [data, setData] = useState<VoucherId | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
 

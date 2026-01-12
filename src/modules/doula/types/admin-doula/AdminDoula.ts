@@ -23,7 +23,7 @@ export interface GetDoulaResponse {
 export interface AdminDoula {
     id: string,
     title: string,
-    status: "active" | "inactive",
+    status: "active" | "inactive" | string,
     user: {
         fullName?: string,
         firstName?: string,

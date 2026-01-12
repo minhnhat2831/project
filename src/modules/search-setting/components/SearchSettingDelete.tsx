@@ -1,22 +1,20 @@
 import { useRefetchData } from "@/hooks/useRefetch";
-import type { SearchSetting } from "../types/SearchSetting";
 import { DeleteSetting } from "../api/api";
 import { toast } from "react-toastify";
 import { Icons } from "@/components/common/base/Icon";
 import Button from "@/components/common/form/Button";
+import { useSettingStore } from "../store/useSeletedSetting";
+import { useModalStore } from "@/hooks/useModalStore";
+import PopupConfirm from "@/components/common/base/PopupComfirm";
 
-interface props {
-    open: boolean,
-    setOpen: (open: boolean) => void,
-    keyword: SearchSetting
-}
-
-export default function SearchSettingDelete({ open, setOpen, keyword }: props) {
+export default function SearchSettingDelete() {
     const { refetch } = useRefetchData()
-
+    const { open, setOpen } = useModalStore()
+    const { selectedSearchSetting } = useSettingStore()
     const handleDelete = async () => {
         try {
-            const response = await DeleteSetting(keyword.id)
+            if (!selectedSearchSetting) return
+            const response = await DeleteSetting(selectedSearchSetting?.id)
             toast.success(response?.message)
             refetch?.()
             setOpen(false)
@@ -27,27 +25,29 @@ export default function SearchSettingDelete({ open, setOpen, keyword }: props) {
     }
 
     return (<>
-        <div className="px-8 mt-5">
-            <Icons.Error className="text-red-500" fontSize="large" />
-        </div>
-        <div className="px-8">
-            <h1 className="text-2xl font-bold">Delete Keyword?</h1>
-            <p className="leading-8">Are you sure you want to delete this items?</p>
-        </div>
-        <div className="flex px-8 h-8 mt-6">
-            <Button
-                type="button"
-                variant="cancel"
-                onClick={() => setOpen(!open)}>
-                Cancel
-            </Button>
+        <PopupConfirm open={open} onOpenChange={setOpen}>
+            <div className="px-8 mt-5">
+                <Icons.Error className="text-red-500" fontSize="large" />
+            </div>
+            <div className="px-8">
+                <h1 className="text-2xl font-bold">Delete Keyword?</h1>
+                <p className="leading-8">Are you sure you want to delete this items?</p>
+            </div>
+            <div className="flex px-8 h-8 mt-6">
+                <Button
+                    type="button"
+                    variant="cancel"
+                    onClick={() => setOpen(!open)}>
+                    Cancel
+                </Button>
 
-            <Button
-                type="button"
-                variant="delete"
-                onClick={handleDelete}>
-                Delete
-            </Button>
-        </div>
+                <Button
+                    type="button"
+                    variant="delete"
+                    onClick={handleDelete}>
+                    Delete
+                </Button>
+            </div>
+        </PopupConfirm>
     </>)
 }

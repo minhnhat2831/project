@@ -8,11 +8,11 @@ export interface GetDoulaIdResponse {
 }
 
 export interface Doula {
-    id?: string,
+    id: string,
     title?: string,
     description?: string,
     businessName?: string | null,
-    status: "active" | "inactive",
+    status: "active" | "inactive" | string,
     isTrialed: boolean,
     stripeCustomerId: string,
     photos: [{

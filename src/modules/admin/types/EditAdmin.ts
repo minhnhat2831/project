@@ -3,7 +3,7 @@ export interface EditAdminResquest {
     password?: string | null,
     firstName: string,
     lastName: string,
-    status: "active" | "inactive",
+    status: "active" | "inactive" | string,
     picture?: string | null,
     email : string
 }

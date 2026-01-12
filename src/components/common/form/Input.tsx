@@ -33,7 +33,7 @@ export default function InputField({
                 className={cn(
                 inputVariants.base,
                 inputVariants.size[inputSize],
-                inputVariants.variant[variant],
+                inputVariants.variant[error ? "error" : variant],
                 className
             )}
             {...rest}

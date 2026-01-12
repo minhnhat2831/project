@@ -1,7 +1,7 @@
 import { Icons } from "@/components/common/base/Icon";
 import Header from "@/layouts/Header";
 import { useNavigate, useParams } from "react-router";
-import { useVoucherId } from "../hooks/useVoucherId";
+import { useVoucherDetail } from "../hooks/useVoucherDetail";
 import { formatDate } from "@/components/common/base/FormatDate";
 import useDoulaVoucherData from "../hooks/useDoulaVoucherData";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
@@ -13,7 +13,7 @@ import TablePagination from "@/components/common/base/TablePagination";
 export default function VoucherViewPage() {
     const { id } = useParams<{ id: string }>()
     const nav = useNavigate()
-    const { data: voucherId } = useVoucherId(id)
+    const { data: voucherId } = useVoucherDetail(id)
     const { pageIndex, pageSize } = useStore()
     const { data, loading, metadata } = useDoulaVoucherData(id)
     const table = useReactTable({

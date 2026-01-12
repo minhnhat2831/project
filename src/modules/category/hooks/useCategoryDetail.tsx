@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { GetHelpDocumentById } from "../api/api";
 import { toast } from "react-toastify";
-import type { HelpDocumentId } from "../types/HelpDocumentById";
+import type { CategoryId } from "../types/CategoryId";
+import { GetCategoryId } from "../api/api";
 
-export default function useHelpDocumentId(id? : string) {
-    const [data, setData] = useState<HelpDocumentId | null>(null)
+export default function useCategoryDetail(id? : string) {
+    const [data, setData] = useState<CategoryId | null>(null)
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
@@ -15,7 +15,7 @@ export default function useHelpDocumentId(id? : string) {
         if(!id) return
         try{
             setLoading(true)
-            const response = await GetHelpDocumentById(id)
+            const response = await GetCategoryId(id)
             setData(response.data)
             setLoading(false)
         }catch(err : any){

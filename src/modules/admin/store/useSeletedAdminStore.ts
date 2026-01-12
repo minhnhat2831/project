@@ -3,7 +3,7 @@ import type { Admin } from "../types/Admin"
 
 interface AdminStore {
     selectedAdmin? : Admin | null,
-    setSelectedAdmin: (admin: Admin | null) => void
+    setSelectedAdmin: (admin?: Admin | null) => void
 }
 
 export const useAdminStore = create<AdminStore>((set) =>({

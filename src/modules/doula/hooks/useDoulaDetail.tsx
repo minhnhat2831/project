@@ -3,7 +3,7 @@ import { toast } from "react-toastify"
 import type { Doula } from "../types/admin-doula/AdminDoulaId"
 import { GetById } from "../api/api"
 
-export const useDouleIdFetch = (id?: string) => {
+export const useDouleDetail = (id?: string) => {
     const [data, setData] = useState<Doula | null>(null)
     const [loading, setLoading] = useState(false)
 

@@ -1,10 +1,10 @@
 import PersonIcon from '@mui/icons-material/Person';
-import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
+import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import CorporateFareIcon from '@mui/icons-material/CorporateFare';
 import AppsIcon from '@mui/icons-material/Apps';
-import ArticleIcon from '@mui/icons-material/Article';
-import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
-import SettingsIcon from '@mui/icons-material/Settings';
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
+import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -18,20 +18,22 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import StarIcon from '@mui/icons-material/Star';
 import CloseIcon from '@mui/icons-material/Close';
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
-
+import MarkunreadMailboxOutlinedIcon from '@mui/icons-material/MarkunreadMailboxOutlined';
+import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded';
 export const Icons = {
   Person: PersonIcon,
-  ChatBubble: ChatBubbleIcon,
+  ChatBubble: ChatBubbleOutlineOutlinedIcon,
   CorporateFare: CorporateFareIcon,
   Apps: AppsIcon,
-  Article: ArticleIcon,
-  ConfirmationNumber: ConfirmationNumberIcon,
-  Settings: SettingsIcon,
+  Article: ArticleOutlinedIcon,
+  ConfirmationNumber: ConfirmationNumberOutlinedIcon,
+  Settings: SettingsOutlinedIcon,
   Menu : MenuIcon,
   Pen : BorderColorIcon,
   Trash : DeleteOutlineIcon,
   Error : ErrorOutlineIcon,
   Eye : RemoveRedEyeIcon,
+  EyeOff : VisibilityOffRoundedIcon,
   NonAvatar : AccountCircleIcon,
   ExpandLess : ExpandLessIcon,
   ExpandMore : ExpandMoreIcon,
@@ -39,5 +41,6 @@ export const Icons = {
   Subscription : DescriptionIcon,
   Star : StarIcon,
   Close : CloseIcon,
-  Sort : UnfoldMoreIcon
+  Sort : UnfoldMoreIcon,
+  Box : MarkunreadMailboxOutlinedIcon
 };

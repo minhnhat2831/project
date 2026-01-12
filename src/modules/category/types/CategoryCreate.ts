@@ -2,7 +2,7 @@ export interface CreateCategoryRequest {
     title : string,
     name : string,
     image : string,
-    status : "active" | "inactive"
+    status : "active" | "inactive" | string
 }
 
 export interface CreateCategoryResponse {

@@ -7,15 +7,19 @@ import { toast, ToastContainer } from "react-toastify";
 import Button from "@/components/common/form/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema, type LoginForm } from "../util/UserSchema"
+import PasswordInput from "@/components/common/form/PasswordInput";
+import { usePasswordStore } from "@/hooks/usePasswordToggle";
+
 export default function LoginPage() {
     const navigate = useNavigate();
+    const { openPassword } = usePasswordStore()
     const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>({
-        resolver : zodResolver(LoginSchema) as any
+        resolver: zodResolver(LoginSchema)
     })
 
     const onSubmit = async (data: LoginForm) => {
         try {
-            const submitData = { ...(data as any)};
+            const submitData = { ...(data) };
             const res = await LoginAdmin(submitData);
 
             const { accessToken, refreshToken } = res.data.tokens;
@@ -32,12 +36,12 @@ export default function LoginPage() {
             const admin = adminData ? JSON.parse(adminData) : null
 
             //Chuyển hướng nếu khác role superAdmin
-            if(admin.role == "superAdmin"){
+            if (admin.role == "superAdmin") {
                 navigate(`${API.BASE_URL}/admin`);
-            }else{
+            } else {
                 navigate(`${API.BASE_URL}/admin/doulas`);
             }
-                
+
         } catch (error: any) {
             toast.error(error.response?.data?.message);
         }
@@ -63,15 +67,14 @@ export default function LoginPage() {
                         />
                     </div>
                     <div>
-                        <InputField
-                            type="password"
-                            inputSize="lg"
-                            placeholder="Password"
-                            className="mb-2"
+                        <PasswordInput
                             label="Password"
-                            {...register('password')}
-                            error={errors.password?.message}
-                        />
+                            type="password"
+                            showPassword={openPassword}
+                            placeholder="Password"
+                            {...register("password")}
+                            error={errors.password?.message}>
+                        </PasswordInput>
                     </div>
                     <div className="px-4">
                         <Button

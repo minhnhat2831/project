@@ -65,17 +65,19 @@ export const columns: ColumnDef<Pd>[] = [
         header: "Action",
         cell: ({ row }) => {
             const pdsession = row.original
-            const { setOpenEdit, setConfirm } = useModalStore()
+            const { setOpen, setTypeMode } = useModalStore()
             const { setSelectedPd } = usedPdStore()
 
             const handleEdit = () => {
                 setSelectedPd(pdsession)
-                setOpenEdit(true)
+                setTypeMode("edit")
+                setOpen(true)
             }
 
             const handleDelete = () => {
                 setSelectedPd(pdsession)
-                setConfirm(true)
+                setTypeMode("delete")
+                setOpen(true)
             }
 
             return (

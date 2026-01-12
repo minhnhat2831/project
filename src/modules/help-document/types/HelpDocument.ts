@@ -9,7 +9,7 @@ export interface HelpDocumentParams {
 export interface HelpDocumentRequest {
     title : string,
     content : string,
-    status : "active" | "inactive"
+    status : "active" | "inactive" | string
 }
 
 export interface HelpDocumentResponse {
@@ -28,7 +28,7 @@ export interface HelpDocument {
     id : string,
     title : string,
     content : string,
-    status : "active" | "inactive",
+    status : "active" | "inactive" | string,
     createdAt : string,
     updatedAt : string | null
 }

@@ -1,18 +1,26 @@
 import { useModalStore } from "@/hooks/useModalStore"
 import { useStore } from "@/hooks/useStore"
-import { useDocumentStore } from "../store/useSeletedDocument"
 import Header from "@/layouts/Header"
 import Button from "@/components/common/form/Button"
-import PopupCE from "@/components/common/base/PopupCE"
-import HelpDocumentCreate from "./HelpDocumentCreate"
-import HelpDocumentEdit from "./HelpDocumentEdit"
-import PopupConfirm from "@/components/common/base/PopupComfirm"
+import HelpDocumentFormModal from "./HelpDocumentFormModal"
 import HelpDocumentDelete from "./HelpDocumentDelete"
 
 export default function HelpDocumentModal() {
-    const { open, setOpen, openEdit, setOpenEdit, confirm, setConfirm } = useModalStore()
+    const { setOpen, typeMode, setTypeMode } = useModalStore()
     const { search, setSearch } = useStore()
-    const { selectedDocument } = useDocumentStore()
+    
+    const renderModal = () => {
+        switch(typeMode){
+            case "create":
+                return <HelpDocumentFormModal type={"create"} />
+            case "edit":
+                return <HelpDocumentFormModal type={"edit"} />
+            case "delete":
+                return <HelpDocumentDelete />
+            default:
+                return null
+        }
+    }
 
     return (
         <>
@@ -23,35 +31,15 @@ export default function HelpDocumentModal() {
                         variant="create"
                         size="sm"
                         className="mr-8"
-                        onClick={() => setOpen(true)}
+                        onClick={() => {
+                            setTypeMode("create")
+                            setOpen(true)}}
                     >
                         Create
                     </Button>
-                    <PopupCE open={open} onOpenChange={setOpen}>
-                        <HelpDocumentCreate
-                            open={open}
-                            setOpen={setOpen} />
-                    </PopupCE>
                 </>}
                 searchValue={search} onSearchChange={setSearch}
             />
-
-            <PopupCE open={openEdit} onOpenChange={setOpenEdit}>
-                {selectedDocument &&
-                    <HelpDocumentEdit
-                        open={openEdit}
-                        setOpen={setOpenEdit}
-                        document={selectedDocument} />
-                }
-            </PopupCE>
-
-            <PopupConfirm open={confirm} onOpenChange={setConfirm}>
-                {selectedDocument &&
-                    <HelpDocumentDelete
-                        open={confirm}
-                        setOpen={setConfirm}
-                        document={selectedDocument} />}
-
-            </PopupConfirm>
+            {renderModal()}
         </>)
 }
