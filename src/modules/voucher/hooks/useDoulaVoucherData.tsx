@@ -3,16 +3,17 @@ import { GetDoulaVoucher } from "../api/api";
 import { useStore } from "@/hooks/useStore";
 import { toast } from "react-toastify";
 import type { DoulaVoucher, DoulaVoucherResponse } from "../types/DoulaVoucher";
+import { useDebounce } from "use-debounce";
 
 export default function useDoulaVoucherData(id?: string) {
     const [data, setData] = useState<DoulaVoucher[]>([])
     const [loading, setLoading] = useState(false)
     const [metadata, setMetadata] = useState<DoulaVoucherResponse["metadata"] | null>(null)
     const { pageIndex, pageSize, search } = useStore()
-
+    const[debouncedSearch] = useDebounce(search, 1000)
     useEffect(() => {
         fetchData()
-    }, [pageIndex, pageSize, search, id])
+    }, [pageIndex, pageSize, debouncedSearch, id])
 
     const fetchData = async () => {
         if (!id) return true
@@ -21,6 +22,7 @@ export default function useDoulaVoucherData(id?: string) {
             const response = await GetDoulaVoucher({
                 page: pageIndex + 1,
                 limit: pageSize,
+                search : debouncedSearch,
                 f_voucherId: id,
             })
             setData(response.data)

@@ -10,12 +10,13 @@ import { useEffect } from "react"
 
 export default function ArticlePage() {
     const { data, loading, metadata, refetch } = useArticleData()
-    const { pageIndex, pageSize, setPagination } = useStore()
+    const { pageIndex, pageSize, setPagination, resetData } = useStore()
     const { setRefetch } = useRefetchData()
 
-    useEffect(() =>{
+    useEffect(() => {
+        resetData?.()
         setRefetch(refetch)
-    },[setRefetch])
+    }, [resetData])
 
     const table = useReactTable({
         data,
@@ -31,10 +32,10 @@ export default function ArticlePage() {
     return (
         <>
             <Container>
-                <TableData 
+                <TableData
                     loading={loading}
                     table={table}
-                    pagination={<TablePagination table={table} totalCount={metadata?.totalCount}/>}
+                    pagination={<TablePagination table={table} totalCount={metadata?.totalCount} />}
                 ></TableData>
             </Container>
         </>

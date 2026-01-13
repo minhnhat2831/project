@@ -9,13 +9,14 @@ import { useRefetchData } from "@/hooks/useRefetch"
 import { useEffect } from "react"
 
 export default function AdminPage() {
-    const { pageIndex, pageSize, setPagination } = useStore()
+    const { pageIndex, pageSize, setPagination, resetData } = useStore()
     const { data, loading, metadata, refetch } = useAdminData()
     const { setRefetch } = useRefetchData()
 
     useEffect(() => {
+        resetData?.()
         setRefetch(refetch)
-    },[setRefetch])
+    }, [resetData])
 
     const table = useReactTable({
         data,

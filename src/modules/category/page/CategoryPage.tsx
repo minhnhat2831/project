@@ -9,11 +9,12 @@ import TableData from "@/components/common/base/TableData";
 import TablePagination from "@/components/common/base/TablePagination";
 
 export default function CategoryPage() {
-    const { pageIndex, pageSize, setPagination } = useStore();
+    const { pageIndex, pageSize, setPagination, resetData } = useStore();
     const { data, loading, metadata, refetch } = useCategoryData()
     const { setRefetch } = useRefetchData()
 
     useEffect(() => {
+        resetData?.()
         setRefetch(refetch)
     },[setRefetch])
 
