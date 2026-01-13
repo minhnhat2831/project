@@ -11,9 +11,10 @@ import { useVoucherData } from "../hooks/useVoucherData";
 export default function VoucherPage() {
     const { data, loading, metadata, refetch } = useVoucherData()
     const { setRefetch } = useRefetchData()
-    const { pageIndex, pageSize, setPagination } = useStore()
+    const { pageIndex, pageSize, setPagination, resetData } = useStore()
 
     useEffect(() => {
+        resetData?.()
         setRefetch(refetch)
     },[setRefetch])
     

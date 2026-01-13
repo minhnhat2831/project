@@ -3,16 +3,17 @@ import { toast } from "react-toastify"
 import { useStore } from "@/hooks/useStore"
 import type { HelpDocument, HelpDocumentResponse } from "../types/HelpDocument"
 import { GetAllHelpDocument } from "../api/api"
+import { useDebounce } from "use-debounce"
 
 export const useHelpDocumentData = () => {
     const [data, setData] = useState<HelpDocument[]>([])
     const [loading, setLoading] = useState(false)
     const [metadata, setMetadata] = useState<HelpDocumentResponse["metadata"] | null>(null)
     const { pageIndex, pageSize, search, sort } = useStore()
-    
+    const[debouncedSearch] = useDebounce(search, 1000)
     useEffect(() => {
         fetchData()
-    }, [pageIndex, pageSize, search, sort])
+    }, [pageIndex, pageSize, debouncedSearch, sort])
 
     const fetchData = async () => {
         try {
@@ -20,7 +21,7 @@ export const useHelpDocumentData = () => {
             const res = await GetAllHelpDocument({
                 page : pageIndex + 1,
                 limit : pageSize,
-                search,
+                search : debouncedSearch,
                 sort
             })
             setData(res.data)

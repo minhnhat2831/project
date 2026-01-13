@@ -10,11 +10,12 @@ import { useRefetchData } from "@/hooks/useRefetch";
 import { useEffect } from "react";
 
 export default function ClientPage() {
-    const { search, setSearch, pageIndex, pageSize, setPagination } = useStore()
+    const { search, setSearch, pageIndex, pageSize, setPagination, resetData } = useStore()
     const { data, loading, metadata, refetch } = useClientFetch()
     const { setRefetch } = useRefetchData()
 
     useEffect(() => {
+        resetData?.()
         setRefetch(refetch)
     },[setRefetch])
     

@@ -3,24 +3,27 @@ import type { Article, ArticleResponse } from "../types/article/Article"
 import { useStore } from "@/hooks/useStore"
 import { GetAll } from "../api/api"
 import { toast } from "react-toastify"
+import { useDebounce } from "use-debounce"
 
 export const useArticleData = () => {
     const [data, setData] = useState<Article[]>([])
     const [loading, setLoading] = useState(false)
     const [metadata, setMetadata] = useState<ArticleResponse["metadata"] | null>(null)
     const { pageIndex, pageSize, search, sort } = useStore()
+    const [debouncedSearch] = useDebounce(search, 500)
     const f_type = "article"
     useEffect(() => {
         fetchData()
-    },[pageIndex, pageSize, search, sort])
+    },[pageIndex, pageSize, debouncedSearch, sort ])
 
     const fetchData = async () => {
         try{
+            if (loading) return 
             setLoading(true)
             const response = await GetAll({
                 page : pageIndex + 1,
                 limit : pageSize,
-                search,
+                search : debouncedSearch,
                 sort,
                 f_type
             })

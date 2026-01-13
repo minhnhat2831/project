@@ -10,10 +10,11 @@ import { usePdData } from "../hooks/usePdData"
 
 export default function PdSessionPage() {
     const { data, loading, metadata, refetch } = usePdData()
-    const { pageIndex, pageSize, setPagination } = useStore()
+    const { pageIndex, pageSize, setPagination, resetData } = useStore()
     const { setRefetch } = useRefetchData()
 
     useEffect(() => {
+        resetData?.()
         setRefetch(refetch)
     }, [setRefetch])
 

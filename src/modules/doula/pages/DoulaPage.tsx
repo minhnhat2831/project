@@ -10,11 +10,12 @@ import { useRefetchData } from "@/hooks/useRefetch";
 import Header from "@/layouts/Header";
 
 export default function DoulaPage() {
-    const { pageIndex, pageSize, setPagination, search, setSearch } = useStore()
+    const { pageIndex, pageSize, setPagination, search, setSearch, resetData } = useStore()
     const { data, loading, metadata, refetch } = useDouleFetch()
     const { setRefetch } = useRefetchData()
 
     useEffect(() => {
+        resetData?.()
         setRefetch(refetch)
     },[setRefetch])
     

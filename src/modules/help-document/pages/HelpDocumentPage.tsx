@@ -8,11 +8,12 @@ import TablePagination from "@/components/common/base/TablePagination";
 import { useRefetchData } from "@/hooks/useRefetch";
 import { useEffect } from "react";
 export default function HelpDocumentPage() {
-    const { pageIndex, pageSize, setPagination } = useStore()
+    const { pageIndex, pageSize, setPagination, resetData } = useStore()
     const { data, loading, metadata, refetch } = useHelpDocumentData()
     const { setRefetch } = useRefetchData()
     
     useEffect(() => {
+        resetData?.()
         setRefetch(refetch)
     },[setRefetch])
 
