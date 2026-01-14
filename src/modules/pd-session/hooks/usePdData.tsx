@@ -2,13 +2,14 @@ import { useEffect, useState } from "react"
 import { useStore } from "@/hooks/useStore"
 import { GetAll } from "../api/api"
 import { toast } from "react-toastify"
-import type { Pd, PdResponse } from "../types/Pd"
+
 import { useDebounce } from "use-debounce"
+import type { Pd, PdBaseForm } from "../schema/PdSchema"
 
 export const usePdData = () => {
     const [data, setData] = useState<Pd[]>([])
     const [loading, setLoading] = useState(false)
-    const [metadata, setMetadata] = useState<PdResponse["metadata"] | null>(null)
+    const [metadata, setMetadata] = useState<PdBaseForm["metadata"] | null>(null)
     const { pageIndex, pageSize, search, sort } = useStore()
     const[debouncedSearch] = useDebounce(search, 1000)
     const f_type = "pd"

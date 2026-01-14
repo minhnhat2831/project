@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { toast } from "react-toastify"
-import type { Doula } from "../types/admin-doula/AdminDoulaId"
 import { GetById } from "../api/api"
+import type { Doula } from "../schema/DoulaSchema"
 
 export const useDouleDetail = (id?: string) => {
     const [data, setData] = useState<Doula | null>(null)

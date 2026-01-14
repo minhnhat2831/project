@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import type { Pd } from "../types/Pd"
+import type { Pd } from "../schema/PdSchema"
 
 interface SelectedPdSession{
     selectedPd: Pd | null,

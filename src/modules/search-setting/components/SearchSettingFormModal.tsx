@@ -1,7 +1,6 @@
 import PopupCE from "@/components/common/base/PopupCE"
 import { useModalStore } from "@/hooks/useModalStore"
 import { useSettingStore } from "../store/useSeletedSetting"
-import { SearchSettingScheme, type SearchSettingForm } from "../util/SearchSettingSchema"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRefetchData } from "@/hooks/useRefetch"
@@ -11,6 +10,7 @@ import Button from "@/components/common/form/Button"
 import { Icons } from "@/components/common/base/Icon"
 import InputField from "@/components/common/form/Input"
 import { useEffect } from "react"
+import { SearchSettingRequestScheme, type SearchSettingRequest } from "../schema/SearchSettingSchema"
 
 interface props {
     type: "create" | "edit"
@@ -20,8 +20,8 @@ export default function SearchSettingFormModal({ type }: props) {
     const { open, setOpen, typeMode } = useModalStore()
     const { selectedSearchSetting } = useSettingStore()
     const isEdit = typeMode === "edit"
-    const { register, handleSubmit, setError, reset, formState: { errors } } = useForm<SearchSettingForm>({
-        resolver: zodResolver(SearchSettingScheme),
+    const { register, handleSubmit, setError, reset, formState: { errors } } = useForm<SearchSettingRequest>({
+        resolver: zodResolver(SearchSettingRequestScheme),
         defaultValues: isEdit ? {
             keyword: selectedSearchSetting?.keyword,
         } : {
@@ -42,7 +42,7 @@ export default function SearchSettingFormModal({ type }: props) {
         }
     }, [reset, type, selectedSearchSetting])
     const { refetch } = useRefetchData()
-    const onSubmit = async (data: SearchSettingForm) => {
+    const onSubmit = async (data: SearchSettingRequest) => {
         try {
             if (isEdit) {
                 if (!selectedSearchSetting) return

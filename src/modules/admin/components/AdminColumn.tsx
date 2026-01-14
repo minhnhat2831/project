@@ -1,9 +1,10 @@
 import type { ColumnDef } from "@tanstack/react-table"
-import type { Admin } from "../types/Admin"
+
 import { Icons } from "@/components/common/base/Icon"
 import { useModalStore } from "@/hooks/useModalStore"
 import { useAdminStore } from "../store/useSeletedAdminStore"
 import { SortHeader } from "@/components/common/base/SortHeader"
+import type { Admin } from "../schema/AdminUserSchema"
 
 export const columns: ColumnDef<Admin>[] = [
   {

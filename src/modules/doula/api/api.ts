@@ -1,19 +1,15 @@
-import type { GetDoulaParams, GetDoulaResponse } from "../types/admin-doula/AdminDoula";
 import axiosInstance from "@/services/axios";
 import { API_ENDPOINTS } from "@/services/api";
-import type { GetDoulaIdResponse } from "../types/admin-doula/AdminDoulaId";
-import type { GetDoulaEditRequest, GetDoulaEditResponse } from "../types/admin-doula/AdminDoulaEdit";
-import type { DeleteAdminsResponse } from "../../admin/types/DeleteAdmin";
-import type { GetTransactions, TransactionParams } from "../types/transactions/Transactions";
-import type { GetDoulaSubscriptionsId } from "../types/doula_subscription/DoulaSubscription";
-import type { DoulaPackageParams, DoulaPackageResponse } from "../types/doula-package/DoulaPackage";
-import type { DoulaReviewParams, DoulaReviewResponse } from "../types/doula-review/DoulaReview";
-import type { DoulaPackageIdResponse } from "../types/doula-package/DoulaPackageId";
+import type { DeleteDoulaResponse, DoulaBaseForm, DoulaDetailResponse, DoulaResponse, DoulaRequest, GetDoulaParams } from "../schema/DoulaSchema";
+import type { GetTransactionParams, TransactionBaseForm } from "../schema/TransactionSchema";
+import type { DoulaSubcriptionBaseForm } from "../schema/DoulaSubcriptionSchema";
+import type { DoulaPackageBaseForm, DoulaPackageDetailResponse, DoulaPackageParams } from "../schema/DoulaPackageSchema";
+import type { DoulaReviewBaseForm, GetDoulaReviewParams } from "../schema/DoulaReviewSchema";
 
 export const GetAllDoula = async (
     params: GetDoulaParams
-): Promise<GetDoulaResponse> => {
-    const respond = await axiosInstance.get<GetDoulaResponse>(
+): Promise<DoulaBaseForm> => {
+    const respond = await axiosInstance.get<DoulaBaseForm>(
         API_ENDPOINTS.API_ADMIN_DOULA,
         {
             params
@@ -24,8 +20,8 @@ export const GetAllDoula = async (
 
 export const GetById = async (
     id: string
-): Promise<GetDoulaIdResponse> => {
-    const respond = await axiosInstance.get<GetDoulaIdResponse>(
+): Promise<DoulaResponse> => {
+    const respond = await axiosInstance.get<DoulaResponse>(
         API_ENDPOINTS.API_ADMIN_DOULA_ID(id)
     )
     return respond.data
@@ -33,9 +29,9 @@ export const GetById = async (
 
 export const UpdateDoula = async (
     id: string,
-    data: GetDoulaEditRequest
-): Promise<GetDoulaEditResponse> => {
-    const respond = await axiosInstance.put<GetDoulaEditResponse>(
+    data: DoulaRequest
+): Promise<DoulaResponse> => {
+    const respond = await axiosInstance.put<DoulaResponse>(
         API_ENDPOINTS.API_ADMIN_DOULA_ID(id),
         data 
     )
@@ -44,17 +40,17 @@ export const UpdateDoula = async (
 
 export const DoulaRemove = async (
     id: string
-): Promise<DeleteAdminsResponse> => {
-    const respond = await axiosInstance.delete<DeleteAdminsResponse>(
+): Promise<DeleteDoulaResponse> => {
+    const respond = await axiosInstance.delete<DeleteDoulaResponse>(
         API_ENDPOINTS.API_ADMIN_DOULA_ID(id)
     )
     return respond.data
 }
 
 export const GetTransaction = async (
-    params: TransactionParams
-): Promise<GetTransactions> => {
-    const response = await axiosInstance.get<GetTransactions>(
+    params: GetTransactionParams
+): Promise<TransactionBaseForm> => {
+    const response = await axiosInstance.get<TransactionBaseForm>(
         API_ENDPOINTS.API_TRANSACTIONS,
         {
             params
@@ -65,8 +61,8 @@ export const GetTransaction = async (
 
 export const GetDoulaSubscription = async (
     id: string
-): Promise<GetDoulaSubscriptionsId> => {
-    const response = await axiosInstance.get<GetDoulaSubscriptionsId>(
+): Promise<DoulaSubcriptionBaseForm> => {
+    const response = await axiosInstance.get<DoulaSubcriptionBaseForm>(
         API_ENDPOINTS.API_DOULA_SUBSCRIPTIONS_ID(id)
     )
     return response.data
@@ -74,8 +70,8 @@ export const GetDoulaSubscription = async (
 
 export const GetDoulaInfo = async (
     id: string
-): Promise<GetDoulaIdResponse> => {
-    const response = await axiosInstance.get<GetDoulaIdResponse>(
+): Promise<DoulaDetailResponse> => {
+    const response = await axiosInstance.get<DoulaDetailResponse>(
         API_ENDPOINTS.API_DOULA_ID(id)
     )
     return response.data
@@ -83,8 +79,8 @@ export const GetDoulaInfo = async (
 
 export const GetDoulaPackage = async (
     params : DoulaPackageParams
-):Promise<DoulaPackageResponse> => {
-    const response = await axiosInstance.get<DoulaPackageResponse>(
+):Promise<DoulaPackageBaseForm> => {
+    const response = await axiosInstance.get<DoulaPackageBaseForm>(
         API_ENDPOINTS.API_DOULA_PACKAGE,
         {
             params
@@ -95,7 +91,7 @@ export const GetDoulaPackage = async (
 
 export const GetDoulaPackageId = async (
     id : string
-):Promise<DoulaPackageIdResponse> => {
+):Promise<DoulaPackageDetailResponse> => {
     const response = await axiosInstance.get(
         API_ENDPOINTS.API_DOULA_PACKAGE_ID(id)
     )
@@ -103,9 +99,9 @@ export const GetDoulaPackageId = async (
 }
 
 export const GetDoulaReview = async (
-    params : DoulaReviewParams
-):Promise<DoulaReviewResponse> => {
-    const response = await axiosInstance.get<DoulaReviewResponse>(
+    params : GetDoulaReviewParams
+):Promise<DoulaReviewBaseForm> => {
+    const response = await axiosInstance.get<DoulaReviewBaseForm>(
         API_ENDPOINTS.API_DOULA_REVIEW,
         {
             params

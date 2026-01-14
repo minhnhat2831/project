@@ -1,8 +1,8 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import type { DoulaVoucher } from "../types/DoulaVoucher";
 import { formatDate } from "@/components/common/base/FormatDate";
+import type { VoucherDoula } from "../schema/VoucherSchema";
 
-export const columns:ColumnDef<DoulaVoucher>[] = [
+export const columns:ColumnDef<VoucherDoula>[] = [
     {
         accessorFn: (row) => row.doulaUser?.fullName ?? null,
         header : "Take by"

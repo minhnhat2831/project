@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
-import type { DoulaPackageId } from "../types/doula-package/DoulaPackageId"
 import { GetDoulaPackageId } from "../api/api"
+import type { DoulaPackageDetail } from "../schema/DoulaPackageSchema"
 
 export const usePackageFetch = (id?: string) => {
-  const [data, setData] = useState<DoulaPackageId | null>(null)
+  const [data, setData] = useState<DoulaPackageDetail | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {  

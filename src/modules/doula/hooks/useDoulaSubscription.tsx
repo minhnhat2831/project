@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
-import type { DoulaSubscriptions } from "../types/doula_subscription/DoulaSubscription"
 import { GetDoulaSubscription } from "../api/api"
 import { toast } from "react-toastify"
+import type { DoulaSubcription } from "../schema/DoulaSubcriptionSchema"
 
 export const useDoulaSubscription = (id?: string) => {
-  const [data, setData] = useState<DoulaSubscriptions | null>(null)
+  const [data, setData] = useState<DoulaSubcription | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {

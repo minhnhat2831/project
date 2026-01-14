@@ -1,10 +1,10 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import type { Category } from "../types/Category";
 import { formatDate } from "@/components/common/base/FormatDate";
 import { Icons } from "@/components/common/base/Icon";
 import { useModalStore } from "@/hooks/useModalStore";
 import { useCategoryStore } from "../store/useSelectedCategory";
 import { SortHeader } from "@/components/common/base/SortHeader";
+import type { Category } from "../schema/CategorySchema";
 
 export const columns: ColumnDef<Category>[] = [
     {

@@ -1,6 +1,5 @@
 import { create } from "zustand"
-import type { Voucher } from "../types/Voucher"
-
+import type { Voucher } from "../schema/VoucherSchema"
 
 interface VoucherStore {
     selectedVoucher? : Voucher | null,

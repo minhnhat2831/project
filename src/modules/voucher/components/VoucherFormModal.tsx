@@ -5,12 +5,12 @@ import InputField from "@/components/common/form/Input"
 import SelectForm from "@/components/common/form/Select"
 import { useModalStore } from "@/hooks/useModalStore"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { VoucherScheme, type VoucherForm } from "../util/VoucherSchema"
 import { useForm } from "react-hook-form"
 import { useRefetchData } from "@/hooks/useRefetch"
 import { toast } from "react-toastify"
 import { CreateVoucher } from "../api/api"
 import { useEffect } from "react"
+import { VoucherRequestScheme, type VoucherRequest } from "../schema/VoucherSchema"
 
 interface props {
     type: "create" | "edit"
@@ -18,8 +18,8 @@ interface props {
 
 export default function VoucherFormModal({ type }: props) {
     const { open, setOpen } = useModalStore()
-    const { register, handleSubmit, reset, setError, formState: { errors } } = useForm<VoucherForm>({
-        resolver: zodResolver(VoucherScheme)
+    const { register, handleSubmit, reset, setError, formState: { errors } } = useForm<VoucherRequest>({
+        resolver: zodResolver(VoucherRequestScheme)
     })
 
     useEffect(() => {
@@ -32,16 +32,16 @@ export default function VoucherFormModal({ type }: props) {
                 startDate : "",
                 maxDiscountAmount : 0,
                 minPayAmount : 0,
-                quantityUse : 0
+                quantityUse : 0,
+                status : "active",
             })
         }
     },[reset, type])
     const { refetch } = useRefetchData()
 
-    const onSubmit = async (data: VoucherForm) => {
+    const onSubmit = async (data: VoucherRequest) => {
         try {
-            const voucherData = { ...(data), status: "active" }
-            const response = await CreateVoucher(voucherData)
+            const response = await CreateVoucher(data)
             toast.success(response?.message)
             reset()
             refetch?.()

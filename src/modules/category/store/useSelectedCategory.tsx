@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import type { Category } from "../types/Category"
+import type { Category } from "../schema/CategorySchema"
 
 interface SelectedCategory{
     selectedCategory: Category | null,

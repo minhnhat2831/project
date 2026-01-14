@@ -1,6 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import type { Transaction } from "../../types/transactions/Transactions";
 import { formatDate } from "@/components/common/base/FormatDate";
+import type { Transaction } from "../../schema/TransactionSchema";
 
 export const columns: ColumnDef<Transaction>[] = [
     {

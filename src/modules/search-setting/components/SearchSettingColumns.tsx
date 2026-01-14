@@ -1,9 +1,9 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import type { SearchSetting } from "../types/SearchSetting";
 import { useSettingStore } from "../store/useSeletedSetting";
 import { useModalStore } from "@/hooks/useModalStore";
 import { Icons } from "@/components/common/base/Icon";
 import { formatDate } from "@/components/common/base/FormatDate";
+import type { SearchSetting } from "../schema/SearchSettingSchema";
 
 export const columns: ColumnDef<SearchSetting>[] = [
     {

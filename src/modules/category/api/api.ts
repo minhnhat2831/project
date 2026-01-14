@@ -1,16 +1,18 @@
 import axiosInstance from "@/services/axios";
-import type { GetCategoryList, GetCategoryParams } from "../types/Category";
 import { API_ENDPOINTS } from "@/services/api";
-import type { GetCategoryById } from "../types/CategoryId";
-import type { CreateCategoryRequest } from "../types/CategoryCreate";
-import type { CreateAdminsResponse } from "@/modules/admin/types/CreateAdmin";
-import type { EditCategoryRequest, EditCategoryResponse } from "../types/CategoryEdit";
-import type { DeleteCategoryRequest, DeleteCategoryResponse } from "../types/CategoryDelete";
+import type { 
+    CategoryBaseForm, 
+    CategoryDelete, 
+    CategoryDeleteResponse, 
+    CategoryRequest, 
+    CategoryResponse, 
+    GetCategoryParams 
+} from "../schema/CategorySchema";
 
 export const GetAllCategory = async (
     params : GetCategoryParams
-): Promise<GetCategoryList> => {
-    const response = await axiosInstance.get<GetCategoryList>(
+): Promise<CategoryBaseForm> => {
+    const response = await axiosInstance.get<CategoryBaseForm>(
         API_ENDPOINTS.API_CATEGOIES,
         {
             params
@@ -21,17 +23,17 @@ export const GetAllCategory = async (
 
 export const GetCategoryId = async (
     id : string
-):Promise<GetCategoryById> => {
-    const response = await axiosInstance.get<GetCategoryById>(
+):Promise<CategoryResponse> => {
+    const response = await axiosInstance.get<CategoryResponse>(
         API_ENDPOINTS.API_CATEGOIES_ID(id)
     )
     return response.data
 }
 
 export const CreateCategory = async (
-    data : CreateCategoryRequest
-):Promise<CreateAdminsResponse> => {
-    const response = await axiosInstance.post<CreateAdminsResponse>(
+    data : CategoryRequest
+):Promise<CategoryResponse> => {
+    const response = await axiosInstance.post<CategoryResponse>(
         API_ENDPOINTS.API_CATEGOIES,
         data
     )
@@ -40,9 +42,9 @@ export const CreateCategory = async (
 
 export const EditCategory = async (
     id : string,
-    data : EditCategoryRequest
-):Promise<EditCategoryResponse> => {
-    const response = await axiosInstance.put<EditCategoryResponse>(
+    data : CategoryRequest
+):Promise<CategoryResponse> => {
+    const response = await axiosInstance.put<CategoryResponse>(
         API_ENDPOINTS.API_CATEGOIES_ID(id),
         data
     )
@@ -50,9 +52,9 @@ export const EditCategory = async (
 }
 
 export const DeleteCategory = async (
-    data : DeleteCategoryRequest
-):Promise<DeleteCategoryResponse> => {
-    const response = await axiosInstance.delete<DeleteCategoryResponse>(
+    data : CategoryDelete
+):Promise<CategoryDeleteResponse> => {
+    const response = await axiosInstance.delete<CategoryDeleteResponse>(
         API_ENDPOINTS.API_CATEGOIES,
         {data}
     )

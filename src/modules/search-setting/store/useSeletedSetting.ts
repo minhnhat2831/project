@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import type { SearchSetting } from "../types/SearchSetting"
+import type { SearchSetting } from "../schema/SearchSettingSchema"
 
 interface SearchSettingStore {
     selectedSearchSetting : SearchSetting | null,

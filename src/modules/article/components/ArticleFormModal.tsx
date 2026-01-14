@@ -9,28 +9,29 @@ import { toast } from "react-toastify"
 import { useArticleStore } from "../store/useSeletedArticle"
 import useArticleDetail from "../hooks/useArticleDetail"
 import { useForm } from "react-hook-form"
-import { ArticleScheme, type ArticleForm } from "../util/ArticleScheme"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useModalStore } from "@/hooks/useModalStore"
 import { CreateArticle, EditArticle } from "../api/api"
 import SelectForm from "@/components/common/form/Select"
 import PopupCE from "@/components/common/base/PopupCE"
 import { useEffect } from "react"
+import { ArticleRequestScheme, type ArticleRequest } from "../schema/ArticleScheme"
+import { useStore } from "@/hooks/useStore"
 
 interface props {
     type: "create" | "edit"
 }
 
 export default function ArticleFormModal({ type }: props) {
-    //const method  = useArticleForm();
+    const { resetData } = useStore()
     const { open, setOpen, typeMode } = useModalStore()
     const isEdit = typeMode === "edit"
     const { selectedArticle } = useArticleStore()
     const { data: articleDetail } = useArticleDetail(isEdit ? selectedArticle?.id : "")
     const { register, handleSubmit, control, reset, setError, formState: { errors } } =
-        useForm<ArticleForm>({
+        useForm<ArticleRequest>({
             resolver: zodResolver(
-                type === "create" ? ArticleScheme : ArticleScheme
+                type === "create" ? ArticleRequestScheme : ArticleRequestScheme
             ),
             defaultValues: isEdit
                 ? {
@@ -81,7 +82,7 @@ export default function ArticleFormModal({ type }: props) {
     }, [articleDetail, type, reset]);
 
 
-    const onSubmit = async (data: ArticleForm) => {
+    const onSubmit = async (data: ArticleRequest) => {
         try {
             if (isEdit) {
                 if (!articleDetail) return
@@ -96,6 +97,7 @@ export default function ArticleFormModal({ type }: props) {
                 toast.success(response.message);
             }
             refetch?.()
+            resetData()
             setOpen(false);
         } catch (error: any) {
             const message = error.response.data.message

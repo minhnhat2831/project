@@ -1,14 +1,15 @@
 import axiosInstance from "@/services/axios";
-import type { SearchSettingParams, SearchSettingResponse } from "../types/SearchSetting";
 import { API_ENDPOINTS } from "@/services/api";
-import type { SearchSettingCreateRequest, SearchSettingCreateResponse } from "../types/SearchSettingCreate";
-import type { SearchSettingEditRequest, SearchSettingEditResponse } from "../types/SearchSettingEdit";
-import type { SearchSettingDeleteResponse } from "../types/SearchSettingDelete";
+import type { 
+    SearchSettingBaseForm,
+    SearchSettingParams, 
+    SearchSettingRequest, 
+    SearchSettingResponse } from "../schema/SearchSettingSchema";
 
 export const GetAllSetting = async (
     params : SearchSettingParams
-): Promise<SearchSettingResponse> => {
-    const response = await axiosInstance.get<SearchSettingResponse>(
+): Promise<SearchSettingBaseForm> => {
+    const response = await axiosInstance.get<SearchSettingBaseForm>(
         API_ENDPOINTS.API_SEARCH_SETTING,
         {params}
     )
@@ -16,9 +17,9 @@ export const GetAllSetting = async (
 }
 
 export const CreateSetting = async (
-    data : SearchSettingCreateRequest
-):Promise<SearchSettingCreateResponse> => {
-    const response = await axiosInstance.post<SearchSettingCreateResponse>(
+    data : SearchSettingRequest
+):Promise<SearchSettingResponse> => {
+    const response = await axiosInstance.post<SearchSettingResponse>(
         API_ENDPOINTS.API_SEARCH_SETTING,
         data
     )
@@ -27,9 +28,9 @@ export const CreateSetting = async (
 
 export const EditSetting = async (
     id : string,
-    data : SearchSettingEditRequest
-):Promise<SearchSettingEditResponse> => {
-    const response = await axiosInstance.put<SearchSettingEditResponse>(
+    data : SearchSettingRequest
+):Promise<SearchSettingResponse> => {
+    const response = await axiosInstance.put<SearchSettingResponse>(
         API_ENDPOINTS.API_SEARCH_SETTING_ID(id),
         data
     )
@@ -38,8 +39,8 @@ export const EditSetting = async (
 
 export const DeleteSetting = async (
     id : string
-):Promise<SearchSettingDeleteResponse> => {
-    const response = await axiosInstance.delete<SearchSettingDeleteResponse>(
+):Promise<SearchSettingResponse> => {
+    const response = await axiosInstance.delete<SearchSettingResponse>(
         API_ENDPOINTS.API_SEARCH_SETTING_ID(id),
     )
     return response.data

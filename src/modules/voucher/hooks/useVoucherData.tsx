@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import type { GetVouchersResponse, Voucher } from "../types/Voucher";
 import { GetAllVoucher } from "../api/api";
 import { useStore } from "@/hooks/useStore";
 import { toast } from "react-toastify";
 import { useDebounce } from "use-debounce";
+import type { Voucher, VoucherBaseForm } from "../schema/VoucherSchema";
 
 export const useVoucherData = () => {
     const [data, setData] = useState<Voucher[]>([])
     const [loading, setLoading] = useState(false)
-    const [metadata, setMetadata] = useState<GetVouchersResponse["metadata"] | null>(null)
+    const [metadata, setMetadata] = useState<VoucherBaseForm["metadata"] | null>(null)
     const { pageIndex, pageSize, search, sort } = useStore()
     const[debouncedSearch] = useDebounce(search, 1000)
     useEffect(() => {

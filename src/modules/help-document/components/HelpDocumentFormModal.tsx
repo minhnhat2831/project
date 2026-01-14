@@ -3,7 +3,7 @@ import { useModalStore } from "@/hooks/useModalStore"
 import { useDocumentStore } from "../store/useSeletedDocument"
 import useHelpDocumentDetail from "../hooks/useHelpDocumentDetail"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { HelpDocumentSchema, type HelpDocumentForm } from "../util/HelpDocumentSchema"
+import { HelpDocumentRequestSchema, type HelpDocumentRequest } from "../schema/HelpDocumentSchema"
 import { useForm } from "react-hook-form"
 import { useRefetchData } from "@/hooks/useRefetch"
 import { toast } from "react-toastify"
@@ -24,8 +24,8 @@ export default function HelpDocumentFormModal({ type }: props) {
     const isEdit = typeMode === "edit"
     const { selectedDocument } = useDocumentStore()
     const { data: helpDocumentDetail } = useHelpDocumentDetail(isEdit ? selectedDocument?.id : "")
-    const { register, handleSubmit, reset, setError, formState: { errors } } = useForm<HelpDocumentForm>({
-        resolver: zodResolver(HelpDocumentSchema),
+    const { register, handleSubmit, reset, setError, formState: { errors } } = useForm<HelpDocumentRequest>({
+        resolver: zodResolver(HelpDocumentRequestSchema),
         defaultValues: helpDocumentDetail ? {
             title: helpDocumentDetail?.title,
             content: helpDocumentDetail?.content,
@@ -56,7 +56,7 @@ export default function HelpDocumentFormModal({ type }: props) {
 
     const { refetch } = useRefetchData()
 
-    const onSubmit = async (data: HelpDocumentForm) => {
+    const onSubmit = async (data: HelpDocumentRequest) => {
         try {
             if (isEdit) {
                 if (!helpDocumentDetail) return

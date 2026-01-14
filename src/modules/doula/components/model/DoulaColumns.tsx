@@ -1,5 +1,4 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import type { AdminDoula } from "../../types/admin-doula/AdminDoula";
 import { Icons } from "@/components/common/base/Icon"
 import { formatDate } from "@/components/common/base/FormatDate";
 import Avatar from "@mui/material/Avatar";
@@ -7,7 +6,8 @@ import { useDoulaStore } from "../../store/useSeletedDoula";
 import { useModalStore } from "@/hooks/useModalStore";
 import { useNavigate } from "react-router";
 import { SortHeader } from "@/components/common/base/SortHeader";
-export const columns: ColumnDef<AdminDoula>[] = [
+import type { Doula } from "../../schema/DoulaSchema";
+export const columns: ColumnDef<Doula>[] = [
   {
     accessorFn: (row) => row.picture?.uri ?? null,
     header: "Avatar",

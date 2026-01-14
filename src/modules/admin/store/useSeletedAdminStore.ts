@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import type { Admin } from "../types/Admin"
+import type { Admin } from "../schema/AdminUserSchema"
 
 interface AdminStore {
     selectedAdmin? : Admin | null,

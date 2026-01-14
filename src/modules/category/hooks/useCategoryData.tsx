@@ -1,14 +1,14 @@
 import { useStore } from "@/hooks/useStore"
-import { type Category, type GetCategoryList } from "../types/Category"
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { GetAllCategory } from "../api/api"
 import { useDebounce } from "use-debounce"
+import type { Category, CategoryBaseForm } from "../schema/CategorySchema"
 
 export const useCategoryData = () => {
     const [data, setData] = useState<Category[]>([])
     const [loading, setLoading] = useState(false)
-    const [metadata, setMetadata] = useState<GetCategoryList["metadata"] | null>(null)
+    const [metadata, setMetadata] = useState<CategoryBaseForm["metadata"] | null>(null)
     const { pageIndex, pageSize, search, sort } = useStore()
     const [debouncedSearch] = useDebounce(search, 1000)
     useEffect(() => {

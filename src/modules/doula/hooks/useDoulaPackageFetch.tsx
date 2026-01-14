@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react"
-import type { DoulaPackage, DoulaPackageResponse } from "../types/doula-package/DoulaPackage"
 import { GetDoulaPackage } from "../api/api"
 import { toast } from "react-toastify"
+import type { DoulaPackage, DoulaPackageBaseForm } from "../schema/DoulaPackageSchema"
 
 export const useDoulaPackage = (page: number, limit: number, f_doulaId?: string) => {
     const [data, setData] = useState<DoulaPackage[]>([])
     const [loading, setLoading] = useState(false)
-    const [metadata, setMetadata] = useState<DoulaPackageResponse["metadata"] | null>(null)
+    const [metadata, setMetadata] = useState<DoulaPackageBaseForm["metadata"] | null>(null)
 
     useEffect(() => {
         fetchDoula()
-    }, [page, limit, f_doulaId,])
+    }, [page, limit, f_doulaId])
 
     const fetchDoula = async () => {
         try {

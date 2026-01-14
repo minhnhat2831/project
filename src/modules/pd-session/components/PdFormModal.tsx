@@ -2,7 +2,7 @@ import { useModalStore } from "@/hooks/useModalStore"
 import usePdDetail from "../hooks/usePdDetail"
 import { usedPdStore } from "../store/useSeletedPd"
 import { useForm } from "react-hook-form"
-import { PdScheme, type PdForm } from "../util/PdSchema"
+import { PdRequestScheme, type PdRequest } from "../schema/PdSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRefetchData } from "@/hooks/useRefetch"
 import { useCategoryData } from "@/hooks/useCategoryData"
@@ -27,8 +27,8 @@ export default function PdFormModal({ type }: props) {
     const isEdit = typeMode === "edit"
     const { data: pdsessionId } = usePdDetail(isEdit ? selectedPd?.id : "")
     const { register, handleSubmit, reset, control, formState: { errors } } =
-        useForm<PdForm>({
-            resolver: zodResolver(PdScheme),
+        useForm<PdRequest>({
+            resolver: zodResolver(PdRequestScheme),
             defaultValues: pdsessionId
                 ? {
                     title: pdsessionId?.title ?? "",
@@ -77,7 +77,7 @@ export default function PdFormModal({ type }: props) {
         }
     }, [reset, type, pdsessionId])
 
-    const onSubmit = async (data: PdForm) => {
+    const onSubmit = async (data: PdRequest) => {
         try {
             if (isEdit) {
                 if (!pdsessionId) return
