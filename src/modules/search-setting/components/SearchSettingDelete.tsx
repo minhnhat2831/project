@@ -3,9 +3,9 @@ import { DeleteSetting } from "../api/api";
 import { toast } from "react-toastify";
 import { Icons } from "@/components/common/base/Icon";
 import Button from "@/components/common/form/Button";
-import { useSettingStore } from "../store/useSeletedSetting";
+import { useSettingStore } from "../store/useSelectedSetting";
 import { useModalStore } from "@/hooks/useModalStore";
-import PopupConfirm from "@/components/common/base/PopupComfirm";
+import PopupConfirm from "@/components/common/base/PopupConfirm";
 
 export default function SearchSettingDelete() {
     const { refetch } = useRefetchData()
@@ -19,7 +19,6 @@ export default function SearchSettingDelete() {
             refetch?.()
             setOpen(false)
         } catch (error: any) {
-            console.log(error.response?.data?.message)
             toast.error(error.response?.data?.message)
         }
     }

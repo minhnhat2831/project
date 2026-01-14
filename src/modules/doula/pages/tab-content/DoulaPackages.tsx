@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router"
 import { useDoulaPackage } from "../../hooks/useDoulaPackageFetch"
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table"
-import { columns } from "../../components/model/DoulaPackageColumns"
+import { columns } from "../../components/modal/DoulaPackageColumns"
 import TableData from "@/components/common/base/TableData"
 import TablePagination from "@/components/common/base/TablePagination"
 import { useStore } from "@/hooks/useStore"

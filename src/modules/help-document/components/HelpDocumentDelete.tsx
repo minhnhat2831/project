@@ -3,9 +3,9 @@ import { DeleteHelpDocument } from "../api/api"
 import { toast } from "react-toastify"
 import { Icons } from "@/components/common/base/Icon"
 import Button from "@/components/common/form/Button"
-import { useDocumentStore } from "../store/useSeletedDocument"
+import { useDocumentStore } from "../store/useSelectedDocument"
 import { useModalStore } from "@/hooks/useModalStore"
-import PopupConfirm from "@/components/common/base/PopupComfirm"
+import PopupConfirm from "@/components/common/base/PopupConfirm"
 
 export default function HelpDocumentDelete() {
     const { refetch } = useRefetchData()
@@ -19,7 +19,6 @@ export default function HelpDocumentDelete() {
             refetch?.()
             setOpen(false)
         } catch (error: any) {
-            console.log(error.response?.data?.message)
             toast.error(error.response?.data?.message)
         }
     }

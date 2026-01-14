@@ -3,9 +3,9 @@ import { DoulaRemove } from "../../api/api"
 import { toast } from "react-toastify"
 import { useRefetchData } from "@/hooks/useRefetch"
 import Button from "@/components/common/form/Button"
-import { useDoulaStore } from "../../store/useSeletedDoula"
+import { useDoulaStore } from "../../store/useSelectedDoula"
 import { useModalStore } from "@/hooks/useModalStore"
-import PopupConfirm from "@/components/common/base/PopupComfirm"
+import PopupConfirm from "@/components/common/base/PopupConfirm"
 
 export default function DoulaDelete() {
     const { refetch } = useRefetchData()
@@ -19,7 +19,6 @@ export default function DoulaDelete() {
             refetch?.()
             setOpen(false)
         } catch (error: any) {
-            console.log(error.response?.data?.message)
             toast.error(error.response?.data?.message)
         }
 

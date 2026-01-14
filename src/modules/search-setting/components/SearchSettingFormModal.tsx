@@ -1,6 +1,6 @@
 import PopupCE from "@/components/common/base/PopupCE"
 import { useModalStore } from "@/hooks/useModalStore"
-import { useSettingStore } from "../store/useSeletedSetting"
+import { useSettingStore } from "../store/useSelectedSetting"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRefetchData } from "@/hooks/useRefetch"

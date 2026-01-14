@@ -1,5 +1,5 @@
 import { Outlet } from "react-router";
-import SideBar from "../layouts/sideBar";
+import SideBar from "./SideBar";
 import { ToastContainer } from "react-toastify";
 
 export default function AdminLayout(){

@@ -10,7 +10,7 @@ import { columns } from "../components/PackageColumns";
 import { useStore } from "@/hooks/useStore";
 import TableData from "@/components/common/base/TableData";
 import TablePagination from "@/components/common/base/TablePagination";
-import { useClientStore } from "../store/useSeletedClient";
+import { useClientStore } from "../store/useSelectedClient";
 import { useModalStore } from "@/hooks/useModalStore";
 import { Container } from "../container/Container";
 

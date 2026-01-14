@@ -1,6 +1,6 @@
 import { useModalStore } from "@/hooks/useModalStore"
 import usePdDetail from "../hooks/usePdDetail"
-import { usedPdStore } from "../store/useSeletedPd"
+import { usePdStore } from "../store/useSelectedPd"
 import { useForm } from "react-hook-form"
 import { PdRequestScheme, type PdRequest } from "../schema/PdSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -23,7 +23,7 @@ interface props {
 
 export default function PdFormModal({ type }: props) {
     const { open, setOpen, typeMode } = useModalStore()
-    const { selectedPd } = usedPdStore()
+    const { selectedPd } = usePdStore()
     const isEdit = typeMode === "edit"
     const { data: pdsessionId } = usePdDetail(isEdit ? selectedPd?.id : "")
     const { register, handleSubmit, reset, control, formState: { errors } } =

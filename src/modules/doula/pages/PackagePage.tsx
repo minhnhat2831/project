@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router";
 import { usePackageFetch } from "../hooks/usePackageFetch";
 import { formatDate } from "@/components/common/base/FormatDate";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { columns } from "../components/model/PackageColumns";
+import { columns } from "../components/modal/PackageColumns";
 import TableData from "@/components/common/base/TableData";
 import TablePagination from "@/components/common/base/TablePagination";
 

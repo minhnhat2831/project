@@ -3,7 +3,7 @@ import { SortHeader } from "@/components/common/base/SortHeader";
 import { formatDate } from "@/components/common/base/FormatDate";
 import { Icons } from "@/components/common/base/Icon";
 import { useModalStore } from "@/hooks/useModalStore";
-import { useDocumentStore } from "../store/useSeletedDocument";
+import { useDocumentStore } from "../store/useSelectedDocument";
 import type { HelpDocument } from "../schema/HelpDocumentSchema";
 
 export const columns: ColumnDef<HelpDocument>[] = [

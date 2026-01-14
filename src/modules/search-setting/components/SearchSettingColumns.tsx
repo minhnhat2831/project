@@ -1,5 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { useSettingStore } from "../store/useSeletedSetting";
+import { useSettingStore } from "../store/useSelectedSetting";
 import { useModalStore } from "@/hooks/useModalStore";
 import { Icons } from "@/components/common/base/Icon";
 import { formatDate } from "@/components/common/base/FormatDate";

@@ -5,7 +5,7 @@ import { DeleteCategory } from "../api/api"
 import Button from "@/components/common/form/Button"
 import { useCategoryStore } from "../store/useSelectedCategory"
 import { useModalStore } from "@/hooks/useModalStore"
-import PopupConfirm from "@/components/common/base/PopupComfirm"
+import PopupConfirm from "@/components/common/base/PopupConfirm"
 
 export default function CategoryDelete() {
     const { refetch } = useRefetchData()
@@ -21,7 +21,6 @@ export default function CategoryDelete() {
             refetch?.()
             setOpen(false)
         } catch (error: any) {
-            console.log(error.response?.data?.message)
             toast.error(error.response?.data?.message)
         }
     }
