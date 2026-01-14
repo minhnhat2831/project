@@ -1,6 +1,6 @@
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import TableData from "@/components/common/base/TableData";
-import { columns } from "../components/model/DoulaColumns"
+import { columns } from "../components/modal/DoulaColumns"
 import { useDouleFetch } from "../hooks/useDoulaFetch";
 import TablePagination from "@/components/common/base/TablePagination";
 import { useStore } from "@/hooks/useStore";

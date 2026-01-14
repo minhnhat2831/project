@@ -5,7 +5,7 @@ import { Icons } from "@/components/common/base/Icon"
 import Button from "@/components/common/form/Button"
 import { useVoucherStore } from "../store/useSelectedVoucher"
 import { useModalStore } from "@/hooks/useModalStore"
-import PopupConfirm from "@/components/common/base/PopupComfirm"
+import PopupConfirm from "@/components/common/base/PopupConfirm"
 
 export default function VoucherEdit() {
     const { refetch } = useRefetchData()

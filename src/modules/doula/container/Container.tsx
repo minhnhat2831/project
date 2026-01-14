@@ -1,4 +1,4 @@
-import DoulaModal from "../components/model/DoulaModal"
+import DoulaModal from "../components/modal/DoulaModal"
 
 export const Container = ({children} : React.PropsWithChildren) => {
     return (<>

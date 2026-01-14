@@ -1,7 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { Icons } from "@/components/common/base/Icon";
 import { useModalStore } from "@/hooks/useModalStore";
-import { usedPdStore } from "../store/useSeletedPd";
+import { usePdStore } from "../store/useSelectedPd";
 import { SortHeader } from "@/components/common/base/SortHeader";
 import { formatDate } from "@/components/common/base/FormatDate";
 import type { Pd } from "../schema/PdSchema";
@@ -66,7 +66,7 @@ export const columns: ColumnDef<Pd>[] = [
         cell: ({ row }) => {
             const pdsession = row.original
             const { setOpen, setTypeMode } = useModalStore()
-            const { setSelectedPd } = usedPdStore()
+            const { setSelectedPd } = usePdStore()
 
             const handleEdit = () => {
                 setSelectedPd(pdsession)

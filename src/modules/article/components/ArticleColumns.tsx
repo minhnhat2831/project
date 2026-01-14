@@ -1,7 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { useModalStore } from "@/hooks/useModalStore";
 import { Icons } from "@/components/common/base/Icon";
-import { useArticleStore } from "../store/useSeletedArticle";
+import { useArticleStore } from "../store/useSelectedArticle";
 import { SortHeader } from "@/components/common/base/SortHeader";
 import { formatDate } from "@/components/common/base/FormatDate";
 import type { Article } from "../schema/ArticleScheme";

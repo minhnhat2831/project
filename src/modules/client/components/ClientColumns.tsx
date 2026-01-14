@@ -2,7 +2,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { Icons } from "@/components/common/base/Icon";
 import { formatDate } from "@/components/common/base/FormatDate";
 import Avatar from "@mui/material/Avatar";
-import { useClientStore } from "../store/useSeletedClient";
+import { useClientStore } from "../store/useSelectedClient";
 import { useNavigate } from "react-router";
 import { useModalStore } from "@/hooks/useModalStore";
 import { SortHeader } from "@/components/common/base/SortHeader";

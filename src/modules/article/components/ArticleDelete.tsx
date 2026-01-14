@@ -3,8 +3,8 @@ import { useRefetchData } from "@/hooks/useRefetch"
 import { DeleteArticle } from "../api/api"
 import { toast } from "react-toastify"
 import Button from "@/components/common/form/Button"
-import { useArticleStore } from "../store/useSeletedArticle"
-import PopupConfirm from "@/components/common/base/PopupComfirm"
+import { useArticleStore } from "../store/useSelectedArticle"
+import PopupConfirm from "@/components/common/base/PopupConfirm"
 import { useModalStore } from "@/hooks/useModalStore"
 
 export default function ArticleDelete() {
@@ -21,7 +21,6 @@ export default function ArticleDelete() {
             refetch?.()
             setOpen(false)
         } catch (error: any) {
-            console.log(error.response?.data?.message)
             toast.error(error.response?.data?.message)
         }
     }

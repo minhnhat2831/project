@@ -1,6 +1,6 @@
 import { Icons } from "@/components/common/base/Icon";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { columns } from "../../components/model/TransactionColumns";
+import { columns } from "../../components/modal/TransactionColumns";
 import TableData from "@/components/common/base/TableData";
 import TablePagination from "@/components/common/base/TablePagination";
 import { useTransactionFetch } from "../../hooks/useTransactionFetch";

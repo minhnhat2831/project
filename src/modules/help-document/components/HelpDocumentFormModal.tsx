@@ -1,6 +1,6 @@
 import PopupCE from "@/components/common/base/PopupCE"
 import { useModalStore } from "@/hooks/useModalStore"
-import { useDocumentStore } from "../store/useSeletedDocument"
+import { useDocumentStore } from "../store/useSelectedDocument"
 import useHelpDocumentDetail from "../hooks/useHelpDocumentDetail"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { HelpDocumentRequestSchema, type HelpDocumentRequest } from "../schema/HelpDocumentSchema"

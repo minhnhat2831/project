@@ -3,7 +3,7 @@ import { useDoulaReview } from "../../hooks/useDoulaReview";
 import TableData from "@/components/common/base/TableData";
 import TablePagination from "@/components/common/base/TablePagination";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { columns } from "../../components/model/DoulaReviewColumns";
+import { columns } from "../../components/modal/DoulaReviewColumns";
 import { useParams } from "react-router";
 import { useStore } from "@/hooks/useStore";
 

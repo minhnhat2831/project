@@ -3,9 +3,9 @@ import { useRefetchData } from "@/hooks/useRefetch"
 import { DeleteClient } from "../api/api"
 import { toast } from "react-toastify"
 import Button from "@/components/common/form/Button"
-import { useClientStore } from "../store/useSeletedClient"
+import { useClientStore } from "../store/useSelectedClient"
 import { useModalStore } from "@/hooks/useModalStore"
-import PopupConfirm from "@/components/common/base/PopupComfirm"
+import PopupConfirm from "@/components/common/base/PopupConfirm"
 
 export default function ClientDelete() {
     const { refetch } = useRefetchData()
@@ -19,7 +19,6 @@ export default function ClientDelete() {
             refetch?.()
             setOpen(false)
         } catch (error: any) {
-            console.log(error.response?.data?.message)
             toast.error(error.response?.data?.message)
         }
 

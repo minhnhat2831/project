@@ -3,7 +3,7 @@ import { DeleteAdmin } from "../api/api"
 import { toast } from "react-toastify"
 import Button from "@/components/common/form/Button"
 import { useRefetchData } from "@/hooks/useRefetch"
-import PopupConfirm from "@/components/common/base/PopupComfirm"
+import PopupConfirm from "@/components/common/base/PopupConfirm"
 import { useModalStore } from "@/hooks/useModalStore"
 import { useAdminStore } from "../store/useSeletedAdminStore"
 

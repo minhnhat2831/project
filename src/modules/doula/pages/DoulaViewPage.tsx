@@ -11,7 +11,7 @@ import { useDoulaInfomation } from "../hooks/useDoulaInformation";
 import { formatDate } from "@/components/common/base/FormatDate";
 import Avatar from "@mui/material/Avatar";
 import { useRefetchData } from "@/hooks/useRefetch";
-import { useDoulaStore } from "../store/useSeletedDoula";
+import { useDoulaStore } from "../store/useSelectedDoula";
 import { useModalStore } from "@/hooks/useModalStore";
 import { Container } from "../container/Container";
 
