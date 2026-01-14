@@ -9,7 +9,7 @@ import { useClientStore } from "../store/useSeletedClient"
 import { useClientDetail } from "../hooks/useClientDetail"
 import { useModalStore } from "@/hooks/useModalStore"
 import { useForm } from "react-hook-form"
-import { ClientSchema, type ClientForm } from "../util/ClientSchema"
+import { ClientRequestSchema, type ClientRequest } from "../schema/ClientSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "react-toastify"
 import { EditClient } from "../api/api"
@@ -26,8 +26,8 @@ export default function ClientFormModal({ type }: props) {
     const isEdit = typeMode === "edit"
     const { data: clientData } = useClientDetail(isEdit ? selectedClient?.id : "")
     const { register, handleSubmit,reset, formState: { errors } } =
-        useForm<ClientForm>({
-            resolver: zodResolver(ClientSchema),
+        useForm<ClientRequest>({
+            resolver: zodResolver(ClientRequestSchema),
             defaultValues: clientData ?
                 {
                     phoneNumber: clientData?.phoneNumber ?? 0,
@@ -57,7 +57,7 @@ export default function ClientFormModal({ type }: props) {
         }
     }, [clientData, type, reset]);
 
-    const onSubmit = async (data: ClientForm) => {
+    const onSubmit = async (data: ClientRequest) => {
         try {
             if (!clientData) return
             const response = await EditClient(clientData.id, data)

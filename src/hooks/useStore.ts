@@ -34,6 +34,7 @@ export const useStore = create<Store>((set) => ({
 
     sort: undefined,
     setSort: (value) => set({ sort: value }),
+    
     resetData: () => set({
       pageIndex: 0,
       pageSize: 25,

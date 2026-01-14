@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
-import type { Client, GetClientResponse } from "../types/client/Client"
 import { GetAllClient } from "../api/api"
 import { useStore } from "@/hooks/useStore"
 import { useDebounce } from "use-debounce"
+import type { Client, ClientBaseForm } from "../schema/ClientSchema"
 
 export const useClientFetch = () => {
     const [data, setData] = useState<Client[]>([])
     const [loading, setLoading] = useState(false)
-    const [metadata, setMetadata] = useState<GetClientResponse["metadata"] | null>(null)
+    const [metadata, setMetadata] = useState<ClientBaseForm["metadata"] | null>(null)
     const { search, pageIndex, pageSize, sort } = useStore()
     const [debouncedSearch] = useDebounce(search, 1000)
     const embed = "address.fullAddress"

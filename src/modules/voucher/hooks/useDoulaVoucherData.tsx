@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { GetDoulaVoucher } from "../api/api";
 import { useStore } from "@/hooks/useStore";
 import { toast } from "react-toastify";
-import type { DoulaVoucher, DoulaVoucherResponse } from "../types/DoulaVoucher";
 import { useDebounce } from "use-debounce";
+import type { VoucherDoula, VoucherDoulaBaseForm } from "../schema/VoucherSchema";
 
 export default function useDoulaVoucherData(id?: string) {
-    const [data, setData] = useState<DoulaVoucher[]>([])
+    const [data, setData] = useState<VoucherDoula[]>([])
     const [loading, setLoading] = useState(false)
-    const [metadata, setMetadata] = useState<DoulaVoucherResponse["metadata"] | null>(null)
+    const [metadata, setMetadata] = useState<VoucherDoulaBaseForm["metadata"] | null>(null)
     const { pageIndex, pageSize, search } = useStore()
     const[debouncedSearch] = useDebounce(search, 1000)
     useEffect(() => {

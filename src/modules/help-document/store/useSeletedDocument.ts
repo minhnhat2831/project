@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import type { HelpDocument } from "../types/HelpDocument"
+import type { HelpDocument } from "../schema/HelpDocumentSchema"
 
 interface HelpDocumentStore {
     selectedDocument? : HelpDocument | null,

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import { GetDoulaInfo } from "../api/api"
-import type { Doula } from "../types/admin-doula/AdminDoulaId"
 import { toast } from "react-toastify"
+import type { DoulaDetail } from "../schema/DoulaSchema"
 
 export const useDoulaInfomation = (id?: string) => {
-  const [data, setData] = useState<Doula | null>(null)
+  const [data, setData] = useState<DoulaDetail | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {  

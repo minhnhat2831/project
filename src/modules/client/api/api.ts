@@ -1,15 +1,19 @@
 import { API_ENDPOINTS } from "@/services/api";
 import axiosInstance from "@/services/axios";
-import type { GetClientResponse, GetClientParams } from "../types/client/Client";
-import type { ClientDelete } from "../types/client/ClientDelete";
-import type { ClientEditRequest, ClientEditResponse } from "../types/client/ClientEdit";
-import type { GetClientIdResponse } from "../types/client/ClientId";
-import type { GetAllCaresResponse, GetCaresParams } from "../types/cares/Cares";
+import type { 
+    ClientBaseForm, 
+    ClientDeleteResponse, 
+    ClientRequest, 
+    ClientResponse, 
+    GetClientParams 
+} from "../schema/ClientSchema";
+import type { CaresBaseForm, GetCaresParams } from "../schema/CaresSchema";
+
 
 export const GetAllClient = async (
     params : GetClientParams
-) : Promise<GetClientResponse> => {
-    const response = await axiosInstance.get<GetClientResponse>(
+) : Promise<ClientBaseForm> => {
+    const response = await axiosInstance.get<ClientBaseForm>(
         API_ENDPOINTS.API_ADMIN_CLIENT,
         {params}
     )
@@ -18,8 +22,8 @@ export const GetAllClient = async (
 
 export const GetClientId = async (
     id : string
-) : Promise<GetClientIdResponse> => {
-    const response = await axiosInstance.get<GetClientIdResponse>(
+) : Promise<ClientResponse> => {
+    const response = await axiosInstance.get<ClientResponse>(
         API_ENDPOINTS.API_ADMIN_CLIENT_ID(id)
     )
     return response.data
@@ -27,9 +31,9 @@ export const GetClientId = async (
 
 export const EditClient = async (
     id : string,
-    data : ClientEditRequest
-) : Promise<ClientEditResponse> => {
-    const response = await axiosInstance.put<ClientEditResponse>(
+    data : ClientRequest
+) : Promise<ClientResponse> => {
+    const response = await axiosInstance.put<ClientResponse>(
         API_ENDPOINTS.API_ADMIN_CLIENT_ID(id),
             data
     )
@@ -38,8 +42,8 @@ export const EditClient = async (
 
 export const DeleteClient = async (
     id : string
-):Promise<ClientDelete> => {
-    const response = await axiosInstance.delete<ClientDelete>(
+):Promise<ClientDeleteResponse> => {
+    const response = await axiosInstance.delete<ClientDeleteResponse>(
         API_ENDPOINTS.API_ADMIN_CLIENT_ID(id)
     )
     return response.data
@@ -47,8 +51,8 @@ export const DeleteClient = async (
 
 export const GetCares = async (
     params : GetCaresParams
-) : Promise<GetAllCaresResponse> => {
-    const response = await axiosInstance.get<GetAllCaresResponse>(
+) : Promise<CaresBaseForm> => {
+    const response = await axiosInstance.get<CaresBaseForm>(
         API_ENDPOINTS.API_CARES,
         {params}
     )

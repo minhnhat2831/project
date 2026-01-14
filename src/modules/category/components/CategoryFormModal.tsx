@@ -7,7 +7,7 @@ import { useModalStore } from "@/hooks/useModalStore"
 import { useCategoryStore } from "../store/useSelectedCategory"
 import useCategoryDetail from "../hooks/useCategoryDetail"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { CategorySchema, type CategoryForm } from "../util/CategorySchema"
+import { CategoryRequestSchemas, type CategoryRequest } from "../schema/CategorySchema"
 import { useForm } from "react-hook-form"
 import { useRefetchData } from "@/hooks/useRefetch"
 import { toast } from "react-toastify"
@@ -24,9 +24,9 @@ export default function CategoryFormModal({ type }: props) {
     const isEdit = typeMode === "edit"
     const { selectedCategory } = useCategoryStore()
     const { data: categoryId } = useCategoryDetail(isEdit ? selectedCategory?.id : "")
-    const { register, handleSubmit, setError, reset, control, formState: { errors } } = useForm<CategoryForm>({
+    const { register, handleSubmit, setError, reset, control, formState: { errors } } = useForm<CategoryRequest>({
         resolver: zodResolver(
-            type === "create" ? CategorySchema : CategorySchema
+            type === "create" ? CategoryRequestSchemas : CategoryRequestSchemas
         ),
         defaultValues: isEdit ? {
             title: categoryId?.title ?? "",
@@ -61,7 +61,7 @@ export default function CategoryFormModal({ type }: props) {
     }, [categoryId, type, reset]);
 
     const { refetch } = useRefetchData()
-    const onSubmit = async (data: CategoryForm) => {
+    const onSubmit = async (data: CategoryRequest) => {
         try {
             if (isEdit) {
                 if (!categoryId) return

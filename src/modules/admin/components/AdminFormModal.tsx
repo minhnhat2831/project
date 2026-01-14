@@ -15,6 +15,7 @@ import { useRefetchData } from "@/hooks/useRefetch";
 import { useAdminStore } from "../store/useSeletedAdminStore";
 import { usePasswordStore } from "@/hooks/usePasswordToggle";
 import { useEffect } from "react";
+import { useStore } from "@/hooks/useStore";
 
 type AdminFormValues = AdminFormCreate | AdminFormEdit;
 interface props {
@@ -24,6 +25,7 @@ interface props {
 export default function AdminFormModal({ type }: props) {
     const { typeMode, setOpen, open } = useModalStore();
     const { openPassword } = usePasswordStore()
+    const { resetData } = useStore()
     const { selectedAdmin } = useAdminStore()
     const isEdit = typeMode === "edit";
     const { data: dataDetail } = useAdminDetail(isEdit ? selectedAdmin?.id : "");
@@ -84,6 +86,7 @@ export default function AdminFormModal({ type }: props) {
                 toast.success(response.message);
             }
             refetch?.()
+            resetData()
             setOpen(false);
         } catch (error: any) {
             const message = error.response?.data?.message;

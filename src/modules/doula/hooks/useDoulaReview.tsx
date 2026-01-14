@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
-import type { DoulaReview, DoulaReviewResponse } from "../types/doula-review/DoulaReview"
 import { GetDoulaReview } from "../api/api"
 import { toast } from "react-toastify"
+import type { DoulaReview, DoulaReviewBaseForm } from "../schema/DoulaReviewSchema"
 
 export const useDoulaReview = (page: number, limit: number, f_doulaId?: string) => {
     const [data, setData] = useState<DoulaReview[]>([])
     const [loading, setLoading] = useState(false)
-    const [metadata, setMetadata] = useState<DoulaReviewResponse["metadata"] | null>(null)
+    const [metadata, setMetadata] = useState<DoulaReviewBaseForm["metadata"] | null>(null)
 
     useEffect(() => {
         fetchData()

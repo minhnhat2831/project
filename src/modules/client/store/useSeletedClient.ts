@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import type { Client } from "../types/client/Client"
+import type { Client } from "../schema/ClientSchema"
 
 interface ClientStore {
     selectedClient? : Client | null,

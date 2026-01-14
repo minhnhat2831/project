@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import { VoucherById } from "../api/api"
 import { toast } from "react-toastify"
-import type { VoucherId } from "../types/VoucherId"
+import type { Voucher } from "../schema/VoucherSchema"
 
 export const useVoucherDetail = (id?: string) => {
-  const [data, setData] = useState<VoucherId | null>(null)
+  const [data, setData] = useState<Voucher | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {  

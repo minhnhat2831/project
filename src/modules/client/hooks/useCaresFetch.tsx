@@ -1,13 +1,13 @@
 import { toast } from "react-toastify"
 import { useStore } from "@/hooks/useStore"
-import type { Cares, GetAllCaresResponse } from "../types/cares/Cares"
 import { useEffect, useState } from "react"
+import type { Cares, CaresBaseForm } from "../schema/CaresSchema"
 import { GetCares } from "../api/api"
 
 export const useCaresInfo = (id? : string) => {
     const [data, setData] = useState<Cares[]>([])
     const [loading, setLoading] = useState(false)
-    const [metadata, setMetadata] = useState<GetAllCaresResponse["metadata"] | null>(null)
+    const [metadata, setMetadata] = useState<CaresBaseForm["metadata"] | null>(null)
     const { pageIndex, pageSize, sort } = useStore()
     
     useEffect(() => {

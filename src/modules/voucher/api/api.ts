@@ -1,15 +1,19 @@
 import axiosInstance from "@/services/axios";
-import type { GetVouchersResponse, VoucherParams } from "../types/Voucher";
 import { API_ENDPOINTS } from "@/services/api";
-import type { VoucherCreateRequest, VoucherCreateResponse } from "../types/VoucherCreate";
-import type { GetVoucherIdResponse } from "../types/VoucherId";
-import type { VoucherEditRequest, VoucherEditResponse } from "../types/VoucherEdit";
-import type { DoulaVoucherParams, DoulaVoucherResponse } from "../types/DoulaVoucher";
+import type { 
+    GetVoucherDoulaParams, 
+    GetVoucherParams, 
+    VoucherBaseForm, 
+    VoucherDeleteRequest, 
+    VoucherDoulaBaseForm, 
+    VoucherRequest, 
+    VoucherResponse 
+} from "../schema/VoucherSchema";
 
 export const GetAllVoucher = async (
-    params : VoucherParams
-) : Promise<GetVouchersResponse> => {
-    const response = await axiosInstance.get<GetVouchersResponse>(
+    params : GetVoucherParams
+) : Promise<VoucherBaseForm> => {
+    const response = await axiosInstance.get<VoucherBaseForm>(
         API_ENDPOINTS.API_VOUCHERS,
         {params}
     )
@@ -17,9 +21,9 @@ export const GetAllVoucher = async (
 }
 
 export const CreateVoucher = async (
-    data : VoucherCreateRequest
-):Promise<VoucherCreateResponse> => {
-    const response = await axiosInstance.post<VoucherCreateResponse>(
+    data : VoucherRequest
+):Promise<VoucherResponse> => {
+    const response = await axiosInstance.post<VoucherResponse>(
         API_ENDPOINTS.API_VOUCHERS,
         data
     )
@@ -28,8 +32,8 @@ export const CreateVoucher = async (
 
 export const VoucherById = async (
     id : string
-):Promise<GetVoucherIdResponse> => {
-    const response = await axiosInstance.get<GetVoucherIdResponse>(
+):Promise<VoucherResponse> => {
+    const response = await axiosInstance.get<VoucherResponse>(
         API_ENDPOINTS.API_VOUCHERS_ID(id)
     )
     return response.data
@@ -37,9 +41,9 @@ export const VoucherById = async (
 
 export const EditVoucher = async (
     id : string,
-    data : VoucherEditRequest
-): Promise<VoucherEditResponse> => {
-    const response = await axiosInstance.put<VoucherEditResponse>(
+    data : VoucherDeleteRequest
+): Promise<VoucherResponse> => {
+    const response = await axiosInstance.put<VoucherResponse>(
         API_ENDPOINTS.API_VOUCHERS_ID(id),
         data
     )
@@ -47,9 +51,9 @@ export const EditVoucher = async (
 }
 
 export const GetDoulaVoucher = async (
-    params : DoulaVoucherParams
-) : Promise<DoulaVoucherResponse> => {
-    const response = await axiosInstance.get<DoulaVoucherResponse>(
+    params : GetVoucherDoulaParams
+) : Promise<VoucherDoulaBaseForm> => {
+    const response = await axiosInstance.get<VoucherDoulaBaseForm>(
         API_ENDPOINTS.API_DOULA_VOUCHER,
         {params}
     )

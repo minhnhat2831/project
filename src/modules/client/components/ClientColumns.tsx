@@ -1,5 +1,4 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import type { Client } from "../types/client/Client";
 import { Icons } from "@/components/common/base/Icon";
 import { formatDate } from "@/components/common/base/FormatDate";
 import Avatar from "@mui/material/Avatar";
@@ -7,6 +6,7 @@ import { useClientStore } from "../store/useSeletedClient";
 import { useNavigate } from "react-router";
 import { useModalStore } from "@/hooks/useModalStore";
 import { SortHeader } from "@/components/common/base/SortHeader";
+import type { Client } from "../schema/ClientSchema";
 
 export const columns: ColumnDef<Client>[] = [
     {

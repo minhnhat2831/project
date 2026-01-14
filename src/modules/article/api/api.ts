@@ -1,17 +1,20 @@
 import axiosInstance from "@/services/axios";
-import type { ArticleResponse, GetArticleParams } from "../types/article/Article";
 import { API_ENDPOINTS } from "@/services/api";
-import type { ArticleIdResponse } from "../types/article/ArticleById";
-import type { ArticleCreateRequest, ArticleCreateResponse } from "../types/article/ArticleCreate";
-import type { ArticleEditRequest, ArticleEditResponse } from "../types/article/ArticleEdit";
-import type { ArticleDelete, ArticleDeleteResponse } from "../types/article/ArticleDelete";
-import type { GetCategoriesParams, GetCategoriesResponse } from "@/types/categories/Category";
+import type { 
+    ArticleBaseForm, 
+    ArticleDelete, 
+    ArticleDeleteResponse, 
+    ArticleRequest, 
+    ArticleResponse, 
+    GetArticleParams 
+} from "../schema/ArticleScheme";
 import type { MediaUrlRequest, MediaUrlResponse } from "@/types/media/Media.type";
+import type { CategoryBaseForm, GetCategoryParams } from "@/modules/category/schema/CategorySchema";
 
 export const GetAll = async (
     params : GetArticleParams
-) : Promise<ArticleResponse> => {
-    const response = await axiosInstance.get<ArticleResponse>(
+) : Promise<ArticleBaseForm> => {
+    const response = await axiosInstance.get<ArticleBaseForm>(
         API_ENDPOINTS.API_ARTICLE,{
             params
         }
@@ -21,17 +24,17 @@ export const GetAll = async (
 
 export const GetById = async (
     id : string
-) :  Promise<ArticleIdResponse> => {
-    const response = await axiosInstance.get<ArticleIdResponse>(
+) :  Promise<ArticleResponse> => {
+    const response = await axiosInstance.get<ArticleResponse>(
         API_ENDPOINTS.API_ARTICLE_ID(id)
     )
     return response.data
 }
 
 export const CreateArticle = async (
-    data : ArticleCreateRequest
-) : Promise<ArticleCreateResponse> => {
-    const response = await axiosInstance.post<ArticleCreateResponse>(
+    data : ArticleRequest
+) : Promise<ArticleResponse> => {
+    const response = await axiosInstance.post<ArticleResponse>(
         API_ENDPOINTS.API_ARTICLE,
         data
     )
@@ -40,9 +43,9 @@ export const CreateArticle = async (
 
 export const EditArticle = async (
     id : string,
-    data : ArticleEditRequest
-): Promise<ArticleEditResponse> => {
-    const response = await axiosInstance.put<ArticleEditResponse>(
+    data : ArticleRequest
+): Promise<ArticleResponse> => {
+    const response = await axiosInstance.put<ArticleResponse>(
         API_ENDPOINTS.API_ARTICLE_ID(id),
         data
     )
@@ -60,9 +63,9 @@ export const DeleteArticle = async (
 }
 
 export const GetCategory = async (
-    params : GetCategoriesParams
-): Promise<GetCategoriesResponse> => {
-    const response = await axiosInstance.get<GetCategoriesResponse>(
+    params : GetCategoryParams
+): Promise<CategoryBaseForm> => {
+    const response = await axiosInstance.get<CategoryBaseForm>(
         API_ENDPOINTS.API_CATEGOIES,
         {params}
     )

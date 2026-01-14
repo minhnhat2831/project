@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
-import type { AdminId } from "../types/AdminId"
 import { GetAdminId } from "../api/api"
+import type { Admin } from "../schema/AdminUserSchema"
 
 export const useAdminDetail = (id?: string) => {
-    const [data, setData] = useState<AdminId | null>(null)
+    const [data, setData] = useState<Admin | null>(null)
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {

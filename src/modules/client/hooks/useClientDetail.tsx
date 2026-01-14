@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react"
 import { toast } from "react-toastify"
 import { GetClientId } from "../api/api"
-import type { ClientId } from "../types/client/ClientId"
+import type { Client } from "../schema/ClientSchema"
 
 export const useClientDetail = (id?: string) => {
-    const [data, setData] = useState<ClientId | null>(null)
+    const [data, setData] = useState<Client | null>(null)
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {

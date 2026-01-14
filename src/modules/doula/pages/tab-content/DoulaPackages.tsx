@@ -4,8 +4,8 @@ import { getCoreRowModel, useReactTable } from "@tanstack/react-table"
 import { columns } from "../../components/model/DoulaPackageColumns"
 import TableData from "@/components/common/base/TableData"
 import TablePagination from "@/components/common/base/TablePagination"
-import type { DoulaPackageId } from "../../types/doula-package/DoulaPackageId"
 import { useStore } from "@/hooks/useStore"
+import type { DoulaPackageDetail } from "../../schema/DoulaPackageSchema"
 
 export default function DoulaPackages() {
     const nav = useNavigate()
@@ -19,7 +19,7 @@ export default function DoulaPackages() {
             pagination: { pageIndex, pageSize },
         },
         meta: {
-            onView: (doula: DoulaPackageId) => {
+            onView: (doula: DoulaPackageDetail) => {
                 nav(`/admin/package/${doula.id}`)
             },
         },

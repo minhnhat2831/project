@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import type { CategoryId } from "../types/CategoryId";
 import { GetCategoryId } from "../api/api";
+import type { Category } from "../schema/CategorySchema";
 
 export default function useCategoryDetail(id? : string) {
-    const [data, setData] = useState<CategoryId | null>(null)
+    const [data, setData] = useState<Category | null>(null)
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {

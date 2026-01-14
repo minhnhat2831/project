@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react"
-import type { GetTransactions, Transaction } from "../types/transactions/Transactions"
 import { GetTransaction } from "../api/api"
 import { toast } from "react-toastify"
+import type { Transaction, TransactionBaseForm } from "../schema/TransactionSchema"
 
 export const useTransactionFetch = (page?: number, limit?: number, f_doulaId?: string) => {
     const [data, setData] = useState<Transaction[]>([])
     const [loading, setLoading] = useState(false)
-    const [metadata, setMetadata] = useState<GetTransactions["metadata"] | null>(null)
+    const [metadata, setMetadata] = useState<TransactionBaseForm["metadata"] | null>(null)
 
     useEffect(() => {
         fetchDoula()

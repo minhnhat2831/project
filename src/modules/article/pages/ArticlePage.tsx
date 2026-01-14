@@ -14,9 +14,9 @@ export default function ArticlePage() {
     const { setRefetch } = useRefetchData()
 
     useEffect(() => {
-        resetData?.()
+        resetData()
         setRefetch(refetch)
-    }, [resetData])
+    }, [setRefetch])
 
     const table = useReactTable({
         data,

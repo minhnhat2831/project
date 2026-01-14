@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react"
-import type { Article, ArticleResponse } from "../types/article/Article"
 import { useStore } from "@/hooks/useStore"
 import { GetAll } from "../api/api"
 import { toast } from "react-toastify"
 import { useDebounce } from "use-debounce"
+import type { Article, ArticleBaseForm } from "../schema/ArticleScheme"
 
 export const useArticleData = () => {
     const [data, setData] = useState<Article[]>([])
     const [loading, setLoading] = useState(false)
-    const [metadata, setMetadata] = useState<ArticleResponse["metadata"] | null>(null)
+    const [metadata, setMetadata] = useState<ArticleBaseForm["metadata"] | null>(null)
     const { pageIndex, pageSize, search, sort } = useStore()
     const [debouncedSearch] = useDebounce(search, 500)
     const f_type = "article"

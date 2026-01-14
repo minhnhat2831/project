@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react"
-import type { AdminDoula, GetDoulaResponse } from "../types/admin-doula/AdminDoula"
 import { GetAllDoula } from "../api/api"
 import { toast } from "react-toastify"
 import { useStore } from "@/hooks/useStore"
 import { useDebounce } from "use-debounce"
+import type { Doula, DoulaBaseForm } from "../schema/DoulaSchema"
 
 export const useDouleFetch = () => {
-    const [data, setData] = useState<AdminDoula[]>([])
+    const [data, setData] = useState<Doula[]>([])
     const [loading, setLoading] = useState(false)
-    const [metadata, setMetadata] = useState<GetDoulaResponse["metadata"] | null>(null)
+    const [metadata, setMetadata] = useState<DoulaBaseForm["metadata"] | null>(null)
     const { pageIndex, pageSize, search, sort } = useStore()
     const [debouncedSearch] = useDebounce(search,1000)
     useEffect(() => {

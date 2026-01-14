@@ -7,7 +7,7 @@ import { countryCodes } from "@/constants/countryCode"
 import { useModalStore } from "@/hooks/useModalStore"
 import { toast } from "react-toastify"
 import { UpdateDoula } from "../../api/api"
-import { DoulaSchema, type DoulaForm } from "../../util/DoulaSchema"
+import { DoulaRequestSchema, type DoulaRequest } from "../../schema/DoulaSchema"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useDoulaStore } from "../../store/useSeletedDoula"
@@ -25,8 +25,8 @@ export default function DoulaFormModal({ type }: props) {
     const { data : doulaDetail } = useDouleDetail(isEdit ? selectedDoula?.id : "")
     const { refetch } = useRefetchData()
     const { register, handleSubmit,reset, formState: { errors } } =
-        useForm<DoulaForm>({
-            resolver: zodResolver(DoulaSchema),
+        useForm<DoulaRequest>({
+            resolver: zodResolver(DoulaRequestSchema),
             defaultValues: doulaDetail
                 ? {
                     user: {
@@ -56,7 +56,7 @@ export default function DoulaFormModal({ type }: props) {
         }
     },[reset, type, doulaDetail])
 
-    const onSubmit = async (data: DoulaForm) => {
+    const onSubmit = async (data: DoulaRequest) => {
         try {
             if(!doulaDetail) return
             const response = await UpdateDoula(doulaDetail?.id, data);

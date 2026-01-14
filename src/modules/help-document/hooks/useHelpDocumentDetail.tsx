@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { GetHelpDocumentById } from "../api/api";
 import { toast } from "react-toastify";
-import type { HelpDocumentId } from "../types/HelpDocumentById";
+import type { HelpDocument } from "../schema/HelpDocumentSchema";
 
 export default function useHelpDocumentDetail(id? : string) {
-    const [data, setData] = useState<HelpDocumentId | null>(null)
+    const [data, setData] = useState<HelpDocument | null>(null)
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {

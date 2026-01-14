@@ -1,5 +1,6 @@
 import { create } from "zustand"
-import type { Article } from "../types/article/Article"
+import type { Article } from "../schema/ArticleScheme"
+
 
 interface SelectedArticle {
     selectedArticle?: Article | null,

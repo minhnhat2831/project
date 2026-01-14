@@ -6,21 +6,20 @@ import { API } from "@/services/api";
 import { toast, ToastContainer } from "react-toastify";
 import Button from "@/components/common/form/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginSchema, type LoginForm } from "../util/UserSchema"
 import PasswordInput from "@/components/common/form/PasswordInput";
 import { usePasswordStore } from "@/hooks/usePasswordToggle";
+import { LoginRequestSchema, type LoginRequest } from "../schema/UserSchema";
 
 export default function LoginPage() {
     const navigate = useNavigate();
     const { openPassword } = usePasswordStore()
-    const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>({
-        resolver: zodResolver(LoginSchema)
+    const { register, handleSubmit, formState: { errors } } = useForm<LoginRequest>({
+        resolver: zodResolver(LoginRequestSchema)
     })
 
-    const onSubmit = async (data: LoginForm) => {
+    const onSubmit = async (data: LoginRequest) => {
         try {
-            const submitData = { ...(data) };
-            const res = await LoginAdmin(submitData);
+            const res = await LoginAdmin(data);
 
             const { accessToken, refreshToken } = res.data.tokens;
 
