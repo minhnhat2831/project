@@ -1,7 +1,7 @@
 import { create } from "zustand"
 import type { Pd } from "../schema/PdSchema"
 
-interface SelectedPdSession{
+interface SelectedPdSession {
     selectedPd: Pd | null,
     setSelectedPd: (pd: Pd | null) => void
 }

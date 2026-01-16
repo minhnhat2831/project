@@ -6,14 +6,13 @@ import DoulaInformation from "./tab-content/DoulaInformation";
 import DoulaSubscription from "./tab-content/DoulaSubscription";
 import DoulaPackages from "./tab-content/DoulaPackages";
 import DoulaReviews from "./tab-content/DoulaReviews";
-import { useEffect, useState } from "react";
-import { useDoulaInfomation } from "../hooks/useDoulaInformation";
 import { formatDate } from "@/components/common/base/FormatDate";
 import Avatar from "@mui/material/Avatar";
-import { useRefetchData } from "@/hooks/useRefetch";
 import { useDoulaStore } from "../store/useSelectedDoula";
 import { useModalStore } from "@/hooks/useModalStore";
 import { Container } from "../container/Container";
+import { useDoulaDetailQuery } from "../hooks/doula/useDoulaDetailQuery";
+import { useState } from "react";
 
 const tabs = [
     { name: "Information", key: "information" },
@@ -26,8 +25,7 @@ export default function DoulaViewPage() {
     const { id } = useParams<{ id: string }>()
     const nav = useNavigate()
     const [activeTab, setActiveTab] = useState("information");
-    const { data: doula, refetch } = useDoulaInfomation(id);
-    const { setRefetch } = useRefetchData()
+    const { data: doula } = useDoulaDetailQuery(id);
     const { selectedDoula } = useDoulaStore()
     const { setOpen, setTypeMode } = useModalStore()
 
@@ -36,10 +34,6 @@ export default function DoulaViewPage() {
         setTypeMode("edit")
         setOpen(true)
     }
-
-    useEffect(() => {
-        setRefetch(refetch)
-    }, [setRefetch])
 
     return (<>
         <Container>

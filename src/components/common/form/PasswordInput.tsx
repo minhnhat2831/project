@@ -20,15 +20,15 @@ export default function PasswordInput({ label, placeholder, children, showPasswo
                 placeholder={placeholder}
                 className={`h-12 pl-4 pr-15 rounded shadow-md text-md w-full border
                 ${error
-                    ? 'border-red-300 focus:border-red-500'
-                    : 'border focus:border-green-500 hover:outline hover:outline-green-300'
+                        ? 'border-red-300 focus:border-red-500'
+                        : 'border focus:border-green-500 hover:outline hover:outline-green-300'
                     }`}
                 {...rest}
             />
             <button
                 type="button"
                 className={`absolute cursor-pointer p-2 -ml-11`}
-                onClick={() => setOpenPassword(!openPassword) }
+                onClick={() => setOpenPassword(!openPassword)}
             >
                 {showPassword ? <Icons.Eye /> : <Icons.EyeOff />}
             </button>

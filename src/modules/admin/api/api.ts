@@ -1,15 +1,15 @@
 import axiosInstance from "@/services/axios"
 import { API_ENDPOINTS } from "@/services/api"
-import type { 
+import type {
   AdminDetailResponse,
-  AdminFormCreate, 
-  AdminFormEdit, 
-  AdminUserBaseForm, 
-  AdminUserResponse, 
-  GetAdminsParams 
+  AdminFormCreate,
+  AdminFormEdit,
+  AdminUserBaseForm,
+  AdminUserResponse,
+  GetAdminsParams
 } from "../schema/AdminUserSchema"
 
-export const GetAdmins = async (
+export const GetAllAdmin = async (
   params: GetAdminsParams
 ): Promise<AdminUserBaseForm> => {
   const response = await axiosInstance.get<AdminUserBaseForm>(
@@ -51,7 +51,7 @@ export const EditAdmin = async (
 }
 
 export const DeleteAdmin = async (
-  id : string
+  id?: string
 ): Promise<AdminUserResponse> => {
   const response = await axiosInstance.delete<AdminUserResponse>(
     API_ENDPOINTS.API_ADMIN_ADMINS_ID(id)
@@ -59,13 +59,11 @@ export const DeleteAdmin = async (
   return response.data
 }
 
-export const GetAdminId = async (
-  id : string
-) : Promise<AdminDetailResponse> => {
+export const GetAdminDetail = async (
+  id?: string
+): Promise<AdminDetailResponse> => {
   const response = await axiosInstance.get<AdminDetailResponse>(
     API_ENDPOINTS.API_ADMIN_ADMINS_ID(id)
   )
   return response.data
 }
-
-

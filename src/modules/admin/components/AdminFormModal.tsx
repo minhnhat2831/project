@@ -3,19 +3,17 @@ import Button from "@/components/common/form/Button";
 import PasswordInput from "@/components/common/form/PasswordInput";
 import SelectForm from "@/components/common/form/Select";
 import InputField from "@/components/common/form/Input";
-import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateAdmin, EditAdmin } from "../api/api";
-import { useAdminDetail } from "../hooks/useAdminDetail";
 import { useModalStore } from "@/hooks/useModalStore";
 import PopupCE from "@/components/common/base/PopupCE";
 import { Icons } from "@/components/common/base/Icon";
-import { useRefetchData } from "@/hooks/useRefetch";
 import { useAdminStore } from "../store/useSeletedAdminStore";
 import { usePasswordStore } from "@/hooks/usePasswordToggle";
 import { useEffect } from "react";
-import { useStore } from "@/hooks/useStore";
+import { useAdminMutation } from "../hooks/useAdminMutation";
+import { useAdminDetailQuery } from "../hooks/useAdminDetailQuery";
+import { toast } from "react-toastify";
 
 type AdminFormValues = AdminFormCreate | AdminFormEdit;
 interface props {
@@ -25,29 +23,13 @@ interface props {
 export default function AdminFormModal({ type }: props) {
     const { typeMode, setOpen, open } = useModalStore();
     const { openPassword } = usePasswordStore()
-    const { resetData } = useStore()
     const { selectedAdmin } = useAdminStore()
+    const method = useAdminMutation()
     const isEdit = typeMode === "edit";
-    const { data: dataDetail } = useAdminDetail(isEdit ? selectedAdmin?.id : "");
-    const { register, handleSubmit, setError, reset, formState: { errors } } = useForm<AdminFormValues>({
+    const { data: dataDetail } = useAdminDetailQuery(isEdit ? selectedAdmin?.id : undefined);
+    const { register, handleSubmit, reset,setError, formState: { errors } } = useForm<AdminFormValues>({
         resolver: zodResolver(
-            type === "create" ? CreateAdminUserSchema : EditAdminUserSchema
-        ),
-        defaultValues: isEdit ? {
-            username: dataDetail?.username ?? "",
-            firstName: dataDetail?.firstName ?? "",
-            lastName: dataDetail?.lastName ?? "",
-            email: dataDetail?.email ?? "",
-            status: dataDetail?.status ?? "",
-            password: "",
-        } : {
-            username: "",
-            firstName: "",
-            lastName: "",
-            email: "",
-            status: "",
-            password: "",
-        }
+            type === "create" ? CreateAdminUserSchema : EditAdminUserSchema)
     });
 
     useEffect(() => {
@@ -73,41 +55,48 @@ export default function AdminFormModal({ type }: props) {
         }
     }, [dataDetail, type, reset]);
 
-    const { refetch } = useRefetchData()
     const onSubmit = async (data: AdminFormValues) => {
-        try {
-            if (isEdit) {
-                if (!dataDetail) return
-                const response = await EditAdmin(data as AdminFormEdit, dataDetail.id);
-                reset(data)
-                toast.success(response.message);
-            } else {
-                const response = await CreateAdmin(data as AdminFormCreate);
-                toast.success(response.message);
-            }
-            refetch?.()
-            resetData()
-            setOpen(false);
-        } catch (error: any) {
-            const message = error.response?.data?.message;
-            if (message.toLowerCase().includes("username")) {
-                setError("username", {
-                    type: "server",
-                    message
-                })
-                return
-            }
-
-            if (message.toLowerCase().includes("email")) {
-                setError("email", {
-                    type: "server",
-                    message
-                })
-                return
-            }
-            toast.error("Thao tác thất bại");
+        if (isEdit) {
+            if (!dataDetail) return
+            method?.editMutation.mutate(
+                { data: data as AdminFormEdit, id: dataDetail.id},
+                {
+                    onSuccess: () => {
+                        reset(data)
+                        setOpen(false)
+                    }
+                }
+            )
+        } else {
+            method?.createMutation.mutate(
+                data as AdminFormCreate,
+                {
+                    onSuccess: () => {
+                        reset()
+                        setOpen(false)
+                    },
+                    onError: (error: any) => {
+                        const message = error.response?.data?.message
+                        if (message?.toLowerCase().includes("username")) {
+                            setError("username", {
+                                type: "server",
+                                message,
+                            })
+                            return
+                        }
+                        if (message?.toLowerCase().includes("email")) {
+                            setError("email", {
+                                type: "server",
+                                message,
+                            })
+                            return
+                        }
+                        toast.error(message)
+                    },
+                }
+            )
         }
-    };
+    }
 
     return (<>
         <PopupCE open={open} onOpenChange={setOpen}>
@@ -116,13 +105,18 @@ export default function AdminFormModal({ type }: props) {
                 <Button
                     variant="close"
                     size="sm"
-                    onClick={() => setOpen(!open)}><Icons.Close />
+                    onClick={() => {
+                        setOpen(!open)
+                        reset()
+                    }
+                    }><Icons.Close />
                 </Button>
             </div>
-            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full">
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full py-2">
                 <InputField
                     label="Username"
                     variant={isEdit ? "disable" : "form"}
+                    placeholder="UserName"
                     inputSize="lg"
                     {...register("username")}
                     disabled={isEdit}
@@ -133,6 +127,7 @@ export default function AdminFormModal({ type }: props) {
                     <InputField
                         label="First Name"
                         inputSize="lg"
+                        placeholder="FirstName"
                         className="mr-10"
                         {...register("firstName")}
                         error={errors.firstName?.message}
@@ -140,6 +135,7 @@ export default function AdminFormModal({ type }: props) {
                     <InputField
                         label="Last Name"
                         inputSize="lg"
+                        placeholder="LastName"
                         className="mr-10"
                         {...register("lastName")}
                         error={errors.lastName?.message}
@@ -150,6 +146,7 @@ export default function AdminFormModal({ type }: props) {
                     label="Email"
                     variant={isEdit ? "disable" : "form"}
                     inputSize="lg"
+                    placeholder="Email"
                     {...register("email")}
                     disabled={isEdit}
                     error={errors.email?.message}
@@ -164,6 +161,7 @@ export default function AdminFormModal({ type }: props) {
 
                 <PasswordInput
                     label="Password"
+                    placeholder="Password"
                     {...register("password")}
                     showPassword={openPassword}
                     error={errors.password?.message}

@@ -1,22 +1,14 @@
 import TableData from "@/components/common/base/TableData"
 import TablePagination from "@/components/common/base/TablePagination"
-import { useRefetchData } from "@/hooks/useRefetch"
 import { useStore } from "@/hooks/useStore"
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table"
-import { useEffect } from "react"
 import { Container } from "../container/Container"
 import { columns } from "../components/PdColumns"
-import { usePdData } from "../hooks/usePdData"
+import { usePdQuery } from "../hooks/usePdQuery"
 
 export default function PdSessionPage() {
-    const { data, loading, metadata, refetch } = usePdData()
-    const { pageIndex, pageSize, setPagination, resetData } = useStore()
-    const { setRefetch } = useRefetchData()
-
-    useEffect(() => {
-        resetData?.()
-        setRefetch(refetch)
-    }, [setRefetch])
+    const { data, loading, metadata } = usePdQuery()
+    const { pageIndex, pageSize, setPagination  } = useStore()
 
     const table = useReactTable({
         data,

@@ -1,18 +1,18 @@
 import { Icons } from "@/components/common/base/Icon";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { columns } from "../../components/modal/TransactionColumns";
+import { columns } from "../../components/columns/TransactionColumns";
 import TableData from "@/components/common/base/TableData";
 import TablePagination from "@/components/common/base/TablePagination";
-import { useTransactionFetch } from "../../hooks/useTransactionFetch";
 import { useParams } from "react-router";
-import { useDoulaSubscription } from "../../hooks/useDoulaSubscription";
 import { formatDate } from "@/components/common/base/FormatDate";
 import { useStore } from "@/hooks/useStore";
+import { useTransactionQuery } from "../../hooks/useTransactionQuery";
+import { useDoulaSubscriptionQuery } from "../../hooks/useDoulaSubscriptionQuery";
 
 export default function DoulaSubscription() {
     const { pageIndex, pageSize, setPagination } = useStore()
     const { id } = useParams<{ id?: string }>()
-    const { data, loading, metadata } = useTransactionFetch(pageIndex + 1, pageSize, id)
+    const { data, loading, metadata } = useTransactionQuery(id)
     const table = useReactTable({
         data,
         columns,
@@ -24,7 +24,7 @@ export default function DoulaSubscription() {
         onPaginationChange: setPagination,
         getCoreRowModel: getCoreRowModel()
     })
-    const { data: subscription } = useDoulaSubscription(id)
+    const { data: subscription } = useDoulaSubscriptionQuery(id)
 
 
     return (<>

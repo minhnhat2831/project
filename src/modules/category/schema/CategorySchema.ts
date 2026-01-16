@@ -10,22 +10,22 @@ export const GetCategoryParamsSchema = z.object({
     search: z.string().nullable().optional(),
     sort: z.string().optional(),
     f_name: z.string().optional(),
-    f_status : z.string().optional()
+    f_status: z.string().optional()
 });
 
 export type CategoryRequest = z.infer<typeof CategoryRequestSchemas>;
 export const CategoryRequestSchemas = z.object({
     title: z.string().min(1, required),
     name: z.string().min(1, required),
-    status: z.string().min(1, required), 
-    image: z.string().min(1,required),
+    status: z.string().min(1, required),
+    image: z.string().min(1, required),
 })
 
 export type Category = z.infer<typeof CategorySchema>
 export const CategorySchema = z.object({
-    id : z.string(),
-    name : z.string(),
-    title : z.string(),
+    id: z.string(),
+    name: z.string(),
+    title: z.string(),
     picture: z.object({
         id: z.string(),
         uri: z.string().nullable().optional(),
@@ -42,10 +42,10 @@ export const CategorySchema = z.object({
         }).optional(),
         createdAt: z.string()
     }),
-    status : z.enum(['active' , 'inactive']),
-    slug : z.string(),
-    createdAt : z.string(),
-    updatedAt : z.string().nullable()
+    status: z.enum(['active', 'inactive']),
+    slug: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable()
 })
 
 export type CategoryBaseForm = z.infer<typeof CategoryBaseFormSchema>
@@ -63,17 +63,17 @@ export const CategoryBaseFormSchema = z.object({
 
 export type CategoryResponse = z.infer<typeof CategoryResponseSchema>
 export const CategoryResponseSchema = z.object({
-    message : z.string(),
-    data : CategorySchema
+    message: z.string(),
+    data: CategorySchema
 })
 
 export type CategoryDeleteResponse = z.infer<typeof CategoryDeleteResponseSchema>
 export const CategoryDeleteResponseSchema = z.object({
-    message : z.string(),
-    data : z.string()
+    message: z.string(),
+    data: z.string()
 })
 
 export type CategoryDelete = z.infer<typeof CategoryDeleteSchema>
 export const CategoryDeleteSchema = z.object({
-    ids : z.string().array()
+    ids: z.string().array()
 })

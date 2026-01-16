@@ -1,22 +1,18 @@
 import { Icons } from "@/components/common/base/Icon"
-import { DeleteAdmin } from "../api/api"
 import { toast } from "react-toastify"
 import Button from "@/components/common/form/Button"
-import { useRefetchData } from "@/hooks/useRefetch"
 import PopupConfirm from "@/components/common/base/PopupConfirm"
 import { useModalStore } from "@/hooks/useModalStore"
 import { useAdminStore } from "../store/useSeletedAdminStore"
+import { useAdminMutation } from "../hooks/useAdminMutation"
 
 export default function AdminDelete() {
-    const { refetch } = useRefetchData()
     const { open, setOpen } = useModalStore()
     const { selectedAdmin } = useAdminStore()
+    const method = useAdminMutation()
     const handleDelete = async () => {
         try {
-            if(!selectedAdmin) return
-            const response = await DeleteAdmin(selectedAdmin.id)
-            toast.success(response?.message)
-            refetch?.()
+            method?.deleteMutation.mutate({ id: selectedAdmin?.id })
             setOpen(false)
         } catch (error: any) {
             const message = error.response?.data.message

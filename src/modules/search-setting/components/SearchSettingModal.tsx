@@ -5,12 +5,12 @@ import { useStore } from "@/hooks/useStore";
 import SearchSettingDelete from "./SearchSettingDelete";
 import SearchSettingFormModal from "./SearchSettingFormModal";
 
-export default function SearchSettingModal(){
+export default function SearchSettingModal() {
     const { open, setOpen, typeMode, setTypeMode } = useModalStore()
     const { search, setSearch } = useStore()
 
     const renderModal = () => {
-        switch(typeMode){
+        switch (typeMode) {
             case "create":
                 return <SearchSettingFormModal type={"create"} />
             case "edit":
@@ -21,23 +21,24 @@ export default function SearchSettingModal(){
                 return null
         }
     }
-    return(<>
-        <Header href="/admin/search-settings" childrenHref={"Search Setting"} 
-        children={
-            <>
-            <Button
-                variant="create"
-                size="sm"
-                className="mr-4"
-                onClick={() => {
-                    setTypeMode("create")
-                    setOpen(!open)}}
-            >
-                Create
-            </Button>
-            </>
-        }
-        searchValue={search} onSearchChange={setSearch}
+    return (<>
+        <Header href="/admin/search-settings" childrenHref={"Search Setting"}
+            children={
+                <>
+                    <Button
+                        variant="create"
+                        size="sm"
+                        className="mr-4"
+                        onClick={() => {
+                            setTypeMode("create")
+                            setOpen(!open)
+                        }}
+                    >
+                        Create
+                    </Button>
+                </>
+            }
+            searchValue={search} onSearchChange={setSearch}
         />
         {renderModal()}
     </>)

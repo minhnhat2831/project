@@ -28,6 +28,11 @@ export const VoucherRequestScheme = z.object({
     type: z.string().min(1, required),
 })
 
+export type VoucherEditStatus = z.infer<typeof VoucherEditStatusSchema>
+export const VoucherEditStatusSchema = z.object({
+    status: z.enum(["active", "inactive"])
+})
+
 export type Voucher = z.infer<typeof VoucherScheme>;
 export const VoucherScheme = z.object({
     id: z.string(),
@@ -119,8 +124,8 @@ export const VoucherDoulaScheme = z.object({
     })
 })
 
-export type VoucherDoulaBaseForm = z.infer<typeof VoucherDoulaBaseFormScheme>;
-export const VoucherDoulaBaseFormScheme = z.object({
+export type DoulaVoucherBaseForm = z.infer<typeof DoulaVoucherBaseFormScheme>;
+export const DoulaVoucherBaseFormScheme = z.object({
     message: z.string(),
     data: z.array(VoucherDoulaScheme),
     metadata: z.object({

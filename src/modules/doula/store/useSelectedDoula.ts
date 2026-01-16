@@ -2,8 +2,8 @@ import { create } from "zustand"
 import type { Doula } from "../schema/DoulaSchema"
 
 interface DoulaStore {
-    selectedDoula? : Doula | null,
-    setSelectedDoula: (Doula: Doula | null) => void
+    selectedDoula : Doula | null,
+    setSelectedDoula: (Doula: Doula) => void
 }
 
 export const useDoulaStore = create<DoulaStore>((set) =>({

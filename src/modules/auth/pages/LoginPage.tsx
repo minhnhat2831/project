@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form"
 import InputField from "@/components/common/form/Input"
-import { LoginAdmin } from "../api/api";
+import { GetLogin } from "../api/api";
 import { useNavigate } from "react-router";
 import { API } from "@/services/api";
 import { toast, ToastContainer } from "react-toastify";
@@ -19,7 +19,7 @@ export default function LoginPage() {
 
     const onSubmit = async (data: LoginRequest) => {
         try {
-            const res = await LoginAdmin(data);
+            const res = await GetLogin(data);
 
             const { accessToken, refreshToken } = res.data.tokens;
 

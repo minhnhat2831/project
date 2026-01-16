@@ -1,22 +1,14 @@
 import { useReactTable, getCoreRowModel } from "@tanstack/react-table"
 import { columns } from "../components/AdminColumn"
 import TableData from "@/components/common/base/TableData"
-import { useAdminData } from "../hooks/useAdminData"
 import TablePagination from "@/components/common/base/TablePagination"
 import { useStore } from "@/hooks/useStore"
 import { Container } from "../container/AdminContainer"
-import { useRefetchData } from "@/hooks/useRefetch"
-import { useEffect } from "react"
+import { useAdminQuery } from "../hooks/useAdminQuery"
 
 export default function AdminPage() {
-    const { pageIndex, pageSize, setPagination, resetData } = useStore()
-    const { data, loading, metadata, refetch } = useAdminData()
-    const { setRefetch } = useRefetchData()
-
-    useEffect(() => {
-        resetData()
-        setRefetch(refetch)
-    }, [setRefetch])
+    const { pageIndex, pageSize, setPagination } = useStore()
+    const { data, loading, metadata } = useAdminQuery()
 
     const table = useReactTable({
         data,

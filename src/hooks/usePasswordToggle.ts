@@ -12,5 +12,4 @@ export const usePasswordStore = create<PasswordStoreState>((set) => ({
         set({
             openPassword: false,
         }),
-
 }))

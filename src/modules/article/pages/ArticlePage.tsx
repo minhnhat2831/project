@@ -1,22 +1,14 @@
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table"
-import { useArticleData } from "../hooks/useArticleData"
 import { ArticleColumns as columns } from "../components/ArticleColumns"
 import { Container } from "../container/Container"
 import TableData from "@/components/common/base/TableData"
 import TablePagination from "@/components/common/base/TablePagination"
 import { useStore } from "@/hooks/useStore"
-import { useRefetchData } from "@/hooks/useRefetch"
-import { useEffect } from "react"
+import useArticleQuery from "../hooks/useArticleQuery"
 
 export default function ArticlePage() {
-    const { data, loading, metadata, refetch } = useArticleData()
-    const { pageIndex, pageSize, setPagination, resetData } = useStore()
-    const { setRefetch } = useRefetchData()
-
-    useEffect(() => {
-        resetData()
-        setRefetch(refetch)
-    }, [setRefetch])
+    const { data, loading, metadata } = useArticleQuery()
+    const { pageIndex, pageSize, setPagination } = useStore()
 
     const table = useReactTable({
         data,

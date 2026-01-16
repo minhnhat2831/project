@@ -7,10 +7,9 @@ interface prop {
     children?: ReactNode | null,
     searchValue?: string
     onSearchChange?: ((value: string) => any),
-    hidden? : string
+    hidden?: string
 }
 export default function Header({ href, childrenHref, children, searchValue, onSearchChange, hidden }: prop) {
-    
     return (<>
         <div className="fixed top-0 left-60 right-0 h-15 flex justify-between items-center z-50 bg-white">
             <div className="flex items-center gap-8 p-5">

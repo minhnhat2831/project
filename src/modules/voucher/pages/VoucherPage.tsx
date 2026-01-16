@@ -1,22 +1,14 @@
-import { useRefetchData } from "@/hooks/useRefetch";
 import { Container } from "../container/Container";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { columns } from "../components/VoucherColumns";
+import { columns } from "../components/columns/VoucherColumns";
 import { useStore } from "@/hooks/useStore";
 import TableData from "@/components/common/base/TableData";
 import TablePagination from "@/components/common/base/TablePagination";
-import { useEffect } from "react";
-import { useVoucherData } from "../hooks/useVoucherData";
+import { useVoucherQuery } from "../hooks/useVoucherQuery";
 
 export default function VoucherPage() {
-    const { data, loading, metadata, refetch } = useVoucherData()
-    const { setRefetch } = useRefetchData()
-    const { pageIndex, pageSize, setPagination, resetData } = useStore()
-
-    useEffect(() => {
-        resetData?.()
-        setRefetch(refetch)
-    },[setRefetch])
+    const { data, loading, metadata } = useVoucherQuery()
+    const { pageIndex, pageSize, setPagination } = useStore()
     
     const table = useReactTable({
         data,

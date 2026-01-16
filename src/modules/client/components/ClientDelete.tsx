@@ -1,22 +1,19 @@
 import { Icons } from "@/components/common/base/Icon"
-import { useRefetchData } from "@/hooks/useRefetch"
-import { DeleteClient } from "../api/api"
 import { toast } from "react-toastify"
 import Button from "@/components/common/form/Button"
 import { useClientStore } from "../store/useSelectedClient"
 import { useModalStore } from "@/hooks/useModalStore"
 import PopupConfirm from "@/components/common/base/PopupConfirm"
+import { useClientMutation } from "../hooks/useClientMutation"
 
 export default function ClientDelete() {
-    const { refetch } = useRefetchData()
     const { open, setOpen } = useModalStore()
     const { selectedClient } = useClientStore()
+    const { deleteMutation } = useClientMutation()
     const handleDelete = async () => {
         try {
             if (!selectedClient) return
-            const response = await DeleteClient(selectedClient?.id)
-            toast.success(response?.message)
-            refetch?.()
+            deleteMutation.mutate({ id: selectedClient.id })
             setOpen(false)
         } catch (error: any) {
             toast.error(error.response?.data?.message)

@@ -1,25 +1,27 @@
-import { useRefetchData } from "@/hooks/useRefetch";
 import { toast } from "react-toastify";
-import { DeletePd } from "../api/api";
 import { Icons } from "@/components/common/base/Icon";
 import Button from "@/components/common/form/Button";
 import { usePdStore } from "../store/useSelectedPd";
 import { useModalStore } from "@/hooks/useModalStore";
 import PopupConfirm from "@/components/common/base/PopupConfirm";
+import { usePdMutation } from "../hooks/usePdMutation";
 
 export default function PdDelete() {
-    const { refetch } = useRefetchData()
     const { selectedPd } = usePdStore()
     const { open, setOpen } = useModalStore()
+    const { deleteMutation } = usePdMutation()
     const handleDelete = async () => {
         try {
             if (!selectedPd) return
-            const response = await DeletePd({
-                ids: [selectedPd.id]
+            deleteMutation.mutate({
+                data: {
+                    ids: [selectedPd.id]
+                }
+            }, {
+                onSuccess: () => {
+                    setOpen(false)
+                }
             })
-            toast.success(response?.message)
-            refetch?.()
-            setOpen(false)
         } catch (error: any) {
             toast.error(error.response?.data?.message)
         }

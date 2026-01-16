@@ -1,4 +1,4 @@
-import VoucherModal from "../components/VoucherModal";
+import VoucherModal from "../components/modal/VoucherModal";
 
 export const Container = ({children} : React.PropsWithChildren) => {
     return (<>

@@ -2,15 +2,17 @@ import { useStore } from "@/hooks/useStore"
 import { Icons } from "@/components/common/base/Icon"
 
 export const SortHeader = ({ columnKey, title }: { columnKey: string, title: string }) => {
-  const { sort, setSort } = useStore()
+  const { sort, setSort, resetData } = useStore()
   const isAsc = sort === columnKey
   const isDesc = sort === `-${columnKey}`
 
   const handleSort = () => {
-    if (!sort || sort === `-${columnKey}`) {
-      setSort(columnKey) // asc
-    } else {
-      setSort(`-${columnKey}`) // desc
+    if (!sort) {
+      setSort(`${columnKey}`)
+    } else if (isAsc) {
+      setSort(`-${columnKey}`)
+    } else if (isDesc) {
+      resetData()
     }
   }
 

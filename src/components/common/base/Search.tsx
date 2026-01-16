@@ -3,7 +3,7 @@ import InputField from "../form/Input"
 type SearchProps = {
   Svalue?: string
   onChange?: ((value: string) => any),
-  hidden? : string
+  hidden?: string
 }
 
 export const Search = ({ Svalue, onChange, hidden }: SearchProps) => {

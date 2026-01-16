@@ -1,23 +1,23 @@
-import { useRefetchData } from "@/hooks/useRefetch"
-import { DeleteHelpDocument } from "../api/api"
 import { toast } from "react-toastify"
 import { Icons } from "@/components/common/base/Icon"
 import Button from "@/components/common/form/Button"
 import { useDocumentStore } from "../store/useSelectedDocument"
 import { useModalStore } from "@/hooks/useModalStore"
 import PopupConfirm from "@/components/common/base/PopupConfirm"
+import { useHelpDocumentMutation } from "../hooks/useHelpDocumentMutation"
 
 export default function HelpDocumentDelete() {
-    const { refetch } = useRefetchData()
     const { open, setOpen } = useModalStore()
     const { selectedDocument } = useDocumentStore()
+    const { deleteMutation } = useHelpDocumentMutation()
     const handleDelete = async () => {
         try {
             if (!selectedDocument) return
-            const response = await DeleteHelpDocument(selectedDocument.id)
-            toast.success(response?.message)
-            refetch?.()
-            setOpen(false)
+            deleteMutation.mutate({ id: selectedDocument.id }, {
+                onSuccess: () => {
+                    setOpen(false)
+                }
+            })
         } catch (error: any) {
             toast.error(error.response?.data?.message)
         }

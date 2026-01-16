@@ -19,19 +19,19 @@ export default function Image({
   defaultImage,
 }: Props) {
   const [preview, setPreview] = useState<string | null>(
-  defaultImage ? defaultImage : null
-)
+    defaultImage ? defaultImage : null
+  )
   const { getUploadUrl, loading } = useMediaData()
 
-   useEffect(() => {
+  useEffect(() => {
     if (defaultImage) {
-      setPreview(defaultImage)  
+      setPreview(defaultImage)
     }
   }, [defaultImage])
 
   return (
     <div className="px-4">
-      
+
       {label && (
         <label className="block mb-1">
           {label}

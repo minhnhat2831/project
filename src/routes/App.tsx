@@ -8,7 +8,7 @@ import PublicRoute from "../components/context/PublicRoute"
 import { 
   AdminPage,
   LoginPage,
-  AdminLayout,
+  Layout,
   DoulaPage,
   ClientPage,
   PackagePage,
@@ -43,22 +43,30 @@ function App() {
             path="/admin"
             element={
               <AuthContext>
-                <AdminLayout />
+                <Layout />
               </AuthContext>}
           >
             <Route index element={<AdminPage />}></Route>
             <Route path="" element={<AdminPage />}></Route>
+
             <Route path="doulas" element={<DoulaPage />}></Route>
             <Route path="doulas/:id" element={<DoulaViewPage />}></Route>
+
             <Route path="clients" element={<ClientPage />}></Route>
-            <Route path="package/:id" element={<PackagePage />}></Route>
             <Route path="clients/:id" element={<ClientViewPage />}></Route>
+            <Route path="package/:id" element={<PackagePage />}></Route>
+
             <Route path="articles" element={<ArticlePage />}></Route>
+
             <Route path="pd-sessions" element={<PdSessionPage />}></Route>
+
             <Route path="categories" element={<CategoryPage />}></Route>
+
             <Route path="voucher" element={<VoucherPage />}></Route>
             <Route path="voucher/:id" element={<VoucherViewPage />}></Route>
+
             <Route path="help-documents" element={<HelpDocumentPage />}></Route>
+            
             <Route path="search-settings" element={<SearchSettingPage />}></Route>
           </Route>
           

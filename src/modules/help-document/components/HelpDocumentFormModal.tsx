@@ -1,19 +1,18 @@
 import PopupCE from "@/components/common/base/PopupCE"
 import { useModalStore } from "@/hooks/useModalStore"
 import { useDocumentStore } from "../store/useSelectedDocument"
-import useHelpDocumentDetail from "../hooks/useHelpDocumentDetail"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { HelpDocumentRequestSchema, type HelpDocumentRequest } from "../schema/HelpDocumentSchema"
 import { useForm } from "react-hook-form"
-import { useRefetchData } from "@/hooks/useRefetch"
 import { toast } from "react-toastify"
-import { CreateHelpDocument, EditHelpDocument } from "../api/api"
 import Button from "@/components/common/form/Button"
 import { Icons } from "@/components/common/base/Icon"
 import InputField from "@/components/common/form/Input"
 import SelectForm from "@/components/common/form/Select"
 import TextArea from "@/components/common/form/TextArea"
 import { useEffect } from "react"
+import { useHelpDocumentDetailQuery } from "../hooks/useHelpDocumentDetailQuery"
+import { useHelpDocumentMutation } from "../hooks/useHelpDocumentMutation"
 
 interface props {
     type: "create" | "edit"
@@ -23,18 +22,19 @@ export default function HelpDocumentFormModal({ type }: props) {
     const { open, setOpen, typeMode } = useModalStore()
     const isEdit = typeMode === "edit"
     const { selectedDocument } = useDocumentStore()
-    const { data: helpDocumentDetail } = useHelpDocumentDetail(isEdit ? selectedDocument?.id : "")
+    const method = useHelpDocumentMutation()
+    const { data: helpDocumentDetail } = useHelpDocumentDetailQuery(isEdit ? selectedDocument?.id : "")
     const { register, handleSubmit, reset, setError, formState: { errors } } = useForm<HelpDocumentRequest>({
         resolver: zodResolver(HelpDocumentRequestSchema),
-        defaultValues: helpDocumentDetail ? {
-            title: helpDocumentDetail?.title,
-            content: helpDocumentDetail?.content,
-            status: helpDocumentDetail?.status,
-        } : {
-            title: "",
-            content: "",
-            status: ""
-        }
+        // defaultValues: helpDocumentDetail ? {
+        //     title: helpDocumentDetail?.title,
+        //     content: helpDocumentDetail?.content,
+        //     status: helpDocumentDetail?.status,
+        // } : {
+        //     title: "",
+        //     content: "",
+        //     status: ""
+        // }
     })
 
     useEffect(() => {
@@ -54,45 +54,50 @@ export default function HelpDocumentFormModal({ type }: props) {
         }
     }, [type, reset, helpDocumentDetail])
 
-    const { refetch } = useRefetchData()
-
     const onSubmit = async (data: HelpDocumentRequest) => {
         try {
             if (isEdit) {
                 if (!helpDocumentDetail) return
-                const response = await EditHelpDocument(helpDocumentDetail.id, data)
-                toast.success(response?.message)
-                reset(data)
+                method.editMutation.mutate({ id: helpDocumentDetail.id, data: data }, {
+                    onSuccess: () => {
+                        reset(data)
+                        setOpen(false)
+                    }
+                })
             } else {
-                const response = await CreateHelpDocument(data)
-                toast.success(response?.message)
-                reset()
+                method.createMutation.mutate(data, {
+                    onSuccess: () => {
+                        reset()
+                        setOpen(false)
+                    },
+                    onError: (err: any) => {
+                        const message = err.response?.data?.message
+                        if (message.toLowerCase().includes("title")) {
+                            setError("title", {
+                                type: "server",
+                                message
+                            })
+                            return
+                        }
+                        if (message.toLowerCase().includes("status")) {
+                            setError("status", {
+                                type: "server",
+                                message
+                            })
+                            return
+                        }
+                        if (message.toLowerCase().includes("content")) {
+                            setError("content", {
+                                type: "server",
+                                message
+                            })
+                            return
+                        }
+                    }
+                })
             }
-            refetch?.()
-            setOpen(false)
         } catch (err: any) {
-            const message = err.response?.data?.message
-            if (message.toLowerCase().includes("title")) {
-                setError("title", {
-                    type: "server",
-                    message
-                })
-                return
-            }
-            if (message.toLowerCase().includes("status")) {
-                setError("status", {
-                    type: "server",
-                    message
-                })
-                return
-            }
-            if (message.toLowerCase().includes("content")) {
-                setError("content", {
-                    type: "server",
-                    message
-                })
-                return
-            }
+            toast.error(err.response?.data?.message)
         }
     }
     return (<>
@@ -102,7 +107,10 @@ export default function HelpDocumentFormModal({ type }: props) {
                 <Button
                     variant="close"
                     size="sm"
-                    onClick={() => setOpen(!open)}><Icons.Close />
+                    onClick={() => {
+                        setOpen(!open)
+                        reset()
+                    }}><Icons.Close />
                 </Button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full overflow-auto">
@@ -126,7 +134,7 @@ export default function HelpDocumentFormModal({ type }: props) {
 
                     <TextArea
                         label="Content"
-                        placeholder="Write article content..."
+                        placeholder="Write content here..."
                         {...register("content")}
                         error={errors.content?.message}
                     />

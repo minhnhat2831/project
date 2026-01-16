@@ -9,6 +9,6 @@ export const inputVariants = {
         form: "focus:outline focus:outline-green-300 hover:outline hover:outline-green-300 mb-4 mt-1",
         search: "focus:outline focus:outline-sky-500",
         disable: "bg-gray-200 mb-4 mt-1",
-        error : "border-red-500"
+        error: "border-red-500"
     }
 } as const
