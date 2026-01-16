@@ -1,23 +1,24 @@
 import { Icons } from "@/components/common/base/Icon"
-import { DoulaRemove } from "../../api/api"
 import { toast } from "react-toastify"
-import { useRefetchData } from "@/hooks/useRefetch"
 import Button from "@/components/common/form/Button"
 import { useDoulaStore } from "../../store/useSelectedDoula"
 import { useModalStore } from "@/hooks/useModalStore"
 import PopupConfirm from "@/components/common/base/PopupConfirm"
+import { useDoulaMutation } from "../../hooks/doula/useDoulaMutation"
 
 export default function DoulaDelete() {
-    const { refetch } = useRefetchData()
     const { selectedDoula } = useDoulaStore()
     const { open, setOpen } = useModalStore()
+    const { deleteMutation } = useDoulaMutation()
     const handleDelete = async () => {
         try {
             if (!selectedDoula) return
-            const response = await DoulaRemove(selectedDoula?.id)
-            toast.success(response?.message)
-            refetch?.()
-            setOpen(false)
+            deleteMutation.mutate({ id: selectedDoula?.id }, {
+                onSuccess: () => {
+                    setOpen(false)
+                }
+            })
+
         } catch (error: any) {
             toast.error(error.response?.data?.message)
         }

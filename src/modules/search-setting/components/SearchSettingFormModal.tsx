@@ -3,14 +3,12 @@ import { useModalStore } from "@/hooks/useModalStore"
 import { useSettingStore } from "../store/useSelectedSetting"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useRefetchData } from "@/hooks/useRefetch"
-import { toast } from "react-toastify"
-import { CreateSetting, EditSetting } from "../api/api"
 import Button from "@/components/common/form/Button"
 import { Icons } from "@/components/common/base/Icon"
 import InputField from "@/components/common/form/Input"
 import { useEffect } from "react"
 import { SearchSettingRequestScheme, type SearchSettingRequest } from "../schema/SearchSettingSchema"
+import { useSearchSettingMutation } from "../hooks/useSearchSettingMutation"
 
 interface props {
     type: "create" | "edit"
@@ -20,13 +18,14 @@ export default function SearchSettingFormModal({ type }: props) {
     const { open, setOpen, typeMode } = useModalStore()
     const { selectedSearchSetting } = useSettingStore()
     const isEdit = typeMode === "edit"
+    const method = useSearchSettingMutation()
     const { register, handleSubmit, setError, reset, formState: { errors } } = useForm<SearchSettingRequest>({
         resolver: zodResolver(SearchSettingRequestScheme),
-        defaultValues: isEdit ? {
-            keyword: selectedSearchSetting?.keyword,
-        } : {
-            keyword: ""
-        }
+        // defaultValues: isEdit ? {
+        //     keyword: selectedSearchSetting?.keyword,
+        // } : {
+        //     keyword: ""
+        // }
     })
 
     useEffect(() => {
@@ -41,23 +40,26 @@ export default function SearchSettingFormModal({ type }: props) {
             })
         }
     }, [reset, type, selectedSearchSetting])
-    const { refetch } = useRefetchData()
+
     const onSubmit = async (data: SearchSettingRequest) => {
         try {
+            const searchSettingData = { ...(data), count: 1, isSuggestion: true }
             if (isEdit) {
                 if (!selectedSearchSetting) return
-                const searchSettingData = { ...(data), count: 1, isSuggestion: true }
-                const response = await EditSetting(selectedSearchSetting?.id, searchSettingData)
-                toast.success(response?.message)
-                reset(searchSettingData)
+                method.editMutation.mutate({ id: selectedSearchSetting?.id, data: searchSettingData }, {
+                    onSuccess: () => {
+                        reset(searchSettingData)
+                        setOpen(false)
+                    }
+                })
             } else {
-                const searchSettingData = { ...(data), count: 1, isSuggestion: true }
-                const response = await CreateSetting(searchSettingData)
-                toast.success(response?.message)
-                reset()
+                method.createMutation.mutate(searchSettingData, {
+                    onSuccess: () => {
+                        reset()
+                        setOpen(false)
+                    }
+                })
             }
-            refetch?.()
-            setOpen(false)
         } catch (err: any) {
             const message = err.response?.data?.message
             if (message.toLowerCase().includes("keyword")) {
@@ -76,7 +78,10 @@ export default function SearchSettingFormModal({ type }: props) {
                 <Button
                     variant="close"
                     size="sm"
-                    onClick={() => setOpen(!open)}><Icons.Close />
+                    onClick={() => {
+                        setOpen(!open)
+                        reset()
+                    }}><Icons.Close />
                 </Button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full overflow-auto">

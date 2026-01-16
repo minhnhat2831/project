@@ -1,13 +1,9 @@
 import { useModalStore } from "@/hooks/useModalStore"
-import usePdDetail from "../hooks/usePdDetail"
 import { usePdStore } from "../store/useSelectedPd"
 import { useForm } from "react-hook-form"
 import { PdRequestScheme, type PdRequest } from "../schema/PdSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useRefetchData } from "@/hooks/useRefetch"
-import { useCategoryData } from "@/hooks/useCategoryData"
 import { toast } from "react-toastify"
-import { Createpd, EditPd } from "../api/api"
 import Button from "@/components/common/form/Button"
 import { Icons } from "@/components/common/base/Icon"
 import InputField from "@/components/common/form/Input"
@@ -16,6 +12,9 @@ import Image from "@/components/common/form/Image"
 import TextArea from "@/components/common/form/TextArea"
 import PopupCE from "@/components/common/base/PopupCE"
 import { useEffect } from "react"
+import { useCategoryQuery } from "@/modules/category/hooks/useCategoryQuery"
+import { usePdDetailQuery } from "../hooks/usePdDetailQuery"
+import { usePdMutation } from "../hooks/usePdMutation"
 
 interface props {
     type: "create" | "edit"
@@ -25,32 +24,32 @@ export default function PdFormModal({ type }: props) {
     const { open, setOpen, typeMode } = useModalStore()
     const { selectedPd } = usePdStore()
     const isEdit = typeMode === "edit"
-    const { data: pdsessionId } = usePdDetail(isEdit ? selectedPd?.id : "")
-    const { register, handleSubmit, reset, control, formState: { errors } } =
+    const method = usePdMutation()
+    const { data: pdsessionId } = usePdDetailQuery(isEdit ? selectedPd?.id : "")
+    const { register, handleSubmit, reset, setError, control, formState: { errors } } =
         useForm<PdRequest>({
             resolver: zodResolver(PdRequestScheme),
-            defaultValues: pdsessionId
-                ? {
-                    title: pdsessionId?.title ?? "",
-                    author: pdsessionId?.author ?? "",
-                    status: pdsessionId?.status ?? "",
-                    categoryId: pdsessionId?.categoryId ?? "",
-                    timeToRead: pdsessionId?.timeToRead ?? 0,
-                    picture: pdsessionId?.picture?.uri ?? selectedPd?.picture?.uri ?? "",
-                    content: pdsessionId?.content ?? "",
-                }
-                : {
-                    title: "",
-                    author: "",
-                    status: "",
-                    categoryId: "",
-                    timeToRead: 0,
-                    picture: "",
-                    content: ""
-                }
+            // defaultValues: pdsessionId
+            //     ? {
+            //         title: pdsessionId?.title ?? "",
+            //         author: pdsessionId?.author ?? "",
+            //         status: pdsessionId?.status ?? "",
+            //         categoryId: pdsessionId?.categoryId ?? "",
+            //         timeToRead: pdsessionId?.timeToRead ?? 0,
+            //         picture: pdsessionId?.picture?.uri ?? selectedPd?.picture?.uri ?? "",
+            //         content: pdsessionId?.content ?? "",
+            //     }
+            //     : {
+            //         title: "",
+            //         author: "",
+            //         status: "",
+            //         categoryId: "",
+            //         timeToRead: 0,
+            //         picture: "",
+            //         content: ""
+            //     }
         })
-    const { refetch } = useRefetchData()
-    const { data: category } = useCategoryData()
+    const { data: category } = useCategoryQuery()
 
     useEffect(() => {
         if (type === "create") {
@@ -79,20 +78,33 @@ export default function PdFormModal({ type }: props) {
 
     const onSubmit = async (data: PdRequest) => {
         try {
+            const pddata = { ...(data), type: "pd" }
             if (isEdit) {
                 if (!pdsessionId) return
-                const pddata = { ...(data), type: "pd" }
-                const response = await EditPd(pdsessionId.id, pddata);
-                toast.success(response?.message)
-                reset(pddata)
+                method.editMutation.mutate({ id: pdsessionId.id, data: pddata }, {
+                    onSuccess: () => {
+                        reset(pddata)
+                        setOpen(false)
+                    }
+                })
             } else {
-                const pddata = { ...(data), type: "pd" }
-                const response = await Createpd(pddata);
-                toast.success(response?.message)
-                reset()
+                method.createMutation.mutate(pddata, {
+                    onSuccess: () => {
+                        reset()
+                        setOpen(false)
+                    },
+                    onError: (err: any) => {
+                        const message = err.response.data.message
+                        if (message.toLowerCase().includes("picture")) {
+                            setError("picture", {
+                                type: "server",
+                                message
+                            })
+                            return
+                        }
+                    }
+                })
             }
-            refetch?.()
-            setOpen(false);
         } catch (error: any) {
             toast.error(error.response?.data?.message)
         }
@@ -104,7 +116,10 @@ export default function PdFormModal({ type }: props) {
                 <Button
                     variant="close"
                     size="sm"
-                    onClick={() => setOpen(!open)}><Icons.Close />
+                    onClick={() => {
+                        setOpen(!open)
+                        reset()
+                    }}><Icons.Close />
                 </Button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full overflow-auto">
@@ -164,7 +179,7 @@ export default function PdFormModal({ type }: props) {
 
                     <TextArea
                         label="Content"
-                        placeholder="Write article content..."
+                        placeholder="Write content here..."
                         {...register("content")}
                         error={errors.content?.message}
                     />

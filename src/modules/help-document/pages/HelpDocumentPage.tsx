@@ -1,21 +1,13 @@
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { Container } from "../container/Container";
 import { useStore } from "@/hooks/useStore";
-import { useHelpDocumentData } from "../hooks/useHelpDocumentData";
 import { columns } from "../components/HelpDocumentColumns";
 import TableData from "@/components/common/base/TableData";
 import TablePagination from "@/components/common/base/TablePagination";
-import { useRefetchData } from "@/hooks/useRefetch";
-import { useEffect } from "react";
+import { useHelpDocumentQuery } from "../hooks/useHelpDocumentQuery";
 export default function HelpDocumentPage() {
-    const { pageIndex, pageSize, setPagination, resetData } = useStore()
-    const { data, loading, metadata, refetch } = useHelpDocumentData()
-    const { setRefetch } = useRefetchData()
-    
-    useEffect(() => {
-        resetData?.()
-        setRefetch(refetch)
-    },[setRefetch])
+    const { pageIndex, pageSize, setPagination } = useStore()
+    const { data, loading, metadata } = useHelpDocumentQuery()
 
     const table = useReactTable({
         data,

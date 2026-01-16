@@ -1,25 +1,27 @@
 import { Icons } from "@/components/common/base/Icon"
-import { useRefetchData } from "@/hooks/useRefetch"
-import { DeleteArticle } from "../api/api"
 import { toast } from "react-toastify"
 import Button from "@/components/common/form/Button"
 import { useArticleStore } from "../store/useSelectedArticle"
 import PopupConfirm from "@/components/common/base/PopupConfirm"
 import { useModalStore } from "@/hooks/useModalStore"
+import useArticleMutation from "../hooks/useArticleMutation"
 
 export default function ArticleDelete() {
-    const { refetch } = useRefetchData()
     const { selectedArticle } = useArticleStore()
     const { open, setOpen } = useModalStore()
+    const { deleteMutation } = useArticleMutation()
     const handleDelete = async () => {
         try {
             if (!selectedArticle) return
-            const response = await DeleteArticle({
-                ids: [selectedArticle.id]
+            deleteMutation.mutate({
+                data: {
+                    ids: [selectedArticle.id]
+                }
+            }, {
+                onSuccess: () => {
+                    setOpen(false)
+                }
             })
-            toast.success(response?.message)
-            refetch?.()
-            setOpen(false)
         } catch (error: any) {
             toast.error(error.response?.data?.message)
         }

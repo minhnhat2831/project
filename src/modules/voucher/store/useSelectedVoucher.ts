@@ -2,7 +2,7 @@ import { create } from "zustand"
 import type { Voucher } from "../schema/VoucherSchema"
 
 interface VoucherStore {
-    selectedVoucher? : Voucher | null,
+    selectedVoucher : Voucher | null,
     setSelectedVoucher: (Doula: Voucher | null) => void
 }
 

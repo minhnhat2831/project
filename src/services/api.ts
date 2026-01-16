@@ -18,24 +18,23 @@ export const API_ENDPOINTS = {
 
     //Admin admin
     API_ADMIN_ADMINS : '/admins/admins',
-    API_ADMIN_ADMINS_ID : (id : string) => `/admins/admins/${id}`,
+    API_ADMIN_ADMINS_ID : (id? : string) => `/admins/admins/${id}`,
 
     //Admin doula
     API_ADMIN_DOULA : '/admins/doulas',
-    API_ADMIN_DOULA_ID : (id : string) => `/admins/doulas/${id}`,
+    API_ADMIN_DOULA_ID : (id? : string) => `/admins/doulas/${id}`,
 
     //Admin client
     API_ADMIN_CLIENT : '/admins/users',
-    API_ADMIN_CLIENT_ID : (id : string) => `/admins/users/${id}`,
+    API_ADMIN_CLIENT_ID : (id? : string) => `/admins/users/${id}`,
 
     //Doula
-    API_DOULA_ME : 'doulas/me',
-    API_DOULA_ID : (id : string) => `/admins/doulas/${id}`,
-    API_DOULA_SUBSCRIPTIONS_ID : (id : string) => `/admins/doula-subscriptions/${id}`,
+    API_DOULA_ID : (id? : string) => `/admins/doulas/${id}`,
+    API_DOULA_SUBSCRIPTIONS_ID : (id? : string) => `/admins/doula-subscriptions/${id}`,
 
     //Doula Package
     API_DOULA_PACKAGE : `/admins/doula-packages`,
-    API_DOULA_PACKAGE_ID : (id : string) => `/admins/doula-packages/${id}`,
+    API_DOULA_PACKAGE_ID : (id? : string) => `/admins/doula-packages/${id}`,
 
     //review
     API_DOULA_REVIEW : `/admins/reviews`,
@@ -43,36 +42,36 @@ export const API_ENDPOINTS = {
 
     //transactions
     API_TRANSACTIONS : '/admins/transactions',
-    API_TRANSACTIONS_ID : (id : string) => `/admins/transactions/${id}`,
+    API_TRANSACTIONS_ID : (id? : string) => `/admins/transactions/${id}`,
 
     //Cares
     API_CARES : '/admins/cares',
-    API_CARES_ID : (id : string) => `/admins/cares/${id}`,
+    API_CARES_ID : (id? : string) => `/admins/cares/${id}`,
 
     //article
     API_ARTICLE : `/admins/articles`,
-    API_ARTICLE_ID : (id : string) => `/admins/articles/${id}`,
+    API_ARTICLE_ID : (id? : string) => `/admins/articles/${id}`,
 
     //categoies
     API_CATEGOIES : '/admins/categories',
-    API_CATEGOIES_ID : (id : string) => `/admins/categories/${id}`,
+    API_CATEGOIES_ID : (id? : string) => `/admins/categories/${id}`,
     
     //Media
     API_MEDIA : "/medias/signed-url",
 
     //Vouchers
     API_VOUCHERS : "/admins/vouchers",
-    API_VOUCHERS_ID : (id : string) => `/admins/vouchers/${id}`,
+    API_VOUCHERS_ID : (id? : string) => `/admins/vouchers/${id}`,
 
     //Doula-Voucher
     API_DOULA_VOUCHER : "/admins/doula-vouchers",
 
     //help document
     API_HELP_DOCUMENT : "/admins/help-documents",
-    API_HELP_DOCUMENT_ID : (id : string) => `/admins/help-documents/${id}`,
+    API_HELP_DOCUMENT_ID : (id? : string) => `/admins/help-documents/${id}`,
 
     //Search-setting
     API_SEARCH_SETTING : "/admins/trending-keywords",
-    API_SEARCH_SETTING_ID : (id : string) => `/admins/trending-keywords/${id}`
+    API_SEARCH_SETTING_ID : (id? : string) => `/admins/trending-keywords/${id}`
 }
 

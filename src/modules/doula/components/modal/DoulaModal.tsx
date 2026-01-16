@@ -4,14 +4,14 @@ import DoulaDelete from "./DoulaDelete";
 
 export default function DoulaModal() {
     const { typeMode } = useModalStore()
-    
+
     const renderModal = () => {
-        switch(typeMode){
-            case "edit" :
+        switch (typeMode) {
+            case "edit":
                 return <DoulaFormModal type={"edit"} />
-            case "delete" : 
+            case "delete":
                 return <DoulaDelete />
-            default :
+            default:
                 return null
         }
     }

@@ -1,24 +1,17 @@
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import TableData from "@/components/common/base/TableData";
-import { columns } from "../components/modal/DoulaColumns"
-import { useDouleFetch } from "../hooks/useDoulaFetch";
+import { columns } from "../components/columns/DoulaColumns"
 import TablePagination from "@/components/common/base/TablePagination";
 import { useStore } from "@/hooks/useStore";
 import { Container } from "../container/Container";
-import { useEffect } from "react";
-import { useRefetchData } from "@/hooks/useRefetch";
 import Header from "@/layouts/Header";
+import { useDoulaQuery } from "../hooks/doula/useDoulaQuery";
 
 export default function DoulaPage() {
-    const { pageIndex, pageSize, setPagination, search, setSearch, resetData } = useStore()
-    const { data, loading, metadata, refetch } = useDouleFetch()
-    const { setRefetch } = useRefetchData()
+    const { pageIndex, pageSize, setPagination, search, setSearch } = useStore()
+    const { data, loading, metadata } = useDoulaQuery()
 
-    useEffect(() => {
-        resetData?.()
-        setRefetch(refetch)
-    },[setRefetch])
-    
+
     const table = useReactTable({
         data,
         columns,
@@ -33,7 +26,7 @@ export default function DoulaPage() {
 
     return (<>
         <Container>
-            <Header href="/admin/doulas" childrenHref="Admin / Doula Management" searchValue={search} onSearchChange={setSearch}/>
+            <Header href="/admin/doulas" childrenHref="Admin / Doula Management" searchValue={search} onSearchChange={setSearch} />
             <TableData
                 loading={loading}
                 table={table}

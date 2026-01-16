@@ -5,15 +5,14 @@ import InputField from "@/components/common/form/Input"
 import SelectForm from "@/components/common/form/Select"
 import { useModalStore } from "@/hooks/useModalStore"
 import { useCategoryStore } from "../store/useSelectedCategory"
-import useCategoryDetail from "../hooks/useCategoryDetail"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { CategoryRequestSchemas, type CategoryRequest } from "../schema/CategorySchema"
 import { useForm } from "react-hook-form"
-import { useRefetchData } from "@/hooks/useRefetch"
-import { toast } from "react-toastify"
-import { CreateCategory, EditCategory } from "../api/api"
 import { Icons } from "@/components/common/base/Icon"
 import { useEffect } from "react"
+import { useCategoryDetailQuery } from "../hooks/useCategoryDetailQuery"
+import { useCategoryMutation } from "../hooks/useCategoryMutation"
+import { toast } from "react-toastify"
 
 interface props {
     type: "create" | "edit"
@@ -23,22 +22,21 @@ export default function CategoryFormModal({ type }: props) {
     const { open, setOpen, typeMode } = useModalStore()
     const isEdit = typeMode === "edit"
     const { selectedCategory } = useCategoryStore()
-    const { data: categoryId } = useCategoryDetail(isEdit ? selectedCategory?.id : "")
+    const method = useCategoryMutation()
+    const { data: categoryId } = useCategoryDetailQuery(isEdit ? selectedCategory?.id : "")
     const { register, handleSubmit, setError, reset, control, formState: { errors } } = useForm<CategoryRequest>({
-        resolver: zodResolver(
-            type === "create" ? CategoryRequestSchemas : CategoryRequestSchemas
-        ),
-        defaultValues: isEdit ? {
-            title: categoryId?.title ?? "",
-            name: categoryId?.name ?? "",
-            status: categoryId?.status ?? "",
-            image: categoryId?.picture?.uri ?? ""
-        } : {
-            title: "",
-            name: "",
-            status: "",
-            image: ""
-        }
+        resolver: zodResolver(CategoryRequestSchemas),
+        // defaultValues: isEdit ? {
+        //     title: categoryId?.title ?? "",
+        //     name: categoryId?.name ?? "",
+        //     status: categoryId?.status ?? "",
+        //     image: categoryId?.picture?.uri ?? ""
+        // } : {
+        //     title: "",
+        //     name: "",
+        //     status: "",
+        //     image: ""
+        // }
     })
 
     useEffect(() => {
@@ -60,51 +58,88 @@ export default function CategoryFormModal({ type }: props) {
         }
     }, [categoryId, type, reset]);
 
-    const { refetch } = useRefetchData()
     const onSubmit = async (data: CategoryRequest) => {
         try {
             if (isEdit) {
                 if (!categoryId) return
-                const response = await EditCategory(categoryId?.id, data);
-                reset(data)
-                toast.success(response.message);
+                method.editMutation.mutate({ id: categoryId.id, data: data }, {
+                    onSuccess: () => {
+                        reset(data)
+                        setOpen(false)
+                    },
+                    onError: (err: any) => {
+                        const message = err.response?.data?.message
+                        if (message.toLowerCase().includes("title")) {
+                            setError("title", {
+                                type: "server",
+                                message
+                            })
+                            return
+                        }
+                        if (message.toLowerCase().includes("name")) {
+                            setError("name", {
+                                type: "server",
+                                message
+                            })
+                            return
+                        }
+                        if (message.toLowerCase().includes("status")) {
+                            setError("status", {
+                                type: "server",
+                                message
+                            })
+                            return
+                        }
+                        if (message.toLowerCase().includes("image")) {
+                            setError("image", {
+                                type: "server",
+                                message
+                            })
+                            return
+                        }
+                    }
+                })
             } else {
-                const response = await CreateCategory(data);
-                reset()
-                toast.success(response.message);
+                method.createMutation.mutate(data, {
+                    onSuccess: () => {
+                        reset()
+                        setOpen(false)
+                    },
+                    onError: (err: any) => {
+                        const message = err.response?.data?.message
+                        if (message.toLowerCase().includes("title")) {
+                            setError("title", {
+                                type: "server",
+                                message
+                            })
+                            return
+                        }
+                        if (message.toLowerCase().includes("name")) {
+                            setError("name", {
+                                type: "server",
+                                message
+                            })
+                            return
+                        }
+                        if (message.toLowerCase().includes("status")) {
+                            setError("status", {
+                                type: "server",
+                                message
+                            })
+                            return
+                        }
+                        if (message.toLowerCase().includes("image")) {
+                            setError("image", {
+                                type: "server",
+                                message
+                            })
+                            return
+                        }
+                    }
+                })
             }
-            refetch?.()
-            setOpen(false)
         } catch (err: any) {
-            const message = err.response?.data?.message
-            if (message.toLowerCase().includes("title")) {
-                setError("title", {
-                    type: "server",
-                    message
-                })
-                return
-            }
-            if (message.toLowerCase().includes("name")) {
-                setError("name", {
-                    type: "server",
-                    message
-                })
-                return
-            }
-            if (message.toLowerCase().includes("status")) {
-                setError("status", {
-                    type: "server",
-                    message
-                })
-                return
-            }
-            if (message.toLowerCase().includes("image")) {
-                setError("image", {
-                    type: "server",
-                    message
-                })
-                return
-            }
+            toast.error(err.response?.data?.message)
         }
     }
 
@@ -115,7 +150,10 @@ export default function CategoryFormModal({ type }: props) {
                 <Button
                     variant="close"
                     size="sm"
-                    onClick={() => setOpen(!open)}><Icons.Close />
+                    onClick={() => {
+                        setOpen(!open)
+                        reset()
+                    }}><Icons.Close />
                 </Button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full overflow-auto">

@@ -1,17 +1,17 @@
 import { useNavigate, useParams } from "react-router"
-import { useDoulaPackage } from "../../hooks/useDoulaPackageFetch"
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table"
-import { columns } from "../../components/modal/DoulaPackageColumns"
+import { columns } from "../../components/columns/DoulaPackageColumns"
 import TableData from "@/components/common/base/TableData"
 import TablePagination from "@/components/common/base/TablePagination"
 import { useStore } from "@/hooks/useStore"
 import type { DoulaPackageDetail } from "../../schema/DoulaPackageSchema"
+import { useDoulaPackageQuery } from "../../hooks/doulaPackage/useDoulaPackageQuery"
 
 export default function DoulaPackages() {
     const nav = useNavigate()
     const { pageIndex, pageSize, setPagination } = useStore()
     const { id } = useParams<{ id?: string }>()
-    const { data, loading, metadata } = useDoulaPackage(pageIndex + 1, pageSize, id)
+    const { data, loading, metadata } = useDoulaPackageQuery(id)
     const table = useReactTable({
         data,
         columns,

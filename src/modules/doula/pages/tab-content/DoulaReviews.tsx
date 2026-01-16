@@ -1,16 +1,16 @@
 import { Icons } from "@/components/common/base/Icon";
-import { useDoulaReview } from "../../hooks/useDoulaReview";
 import TableData from "@/components/common/base/TableData";
 import TablePagination from "@/components/common/base/TablePagination";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { columns } from "../../components/modal/DoulaReviewColumns";
+import { columns } from "../../components/columns/DoulaReviewColumns";
 import { useParams } from "react-router";
 import { useStore } from "@/hooks/useStore";
+import { useDoulaReviewQuery } from "../../hooks/useDoulaReviewQuery";
 
 export default function DoulaReviews() {
     const { pageIndex, pageSize, setPagination } = useStore()
     const { id } = useParams<{ id?: string }>()
-    const { data, loading, metadata } = useDoulaReview(pageIndex + 1, pageSize, id)
+    const { data, loading, metadata } = useDoulaReviewQuery(id)
     const table = useReactTable({
         data,
         columns,

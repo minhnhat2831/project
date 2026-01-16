@@ -1,21 +1,21 @@
 import { Icons } from "@/components/common/base/Icon";
 import Header from "@/layouts/Header";
 import { useNavigate, useParams } from "react-router";
-import { useVoucherDetail } from "../hooks/useVoucherDetail";
 import { formatDate } from "@/components/common/base/FormatDate";
-import useDoulaVoucherData from "../hooks/useDoulaVoucherData";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { columns } from "../components/DoulaVoucherColumns";
+import { columns } from "../components/columns/DoulaVoucherColumns";
 import { useStore } from "@/hooks/useStore";
 import TableData from "@/components/common/base/TableData";
 import TablePagination from "@/components/common/base/TablePagination";
+import { useVoucherDetailQuery } from "../hooks/useVoucherDetailQuery";
+import { useDoulaVoucherQuery } from "../hooks/useDoulaVoucherQuery";
 
 export default function VoucherViewPage() {
     const { id } = useParams<{ id: string }>()
     const nav = useNavigate()
-    const { data: voucherId } = useVoucherDetail(id)
+    const { data: voucherId } = useVoucherDetailQuery(id)
     const { pageIndex, pageSize } = useStore()
-    const { data, loading, metadata } = useDoulaVoucherData(id)
+    const { data, loading, metadata } = useDoulaVoucherQuery(id)
     const table = useReactTable({
         data,
         columns,

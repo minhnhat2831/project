@@ -19,7 +19,7 @@ export default function SideBar() {
     const adminData = localStorage.getItem("admin")
     const admin = adminData ? JSON.parse(adminData) : null
     const Avatar = (admin?.lastName).charAt(0).toUpperCase();
-    
+
     return (<>
         <div className="w-60 h-full border fixed z-10 bg-white">
             <div className="w-full h-1/12 border flex justify-between items-center px-3 bg-[#390099]">
@@ -42,7 +42,7 @@ export default function SideBar() {
                                 </div>
 
                                 <div
-                                    className={`overflow-hidden transition-all duration-300 ease-in-out
+                                    className={`overflow-hidden transition-all duration-500 ease-in-out
                                     ${openAccount ? "max-h-40" : "max-h-0"}`}
                                 >
                                     {router.children.map((child, idx) => (

@@ -50,7 +50,7 @@ export const columns: ColumnDef<Admin>[] = [
       const admin = row.original
       const { setOpen, setTypeMode } = useModalStore()
       const { setSelectedAdmin } = useAdminStore()
-      
+
       const handleEdit = () => {
         setSelectedAdmin(admin)
         setTypeMode("edit")

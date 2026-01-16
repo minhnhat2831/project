@@ -4,28 +4,27 @@ import Button from "@/components/common/form/Button"
 import PhoneInput from "@/components/common/form/PhoneInput"
 import SelectForm from "@/components/common/form/Select"
 import { countryCodes } from "@/constants/countryCode"
-import { useRefetchData } from "@/hooks/useRefetch"
 import { useClientStore } from "../store/useSelectedClient"
-import { useClientDetail } from "../hooks/useClientDetail"
 import { useModalStore } from "@/hooks/useModalStore"
 import { useForm } from "react-hook-form"
 import { ClientRequestSchema, type ClientRequest } from "../schema/ClientSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "react-toastify"
-import { EditClient } from "../api/api"
 import { useEffect } from "react"
+import { useClientMutation } from "../hooks/useClientMutation"
+import { useClientDetailQuery } from "../hooks/useClientDetailQuery"
 
 interface props {
     type: "create" | "edit"
 }
 
 export default function ClientFormModal({ type }: props) {
-    const { refetch } = useRefetchData()
     const { open, setOpen, typeMode } = useModalStore()
     const { selectedClient } = useClientStore()
+    const { editMutation } = useClientMutation()
     const isEdit = typeMode === "edit"
-    const { data: clientData } = useClientDetail(isEdit ? selectedClient?.id : "")
-    const { register, handleSubmit,reset, formState: { errors } } =
+    const { data: clientData } = useClientDetailQuery(isEdit ? selectedClient?.id : "")
+    const { register, handleSubmit, reset, formState: { errors } } =
         useForm<ClientRequest>({
             resolver: zodResolver(ClientRequestSchema),
             defaultValues: clientData ?
@@ -60,11 +59,13 @@ export default function ClientFormModal({ type }: props) {
     const onSubmit = async (data: ClientRequest) => {
         try {
             if (!clientData) return
-            const response = await EditClient(clientData.id, data)
-            reset(data)
-            toast.success(response?.message)
-            refetch?.()
-            setOpen(false);
+            editMutation.mutate({ id: clientData.id, data: data }, {
+                onSuccess: () => {
+                    reset(data)
+                    setOpen(false);
+                }
+            })
+
         } catch (error: any) {
             toast.error(error.response?.data?.message)
         }
@@ -77,7 +78,10 @@ export default function ClientFormModal({ type }: props) {
                 <Button
                     variant="close"
                     size="sm"
-                    onClick={() => setOpen(!open)}><Icons.Close />
+                    onClick={() => {
+                        setOpen(!open)
+                        reset()
+                    }}><Icons.Close />
                 </Button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full">

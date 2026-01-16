@@ -1,25 +1,27 @@
 import { Icons } from "@/components/common/base/Icon"
 import { toast } from "react-toastify"
-import { useRefetchData } from "@/hooks/useRefetch"
-import { DeleteCategory } from "../api/api"
 import Button from "@/components/common/form/Button"
 import { useCategoryStore } from "../store/useSelectedCategory"
 import { useModalStore } from "@/hooks/useModalStore"
 import PopupConfirm from "@/components/common/base/PopupConfirm"
+import { useCategoryMutation } from "../hooks/useCategoryMutation"
 
 export default function CategoryDelete() {
-    const { refetch } = useRefetchData()
     const { open, setOpen } = useModalStore()
+    const { deleteMutation } = useCategoryMutation()
     const { selectedCategory } = useCategoryStore()
     const handleDelete = async () => {
         try {
             if (!selectedCategory) return
-            const response = await DeleteCategory({
-                ids: [selectedCategory?.id]
+            deleteMutation.mutate({
+                data: {
+                    ids: [selectedCategory?.id]
+                }
+            }, {
+                onSuccess: () => {
+                    setOpen(!open)
+                }
             })
-            toast.success(response?.message)
-            refetch?.()
-            setOpen(false)
         } catch (error: any) {
             toast.error(error.response?.data?.message)
         }

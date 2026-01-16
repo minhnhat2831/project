@@ -41,24 +41,24 @@ export default function TableData<T>({ loading, pagination, table }: Iprops<T>) 
                                 No result
                             </td>
                         </tr>) : <>
-                        {table.getRowModel().rows.map(row => (
-                            <tr key={row.id}>
-                                {row.getVisibleCells().map(cell => (
-                                    <td key={cell.id} className="px-3 py-3 border font-serif">
-                                        {flexRender(
-                                            cell.column.columnDef.cell,
-                                            cell.getContext()
-                                        )}
-                                    </td>
-                                ))}
-                            </tr>
-                        ))}</>}
+                            {table.getRowModel().rows.map(row => (
+                                <tr key={row.id}>
+                                    {row.getVisibleCells().map(cell => (
+                                        <td key={cell.id} className="px-3 py-3 border font-serif">
+                                            {flexRender(
+                                                cell.column.columnDef.cell,
+                                                cell.getContext()
+                                            )}
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}</>}
                     </tbody>
-            </table>
-        </div>
-        <div className="flex items-center">
-            {pagination}
-        </div></>
+                </table>
+            </div>
+            <div className="flex items-center">
+                {pagination}
+            </div></>
         }
     </>)
 }

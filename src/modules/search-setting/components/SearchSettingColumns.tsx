@@ -21,7 +21,7 @@ export const columns: ColumnDef<SearchSetting>[] = [
     {
         accessorKey: "createdAt",
         header: "Created Date",
-        cell : ({ getValue }) => {
+        cell: ({ getValue }) => {
             const date = getValue<string>()
             return <div>{formatDate(date)}</div>
         }

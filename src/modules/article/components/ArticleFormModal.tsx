@@ -3,58 +3,53 @@ import Button from "@/components/common/form/Button"
 import Image from "@/components/common/form/Image"
 import InputField from "@/components/common/form/Input"
 import TextArea from "@/components/common/form/TextArea"
-import { useCategoryData } from "@/hooks/useCategoryData"
-import { useRefetchData } from "@/hooks/useRefetch"
-import { toast } from "react-toastify"
 import { useArticleStore } from "../store/useSelectedArticle"
-import useArticleDetail from "../hooks/useArticleDetail"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useModalStore } from "@/hooks/useModalStore"
-import { CreateArticle, EditArticle } from "../api/api"
 import SelectForm from "@/components/common/form/Select"
 import PopupCE from "@/components/common/base/PopupCE"
 import { useEffect } from "react"
 import { ArticleRequestScheme, type ArticleRequest } from "../schema/ArticleScheme"
-import { useStore } from "@/hooks/useStore"
+import { useArticleDetailQuery } from "../hooks/useArticleDetailQuery"
+import useArticleMutation from "../hooks/useArticleMutation"
+import { toast } from "react-toastify"
+import { useCategoryQuery } from "@/modules/category/hooks/useCategoryQuery"
 
 interface props {
     type: "create" | "edit"
 }
 
 export default function ArticleFormModal({ type }: props) {
-    const { resetData } = useStore()
     const { open, setOpen, typeMode } = useModalStore()
     const isEdit = typeMode === "edit"
     const { selectedArticle } = useArticleStore()
-    const { data: articleDetail } = useArticleDetail(isEdit ? selectedArticle?.id : "")
+    const method = useArticleMutation()
+    const { data: articleDetail } = useArticleDetailQuery(isEdit ? selectedArticle?.id : "")
     const { register, handleSubmit, control, reset, setError, formState: { errors } } =
         useForm<ArticleRequest>({
-            resolver: zodResolver(
-                type === "create" ? ArticleRequestScheme : ArticleRequestScheme
-            ),
-            defaultValues: isEdit
-                ? {
-                    title: articleDetail?.title ?? "",
-                    author: articleDetail?.author ?? "",
-                    status: articleDetail?.status ?? "",
-                    categoryId: articleDetail?.categoryId ?? "",
-                    timeToRead: articleDetail?.timeToRead ?? 0,
-                    content: articleDetail?.content ?? "",
-                    picture: articleDetail?.picture?.uri ?? ""
-                }
-                : {
-                    title: "",
-                    author: "",
-                    status: "",
-                    categoryId: "",
-                    timeToRead: 0,
-                    content: "",
-                    picture: ""
-                }
+            resolver: zodResolver(ArticleRequestScheme),
+            // defaultValues: isEdit
+            //     ? {
+            //         title: articleDetail?.title ?? "",
+            //         author: articleDetail?.author ?? "",
+            //         status: articleDetail?.status ?? "",
+            //         categoryId: articleDetail?.categoryId ?? "",
+            //         timeToRead: articleDetail?.timeToRead ?? 0,
+            //         content: articleDetail?.content ?? "",
+            //         picture: articleDetail?.picture?.uri ?? ""
+            //     }
+            //     : {
+            //         title: "",
+            //         author: "",
+            //         status: "",
+            //         categoryId: "",
+            //         timeToRead: 0,
+            //         content: "",
+            //         picture: ""
+            //     }
         })
-    const { refetch } = useRefetchData()
-    const { data: category } = useCategoryData()
+    const { data: category } = useCategoryQuery()
 
     useEffect(() => {
         if (type === "edit" && articleDetail) {
@@ -81,35 +76,42 @@ export default function ArticleFormModal({ type }: props) {
         }
     }, [articleDetail, type, reset]);
 
-
     const onSubmit = async (data: ArticleRequest) => {
         try {
+            const submitData = { ...data, type: "article" }
             if (isEdit) {
                 if (!articleDetail) return
-                const submitData = { ...data, type: "article" };
-                const response = await EditArticle(articleDetail.id, submitData,);
-                reset(submitData);
-                toast.success(response.message);
+                method?.editMutation.mutate(
+                    { data: submitData, id: articleDetail.id },
+                    {
+                        onSuccess: () => {
+                            reset(data)
+                            setOpen(false)
+                        }
+                    }
+                )
             } else {
-                const submitData = { ...data, type: "article" };
-                const response = await CreateArticle(submitData);
-                reset();
-                toast.success(response.message);
-            }
-            refetch?.()
-            resetData()
-            setOpen(false);
-        } catch (error: any) {
-            const message = error.response.data.message
-            if (message.toLowerCase().includes("picture")) {
-                setError("picture", {
-                    type: "server",
-                    message
+                method.createMutation.mutate(submitData, {
+                    onSuccess: () => {
+                        reset()
+                        setOpen(false)
+                    },
+                    onError: (error: any) => {
+                        const message = error.response.data.message
+                        if (message.toLowerCase().includes("picture")) {
+                            setError("picture", {
+                                type: "server",
+                                message
+                            })
+                            return
+                        }
+                    }
                 })
-                return
             }
+        } catch (error: any) {
             toast.error(error.response?.data?.message)
         }
+
     };
     return (<>
         <PopupCE open={open} onOpenChange={setOpen}>
@@ -118,7 +120,11 @@ export default function ArticleFormModal({ type }: props) {
                 <Button
                     variant="close"
                     size="sm"
-                    onClick={() => setOpen(!open)}><Icons.Close />
+                    onClick={() => {
+                        setOpen(!open)
+                        reset()
+                    }
+                    }><Icons.Close />
                 </Button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full overflow-auto">
@@ -178,7 +184,7 @@ export default function ArticleFormModal({ type }: props) {
 
                     <TextArea
                         label="Content"
-                        placeholder="Write article content..."
+                        placeholder="Write content here..."
                         {...register("content")}
                         error={errors.content?.message}
                     />

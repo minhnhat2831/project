@@ -8,9 +8,9 @@ import HelpDocumentDelete from "./HelpDocumentDelete"
 export default function HelpDocumentModal() {
     const { setOpen, typeMode, setTypeMode } = useModalStore()
     const { search, setSearch } = useStore()
-    
+
     const renderModal = () => {
-        switch(typeMode){
+        switch (typeMode) {
             case "create":
                 return <HelpDocumentFormModal type={"create"} />
             case "edit":
@@ -33,7 +33,8 @@ export default function HelpDocumentModal() {
                         className="mr-8"
                         onClick={() => {
                             setTypeMode("create")
-                            setOpen(true)}}
+                            setOpen(true)
+                        }}
                     >
                         Create
                     </Button>
