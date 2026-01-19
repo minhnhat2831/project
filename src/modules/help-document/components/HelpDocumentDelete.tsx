@@ -1,19 +1,19 @@
 import { toast } from "react-toastify"
-import { Icons } from "@/components/common/base/Icon"
+import { icons } from "@/components/common/base/Icon"
 import Button from "@/components/common/form/Button"
 import { useDocumentStore } from "../store/useSelectedDocument"
 import { useModalStore } from "@/hooks/useModalStore"
 import PopupConfirm from "@/components/common/base/PopupConfirm"
-import { useHelpDocumentMutation } from "../hooks/useHelpDocumentMutation"
+import useHelpDocument from "../hooks/useHelpDocument"
 
 export default function HelpDocumentDelete() {
     const { open, setOpen } = useModalStore()
     const { selectedDocument } = useDocumentStore()
-    const { deleteMutation } = useHelpDocumentMutation()
+    const { useDeleteHelpDocument } = useHelpDocument()
     const handleDelete = async () => {
         try {
             if (!selectedDocument) return
-            deleteMutation.mutate({ id: selectedDocument.id }, {
+            useDeleteHelpDocument.mutate({ id: selectedDocument.id }, {
                 onSuccess: () => {
                     setOpen(false)
                 }
@@ -26,7 +26,7 @@ export default function HelpDocumentDelete() {
         <>
             <PopupConfirm open={open} onOpenChange={setOpen}>
                 <div className="px-8 mt-5">
-                    <Icons.Error className="text-red-500" fontSize="large" />
+                    <icons.Error className="text-red-500" fontSize="large" />
                 </div>
                 <div className="px-8">
                     <h1 className="text-2xl font-bold">Delete Help Document?</h1>

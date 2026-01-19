@@ -1,9 +1,9 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { Icons } from "@/components/common/base/Icon";
+import { icons } from "@/components/common/base/Icon";
 import { formatDate } from "@/components/common/base/FormatDate";
-import type { DoulaPackage } from "../../schema/DoulaPackageSchema";
+import type { doulaPackageListItem } from "../../schema/types/DoulaPackageSchema.type";
 
-export const columns: ColumnDef<DoulaPackage>[] = [
+export const columns: ColumnDef<doulaPackageListItem>[] = [
   {
     accessorKey: "name",
     header: "Package Name",
@@ -57,7 +57,7 @@ export const columns: ColumnDef<DoulaPackage>[] = [
       return (
         <div className="flex gap-3">
           <button onClick={() => onView(doula)}>
-            <Icons.Eye className="text-red-400 cursor-pointer" />
+            <icons.Eye className="text-red-400 cursor-pointer" />
           </button>
         </div>
       )

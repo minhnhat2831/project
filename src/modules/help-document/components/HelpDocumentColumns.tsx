@@ -1,12 +1,12 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { SortHeader } from "@/components/common/base/SortHeader";
 import { formatDate } from "@/components/common/base/FormatDate";
-import { Icons } from "@/components/common/base/Icon";
+import { icons } from "@/components/common/base/Icon";
 import { useModalStore } from "@/hooks/useModalStore";
 import { useDocumentStore } from "../store/useSelectedDocument";
-import type { HelpDocument } from "../schema/HelpDocumentSchema";
+import type { helpDocumentListItem } from "../schema/HelpDocumentSchema.type";
 
-export const columns: ColumnDef<HelpDocument>[] = [
+export const columns: ColumnDef<helpDocumentListItem>[] = [
   {
     accessorKey: "id",
     header: () => <SortHeader columnKey="id" title="ID" />
@@ -62,10 +62,10 @@ export const columns: ColumnDef<HelpDocument>[] = [
       return (
         <div className="flex gap-3">
           <button onClick={handleEdit}>
-            <Icons.Pen className="text-red-400 cursor-pointer" />
+            <icons.Pen className="text-red-400 cursor-pointer" />
           </button>
           <button onClick={handleDelete}>
-            <Icons.Trash className="text-gray-600 cursor-pointer" />
+            <icons.Trash className="text-gray-600 cursor-pointer" />
           </button>
         </div>
       )

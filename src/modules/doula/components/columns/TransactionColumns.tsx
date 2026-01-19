@@ -1,8 +1,8 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { formatDate } from "@/components/common/base/FormatDate";
-import type { Transaction } from "../../schema/TransactionSchema";
+import type { transactionListItem } from "../../schema/types/TransactionSchema.type";
 
-export const columns: ColumnDef<Transaction>[] = [
+export const columns: ColumnDef<transactionListItem>[] = [
     {
         accessorKey: "updatedAt",
         header: "Date",

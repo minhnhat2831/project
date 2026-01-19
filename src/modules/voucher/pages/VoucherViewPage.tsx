@@ -1,4 +1,4 @@
-import { Icons } from "@/components/common/base/Icon";
+import { icons } from "@/components/common/base/Icon";
 import Header from "@/layouts/Header";
 import { useNavigate, useParams } from "react-router";
 import { formatDate } from "@/components/common/base/FormatDate";
@@ -7,15 +7,16 @@ import { columns } from "../components/columns/DoulaVoucherColumns";
 import { useStore } from "@/hooks/useStore";
 import TableData from "@/components/common/base/TableData";
 import TablePagination from "@/components/common/base/TablePagination";
-import { useVoucherDetailQuery } from "../hooks/useVoucherDetailQuery";
-import { useDoulaVoucherQuery } from "../hooks/useDoulaVoucherQuery";
+import { useDoulaVoucher } from "../hooks/useDoulaVoucher";
+import useVoucher from "../hooks/useVoucher";
 
 export default function VoucherViewPage() {
     const { id } = useParams<{ id: string }>()
     const nav = useNavigate()
-    const { data: voucherId } = useVoucherDetailQuery(id)
+    const { useVoucherDetail } = useVoucher()
+    const { data: voucherId } = useVoucherDetail(id)
     const { pageIndex, pageSize } = useStore()
-    const { data, loading, metadata } = useDoulaVoucherQuery(id)
+    const { data, loading, metadata } = useDoulaVoucher(id)
     const table = useReactTable({
         data,
         columns,
@@ -31,7 +32,7 @@ export default function VoucherViewPage() {
 
         <div className="w-full h-screen py-2 px-5 bg-gray-100">
             <div className="flex justify-between px-2 py-4">
-                <button className="cursor-pointer" onClick={() => nav("/admin/voucher")}><Icons.ArrowBack />Back</button>
+                <button className="cursor-pointer" onClick={() => nav("/admin/voucher")}><icons.ArrowBack />Back</button>
             </div>
             <div className="px-2 py-2 bg-white">
                 <div className="font-bold">

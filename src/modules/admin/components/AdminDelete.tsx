@@ -1,18 +1,19 @@
-import { Icons } from "@/components/common/base/Icon"
+import { icons } from "@/components/common/base/Icon"
 import { toast } from "react-toastify"
 import Button from "@/components/common/form/Button"
 import PopupConfirm from "@/components/common/base/PopupConfirm"
 import { useModalStore } from "@/hooks/useModalStore"
 import { useAdminStore } from "../store/useSeletedAdminStore"
-import { useAdminMutation } from "../hooks/useAdminMutation"
+import useAdmin from "../hooks/useAdmin"
 
 export default function AdminDelete() {
     const { open, setOpen } = useModalStore()
     const { selectedAdmin } = useAdminStore()
-    const method = useAdminMutation()
+    const { useDeleteAdmin } = useAdmin()
+    
     const handleDelete = async () => {
         try {
-            method?.deleteMutation.mutate({ id: selectedAdmin?.id })
+            useDeleteAdmin?.mutate({ id: selectedAdmin?.id })
             setOpen(false)
         } catch (error: any) {
             const message = error.response?.data.message
@@ -24,7 +25,7 @@ export default function AdminDelete() {
         <>
             <PopupConfirm open={open} onOpenChange={setOpen}>
                 <div className="px-8 mt-5">
-                    <Icons.Error className="text-red-500" fontSize="large" />
+                    <icons.Error className="text-red-500" fontSize="large" />
                 </div>
                 <div className="px-8">
                     <h1 className="text-2xl font-bold">Confirm Delete Admin?</h1>

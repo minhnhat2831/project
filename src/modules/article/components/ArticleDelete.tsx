@@ -1,19 +1,19 @@
-import { Icons } from "@/components/common/base/Icon"
+import { icons } from "@/components/common/base/Icon"
 import { toast } from "react-toastify"
 import Button from "@/components/common/form/Button"
 import { useArticleStore } from "../store/useSelectedArticle"
 import PopupConfirm from "@/components/common/base/PopupConfirm"
 import { useModalStore } from "@/hooks/useModalStore"
-import useArticleMutation from "../hooks/useArticleMutation"
+import useArticle from "../hooks/useArticle"
 
 export default function ArticleDelete() {
     const { selectedArticle } = useArticleStore()
     const { open, setOpen } = useModalStore()
-    const { deleteMutation } = useArticleMutation()
+    const { useDeleteArticle } = useArticle()
     const handleDelete = async () => {
         try {
             if (!selectedArticle) return
-            deleteMutation.mutate({
+            useDeleteArticle.mutate({
                 data: {
                     ids: [selectedArticle.id]
                 }
@@ -30,7 +30,7 @@ export default function ArticleDelete() {
     return (<>
         <PopupConfirm open={open} onOpenChange={setOpen}>
             <div className="px-8 mt-5">
-                <Icons.Error className="text-red-500" fontSize="large" />
+                <icons.Error className="text-red-500" fontSize="large" />
             </div>
             <div className="px-8">
                 <h1 className="text-2xl font-bold">Confirm Delete Article?</h1>

@@ -1,30 +1,29 @@
-import { Icons } from "@/components/common/base/Icon"
+import { icons } from "@/components/common/base/Icon"
 import { toast } from "react-toastify"
 import Button from "@/components/common/form/Button"
 import { useClientStore } from "../store/useSelectedClient"
 import { useModalStore } from "@/hooks/useModalStore"
 import PopupConfirm from "@/components/common/base/PopupConfirm"
-import { useClientMutation } from "../hooks/useClientMutation"
+import useClient from "../hooks/useClient"
 
 export default function ClientDelete() {
     const { open, setOpen } = useModalStore()
     const { selectedClient } = useClientStore()
-    const { deleteMutation } = useClientMutation()
+    const { useDeleteClient } = useClient()
     const handleDelete = async () => {
         try {
             if (!selectedClient) return
-            deleteMutation.mutate({ id: selectedClient.id })
+            useDeleteClient.mutate({ id: selectedClient.id })
             setOpen(false)
         } catch (error: any) {
             toast.error(error.response?.data?.message)
         }
-
     }
     return (
         <>
             <PopupConfirm open={open} onOpenChange={setOpen}>
                 <div className="px-8 mt-5">
-                    <Icons.Error className="text-red-500" fontSize="large" />
+                    <icons.Error className="text-red-500" fontSize="large" />
                 </div>
                 <div className="px-8">
                     <h1 className="text-2xl font-bold">Confirm Delete Client?</h1>

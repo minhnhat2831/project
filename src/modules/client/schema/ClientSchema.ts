@@ -2,8 +2,7 @@ import * as z from "zod"
 
 const required = "This field is required"
 
-export type GetClientParams = z.infer<typeof GetClientParamsSchema>;
-export const GetClientParamsSchema = z.object({
+export const clientParamsSchema = z.object({
     page: z.number().optional(),
     limit: z.number().optional(),
     offset: z.number().optional(),
@@ -15,16 +14,13 @@ export const GetClientParamsSchema = z.object({
     embed: z.string()
 });
 
-export type ClientRequest = z.infer<typeof ClientRequestSchema>;
-export const ClientRequestSchema = z.object({
+export const clientRequestSchema = z.object({
     countryCode: z.string().nullable(),
     phoneNumber: z.coerce.number().min(8, "Phone number must be from 8 to 20 characters.") as z.ZodNumber,
     status: z.string().min(1, required),
 })
 
-
-export type Client = z.infer<typeof ClientSchema>
-export const ClientSchema = z.object({
+export const clientListItemSchema = z.object({
     fullName: z.string().optional(),
     id: z.string(),
     firstName: z.string().optional(),
@@ -66,10 +62,9 @@ export const ClientSchema = z.object({
     })
 })
 
-export type ClientBaseForm = z.infer<typeof ClientBaseFormSchema>
-export const ClientBaseFormSchema = z.object({
+export const clientListSchema = z.object({
     message: z.string(),
-    data: z.array(ClientSchema),
+    data: z.array(clientListItemSchema),
     metadata: z.object({
         page: z.number(),
         limit: z.number(),
@@ -79,14 +74,7 @@ export const ClientBaseFormSchema = z.object({
     })
 })
 
-export type ClientResponse = z.infer<typeof ClientResponseSchema>
-export const ClientResponseSchema = z.object({
+export const clientResponseSchema = z.object({
     message: z.string(),
-    data: ClientSchema
-})
-
-export type ClientDeleteResponse = z.infer<typeof ClientDeleteResponseSchema>
-export const ClientDeleteResponseSchema = z.object({
-    message: z.string(),
-    data: ClientSchema
+    data: clientListItemSchema
 })

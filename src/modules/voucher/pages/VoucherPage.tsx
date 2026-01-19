@@ -4,10 +4,11 @@ import { columns } from "../components/columns/VoucherColumns";
 import { useStore } from "@/hooks/useStore";
 import TableData from "@/components/common/base/TableData";
 import TablePagination from "@/components/common/base/TablePagination";
-import { useVoucherQuery } from "../hooks/useVoucherQuery";
+import useVoucher from "../hooks/useVoucher";
 
 export default function VoucherPage() {
-    const { data, loading, metadata } = useVoucherQuery()
+    const { useGetAllVoucher } = useVoucher()
+    const { data, loading, metadata } = useGetAllVoucher()
     const { pageIndex, pageSize, setPagination } = useStore()
     
     const table = useReactTable({

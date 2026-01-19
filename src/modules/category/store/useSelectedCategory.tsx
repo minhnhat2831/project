@@ -1,9 +1,9 @@
 import { create } from "zustand"
-import type { Category } from "../schema/CategorySchema"
+import type { categoryListItem } from "../schema/CategorySchema.type"
 
 interface SelectedCategory {
-    selectedCategory: Category | null,
-    setSelectedCategory: (category: Category | null) => void
+    selectedCategory: categoryListItem | null,
+    setSelectedCategory: (category: categoryListItem | null) => void
 }
 
 export const useCategoryStore = create<SelectedCategory>((set) => ({

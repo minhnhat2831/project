@@ -1,19 +1,19 @@
 import { toast } from "react-toastify";
-import { Icons } from "@/components/common/base/Icon";
+import { icons } from "@/components/common/base/Icon";
 import Button from "@/components/common/form/Button";
 import { useSettingStore } from "../store/useSelectedSetting";
 import { useModalStore } from "@/hooks/useModalStore";
 import PopupConfirm from "@/components/common/base/PopupConfirm";
-import { useSearchSettingMutation } from "../hooks/useSearchSettingMutation";
+import useSearchSetting from "../hooks/useSearchSetting";
 
 export default function SearchSettingDelete() {
     const { open, setOpen } = useModalStore()
     const { selectedSearchSetting } = useSettingStore()
-    const { deleteMutation } = useSearchSettingMutation()
+    const { useDeleteSearchSetting } = useSearchSetting()
     const handleDelete = async () => {
         try {
             if (!selectedSearchSetting) return
-            deleteMutation.mutate({ id: selectedSearchSetting.id }, {
+            useDeleteSearchSetting.mutate({ id: selectedSearchSetting.id }, {
                 onSuccess: () => {
                     setOpen(false)
                 }
@@ -26,7 +26,7 @@ export default function SearchSettingDelete() {
     return (<>
         <PopupConfirm open={open} onOpenChange={setOpen}>
             <div className="px-8 mt-5">
-                <Icons.Error className="text-red-500" fontSize="large" />
+                <icons.Error className="text-red-500" fontSize="large" />
             </div>
             <div className="px-8">
                 <h1 className="text-2xl font-bold">Delete Keyword?</h1>

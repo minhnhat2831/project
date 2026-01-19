@@ -1,10 +1,10 @@
 import { create } from "zustand"
-import type { Article } from "../schema/ArticleScheme"
+import type { articleListItem } from "../schema/ArticleScheme.type"
 
 
 interface SelectedArticle {
-    selectedArticle: Article | null,
-    setSelectedArticle: (article: Article) => void
+    selectedArticle: articleListItem | null,
+    setSelectedArticle: (article: articleListItem) => void
 }
 
 export const useArticleStore = create<SelectedArticle>((set) => ({

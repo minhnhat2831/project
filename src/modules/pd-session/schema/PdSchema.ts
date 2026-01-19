@@ -2,8 +2,7 @@ import * as z from "zod";
 
 const required = "This field is required"
 
-export type PdRequest = z.infer<typeof PdRequestScheme>;
-export const PdRequestScheme = z.object({
+export const pdRequestScheme = z.object({
     title: z.string().min(1, required),
     content: z.string().min(1, required),
     status: z.string().min(1, required),
@@ -13,8 +12,7 @@ export const PdRequestScheme = z.object({
     author: z.string().min(1, required),
 })
 
-export type GetPdParams = z.infer<typeof GetPdParamsSchema>;
-export const GetPdParamsSchema = z.object({
+export const pdParamsSchema = z.object({
     page: z.number().optional(),
     limit: z.number().optional(),
     offset: z.number().optional(),
@@ -25,8 +23,7 @@ export const GetPdParamsSchema = z.object({
     f_status: z.string().optional(),
 });
 
-export type Pd = z.infer<typeof PdSchema>;
-export const PdSchema = z.object({
+export const pdListItemSchema = z.object({
     id: z.string(),
     slug: z.string(),
     title: z.string(),
@@ -60,10 +57,9 @@ export const PdSchema = z.object({
     })
 })
 
-export type PdBaseForm = z.infer<typeof PdBaseFormSchema>
-export const PdBaseFormSchema = z.object({
+export const pdListSchema = z.object({
     message: z.string(),
-    data: z.array(PdSchema),
+    data: z.array(pdListItemSchema),
     metadata: z.object({
         page: z.number(),
         limit: z.number(),
@@ -73,19 +69,16 @@ export const PdBaseFormSchema = z.object({
     })
 })
 
-export type PdResponse = z.infer<typeof PdResponseSchema>
 export const PdResponseSchema = z.object({
     message : z.string(),
-    data : PdSchema
+    data : pdListItemSchema
 })
 
-export type PdDeleteResponse = z.infer<typeof PdDeleteResponseSchema>
-export const PdDeleteResponseSchema = z.object({
+export const pdDeleteResponseSchema = z.object({
     message : z.string(),
     data : z.string()
 })
 
-export type PdDelete = z.infer<typeof PdDeleteSchema>
-export const PdDeleteSchema = z.object({
+export const pdDeleteSchema = z.object({
     ids : z.string().array()
 })

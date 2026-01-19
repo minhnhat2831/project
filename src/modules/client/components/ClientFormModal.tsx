@@ -1,4 +1,4 @@
-import { Icons } from "@/components/common/base/Icon"
+import { icons } from "@/components/common/base/Icon"
 import PopupCE from "@/components/common/base/PopupCE"
 import Button from "@/components/common/form/Button"
 import PhoneInput from "@/components/common/form/PhoneInput"
@@ -7,30 +7,28 @@ import { countryCodes } from "@/constants/countryCode"
 import { useClientStore } from "../store/useSelectedClient"
 import { useModalStore } from "@/hooks/useModalStore"
 import { useForm } from "react-hook-form"
-import { ClientRequestSchema, type ClientRequest } from "../schema/ClientSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "react-toastify"
-import { useEffect } from "react"
-import { useClientMutation } from "../hooks/useClientMutation"
-import { useClientDetailQuery } from "../hooks/useClientDetailQuery"
+import useClient from "../hooks/useClient"
+import type { clientRequest } from "../schema/ClientSchema.type"
+import { clientRequestSchema } from "../schema/ClientSchema"
 
 interface props {
     type: "create" | "edit"
 }
 
 export default function ClientFormModal({ type }: props) {
-    const { open, setOpen, typeMode } = useModalStore()
+    const { open, setOpen } = useModalStore()
     const { selectedClient } = useClientStore()
-    const { editMutation } = useClientMutation()
-    const isEdit = typeMode === "edit"
-    const { data: clientData } = useClientDetailQuery(isEdit ? selectedClient?.id : "")
+    const { useEditClient, useClientDetail } = useClient()
+    const { data: clientData } = useClientDetail(type === 'edit' ? selectedClient?.id : "")
     const { register, handleSubmit, reset, formState: { errors } } =
-        useForm<ClientRequest>({
-            resolver: zodResolver(ClientRequestSchema),
-            defaultValues: clientData ?
+        useForm<clientRequest>({
+            resolver: zodResolver(clientRequestSchema),
+            values: type === "edit" ?
                 {
                     phoneNumber: clientData?.phoneNumber ?? 0,
-                    countryCode: clientData.countryCode ?? "",
+                    countryCode: clientData?.countryCode ?? "",
                     status: clientData?.status ?? ""
                 } : {
                     phoneNumber: 0,
@@ -39,27 +37,10 @@ export default function ClientFormModal({ type }: props) {
                 }
         })
 
-    useEffect(() => {
-        if (type === "edit" && clientData) {
-            reset({
-                phoneNumber: clientData?.phoneNumber ?? 0,
-                countryCode: clientData.countryCode ?? "",
-                status: clientData?.status ?? ""
-            });
-        }
-        if (type === "create") {
-            reset({
-                phoneNumber: 0,
-                countryCode: "",
-                status: ""
-            })
-        }
-    }, [clientData, type, reset]);
-
-    const onSubmit = async (data: ClientRequest) => {
+    const onSubmit = async (data: clientRequest) => {
         try {
             if (!clientData) return
-            editMutation.mutate({ id: clientData.id, data: data }, {
+                useEditClient.mutate({ id: clientData.id, data: data }, {
                 onSuccess: () => {
                     reset(data)
                     setOpen(false);
@@ -81,7 +62,7 @@ export default function ClientFormModal({ type }: props) {
                     onClick={() => {
                         setOpen(!open)
                         reset()
-                    }}><Icons.Close />
+                    }}><icons.Close />
                 </Button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full">

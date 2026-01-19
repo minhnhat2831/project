@@ -1,11 +1,12 @@
 import { useParams } from "react-router";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-import { useDoulaDetailQuery } from "../../hooks/doula/useDoulaDetailQuery";
+import useDoula from "../../hooks/useDoula";
 
 export default function DoulaInformation() {
     const { id } = useParams<{ id: string }>()
-    const { data: doula } = useDoulaDetailQuery(id);
+    const { useDoulaDetail } = useDoula()
+    const { data: doula } = useDoulaDetail(id);
     return (<>
         <div className="px-5">
             <p className="mb-4">Pictures of service</p>

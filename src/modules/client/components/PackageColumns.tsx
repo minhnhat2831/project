@@ -1,9 +1,9 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { formatDate } from "@/components/common/base/FormatDate";
 import { SortHeader } from "@/components/common/base/SortHeader";
-import type { Cares } from "../schema/CaresSchema";
+import type { caresListItem } from "../schema/CaresSchema.type";
 
-export const columns: ColumnDef<Cares>[] = [
+export const columns: ColumnDef<caresListItem>[] = [
     {
         accessorKey: "doula.title",
         header: "Package Name"

@@ -2,17 +2,16 @@ import PopupCE from "@/components/common/base/PopupCE"
 import { useModalStore } from "@/hooks/useModalStore"
 import { useDocumentStore } from "../store/useSelectedDocument"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { HelpDocumentRequestSchema, type HelpDocumentRequest } from "../schema/HelpDocumentSchema"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import Button from "@/components/common/form/Button"
-import { Icons } from "@/components/common/base/Icon"
+import { icons } from "@/components/common/base/Icon"
 import InputField from "@/components/common/form/Input"
 import SelectForm from "@/components/common/form/Select"
 import TextArea from "@/components/common/form/TextArea"
-import { useEffect } from "react"
-import { useHelpDocumentDetailQuery } from "../hooks/useHelpDocumentDetailQuery"
-import { useHelpDocumentMutation } from "../hooks/useHelpDocumentMutation"
+import useHelpDocument from "../hooks/useHelpDocument"
+import { helpDocumentRequestSchema } from "../schema/HelpDocumentSchema"
+import type { helpDocumentRequest } from "../schema/HelpDocumentSchema.type"
 
 interface props {
     type: "create" | "edit"
@@ -22,50 +21,33 @@ export default function HelpDocumentFormModal({ type }: props) {
     const { open, setOpen, typeMode } = useModalStore()
     const isEdit = typeMode === "edit"
     const { selectedDocument } = useDocumentStore()
-    const method = useHelpDocumentMutation()
-    const { data: helpDocumentDetail } = useHelpDocumentDetailQuery(isEdit ? selectedDocument?.id : "")
-    const { register, handleSubmit, reset, setError, formState: { errors } } = useForm<HelpDocumentRequest>({
-        resolver: zodResolver(HelpDocumentRequestSchema),
-        // defaultValues: helpDocumentDetail ? {
-        //     title: helpDocumentDetail?.title,
-        //     content: helpDocumentDetail?.content,
-        //     status: helpDocumentDetail?.status,
-        // } : {
-        //     title: "",
-        //     content: "",
-        //     status: ""
-        // }
+    const { useCreateHelpDocument, useEditHelpDocument, useHelpDocumentDetail} = useHelpDocument()
+    const { data: helpDocumentDetail } = useHelpDocumentDetail(isEdit ? selectedDocument?.id : "")
+    const { register, handleSubmit, reset, setError, formState: { errors } } = useForm<helpDocumentRequest>({
+        resolver: zodResolver(helpDocumentRequestSchema),
+        values: isEdit ? {
+            title: helpDocumentDetail?.title ?? "",
+            content: helpDocumentDetail?.content ?? "",
+            status: helpDocumentDetail?.status ?? "",
+        } : {
+            title: "",
+            content: "",
+            status: ""
+        }
     })
 
-    useEffect(() => {
-        if (type === "edit" && helpDocumentDetail) {
-            reset({
-                title: helpDocumentDetail?.title,
-                content: helpDocumentDetail?.content,
-                status: helpDocumentDetail?.status,
-            })
-        }
-        if (type === "create") {
-            reset({
-                title: "",
-                content: "",
-                status: ""
-            })
-        }
-    }, [type, reset, helpDocumentDetail])
-
-    const onSubmit = async (data: HelpDocumentRequest) => {
+    const onSubmit = async (data: helpDocumentRequest) => {
         try {
-            if (isEdit) {
+            if (isEdit && type === "edit") {
                 if (!helpDocumentDetail) return
-                method.editMutation.mutate({ id: helpDocumentDetail.id, data: data }, {
+                useEditHelpDocument.mutate({ id: helpDocumentDetail.id, data: data }, {
                     onSuccess: () => {
                         reset(data)
                         setOpen(false)
                     }
                 })
             } else {
-                method.createMutation.mutate(data, {
+                useCreateHelpDocument.mutate(data, {
                     onSuccess: () => {
                         reset()
                         setOpen(false)
@@ -110,7 +92,7 @@ export default function HelpDocumentFormModal({ type }: props) {
                     onClick={() => {
                         setOpen(!open)
                         reset()
-                    }}><Icons.Close />
+                    }}><icons.Close />
                 </Button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full overflow-auto">

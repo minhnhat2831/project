@@ -5,11 +5,12 @@ import { columns } from "../components/ClientColumns"
 import TablePagination from "@/components/common/base/TablePagination";
 import { useStore } from "@/hooks/useStore";
 import { Container } from "../container/Container";
-import { useClientQuery } from "../hooks/useClientQuery";
+import useClient from "../hooks/useClient";
 
 export default function ClientPage() {
     const { search, setSearch, pageIndex, pageSize, setPagination } = useStore()
-    const { data, loading, metadata } = useClientQuery()
+    const { useGetAllClient } = useClient()
+    const { data, loading, metadata } = useGetAllClient()
 
     const table = useReactTable({
         data,

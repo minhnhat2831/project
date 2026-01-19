@@ -2,8 +2,7 @@ import * as z from "zod"
 
 const required = "This field is required"
 
-export type GetCategoryParams = z.infer<typeof GetCategoryParamsSchema>;
-export const GetCategoryParamsSchema = z.object({
+export const categoryParamsSchema = z.object({
     page: z.number().optional(),
     limit: z.number().optional(),
     offset: z.number().optional(),
@@ -13,16 +12,14 @@ export const GetCategoryParamsSchema = z.object({
     f_status: z.string().optional()
 });
 
-export type CategoryRequest = z.infer<typeof CategoryRequestSchemas>;
-export const CategoryRequestSchemas = z.object({
+export const categoryRequestSchemas = z.object({
     title: z.string().min(1, required),
     name: z.string().min(1, required),
     status: z.string().min(1, required),
     image: z.string().min(1, required),
 })
 
-export type Category = z.infer<typeof CategorySchema>
-export const CategorySchema = z.object({
+export const categoryListItemSchema = z.object({
     id: z.string(),
     name: z.string(),
     title: z.string(),
@@ -48,10 +45,9 @@ export const CategorySchema = z.object({
     updatedAt: z.string().nullable()
 })
 
-export type CategoryBaseForm = z.infer<typeof CategoryBaseFormSchema>
-export const CategoryBaseFormSchema = z.object({
+export const categoryListSchema = z.object({
     message: z.string(),
-    data: z.array(CategorySchema),
+    data: z.array(categoryListItemSchema),
     metadata: z.object({
         page: z.number(),
         limit: z.number(),
@@ -61,19 +57,17 @@ export const CategoryBaseFormSchema = z.object({
     })
 })
 
-export type CategoryResponse = z.infer<typeof CategoryResponseSchema>
-export const CategoryResponseSchema = z.object({
+export const categoryResponseSchema = z.object({
     message: z.string(),
-    data: CategorySchema
+    data: categoryListItemSchema
 })
 
-export type CategoryDeleteResponse = z.infer<typeof CategoryDeleteResponseSchema>
-export const CategoryDeleteResponseSchema = z.object({
+
+export const categoryDeleteResponseSchema = z.object({
     message: z.string(),
     data: z.string()
 })
 
-export type CategoryDelete = z.infer<typeof CategoryDeleteSchema>
-export const CategoryDeleteSchema = z.object({
+export const categoryDeleteSchema = z.object({
     ids: z.string().array()
 })

@@ -4,11 +4,11 @@ import { useSettingStore } from "../store/useSelectedSetting"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Button from "@/components/common/form/Button"
-import { Icons } from "@/components/common/base/Icon"
+import { icons } from "@/components/common/base/Icon"
 import InputField from "@/components/common/form/Input"
-import { useEffect } from "react"
-import { SearchSettingRequestScheme, type SearchSettingRequest } from "../schema/SearchSettingSchema"
-import { useSearchSettingMutation } from "../hooks/useSearchSettingMutation"
+import useSearchSetting from "../hooks/useSearchSetting"
+import type { searchSettingRequest } from "../schema/SearchSettingSchema.type"
+import { searchSettingRequestScheme } from "../schema/SearchSettingSchema"
 
 interface props {
     type: "create" | "edit"
@@ -18,42 +18,29 @@ export default function SearchSettingFormModal({ type }: props) {
     const { open, setOpen, typeMode } = useModalStore()
     const { selectedSearchSetting } = useSettingStore()
     const isEdit = typeMode === "edit"
-    const method = useSearchSettingMutation()
-    const { register, handleSubmit, setError, reset, formState: { errors } } = useForm<SearchSettingRequest>({
-        resolver: zodResolver(SearchSettingRequestScheme),
-        // defaultValues: isEdit ? {
-        //     keyword: selectedSearchSetting?.keyword,
-        // } : {
-        //     keyword: ""
-        // }
+    const { useCreateSearchSetting, useEditSearchSetting } = useSearchSetting()
+    const { register, handleSubmit, setError, reset, formState: { errors } } = useForm<searchSettingRequest>({
+        resolver: zodResolver(searchSettingRequestScheme),
+        values: isEdit ? {
+            keyword: selectedSearchSetting?.keyword ?? "",
+        } : {
+            keyword: ""
+        }
     })
 
-    useEffect(() => {
-        if (type === "create") {
-            reset({
-                keyword: ""
-            })
-        }
-        if (type === "edit" && selectedSearchSetting) {
-            reset({
-                keyword: selectedSearchSetting.keyword
-            })
-        }
-    }, [reset, type, selectedSearchSetting])
-
-    const onSubmit = async (data: SearchSettingRequest) => {
+    const onSubmit = async (data: searchSettingRequest) => {
         try {
             const searchSettingData = { ...(data), count: 1, isSuggestion: true }
-            if (isEdit) {
+            if (isEdit && type === 'edit') {
                 if (!selectedSearchSetting) return
-                method.editMutation.mutate({ id: selectedSearchSetting?.id, data: searchSettingData }, {
+                useEditSearchSetting.mutate({ id: selectedSearchSetting?.id, data: searchSettingData }, {
                     onSuccess: () => {
                         reset(searchSettingData)
                         setOpen(false)
                     }
                 })
             } else {
-                method.createMutation.mutate(searchSettingData, {
+                useCreateSearchSetting.mutate(searchSettingData, {
                     onSuccess: () => {
                         reset()
                         setOpen(false)
@@ -81,7 +68,7 @@ export default function SearchSettingFormModal({ type }: props) {
                     onClick={() => {
                         setOpen(!open)
                         reset()
-                    }}><Icons.Close />
+                    }}><icons.Close />
                 </Button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full overflow-auto">

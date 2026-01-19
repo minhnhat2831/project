@@ -1,9 +1,9 @@
 import { create } from "zustand"
-import type { Voucher } from "../schema/VoucherSchema"
+import type { voucherListItem } from "../schema/VoucherSchema.type"
 
 interface VoucherStore {
-    selectedVoucher : Voucher | null,
-    setSelectedVoucher: (Doula: Voucher | null) => void
+    selectedVoucher : voucherListItem | null,
+    setSelectedVoucher: (Doula: voucherListItem | null) => void
 }
 
 export const useVoucherStore = create<VoucherStore>((set) =>({

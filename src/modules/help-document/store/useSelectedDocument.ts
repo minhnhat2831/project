@@ -1,9 +1,9 @@
 import { create } from "zustand"
-import type { HelpDocument } from "../schema/HelpDocumentSchema"
+import type { helpDocumentListItem } from "../schema/HelpDocumentSchema.type"
 
 interface HelpDocumentStore {
-    selectedDocument : HelpDocument | null,
-    setSelectedDocument: (HelpDocument: HelpDocument | null) => void
+    selectedDocument : helpDocumentListItem | null,
+    setSelectedDocument: (HelpDocument: helpDocumentListItem | null) => void
 }
 
 export const useDocumentStore = create<HelpDocumentStore>((set) =>({

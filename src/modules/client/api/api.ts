@@ -1,58 +1,51 @@
 import { API_ENDPOINTS } from "@/services/api";
 import axiosInstance from "@/services/axios";
-import type {
-    ClientBaseForm,
-    ClientDeleteResponse,
-    ClientRequest,
-    ClientResponse,
-    GetClientParams
-} from "../schema/ClientSchema";
-import type { CaresBaseForm, GetCaresParams } from "../schema/CaresSchema";
+import type { clientList, clientRequest, clientResponse, clientParams } from "../schema/ClientSchema.type";
+import type { caresList, caresParams } from "../schema/CaresSchema.type";
 
-
-export const GetAllClient = async (
-    params: GetClientParams
-): Promise<ClientBaseForm> => {
-    const response = await axiosInstance.get<ClientBaseForm>(
+export const getAllClient = async (
+    params: clientParams
+): Promise<clientList> => {
+    const response = await axiosInstance.get<clientList>(
         API_ENDPOINTS.API_ADMIN_CLIENT,
         { params }
     )
     return response.data
 }
 
-export const GetClientDetail = async (
+export const getClientDetail = async (
     id?: string
-): Promise<ClientResponse> => {
-    const response = await axiosInstance.get<ClientResponse>(
+): Promise<clientResponse> => {
+    const response = await axiosInstance.get<clientResponse>(
         API_ENDPOINTS.API_ADMIN_CLIENT_ID(id)
     )
     return response.data
 }
 
-export const EditClient = async (
+export const editClient = async (
     id: string,
-    data: ClientRequest
-): Promise<ClientResponse> => {
-    const response = await axiosInstance.put<ClientResponse>(
+    data: clientRequest
+): Promise<clientResponse> => {
+    const response = await axiosInstance.put<clientResponse>(
         API_ENDPOINTS.API_ADMIN_CLIENT_ID(id),
         data
     )
     return response.data
 }
 
-export const DeleteClient = async (
+export const deleteClient = async (
     id?: string
-): Promise<ClientDeleteResponse> => {
-    const response = await axiosInstance.delete<ClientDeleteResponse>(
+): Promise<clientResponse> => {
+    const response = await axiosInstance.delete<clientResponse>(
         API_ENDPOINTS.API_ADMIN_CLIENT_ID(id)
     )
     return response.data
 }
 
-export const GetAllCares = async (
-    params: GetCaresParams
-): Promise<CaresBaseForm> => {
-    const response = await axiosInstance.get<CaresBaseForm>(
+export const getAllCares = async (
+    params: caresParams
+): Promise<caresList> => {
+    const response = await axiosInstance.get<caresList>(
         API_ENDPOINTS.API_CARES,
         { params }
     )

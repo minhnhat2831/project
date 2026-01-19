@@ -1,9 +1,9 @@
 import { create } from "zustand"
-import type { Pd } from "../schema/PdSchema"
+import type { pdListItem } from "../schema/PdSchema.type"
 
 interface SelectedPdSession {
-    selectedPd: Pd | null,
-    setSelectedPd: (pd: Pd | null) => void
+    selectedPd: pdListItem | null,
+    setSelectedPd: (pd: pdListItem | null) => void
 }
 
 export const usePdStore = create<SelectedPdSession>((set) => ({

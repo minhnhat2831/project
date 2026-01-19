@@ -1,4 +1,4 @@
-import { Icons } from '../components/common/base/Icon';
+import { icons } from '../components/common/base/Icon';
 import { ROUTER_SIDEBAR } from "../constants/router";
 import NavTo from "../components/common/base/NavLink";
 import { useState } from "react";
@@ -37,7 +37,7 @@ export default function SideBar() {
                                     {router.icon}
                                     <span>{router.name}</span>
                                     <div className="ml-auto transition-transform duration-200">
-                                        {openAccount ? <Icons.ExpandLess /> : <Icons.ExpandMore />}
+                                        {openAccount ? <icons.ExpandLess /> : <icons.ExpandMore />}
                                     </div>
                                 </div>
 
@@ -78,7 +78,7 @@ export default function SideBar() {
                     onClick={() => setOpen(true)}
                     className="hover:bg-gray-400 rounded-full p-1"
                 >
-                    <Icons.Menu />
+                    <icons.Menu />
                 </button>
                 <Popup open={open} onOpenChange={setOpen}>
                     <button

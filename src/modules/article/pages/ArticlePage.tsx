@@ -4,10 +4,14 @@ import { Container } from "../container/Container"
 import TableData from "@/components/common/base/TableData"
 import TablePagination from "@/components/common/base/TablePagination"
 import { useStore } from "@/hooks/useStore"
-import useArticleQuery from "../hooks/useArticleQuery"
+import useArticle from "../hooks/useArticle"
 
 export default function ArticlePage() {
-    const { data, loading, metadata } = useArticleQuery()
+    // const { data, loading, metadata } = useArticleQuery({
+    //     option : {enable : true}
+    // })
+    const { useGetAllArticle } = useArticle()
+    const { data, loading, metadata } = useGetAllArticle()
     const { pageIndex, pageSize, setPagination } = useStore()
 
     const table = useReactTable({

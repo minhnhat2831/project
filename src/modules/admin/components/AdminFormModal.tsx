@@ -1,4 +1,4 @@
-import { CreateAdminUserSchema, EditAdminUserSchema, type AdminFormCreate, type AdminFormEdit } from "../schema/AdminUserSchema";
+
 import Button from "@/components/common/form/Button";
 import PasswordInput from "@/components/common/form/PasswordInput";
 import SelectForm from "@/components/common/form/Select";
@@ -7,15 +7,15 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useModalStore } from "@/hooks/useModalStore";
 import PopupCE from "@/components/common/base/PopupCE";
-import { Icons } from "@/components/common/base/Icon";
+import { icons } from "@/components/common/base/Icon";
 import { useAdminStore } from "../store/useSeletedAdminStore";
 import { usePasswordStore } from "@/hooks/usePasswordToggle";
-import { useEffect } from "react";
-import { useAdminMutation } from "../hooks/useAdminMutation";
-import { useAdminDetailQuery } from "../hooks/useAdminDetailQuery";
 import { toast } from "react-toastify";
+import type {adminFormCreate, adminFormEdit } from "../schema/AdminUserSchema.type";
+import { createAdminUserSchema, editAdminUserSchema } from "../schema/AdminUserSchema";
+import useAdmin from "../hooks/useAdmin";
 
-type AdminFormValues = AdminFormCreate | AdminFormEdit;
+type AdminFormValues = adminFormCreate | adminFormEdit;
 interface props {
     type: "create" | "edit"
 }
@@ -24,42 +24,27 @@ export default function AdminFormModal({ type }: props) {
     const { typeMode, setOpen, open } = useModalStore();
     const { openPassword } = usePasswordStore()
     const { selectedAdmin } = useAdminStore()
-    const method = useAdminMutation()
+    const { useCreateAdmin, useEditAdmin, useAdminDetail } = useAdmin()
     const isEdit = typeMode === "edit";
-    const { data: dataDetail } = useAdminDetailQuery(isEdit ? selectedAdmin?.id : undefined);
+    const { data: dataDetail } = useAdminDetail(isEdit ? selectedAdmin?.id : undefined);
     const { register, handleSubmit, reset,setError, formState: { errors } } = useForm<AdminFormValues>({
         resolver: zodResolver(
-            type === "create" ? CreateAdminUserSchema : EditAdminUserSchema)
-    });
-
-    useEffect(() => {
-        if (type === "edit" && dataDetail) {
-            reset({
+            type === "create" ? createAdminUserSchema : editAdminUserSchema),
+            values : {
                 username: dataDetail?.username ?? "",
                 firstName: dataDetail?.firstName ?? "",
                 lastName: dataDetail?.lastName ?? "",
                 email: dataDetail?.email ?? "",
                 status: dataDetail?.status ?? "",
                 password: "",
-            });
-        }
-        if (type === "create") {
-            reset({
-                username: "",
-                firstName: "",
-                lastName: "",
-                email: "",
-                status: "",
-                password: "",
-            })
-        }
-    }, [dataDetail, type, reset]);
+            }
+    });
 
     const onSubmit = async (data: AdminFormValues) => {
         if (isEdit) {
             if (!dataDetail) return
-            method?.editMutation.mutate(
-                { data: data as AdminFormEdit, id: dataDetail.id},
+            useEditAdmin.mutate(
+                { data: data as adminFormEdit, id: dataDetail.id},
                 {
                     onSuccess: () => {
                         reset(data)
@@ -68,8 +53,8 @@ export default function AdminFormModal({ type }: props) {
                 }
             )
         } else {
-            method?.createMutation.mutate(
-                data as AdminFormCreate,
+            useCreateAdmin.mutate(
+                data as adminFormCreate,
                 {
                     onSuccess: () => {
                         reset()
@@ -109,7 +94,7 @@ export default function AdminFormModal({ type }: props) {
                         setOpen(!open)
                         reset()
                     }
-                    }><Icons.Close />
+                    }><icons.Close />
                 </Button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full py-2">

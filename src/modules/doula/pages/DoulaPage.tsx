@@ -5,12 +5,12 @@ import TablePagination from "@/components/common/base/TablePagination";
 import { useStore } from "@/hooks/useStore";
 import { Container } from "../container/Container";
 import Header from "@/layouts/Header";
-import { useDoulaQuery } from "../hooks/doula/useDoulaQuery";
+import useDoula from "../hooks/useDoula";
 
 export default function DoulaPage() {
     const { pageIndex, pageSize, setPagination, search, setSearch } = useStore()
-    const { data, loading, metadata } = useDoulaQuery()
-
+    const { useGetAllDoula } = useDoula()
+    const { data, loading, metadata } = useGetAllDoula()
 
     const table = useReactTable({
         data,

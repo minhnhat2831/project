@@ -2,8 +2,7 @@ import * as z from "zod";
 
 const required = "This field is required"
 
-export type ArticleRequest = z.infer<typeof ArticleRequestScheme>;
-export const ArticleRequestScheme = z.object({
+export const articleRequestScheme = z.object({
     title: z.string().min(1, required),
     content: z.string().min(1, required),
     status: z.string().min(1, required),
@@ -13,8 +12,7 @@ export const ArticleRequestScheme = z.object({
     author: z.string().min(1, required),
 })
 
-export type GetArticleParams = z.infer<typeof GetArticleParamsSchema>;
-export const GetArticleParamsSchema = z.object({
+export const articleParamsSchema = z.object({
     page: z.number().optional(),
     limit: z.number().optional(),
     offset: z.number().optional(),
@@ -25,8 +23,7 @@ export const GetArticleParamsSchema = z.object({
     f_status: z.string().optional(),
 });
 
-export type Article = z.infer<typeof ArticleSchema>;
-export const ArticleSchema = z.object({
+export const articleListItemSchema = z.object({
     id: z.string(),
     slug: z.string(),
     title: z.string(),
@@ -60,10 +57,9 @@ export const ArticleSchema = z.object({
     })
 })
 
-export type ArticleBaseForm = z.infer<typeof ArticleBaseFormSchema>
-export const ArticleBaseFormSchema = z.object({
+export const articleListSchema = z.object({
     message: z.string(),
-    data: z.array(ArticleSchema),
+    data: z.array(articleListItemSchema),
     metadata: z.object({
         page: z.number(),
         limit: z.number(),
@@ -73,19 +69,17 @@ export const ArticleBaseFormSchema = z.object({
     })
 })
 
-export type ArticleResponse = z.infer<typeof ArticleResponseSchema>
-export const ArticleResponseSchema = z.object({
+export const articleResponseSchema = z.object({
     message : z.string(),
-    data : ArticleSchema
+    data : articleListItemSchema
 })
 
-export type ArticleDeleteResponse = z.infer<typeof ArticleDeleteResponseSchema>
-export const ArticleDeleteResponseSchema = z.object({
+
+export const articleDeleteResponseSchema = z.object({
     message : z.string(),
     data : z.string()
 })
 
-export type ArticleDelete = z.infer<typeof ArticleDeleteSchema>
-export const ArticleDeleteSchema = z.object({
+export const articleDeleteSchema = z.object({
     ids : z.string().array()
 })

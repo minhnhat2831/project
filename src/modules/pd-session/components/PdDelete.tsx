@@ -1,19 +1,19 @@
 import { toast } from "react-toastify";
-import { Icons } from "@/components/common/base/Icon";
+import { icons } from "@/components/common/base/Icon";
 import Button from "@/components/common/form/Button";
 import { usePdStore } from "../store/useSelectedPd";
 import { useModalStore } from "@/hooks/useModalStore";
 import PopupConfirm from "@/components/common/base/PopupConfirm";
-import { usePdMutation } from "../hooks/usePdMutation";
+import usePdSession from "../hooks/usePdSession";
 
 export default function PdDelete() {
     const { selectedPd } = usePdStore()
     const { open, setOpen } = useModalStore()
-    const { deleteMutation } = usePdMutation()
+    const { useDeletePdSession } = usePdSession()
     const handleDelete = async () => {
         try {
             if (!selectedPd) return
-            deleteMutation.mutate({
+            useDeletePdSession.mutate({
                 data: {
                     ids: [selectedPd.id]
                 }
@@ -30,7 +30,7 @@ export default function PdDelete() {
     return (<>
         <PopupConfirm open={open} onOpenChange={setOpen}>
             <div className="px-8 mt-5">
-                <Icons.Error className="text-red-500" fontSize="large" />
+                <icons.Error className="text-red-500" fontSize="large" />
             </div>
             <div className="px-8">
                 <h1 className="text-2xl font-bold">Confirm Delete Pd-Session?</h1>

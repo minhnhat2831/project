@@ -1,13 +1,14 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { Icons } from "@/components/common/base/Icon"
+import { icons } from "@/components/common/base/Icon"
 import { formatDate } from "@/components/common/base/FormatDate";
 import Avatar from "@mui/material/Avatar";
 import { useDoulaStore } from "../../store/useSelectedDoula";
 import { useModalStore } from "@/hooks/useModalStore";
 import { useNavigate } from "react-router";
 import { SortHeader } from "@/components/common/base/SortHeader";
-import type { Doula } from "../../schema/DoulaSchema";
-export const columns: ColumnDef<Doula>[] = [
+import type { doulaListItem } from "../../schema/types/DoulaSchema.type";
+
+export const columns: ColumnDef<doulaListItem>[] = [
   {
     accessorFn: (row) => row.picture?.uri ?? null,
     header: "Avatar",
@@ -104,13 +105,13 @@ export const columns: ColumnDef<Doula>[] = [
       return (
         <div className="flex gap-3">
           <button onClick={handleView}>
-            <Icons.Eye className="text-red-400 cursor-pointer" />
+            <icons.Eye className="text-red-400 cursor-pointer" />
           </button>
           <button onClick={handleEdit}>
-            <Icons.Pen className="text-red-400 cursor-pointer" />
+            <icons.Pen className="text-red-400 cursor-pointer" />
           </button>
           <button onClick={handleDelete}>
-            <Icons.Trash className="text-gray-600 cursor-pointer" />
+            <icons.Trash className="text-gray-600 cursor-pointer" />
           </button>
         </div>
       )
