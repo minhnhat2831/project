@@ -1,9 +1,9 @@
 import { create } from "zustand"
-import type { Client } from "../schema/ClientSchema"
+import type { clientListItem } from "../schema/ClientSchema.type"
 
 interface ClientStore {
-    selectedClient: Client | null,
-    setSelectedClient: (Client: Client) => void
+    selectedClient: clientListItem | null,
+    setSelectedClient: (Client: clientListItem) => void
 }
 
 export const useClientStore = create<ClientStore>((set) => ({

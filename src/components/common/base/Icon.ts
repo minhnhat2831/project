@@ -20,7 +20,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 import MarkunreadMailboxOutlinedIcon from '@mui/icons-material/MarkunreadMailboxOutlined';
 import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded';
-export const Icons = {
+
+export const icons = {
   Person: PersonIcon,
   ChatBubble: ChatBubbleOutlineOutlinedIcon,
   CorporateFare: CorporateFareIcon,

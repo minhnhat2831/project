@@ -1,4 +1,4 @@
-import { Icons } from "@/components/common/base/Icon"
+import { icons } from "@/components/common/base/Icon"
 import PopupCE from "@/components/common/base/PopupCE"
 import Button from "@/components/common/form/Button"
 import PhoneInput from "@/components/common/form/PhoneInput"
@@ -6,59 +6,39 @@ import SelectForm from "@/components/common/form/Select"
 import { countryCodes } from "@/constants/countryCode"
 import { useModalStore } from "@/hooks/useModalStore"
 import { toast } from "react-toastify"
-import { DoulaRequestSchema, type DoulaRequest } from "../../schema/DoulaSchema"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useDoulaStore } from "../../store/useSelectedDoula"
-import { useEffect } from "react"
-import { useDoulaMutation } from "../../hooks/doula/useDoulaMutation"
-import { useDoulaDetailQuery } from "../../hooks/doula/useDoulaDetailQuery"
+import useDoula from "../../hooks/useDoula"
+import type { doulaRequest } from "../../schema/types/DoulaSchema.type"
+import { doulaRequestSchema } from "../../schema/schema/DoulaSchema"
+
 interface props {
     type: "create" | "edit"
 }
 
 export default function DoulaFormModal({ type }: props) {
-    const { open, setOpen, typeMode } = useModalStore()
-    const isEdit = typeMode === "edit"
+    const { open, setOpen } = useModalStore()
     const { selectedDoula } = useDoulaStore()
-    const method = useDoulaMutation()
-    const { data: doulaDetail } = useDoulaDetailQuery(isEdit ? selectedDoula?.id : "")
+    const { useEditDoula, useDoulaDetail } = useDoula()
+    const { data: doulaDetail } = useDoulaDetail(type === 'edit' ? selectedDoula?.id : "")
     const { register, handleSubmit, reset, formState: { errors } } =
-        useForm<DoulaRequest>({
-            resolver: zodResolver(DoulaRequestSchema),
-            defaultValues: doulaDetail
-                ? {
+        useForm<doulaRequest>({
+            resolver: zodResolver(doulaRequestSchema),
+            values: {
                     user: {
-                        phoneNumber: doulaDetail.user?.phoneNumber ?? "",
-                        countryCode: doulaDetail.user?.countryCode ?? "",
+                        phoneNumber: doulaDetail?.user?.phoneNumber ?? "",
+                        countryCode: doulaDetail?.user?.countryCode ?? "",
                     },
-                    status: doulaDetail.status
+                    status: doulaDetail?.status ?? ""
                 }
-                : {
-                    user: {
-                        phoneNumber: "",
-                        countryCode: ""
-                    },
-                    status: ""
-                }
+
         })
 
-    useEffect(() => {
-        if (type === "edit" && doulaDetail) {
-            reset({
-                user: {
-                    phoneNumber: doulaDetail.user?.phoneNumber ?? "",
-                    countryCode: doulaDetail.user?.countryCode ?? "",
-                },
-                status: doulaDetail.status
-            })
-        }
-    }, [reset, type, doulaDetail])
-
-    const onSubmit = async (data: DoulaRequest) => {
+    const onSubmit = async (data: doulaRequest) => {
         try {
             if (!doulaDetail) return
-            method.editMutation.mutate({ id: doulaDetail?.id, data: data }, {
+            useEditDoula.mutate({ id: doulaDetail?.id, data: data }, {
                 onSuccess: () => {
                     reset(data)
                     setOpen(false);
@@ -79,7 +59,7 @@ export default function DoulaFormModal({ type }: props) {
                     onClick={() => {
                         setOpen(!open)
                         reset()
-                    }}><Icons.Close />
+                    }}><icons.Close />
                 </Button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full">

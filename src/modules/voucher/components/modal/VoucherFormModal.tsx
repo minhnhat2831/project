@@ -1,4 +1,4 @@
-import { Icons } from "@/components/common/base/Icon"
+import { icons } from "@/components/common/base/Icon"
 import PopupCE from "@/components/common/base/PopupCE"
 import Button from "@/components/common/form/Button"
 import InputField from "@/components/common/form/Input"
@@ -7,9 +7,9 @@ import { useModalStore } from "@/hooks/useModalStore"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
-import { useEffect } from "react"
-import { VoucherRequestScheme, type VoucherRequest } from "../../schema/VoucherSchema"
-import { useVoucherMutation } from "../../hooks/useVoucherMutation"
+import useVoucher from "../../hooks/useVoucher"
+import type { voucherRequest } from "../../schema/VoucherSchema.type"
+import { voucherRequestScheme } from "../../schema/VoucherSchema"
 
 interface props {
     type: "create" | "edit"
@@ -17,101 +17,99 @@ interface props {
 
 export default function VoucherFormModal({ type }: props) {
     const { open, setOpen } = useModalStore()
-    const { createMutation } = useVoucherMutation()
-    const { register, handleSubmit, reset, setError, formState: { errors } } = useForm<VoucherRequest>({
-        resolver: zodResolver(VoucherRequestScheme)
+    const { useCreateVoucher } = useVoucher()
+    const { register, handleSubmit, reset, setError, formState: { errors } } = useForm<voucherRequest>({
+        resolver: zodResolver(voucherRequestScheme),
+        values: {
+            code: "",
+            description: "",
+            amount: 0,
+            endDate: "",
+            startDate: "",
+            maxDiscountAmount: 0,
+            minPayAmount: 0,
+            quantityUse: 0,
+            status: "active",
+            type: ""
+        }
     })
 
-    useEffect(() => {
-        if (type === "create") {
-            reset({
-                code: "",
-                description: "",
-                amount: 0,
-                endDate: "",
-                startDate: "",
-                maxDiscountAmount: 0,
-                minPayAmount: 0,
-                quantityUse: 0,
-                status: "active",
-            })
-        }
-    }, [reset, type])
-
-    const onSubmit = async (data: VoucherRequest) => {
+    const onSubmit = async (data: voucherRequest) => {
         try {
-            createMutation.mutate(data, {
-                onSuccess: () => {
-                    reset()
-                    setOpen(false)
-                },
-                onError: (err: any) => {
-                    const message = err.response?.data?.message
-                    if (message.toLowerCase().includes("code")) {
-                        setError("code", {
-                            type: "server",
-                            message
-                        })
-                        return
+            if (type === 'create') {
+                useCreateVoucher.mutate(data, {
+                    onSuccess: () => {
+                        reset()
+                        setOpen(false)
+                    },
+                    onError: (err: any) => {
+                        const message = err.response?.data?.message
+                        if (message.toLowerCase().includes("code")) {
+                            setError("code", {
+                                type: "server",
+                                message
+                            })
+                            return
+                        }
+                        if (message.toLowerCase().includes("description")) {
+                            setError("description", {
+                                type: "server",
+                                message
+                            })
+                            return
+                        }
+                        if (message.toLowerCase().includes("start")) {
+                            setError("startDate", {
+                                type: "server",
+                                message
+                            })
+                            return
+                        }
+                        if (message.toLowerCase().includes("end")) {
+                            setError("endDate", {
+                                type: "server",
+                                message
+                            })
+                            return
+                        }
+                        if (message.toLowerCase().includes("quantityUse")) {
+                            setError("quantityUse", {
+                                type: "server",
+                                message
+                            })
+                            return
+                        }
+                        if (message.toLowerCase().includes("amount")) {
+                            setError("amount", {
+                                type: "server",
+                                message
+                            })
+                            return
+                        }
+                        if (message.toLowerCase().includes("type")) {
+                            setError("type", {
+                                type: "server",
+                                message
+                            })
+                            return
+                        }
+                        if (message.toLowerCase().includes("minPayAmount")) {
+                            setError("minPayAmount", {
+                                type: "server",
+                                message
+                            })
+                            return
+                        }
+                        if (message.toLowerCase().includes("maxDiscountAmount")) {
+                            setError("maxDiscountAmount", {
+                                type: "server",
+                                message
+                            })
+                            return
+                        }
                     }
-                    if (message.toLowerCase().includes("description")) {
-                        setError("description", {
-                            type: "server",
-                            message
-                        })
-                        return
-                    }
-                    if (message.toLowerCase().includes("start")) {
-                        setError("startDate", {
-                            type: "server",
-                            message
-                        })
-                        return
-                    }
-                    if (message.toLowerCase().includes("end")) {
-                        setError("endDate", {
-                            type: "server",
-                            message
-                        })
-                        return
-                    }
-                    if (message.toLowerCase().includes("quantityUse")) {
-                        setError("quantityUse", {
-                            type: "server",
-                            message
-                        })
-                        return
-                    }
-                    if (message.toLowerCase().includes("amount")) {
-                        setError("amount", {
-                            type: "server",
-                            message
-                        })
-                        return
-                    }
-                    if (message.toLowerCase().includes("type")) {
-                        setError("type", {
-                            type: "server",
-                            message
-                        })
-                        return
-                    }
-                    if (message.toLowerCase().includes("minPayAmount")) {
-                        setError("minPayAmount", {
-                            type: "server",
-                            message
-                        })
-                        return
-                    }
-                    if (message.toLowerCase().includes("maxDiscountAmount")) {
-                        setError("maxDiscountAmount", {
-                            type: "server",
-                            message
-                        })
-                        return
-                    }
-                }
-            })
+                })
+            }
         } catch (err: any) {
             toast.error(err.response?.data?.message)
 
@@ -127,7 +125,7 @@ export default function VoucherFormModal({ type }: props) {
                     onClick={() => {
                         setOpen(!open)
                         reset()
-                    }}><Icons.Close />
+                    }}><icons.Close />
                 </Button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full overflow-auto">

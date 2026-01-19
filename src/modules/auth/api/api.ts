@@ -1,11 +1,11 @@
 import axiosInstance from "@/services/axios";
 import { API_ENDPOINTS } from "@/services/api";
-import type { LoginRequest, LoginResponse } from "../schema/UserSchema";
+import type { loginRequest, loginResponse } from "../schema/LoginSchema.type";
 
-export const GetLogin = async (
-  payload: LoginRequest
-): Promise<LoginResponse> => {
-  const res = await axiosInstance.post<LoginResponse>(
+export const getLogin = async (
+  payload: loginRequest
+): Promise<loginResponse> => {
+  const res = await axiosInstance.post<loginResponse>(
     API_ENDPOINTS.API_ADMIN_LOGIN,
     payload
   );

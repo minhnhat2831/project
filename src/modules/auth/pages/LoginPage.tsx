@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form"
 import InputField from "@/components/common/form/Input"
-import { GetLogin } from "../api/api";
+import { getLogin } from "../api/api";
 import { useNavigate } from "react-router";
 import { API } from "@/services/api";
 import { toast, ToastContainer } from "react-toastify";
@@ -8,18 +8,20 @@ import Button from "@/components/common/form/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import PasswordInput from "@/components/common/form/PasswordInput";
 import { usePasswordStore } from "@/hooks/usePasswordToggle";
-import { LoginRequestSchema, type LoginRequest } from "../schema/UserSchema";
+import { loginRequestSchema } from "../schema/LoginSchema";
+import type { loginRequest } from "../schema/LoginSchema.type";
+
 
 export default function LoginPage() {
     const navigate = useNavigate();
     const { openPassword } = usePasswordStore()
-    const { register, handleSubmit, formState: { errors } } = useForm<LoginRequest>({
-        resolver: zodResolver(LoginRequestSchema)
+    const { register, handleSubmit, formState: { errors } } = useForm<loginRequest>({
+        resolver: zodResolver(loginRequestSchema)
     })
 
-    const onSubmit = async (data: LoginRequest) => {
+    const onSubmit = async (data: loginRequest) => {
         try {
-            const res = await GetLogin(data);
+            const res = await getLogin(data);
 
             const { accessToken, refreshToken } = res.data.tokens;
 

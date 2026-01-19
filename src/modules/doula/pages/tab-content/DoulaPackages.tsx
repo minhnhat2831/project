@@ -4,14 +4,15 @@ import { columns } from "../../components/columns/DoulaPackageColumns"
 import TableData from "@/components/common/base/TableData"
 import TablePagination from "@/components/common/base/TablePagination"
 import { useStore } from "@/hooks/useStore"
-import type { DoulaPackageDetail } from "../../schema/DoulaPackageSchema"
-import { useDoulaPackageQuery } from "../../hooks/doulaPackage/useDoulaPackageQuery"
+import useDoulaPackage from "../../hooks/useDoulaPackage"
+import type { doulaPackageDetail } from "../../schema/types/DoulaPackageSchema.type"
 
 export default function DoulaPackages() {
     const nav = useNavigate()
     const { pageIndex, pageSize, setPagination } = useStore()
     const { id } = useParams<{ id?: string }>()
-    const { data, loading, metadata } = useDoulaPackageQuery(id)
+    const { useGetAllDoulaPackage } = useDoulaPackage()
+    const { data, loading, metadata } = useGetAllDoulaPackage(id)
     const table = useReactTable({
         data,
         columns,
@@ -19,7 +20,7 @@ export default function DoulaPackages() {
             pagination: { pageIndex, pageSize },
         },
         meta: {
-            onView: (doula: DoulaPackageDetail) => {
+            onView: (doula: doulaPackageDetail) => {
                 nav(`/admin/package/${doula.id}`)
             },
         },

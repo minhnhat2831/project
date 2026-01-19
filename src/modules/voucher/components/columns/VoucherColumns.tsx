@@ -2,12 +2,12 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { formatDate } from "@/components/common/base/FormatDate";
 import { useModalStore } from "@/hooks/useModalStore";
 import { useVoucherStore } from "../../store/useSelectedVoucher";
-import { Icons } from "@/components/common/base/Icon";
+import { icons } from "@/components/common/base/Icon";
 import { useNavigate } from "react-router";
 import { SortHeader } from "@/components/common/base/SortHeader";
-import type { Voucher } from "../../schema/VoucherSchema";
+import type { voucherListItem } from "../../schema/VoucherSchema.type";
 
-export const columns: ColumnDef<Voucher>[] = [
+export const columns: ColumnDef<voucherListItem>[] = [
     {
         accessorKey: "id",
         header: "ID"
@@ -80,10 +80,10 @@ export const columns: ColumnDef<Voucher>[] = [
             return (
                 <div className="flex gap-3">
                     <button onClick={handleView}>
-                        <Icons.Eye className="text-red-400 cursor-pointer" />
+                        <icons.Eye className="text-red-400 cursor-pointer" />
                     </button>
                     <button onClick={handleDelete}>
-                        <Icons.Trash className="text-gray-600 cursor-pointer" />
+                        <icons.Trash className="text-gray-600 cursor-pointer" />
                     </button>
                 </div>
             )

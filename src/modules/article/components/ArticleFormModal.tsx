@@ -1,4 +1,4 @@
-import { Icons } from "@/components/common/base/Icon"
+import { icons } from "@/components/common/base/Icon"
 import Button from "@/components/common/form/Button"
 import Image from "@/components/common/form/Image"
 import InputField from "@/components/common/form/Input"
@@ -9,12 +9,11 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useModalStore } from "@/hooks/useModalStore"
 import SelectForm from "@/components/common/form/Select"
 import PopupCE from "@/components/common/base/PopupCE"
-import { useEffect } from "react"
-import { ArticleRequestScheme, type ArticleRequest } from "../schema/ArticleScheme"
-import { useArticleDetailQuery } from "../hooks/useArticleDetailQuery"
-import useArticleMutation from "../hooks/useArticleMutation"
 import { toast } from "react-toastify"
-import { useCategoryQuery } from "@/modules/category/hooks/useCategoryQuery"
+import { useCategoryDropDownQuery } from "@/hooks/useCategoryDropDownQuery"
+import useArticle from "../hooks/useArticle"
+import type { articleRequest } from "../schema/ArticleScheme.type"
+import { articleRequestScheme } from "../schema/ArticleScheme"
 
 interface props {
     type: "create" | "edit"
@@ -24,64 +23,29 @@ export default function ArticleFormModal({ type }: props) {
     const { open, setOpen, typeMode } = useModalStore()
     const isEdit = typeMode === "edit"
     const { selectedArticle } = useArticleStore()
-    const method = useArticleMutation()
-    const { data: articleDetail } = useArticleDetailQuery(isEdit ? selectedArticle?.id : "")
+    const { useCreateArticle, useEditArticle, useArticleDetail } = useArticle()
+    const { data: articleDetail } = useArticleDetail(isEdit ? selectedArticle?.id : "")
     const { register, handleSubmit, control, reset, setError, formState: { errors } } =
-        useForm<ArticleRequest>({
-            resolver: zodResolver(ArticleRequestScheme),
-            // defaultValues: isEdit
-            //     ? {
-            //         title: articleDetail?.title ?? "",
-            //         author: articleDetail?.author ?? "",
-            //         status: articleDetail?.status ?? "",
-            //         categoryId: articleDetail?.categoryId ?? "",
-            //         timeToRead: articleDetail?.timeToRead ?? 0,
-            //         content: articleDetail?.content ?? "",
-            //         picture: articleDetail?.picture?.uri ?? ""
-            //     }
-            //     : {
-            //         title: "",
-            //         author: "",
-            //         status: "",
-            //         categoryId: "",
-            //         timeToRead: 0,
-            //         content: "",
-            //         picture: ""
-            //     }
+        useForm<articleRequest>({   
+            resolver: zodResolver(articleRequestScheme),
+                values : {
+                    title: articleDetail?.title ?? "",
+                    author: articleDetail?.author ?? "",
+                    status: articleDetail?.status ?? "",
+                    categoryId: articleDetail?.categoryId ?? "",
+                    timeToRead: articleDetail?.timeToRead ?? 0,
+                    content: articleDetail?.content ?? "",
+                    picture: articleDetail?.picture?.uri ?? ""
+                }
         })
-    const { data: category } = useCategoryQuery()
+    const { data: category } = useCategoryDropDownQuery()
 
-    useEffect(() => {
-        if (type === "edit" && articleDetail) {
-            reset({
-                title: articleDetail.title ?? "",
-                author: articleDetail.author ?? "",
-                status: articleDetail.status ?? "",
-                categoryId: articleDetail.categoryId ?? "",
-                timeToRead: articleDetail.timeToRead ?? 0,
-                content: articleDetail.content ?? "",
-                picture: articleDetail.picture?.uri ?? ""
-            });
-        }
-        if (type === "create") {
-            reset({
-                title: "",
-                author: "",
-                status: "",
-                categoryId: "",
-                timeToRead: 0,
-                content: "",
-                picture: ""
-            })
-        }
-    }, [articleDetail, type, reset]);
-
-    const onSubmit = async (data: ArticleRequest) => {
+    const onSubmit = async (data: articleRequest) => {
         try {
             const submitData = { ...data, type: "article" }
-            if (isEdit) {
+            if (isEdit && type === "edit") {
                 if (!articleDetail) return
-                method?.editMutation.mutate(
+                useEditArticle.mutate(
                     { data: submitData, id: articleDetail.id },
                     {
                         onSuccess: () => {
@@ -91,7 +55,7 @@ export default function ArticleFormModal({ type }: props) {
                     }
                 )
             } else {
-                method.createMutation.mutate(submitData, {
+                useCreateArticle.mutate(submitData, {
                     onSuccess: () => {
                         reset()
                         setOpen(false)
@@ -124,7 +88,7 @@ export default function ArticleFormModal({ type }: props) {
                         setOpen(!open)
                         reset()
                     }
-                    }><Icons.Close />
+                    }><icons.Close />
                 </Button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full overflow-auto">

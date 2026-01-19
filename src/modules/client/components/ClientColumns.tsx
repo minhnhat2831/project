@@ -1,14 +1,14 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { Icons } from "@/components/common/base/Icon";
+import { icons } from "@/components/common/base/Icon";
 import { formatDate } from "@/components/common/base/FormatDate";
 import Avatar from "@mui/material/Avatar";
 import { useClientStore } from "../store/useSelectedClient";
 import { useNavigate } from "react-router";
 import { useModalStore } from "@/hooks/useModalStore";
 import { SortHeader } from "@/components/common/base/SortHeader";
-import type { Client } from "../schema/ClientSchema";
+import type { clientListItem } from "../schema/ClientSchema.type";
 
-export const columns: ColumnDef<Client>[] = [
+export const columns: ColumnDef<clientListItem>[] = [
     {
         accessorKey: "picture.uri",
         header: "Avatar",
@@ -106,13 +106,13 @@ export const columns: ColumnDef<Client>[] = [
             return (
                 <div className="flex gap-3">
                     <button onClick={handleView}>
-                        <Icons.Eye className="text-red-400 cursor-pointer" />
+                        <icons.Eye className="text-red-400 cursor-pointer" />
                     </button>
                     <button onClick={handleEdit}>
-                        <Icons.Pen className="text-red-400 cursor-pointer" />
+                        <icons.Pen className="text-red-400 cursor-pointer" />
                     </button>
                     <button onClick={handleDelete}>
-                        <Icons.Trash className="text-gray-600 cursor-pointer" />
+                        <icons.Trash className="text-gray-600 cursor-pointer" />
                     </button>
                 </div>
             )

@@ -1,4 +1,4 @@
-import { Icons } from "@/components/common/base/Icon";
+import { icons } from "@/components/common/base/Icon";
 import Header from "@/layouts/Header";
 import { useNavigate, useParams } from "react-router";
 import { formatDate } from "@/components/common/base/FormatDate";
@@ -6,12 +6,13 @@ import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { columns } from "../components/columns/DoulaPackageDetailColumns";
 import TableData from "@/components/common/base/TableData";
 import TablePagination from "@/components/common/base/TablePagination";
-import { useDoulaPakageDetailQuery } from "../hooks/doulaPackage/useDoulaPackageDetailQuery";
+import useDoulaPackage from "../hooks/useDoulaPackage";
 
 export default function PackagePage() {
     const { id } = useParams<{ id: string }>()
     const nav = useNavigate()
-    const { data: packageData, loading } = useDoulaPakageDetailQuery(id)
+    const { useDoulaPakageDetail } = useDoulaPackage()
+    const { data: packageData, loading } = useDoulaPakageDetail(id)
     const table = useReactTable({
         data: packageData?.cares ?? [],
         columns,
@@ -24,8 +25,8 @@ export default function PackagePage() {
 
         <div className="w-full h-screen py-2 px-5 bg-gray-100">
             <div className="flex justify-between px-2 py-4">
-                <button className="cursor-pointer" onClick={() => nav("/admin/doulas")}><Icons.ArrowBack />Back</button>
-                <button className="cursor-pointer" ><Icons.Pen className="text-red-400" />Edit</button>
+                <button className="cursor-pointer" onClick={() => nav("/admin/doulas")}><icons.ArrowBack />Back</button>
+                <button className="cursor-pointer" ><icons.Pen className="text-red-400" />Edit</button>
             </div>
             <div className="px-2 py-2 bg-white">
                 {/* info */}

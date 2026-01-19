@@ -4,10 +4,11 @@ import { columns } from "../components/SearchSettingColumns";
 import { useStore } from "@/hooks/useStore";
 import TableData from "@/components/common/base/TableData";
 import TablePagination from "@/components/common/base/TablePagination";
-import { useSearchSettingQuery } from "../hooks/useSearchSettingQuery";
+import useSearchSetting from "../hooks/useSearchSetting";
 
 export default function SearchSettingPage() {
-    const { data, loading, metadata } = useSearchSettingQuery()
+    const { useGetAllSearchSetting } = useSearchSetting()
+    const { data, loading, metadata } = useGetAllSearchSetting()
     const { pageIndex, pageSize, setPagination } = useStore()
 
 

@@ -4,10 +4,11 @@ import { useStore } from "@/hooks/useStore"
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table"
 import { Container } from "../container/Container"
 import { columns } from "../components/PdColumns"
-import { usePdQuery } from "../hooks/usePdQuery"
+import usePdSession from "../hooks/usePdSession"
 
 export default function PdSessionPage() {
-    const { data, loading, metadata } = usePdQuery()
+    const { useGetAllPdSession } = usePdSession()
+    const { data, loading, metadata } = useGetAllPdSession()
     const { pageIndex, pageSize, setPagination  } = useStore()
 
     const table = useReactTable({

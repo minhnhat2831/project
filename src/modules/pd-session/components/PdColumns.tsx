@@ -1,12 +1,12 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { Icons } from "@/components/common/base/Icon";
+import { icons } from "@/components/common/base/Icon";
 import { useModalStore } from "@/hooks/useModalStore";
 import { usePdStore } from "../store/useSelectedPd";
 import { SortHeader } from "@/components/common/base/SortHeader";
 import { formatDate } from "@/components/common/base/FormatDate";
-import type { Pd } from "../schema/PdSchema";
+import type { pdListItem } from "../schema/PdSchema.type";
 
-export const columns: ColumnDef<Pd>[] = [
+export const columns: ColumnDef<pdListItem>[] = [
     {
         accessorKey: "id",
         header: () => <SortHeader columnKey="id" title="ID" />,
@@ -83,10 +83,10 @@ export const columns: ColumnDef<Pd>[] = [
             return (
                 <div className="flex gap-3">
                     <button onClick={handleEdit}>
-                        <Icons.Pen className="text-red-400 cursor-pointer" />
+                        <icons.Pen className="text-red-400 cursor-pointer" />
                     </button>
                     <button onClick={handleDelete}>
-                        <Icons.Trash className="text-gray-600 cursor-pointer" />
+                        <icons.Trash className="text-gray-600 cursor-pointer" />
                     </button>
                 </div>
             )

@@ -1,4 +1,4 @@
-import { Icons } from "../base/Icon"
+import { icons } from "../base/Icon"
 import { usePasswordStore } from "@/hooks/usePasswordToggle";
 
 interface props extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -30,7 +30,7 @@ export default function PasswordInput({ label, placeholder, children, showPasswo
                 className={`absolute cursor-pointer p-2 -ml-11`}
                 onClick={() => setOpenPassword(!openPassword)}
             >
-                {showPassword ? <Icons.Eye /> : <Icons.EyeOff />}
+                {showPassword ? <icons.Eye /> : <icons.EyeOff />}
             </button>
             {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
         </div>

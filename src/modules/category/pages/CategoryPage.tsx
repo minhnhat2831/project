@@ -4,11 +4,12 @@ import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { columns } from "../components/CategoryColumns";
 import TableData from "@/components/common/base/TableData";
 import TablePagination from "@/components/common/base/TablePagination";
-import { useCategoryQuery } from "../hooks/useCategoryQuery";
+import useCategory from "../hooks/useCategory";
 
 export default function CategoryPage() {
     const { pageIndex, pageSize, setPagination } = useStore();
-    const { data, loading, metadata } = useCategoryQuery()
+    const { useGetAllCategory } = useCategory()
+    const { data, loading, metadata } = useGetAllCategory()
 
     const table = useReactTable({
         data,

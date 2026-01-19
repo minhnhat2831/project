@@ -1,47 +1,42 @@
 import axiosInstance from "@/services/axios";
 import { API_ENDPOINTS } from "@/services/api";
-import type {
-    SearchSettingBaseForm,
-    SearchSettingParams,
-    SearchSettingRequest,
-    SearchSettingResponse
-} from "../schema/SearchSettingSchema";
+import type { searchSettingList, searchSettingParams, searchSettingRequest, searchSettingResponse } from "../schema/SearchSettingSchema.type";
 
-export const GetAllSearchSetting = async (
-    params: SearchSettingParams
-): Promise<SearchSettingBaseForm> => {
-    const response = await axiosInstance.get<SearchSettingBaseForm>(
+export const getAllSearchSetting = async (
+    params: searchSettingParams
+): Promise<searchSettingList> => {
+    const response = await axiosInstance.get<searchSettingList>(
         API_ENDPOINTS.API_SEARCH_SETTING,
         { params }
     )
     return response.data
 }
 
-export const CreateSearchSetting = async (
-    data: SearchSettingRequest
-): Promise<SearchSettingResponse> => {
-    const response = await axiosInstance.post<SearchSettingResponse>(
+export const createSearchSetting = async (
+    data: searchSettingRequest
+): Promise<searchSettingResponse> => {
+    const response = await axiosInstance.post<searchSettingResponse>(
         API_ENDPOINTS.API_SEARCH_SETTING,
         data
     )
     return response.data
 }
 
-export const EditSearchSetting = async (
+export const editSearchSetting = async (
     id: string,
-    data: SearchSettingRequest
-): Promise<SearchSettingResponse> => {
-    const response = await axiosInstance.put<SearchSettingResponse>(
+    data: searchSettingRequest
+): Promise<searchSettingResponse> => {
+    const response = await axiosInstance.put<searchSettingResponse>(
         API_ENDPOINTS.API_SEARCH_SETTING_ID(id),
         data
     )
     return response.data
 }
 
-export const DeleteSearchSetting = async (
+export const deleteSearchSetting = async (
     id?: string
-): Promise<SearchSettingResponse> => {
-    const response = await axiosInstance.delete<SearchSettingResponse>(
+): Promise<searchSettingResponse> => {
+    const response = await axiosInstance.delete<searchSettingResponse>(
         API_ENDPOINTS.API_SEARCH_SETTING_ID(id),
     )
     return response.data

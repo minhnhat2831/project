@@ -1,20 +1,19 @@
 import { useModalStore } from "@/hooks/useModalStore"
 import { usePdStore } from "../store/useSelectedPd"
 import { useForm } from "react-hook-form"
-import { PdRequestScheme, type PdRequest } from "../schema/PdSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "react-toastify"
 import Button from "@/components/common/form/Button"
-import { Icons } from "@/components/common/base/Icon"
+import { icons } from "@/components/common/base/Icon"
 import InputField from "@/components/common/form/Input"
 import SelectForm from "@/components/common/form/Select"
 import Image from "@/components/common/form/Image"
 import TextArea from "@/components/common/form/TextArea"
 import PopupCE from "@/components/common/base/PopupCE"
-import { useEffect } from "react"
-import { useCategoryQuery } from "@/modules/category/hooks/useCategoryQuery"
-import { usePdDetailQuery } from "../hooks/usePdDetailQuery"
-import { usePdMutation } from "../hooks/usePdMutation"
+import { useCategoryDropDownQuery } from "@/hooks/useCategoryDropDownQuery"
+import usePdSession from "../hooks/usePdSession"
+import type { pdRequest } from "../schema/PdSchema.type"
+import { pdRequestScheme } from "../schema/PdSchema"
 
 interface props {
     type: "create" | "edit"
@@ -24,71 +23,36 @@ export default function PdFormModal({ type }: props) {
     const { open, setOpen, typeMode } = useModalStore()
     const { selectedPd } = usePdStore()
     const isEdit = typeMode === "edit"
-    const method = usePdMutation()
-    const { data: pdsessionId } = usePdDetailQuery(isEdit ? selectedPd?.id : "")
+    const { useCreatePdSession, useEditPdSession, usePdSessionDetail} = usePdSession()
+    const { data: pdsessionId } = usePdSessionDetail(isEdit ? selectedPd?.id : "")
     const { register, handleSubmit, reset, setError, control, formState: { errors } } =
-        useForm<PdRequest>({
-            resolver: zodResolver(PdRequestScheme),
-            // defaultValues: pdsessionId
-            //     ? {
-            //         title: pdsessionId?.title ?? "",
-            //         author: pdsessionId?.author ?? "",
-            //         status: pdsessionId?.status ?? "",
-            //         categoryId: pdsessionId?.categoryId ?? "",
-            //         timeToRead: pdsessionId?.timeToRead ?? 0,
-            //         picture: pdsessionId?.picture?.uri ?? selectedPd?.picture?.uri ?? "",
-            //         content: pdsessionId?.content ?? "",
-            //     }
-            //     : {
-            //         title: "",
-            //         author: "",
-            //         status: "",
-            //         categoryId: "",
-            //         timeToRead: 0,
-            //         picture: "",
-            //         content: ""
-            //     }
+        useForm<pdRequest>({
+            resolver: zodResolver(pdRequestScheme),
+            values:{
+                    title: pdsessionId?.title ?? "",
+                    author: pdsessionId?.author ?? "",
+                    status: pdsessionId?.status ?? "",
+                    categoryId: pdsessionId?.categoryId ?? "",
+                    timeToRead: pdsessionId?.timeToRead ?? 0,
+                    picture: pdsessionId?.picture?.uri ?? selectedPd?.picture?.uri ?? "",
+                    content: pdsessionId?.content ?? "",
+                }            
         })
-    const { data: category } = useCategoryQuery()
+    const { data: category } = useCategoryDropDownQuery()
 
-    useEffect(() => {
-        if (type === "create") {
-            reset({
-                title: "",
-                author: "",
-                status: "",
-                categoryId: "",
-                timeToRead: 0,
-                picture: "",
-                content: ""
-            })
-        }
-        if (type === "edit" && pdsessionId) {
-            reset({
-                title: pdsessionId?.title ?? "",
-                author: pdsessionId?.author ?? "",
-                status: pdsessionId?.status ?? "",
-                categoryId: pdsessionId?.categoryId ?? "",
-                timeToRead: pdsessionId?.timeToRead ?? 0,
-                picture: pdsessionId?.picture?.uri ?? selectedPd?.picture?.uri ?? "",
-                content: pdsessionId?.content ?? "",
-            })
-        }
-    }, [reset, type, pdsessionId])
-
-    const onSubmit = async (data: PdRequest) => {
+    const onSubmit = async (data: pdRequest) => {
         try {
             const pddata = { ...(data), type: "pd" }
-            if (isEdit) {
+            if (isEdit && type === 'edit') {
                 if (!pdsessionId) return
-                method.editMutation.mutate({ id: pdsessionId.id, data: pddata }, {
+                useEditPdSession.mutate({ id: pdsessionId.id, data: pddata }, {
                     onSuccess: () => {
                         reset(pddata)
                         setOpen(false)
                     }
                 })
             } else {
-                method.createMutation.mutate(pddata, {
+                useCreatePdSession.mutate(pddata, {
                     onSuccess: () => {
                         reset()
                         setOpen(false)
@@ -119,7 +83,7 @@ export default function PdFormModal({ type }: props) {
                     onClick={() => {
                         setOpen(!open)
                         reset()
-                    }}><Icons.Close />
+                    }}><icons.Close />
                 </Button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full overflow-auto">

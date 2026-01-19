@@ -1,11 +1,11 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { useSettingStore } from "../store/useSelectedSetting";
 import { useModalStore } from "@/hooks/useModalStore";
-import { Icons } from "@/components/common/base/Icon";
+import { icons } from "@/components/common/base/Icon";
 import { formatDate } from "@/components/common/base/FormatDate";
-import type { SearchSetting } from "../schema/SearchSettingSchema";
+import type { searchSettingListItem } from "../schema/SearchSettingSchema.type";
 
-export const columns: ColumnDef<SearchSetting>[] = [
+export const columns: ColumnDef<searchSettingListItem>[] = [
     {
         accessorKey: "id",
         header: "ID"
@@ -49,10 +49,10 @@ export const columns: ColumnDef<SearchSetting>[] = [
             return (
                 <div className="flex gap-3">
                     <button onClick={handleEdit}>
-                        <Icons.Pen className="text-red-400 cursor-pointer" />
+                        <icons.Pen className="text-red-400 cursor-pointer" />
                     </button>
                     <button onClick={handleDelete}>
-                        <Icons.Trash className="text-gray-600 cursor-pointer" />
+                        <icons.Trash className="text-gray-600 cursor-pointer" />
                     </button>
                 </div>
             )

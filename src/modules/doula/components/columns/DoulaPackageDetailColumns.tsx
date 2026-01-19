@@ -1,9 +1,9 @@
 import type { ColumnDef } from "@tanstack/react-table"
 import Avatar from "@mui/material/Avatar"
 import { formatDate } from "@/components/common/base/FormatDate"
-import type { Cares } from "../../schema/DoulaPackageSchema"
+import type { caresListItem } from "../../schema/types/DoulaPackageSchema.type"
 
-export const columns: ColumnDef<Cares>[] = [
+export const columns: ColumnDef<caresListItem>[] = [
   {
     header: "Avatar",
     accessorKey: "user.picture.uri",

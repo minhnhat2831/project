@@ -6,13 +6,12 @@ import SelectForm from "@/components/common/form/Select"
 import { useModalStore } from "@/hooks/useModalStore"
 import { useCategoryStore } from "../store/useSelectedCategory"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { CategoryRequestSchemas, type CategoryRequest } from "../schema/CategorySchema"
 import { useForm } from "react-hook-form"
-import { Icons } from "@/components/common/base/Icon"
-import { useEffect } from "react"
-import { useCategoryDetailQuery } from "../hooks/useCategoryDetailQuery"
-import { useCategoryMutation } from "../hooks/useCategoryMutation"
+import { icons } from "@/components/common/base/Icon"
 import { toast } from "react-toastify"
+import useCategory from "../hooks/useCategory"
+import { categoryRequestSchemas } from "../schema/CategorySchema"
+import type { categoryRequest } from "../schema/CategorySchema.type"
 
 interface props {
     type: "create" | "edit"
@@ -22,47 +21,23 @@ export default function CategoryFormModal({ type }: props) {
     const { open, setOpen, typeMode } = useModalStore()
     const isEdit = typeMode === "edit"
     const { selectedCategory } = useCategoryStore()
-    const method = useCategoryMutation()
-    const { data: categoryId } = useCategoryDetailQuery(isEdit ? selectedCategory?.id : "")
-    const { register, handleSubmit, setError, reset, control, formState: { errors } } = useForm<CategoryRequest>({
-        resolver: zodResolver(CategoryRequestSchemas),
-        // defaultValues: isEdit ? {
-        //     title: categoryId?.title ?? "",
-        //     name: categoryId?.name ?? "",
-        //     status: categoryId?.status ?? "",
-        //     image: categoryId?.picture?.uri ?? ""
-        // } : {
-        //     title: "",
-        //     name: "",
-        //     status: "",
-        //     image: ""
-        // }
+    const { useCreateCategory, useEditCategory, useCategoryDetail } = useCategory()
+    const { data: categoryId } = useCategoryDetail(isEdit ? selectedCategory?.id : "")
+    const { register, handleSubmit, setError, reset, control, formState: { errors } } = useForm<categoryRequest>({
+        resolver: zodResolver(categoryRequestSchemas),
+        values: {
+            title: categoryId?.title ?? "",
+            name: categoryId?.name ?? "",
+            status: categoryId?.status ?? "",
+            image: categoryId?.picture?.uri ?? ""
+        }
     })
 
-    useEffect(() => {
-        if (type === "edit" && categoryId) {
-            reset({
-                title: categoryId?.title ?? "",
-                name: categoryId?.name ?? "",
-                status: categoryId?.status ?? "",
-                image: categoryId?.picture?.uri ?? ""
-            });
-        }
-        if (type === "create") {
-            reset({
-                title: "",
-                name: "",
-                status: "",
-                image: ""
-            })
-        }
-    }, [categoryId, type, reset]);
-
-    const onSubmit = async (data: CategoryRequest) => {
+    const onSubmit = async (data: categoryRequest) => {
         try {
-            if (isEdit) {
+            if (isEdit && type === "edit") {
                 if (!categoryId) return
-                method.editMutation.mutate({ id: categoryId.id, data: data }, {
+                useEditCategory.mutate({ id: categoryId.id, data: data }, {
                     onSuccess: () => {
                         reset(data)
                         setOpen(false)
@@ -100,7 +75,7 @@ export default function CategoryFormModal({ type }: props) {
                     }
                 })
             } else {
-                method.createMutation.mutate(data, {
+                useCreateCategory.mutate(data, {
                     onSuccess: () => {
                         reset()
                         setOpen(false)
@@ -153,7 +128,7 @@ export default function CategoryFormModal({ type }: props) {
                     onClick={() => {
                         setOpen(!open)
                         reset()
-                    }}><Icons.Close />
+                    }}><icons.Close />
                 </Button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full overflow-auto">

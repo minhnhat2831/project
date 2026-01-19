@@ -2,13 +2,11 @@ import * as z from "zod";
 
 const required = "This field is required"
 
-export type SearchSettingRequest = z.infer<typeof SearchSettingRequestScheme>;
-export const SearchSettingRequestScheme = z.object({
+export const searchSettingRequestScheme = z.object({
     keyword: z.string().min(1, required),
 })
 
-export type SearchSettingParams = z.infer<typeof SearchSettingParamsScheme>;
-export const SearchSettingParamsScheme = z.object({
+export const searchSettingParamsScheme = z.object({
     page: z.number().optional(),
     limit: z.number().optional(),
     offset: z.number().optional(),
@@ -16,8 +14,7 @@ export const SearchSettingParamsScheme = z.object({
     sort: z.string().optional(),
 })
 
-export type SearchSetting = z.infer<typeof SearchSettingScheme>;
-export const SearchSettingScheme = z.object({
+export const searchSettingListItemScheme = z.object({
     id: z.string(),
     keyword: z.string(),
     count: z.number(),
@@ -26,10 +23,9 @@ export const SearchSettingScheme = z.object({
     updatedAt: z.string().nullable()
 })
 
-export type SearchSettingBaseForm = z.infer<typeof SearchSettingBaseFormScheme>;
-export const SearchSettingBaseFormScheme = z.object({
+export const searchSettingListScheme = z.object({
     message: z.string(),
-    data: z.array(SearchSettingScheme),
+    data: z.array(searchSettingListItemScheme),
     metadata: z.object({
         page: z.number(),
         limit: z.number(),
@@ -39,8 +35,7 @@ export const SearchSettingBaseFormScheme = z.object({
     })
 })
 
-export type SearchSettingResponse = z.infer<typeof SearchSettingResponseScheme>;
-export const SearchSettingResponseScheme = z.object({
+export const searchSettingResponseScheme = z.object({
     message : z.string(),
     data : z.boolean()
 })

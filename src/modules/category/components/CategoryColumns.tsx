@@ -1,12 +1,12 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { formatDate } from "@/components/common/base/FormatDate";
-import { Icons } from "@/components/common/base/Icon";
+import { icons } from "@/components/common/base/Icon";
 import { useModalStore } from "@/hooks/useModalStore";
 import { useCategoryStore } from "../store/useSelectedCategory";
 import { SortHeader } from "@/components/common/base/SortHeader";
-import type { Category } from "../schema/CategorySchema";
+import type { categoryListItem } from "../schema/CategorySchema.type";
 
-export const columns: ColumnDef<Category>[] = [
+export const columns: ColumnDef<categoryListItem>[] = [
     {
         accessorKey: "name",
         header: () => <SortHeader columnKey="name" title="Name" />,
@@ -67,10 +67,10 @@ export const columns: ColumnDef<Category>[] = [
             return (
                 <div className="flex gap-3">
                     <button onClick={handleEdit}>
-                        <Icons.Pen className="text-red-400 cursor-pointer" />
+                        <icons.Pen className="text-red-400 cursor-pointer" />
                     </button>
                     <button onClick={handleDelete}>
-                        <Icons.Trash className="text-gray-600 cursor-pointer" />
+                        <icons.Trash className="text-gray-600 cursor-pointer" />
                     </button>
                 </div>
             )

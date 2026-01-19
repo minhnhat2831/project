@@ -1,4 +1,4 @@
-import { Icons } from "@/components/common/base/Icon";
+import { icons } from "@/components/common/base/Icon";
 import Header from "@/layouts/Header";
 import Avatar from "@mui/material/Avatar";
 import { useNavigate, useParams } from "react-router";
@@ -11,14 +11,15 @@ import TablePagination from "@/components/common/base/TablePagination";
 import { useClientStore } from "../store/useSelectedClient";
 import { useModalStore } from "@/hooks/useModalStore";
 import { Container } from "../container/Container";
-import { useClientDetailQuery } from "../hooks/useClientDetailQuery";
-import { useCareQuery } from "../hooks/useCareQuery";
+import { useCare } from "../hooks/useCare";
+import useClient from "../hooks/useClient";
 
 export default function ClientViewPage() {
     const nav = useNavigate()
     const { id } = useParams<{ id: string }>()
-    const { data: cares, loading, metadata } = useCareQuery(id)
-    const { data: client } = useClientDetailQuery(id)
+    const { useClientDetail } = useClient()
+    const { data: cares, loading, metadata } = useCare(id)
+    const { data: client } = useClientDetail(id)
     const { pageIndex, pageSize, setPagination } = useStore()
     const { selectedClient } = useClientStore()
     const { setOpen, setTypeMode } = useModalStore()
@@ -45,8 +46,8 @@ export default function ClientViewPage() {
             <Header href={`/admin/client/${client?.id}`} childrenHref={`Admin / Client Management / ${client?.id}`} hidden={"hidden"} />
             <div className="w-full h-screen py-2 px-5 bg-gray-100">
                 <div className="flex justify-between px-2 py-4">
-                    <button className="cursor-pointer" onClick={() => nav('/admin/clients')}><Icons.ArrowBack />Back</button>
-                    <button className="cursor-pointer" onClick={handleEdit}><Icons.Pen className="text-red-500" />Edit</button>
+                    <button className="cursor-pointer" onClick={() => nav('/admin/clients')}><icons.ArrowBack />Back</button>
+                    <button className="cursor-pointer" onClick={handleEdit}><icons.Pen className="text-red-500" />Edit</button>
                 </div>
                 <div className="px-2 py-2 bg-white">
                     {/* info */}

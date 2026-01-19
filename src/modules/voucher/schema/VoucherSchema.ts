@@ -2,8 +2,7 @@ import * as z from "zod";
 
 const required = "This field is required"
 
-export type GetVoucherParams = z.infer<typeof GetVoucherParamsSchema>;
-export const GetVoucherParamsSchema = z.object({
+export const voucherParamsSchema = z.object({
     page: z.number().optional(),
     limit: z.number().optional(),
     offset: z.number().optional(),
@@ -14,8 +13,7 @@ export const GetVoucherParamsSchema = z.object({
     f_status: z.string().optional(),
 });
 
-export type VoucherRequest = z.infer<typeof VoucherRequestScheme>;
-export const VoucherRequestScheme = z.object({
+export const voucherRequestScheme = z.object({
     code: z.string().min(1, required),
     description: z.string().min(1, required),
     startDate: z.string().min(1, required),
@@ -28,13 +26,7 @@ export const VoucherRequestScheme = z.object({
     type: z.string().min(1, required),
 })
 
-export type VoucherEditStatus = z.infer<typeof VoucherEditStatusSchema>
-export const VoucherEditStatusSchema = z.object({
-    status: z.enum(["active", "inactive"])
-})
-
-export type Voucher = z.infer<typeof VoucherScheme>;
-export const VoucherScheme = z.object({
+export const voucherListItemScheme = z.object({
     id: z.string(),
     code: z.string(),
     description: z.string(),
@@ -55,10 +47,9 @@ export const VoucherScheme = z.object({
     numOfUsed: z.number(),
 })
 
-export type VoucherBaseForm = z.infer<typeof VoucherBaseFormScheme>;
-export const VoucherBaseFormScheme = z.object({
+export const voucherListScheme = z.object({
     message: z.string(),
-    data: z.array(VoucherScheme),
+    data: z.array(voucherListItemScheme),
     metadata: z.object({
         page: z.number(),
         limit: z.number(),
@@ -68,20 +59,17 @@ export const VoucherBaseFormScheme = z.object({
     })
 })
 
-export type VoucherResponse = z.infer<typeof VoucherResponseSchema>;
-export const VoucherResponseSchema = z.object({
+export const voucherResponseSchema = z.object({
     message : z.string(),
-    data : VoucherScheme
+    data : voucherListItemScheme
 })
 
-export type VoucherDeleteRequest = z.infer<typeof VoucherDeleteSchema>;
-export const VoucherDeleteSchema = z.object({
+export const voucherDeleteSchema = z.object({
     status: z.enum(["active", "inactive"]),
 })
 
 //=======================DoulaVoucher================================
-export type GetVoucherDoulaParams = z.infer<typeof GetVoucherDoulaParamsSchema>;
-export const GetVoucherDoulaParamsSchema = z.object({
+export const voucherDoulaParamsSchema = z.object({
     page: z.number().optional(),
     limit: z.number().optional(),
     offset: z.number().optional(),
@@ -91,8 +79,7 @@ export const GetVoucherDoulaParamsSchema = z.object({
     f_voucherId: z.string().optional(),
 });
 
-export type VoucherDoula = z.infer<typeof VoucherDoulaScheme>;
-export const VoucherDoulaScheme = z.object({
+export const voucherDoulaListItemScheme = z.object({
     id: z.string(),
     doulaId: z.string(),
     voucherId: z.string(),
@@ -124,10 +111,9 @@ export const VoucherDoulaScheme = z.object({
     })
 })
 
-export type DoulaVoucherBaseForm = z.infer<typeof DoulaVoucherBaseFormScheme>;
-export const DoulaVoucherBaseFormScheme = z.object({
+export const voucherDoulaListScheme = z.object({
     message: z.string(),
-    data: z.array(VoucherDoulaScheme),
+    data: z.array(voucherDoulaListItemScheme),
     metadata: z.object({
         page: z.number(),
         limit: z.number(),

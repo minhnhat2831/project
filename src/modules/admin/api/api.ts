@@ -1,28 +1,31 @@
 import axiosInstance from "@/services/axios"
 import { API_ENDPOINTS } from "@/services/api"
-import type {
-  AdminDetailResponse,
-  AdminFormCreate,
-  AdminFormEdit,
-  AdminUserBaseForm,
-  AdminUserResponse,
-  GetAdminsParams
-} from "../schema/AdminUserSchema"
+import type { 
 
-export const GetAllAdmin = async (
-  params: GetAdminsParams
-): Promise<AdminUserBaseForm> => {
-  const response = await axiosInstance.get<AdminUserBaseForm>(
+} from "../schema/AdminUserSchema"
+import type { 
+  adminDetailResponse, 
+  adminFormCreate, 
+  adminFormEdit, 
+  adminList, 
+  adminUserResponse, 
+  adminsParams 
+} from "../schema/AdminUserSchema.type"
+
+export const getAllAdmin = async (
+  params: adminsParams
+): Promise<adminList> => {
+  const response = await axiosInstance.get<adminList>(
     API_ENDPOINTS.API_ADMIN_ADMINS,
     { params }
   )
   return response.data
 }
 
-export const CreateAdmin = async (
-  data: AdminFormCreate
-): Promise<AdminUserBaseForm> => {
-  const response = await axiosInstance.post<AdminUserBaseForm>(
+export const createAdmin = async (
+  data: adminFormCreate
+): Promise<adminList> => {
+  const response = await axiosInstance.post<adminList>(
     API_ENDPOINTS.API_ADMIN_ADMINS,
     data,
     {
@@ -34,11 +37,11 @@ export const CreateAdmin = async (
   return response.data
 }
 
-export const EditAdmin = async (
-  data: AdminFormEdit,
+export const editAdmin = async (
+  data: adminFormEdit,
   id: string
-): Promise<AdminUserBaseForm> => {
-  const response = await axiosInstance.put<AdminUserBaseForm>(
+): Promise<adminList> => {
+  const response = await axiosInstance.put<adminList>(
     API_ENDPOINTS.API_ADMIN_ADMINS_ID(id),
     data,
     {
@@ -50,19 +53,19 @@ export const EditAdmin = async (
   return response.data
 }
 
-export const DeleteAdmin = async (
-  id?: string
-): Promise<AdminUserResponse> => {
-  const response = await axiosInstance.delete<AdminUserResponse>(
+export const deleteAdmin = async (
+  id? : string
+): Promise<adminUserResponse> => {
+  const response = await axiosInstance.delete<adminUserResponse>(
     API_ENDPOINTS.API_ADMIN_ADMINS_ID(id)
   )
   return response.data
 }
 
-export const GetAdminDetail = async (
-  id?: string
-): Promise<AdminDetailResponse> => {
-  const response = await axiosInstance.get<AdminDetailResponse>(
+export const getAdminDetail = async (
+  id? : string
+) : Promise<adminDetailResponse> => {
+  const response = await axiosInstance.get<adminDetailResponse>(
     API_ENDPOINTS.API_ADMIN_ADMINS_ID(id)
   )
   return response.data

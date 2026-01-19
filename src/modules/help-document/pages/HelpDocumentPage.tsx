@@ -4,10 +4,11 @@ import { useStore } from "@/hooks/useStore";
 import { columns } from "../components/HelpDocumentColumns";
 import TableData from "@/components/common/base/TableData";
 import TablePagination from "@/components/common/base/TablePagination";
-import { useHelpDocumentQuery } from "../hooks/useHelpDocumentQuery";
+import useHelpDocument from "../hooks/useHelpDocument";
 export default function HelpDocumentPage() {
     const { pageIndex, pageSize, setPagination } = useStore()
-    const { data, loading, metadata } = useHelpDocumentQuery()
+    const { useGetAllHelpDocument } = useHelpDocument()
+    const { data, loading, metadata } = useGetAllHelpDocument()
 
     const table = useReactTable({
         data,

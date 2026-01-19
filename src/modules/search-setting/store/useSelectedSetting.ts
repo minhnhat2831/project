@@ -1,9 +1,9 @@
 import { create } from "zustand"
-import type { SearchSetting } from "../schema/SearchSettingSchema"
+import type { searchSettingListItem } from "../schema/SearchSettingSchema.type"
 
 interface SearchSettingStore {
-    selectedSearchSetting : SearchSetting | null,
-    setSelectedSearchSetting: (SearchSetting: SearchSetting | null) => void
+    selectedSearchSetting : searchSettingListItem | null,
+    setSelectedSearchSetting: (SearchSetting: searchSettingListItem | null) => void
 }
 
 export const useSettingStore = create<SearchSettingStore>((set) =>({

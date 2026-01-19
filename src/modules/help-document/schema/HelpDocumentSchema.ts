@@ -2,8 +2,7 @@ import * as z from "zod"
 
 const required = "This field is required"
 
-export type HelpDocumentParams = z.infer<typeof HelpDocumentParamsSchema>
-export const HelpDocumentParamsSchema = z.object({
+export const helpDocumentParamsSchema = z.object({
     page: z.number().optional(),
     limit: z.number().optional(),
     offset: z.number().optional(),
@@ -11,16 +10,14 @@ export const HelpDocumentParamsSchema = z.object({
     sort: z.string().optional()
 })
 
-export type HelpDocumentRequest = z.infer<typeof HelpDocumentRequestSchema>;
-export const HelpDocumentRequestSchema = z.object(
+export const helpDocumentRequestSchema = z.object(
 {
     title: z.string().min(1, required),
     content: z.string().min(1, required),
     status: z.string().min(1, required),
 })
 
-export type HelpDocument = z.infer<typeof HelpDocumentSchema>;
-export const HelpDocumentSchema = z.object(
+export const helpDocumentListItemSchema = z.object(
 {
     id: z.string(),
     createdAt: z.string(),
@@ -31,11 +28,10 @@ export const HelpDocumentSchema = z.object(
     status: z.enum(["active", "inactive"]),
 })
 
-export type HelpDocumentBaseForm = z.infer<typeof HelpDocumentBaseFormSchema>;
-export const HelpDocumentBaseFormSchema = z.object(
+export const helpDocumentListSchema = z.object(
 {
     message: z.string(),
-    data: z.array(HelpDocumentSchema),
+    data: z.array(helpDocumentListItemSchema),
     metadata: z.object({
         page: z.number(),
         limit: z.number(),
@@ -45,15 +41,13 @@ export const HelpDocumentBaseFormSchema = z.object(
     })
 })
 
-export type HelpDocumentResponse= z.infer<typeof HelpDocumentResponseSchema>;
-export const HelpDocumentResponseSchema = z.object(
+export const helpDocumentResponseSchema = z.object(
 {
     message : z.string(),
-    data : HelpDocumentSchema
+    data : helpDocumentListItemSchema
 })
 
-export type DeleteHelpDocumentResponse= z.infer<typeof DeleteHelpDocumentResponseSchema>;
-export const DeleteHelpDocumentResponseSchema = z.object(
+export const deleteHelpDocumentResponseSchema = z.object(
 {
     message : z.string(),
     data : z.boolean()

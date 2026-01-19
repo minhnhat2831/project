@@ -1,51 +1,51 @@
 import axiosInstance from "@/services/axios";
 import { API_ENDPOINTS } from "@/services/api";
-import type { DeleteHelpDocumentResponse, HelpDocumentBaseForm, HelpDocumentParams, HelpDocumentRequest, HelpDocumentResponse } from "../schema/HelpDocumentSchema";
+import type { deleteHelpDocumentResponse, helpDocumentList, helpDocumentParams, helpDocumentRequest, helpDocumentResponse } from "../schema/HelpDocumentSchema.type";
 
-export const GetAllHelpDocument = async (
-    params: HelpDocumentParams
-): Promise<HelpDocumentBaseForm> => {
-    const response = await axiosInstance.get<HelpDocumentBaseForm>(
+export const getAllHelpDocument = async (
+    params: helpDocumentParams
+): Promise<helpDocumentList> => {
+    const response = await axiosInstance.get<helpDocumentList>(
         API_ENDPOINTS.API_HELP_DOCUMENT,
         { params }
     )
     return response.data
 }
 
-export const GetHelpDocumentDetail = async (
+export const getHelpDocumentDetail = async (
     id?: string
-): Promise<HelpDocumentResponse> => {
-    const response = await axiosInstance.get<HelpDocumentResponse>(
+): Promise<helpDocumentResponse> => {
+    const response = await axiosInstance.get<helpDocumentResponse>(
         API_ENDPOINTS.API_HELP_DOCUMENT_ID(id)
     )
     return response.data
 }
 
-export const CreateHelpDocument = async (
-    data: HelpDocumentRequest
-): Promise<HelpDocumentResponse> => {
-    const response = await axiosInstance.post<HelpDocumentResponse>(
+export const createHelpDocument = async (
+    data: helpDocumentRequest
+): Promise<helpDocumentResponse> => {
+    const response = await axiosInstance.post<helpDocumentResponse>(
         API_ENDPOINTS.API_HELP_DOCUMENT,
         data
     )
     return response.data
 }
 
-export const EditHelpDocument = async (
+export const editHelpDocument = async (
     id: string,
-    data: HelpDocumentRequest
-): Promise<HelpDocumentResponse> => {
-    const response = await axiosInstance.put<HelpDocumentResponse>(
+    data: helpDocumentRequest
+): Promise<helpDocumentResponse> => {
+    const response = await axiosInstance.put<helpDocumentResponse>(
         API_ENDPOINTS.API_HELP_DOCUMENT_ID(id),
         data
     )
     return response.data
 }
 
-export const DeleteHelpDocument = async (
+export const deleteHelpDocument = async (
     id?: string
-): Promise<DeleteHelpDocumentResponse> => {
-    const response = await axiosInstance.delete<DeleteHelpDocumentResponse>(
+): Promise<deleteHelpDocumentResponse> => {
+    const response = await axiosInstance.delete<deleteHelpDocumentResponse>(
         API_ENDPOINTS.API_HELP_DOCUMENT_ID(id)
     )
     return response.data

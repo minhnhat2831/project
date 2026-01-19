@@ -1,10 +1,10 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { formatDate } from "@/components/common/base/FormatDate";
-import { Icons } from "@/components/common/base/Icon";
+import { icons } from "@/components/common/base/Icon";
 import Avatar from "@mui/material/Avatar";
-import type { DoulaReview } from "../../schema/DoulaReviewSchema";
+import type { doulaReviewListItem } from "../../schema/types/DoulaReviewSchema.type";
 
-export const columns: ColumnDef<DoulaReview>[] = [
+export const columns: ColumnDef<doulaReviewListItem>[] = [
     {
         accessorKey: "user?.picture",
         header: "Avatar",
@@ -47,7 +47,7 @@ export const columns: ColumnDef<DoulaReview>[] = [
             return (
                 <div className="flex gap-3">
                     <button>
-                        <Icons.Eye className="text-red-400 cursor-pointer" />
+                        <icons.Eye className="text-red-400 cursor-pointer" />
                     </button>
                 </div>
             )

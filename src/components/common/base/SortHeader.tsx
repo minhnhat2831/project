@@ -1,5 +1,5 @@
 import { useStore } from "@/hooks/useStore"
-import { Icons } from "@/components/common/base/Icon"
+import { icons } from "@/components/common/base/Icon"
 
 export const SortHeader = ({ columnKey, title }: { columnKey: string, title: string }) => {
   const { sort, setSort, resetData } = useStore()
@@ -19,9 +19,9 @@ export const SortHeader = ({ columnKey, title }: { columnKey: string, title: str
   return (
     <div className="flex items-center gap-1 cursor-pointer" onClick={handleSort}>
       <span>{title}</span>
-      {(!isAsc && !isDesc) && <Icons.Sort className="w-3 h-3" />}
-      {isAsc && <Icons.ExpandLess className="w-3 h-3" />}
-      {isDesc && <Icons.ExpandMore className="w-3 h-3" />}
+      {(!isAsc && !isDesc) && <icons.Sort className="w-3 h-3" />}
+      {isAsc && <icons.ExpandLess className="w-3 h-3" />}
+      {isDesc && <icons.ExpandMore className="w-3 h-3" />}
     </div>
   )
 }

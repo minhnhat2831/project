@@ -1,19 +1,19 @@
 import { toast } from "react-toastify"
-import { Icons } from "@/components/common/base/Icon"
+import { icons } from "@/components/common/base/Icon"
 import Button from "@/components/common/form/Button"
 import { useModalStore } from "@/hooks/useModalStore"
 import PopupConfirm from "@/components/common/base/PopupConfirm"
 import { useVoucherStore } from "../../store/useSelectedVoucher"
-import { useVoucherMutation } from "../../hooks/useVoucherMutation"
+import useVoucher from "../../hooks/useVoucher"
 
 export default function VoucherEdit() {
     const { open, setOpen } = useModalStore()
     const { selectedVoucher } = useVoucherStore()
-    const { editMutation } = useVoucherMutation()
+    const { useEditVoucher } = useVoucher()
     const handleInactive = async () => {
         try {
             if (!selectedVoucher) return
-            editMutation.mutate({
+            useEditVoucher.mutate({
                 id: selectedVoucher.id, data: {
                     status: "inactive"
                 }
@@ -30,7 +30,7 @@ export default function VoucherEdit() {
     return (<>
         <PopupConfirm open={open} onOpenChange={setOpen}>
             <div className="px-8 mt-5">
-                <Icons.Error className="text-red-500" fontSize="large" />
+                <icons.Error className="text-red-500" fontSize="large" />
             </div>
             <div className="px-8">
                 <h1 className="text-2xl font-bold">Inactive voucher?</h1>

@@ -1,19 +1,19 @@
-import { Icons } from "@/components/common/base/Icon"
+import { icons } from "@/components/common/base/Icon"
 import { toast } from "react-toastify"
 import Button from "@/components/common/form/Button"
 import { useDoulaStore } from "../../store/useSelectedDoula"
 import { useModalStore } from "@/hooks/useModalStore"
 import PopupConfirm from "@/components/common/base/PopupConfirm"
-import { useDoulaMutation } from "../../hooks/doula/useDoulaMutation"
+import useDoula from "../../hooks/useDoula"
 
 export default function DoulaDelete() {
     const { selectedDoula } = useDoulaStore()
     const { open, setOpen } = useModalStore()
-    const { deleteMutation } = useDoulaMutation()
+    const { useDeleteDoula } = useDoula()
     const handleDelete = async () => {
         try {
             if (!selectedDoula) return
-            deleteMutation.mutate({ id: selectedDoula?.id }, {
+            useDeleteDoula.mutate({ id: selectedDoula?.id }, {
                 onSuccess: () => {
                     setOpen(false)
                 }
@@ -28,7 +28,7 @@ export default function DoulaDelete() {
         <>
             <PopupConfirm open={open} onOpenChange={setOpen}>
                 <div className="px-8 mt-5">
-                    <Icons.Error className="text-red-500" fontSize="large" />
+                    <icons.Error className="text-red-500" fontSize="large" />
                 </div>
                 <div className="px-8">
                     <h1 className="text-2xl font-bold">Confirm Delete Doula?</h1>

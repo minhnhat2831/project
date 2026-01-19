@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router";
 import Header from "@/layouts/Header";
-import { Icons } from "@/components/common/base/Icon";
+import { icons } from "@/components/common/base/Icon";
 import Nav from "../components/common/Nav";
 import DoulaInformation from "./tab-content/DoulaInformation";
 import DoulaSubscription from "./tab-content/DoulaSubscription";
@@ -11,8 +11,8 @@ import Avatar from "@mui/material/Avatar";
 import { useDoulaStore } from "../store/useSelectedDoula";
 import { useModalStore } from "@/hooks/useModalStore";
 import { Container } from "../container/Container";
-import { useDoulaDetailQuery } from "../hooks/doula/useDoulaDetailQuery";
 import { useState } from "react";
+import useDoula from "../hooks/useDoula";
 
 const tabs = [
     { name: "Information", key: "information" },
@@ -25,7 +25,8 @@ export default function DoulaViewPage() {
     const { id } = useParams<{ id: string }>()
     const nav = useNavigate()
     const [activeTab, setActiveTab] = useState("information");
-    const { data: doula } = useDoulaDetailQuery(id);
+    const { useDoulaDetail } = useDoula()
+    const { data: doula } = useDoulaDetail(id);
     const { selectedDoula } = useDoulaStore()
     const { setOpen, setTypeMode } = useModalStore()
 
@@ -41,8 +42,8 @@ export default function DoulaViewPage() {
 
             <div className="w-full h-screen py-2 px-5 bg-gray-100">
                 <div className="flex justify-between px-2 py-4">
-                    <button className="cursor-pointer" onClick={() => nav("/admin/doulas")}><Icons.ArrowBack />Back</button>
-                    <button className="cursor-pointer" onClick={handleEdit}><Icons.Pen className="text-red-400" />Edit</button>
+                    <button className="cursor-pointer" onClick={() => nav("/admin/doulas")}><icons.ArrowBack />Back</button>
+                    <button className="cursor-pointer" onClick={handleEdit}><icons.Pen className="text-red-400" />Edit</button>
                 </div>
                 <div className="px-2 py-2 bg-white">
                     {/* info */}

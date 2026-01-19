@@ -1,8 +1,7 @@
 import * as z from "zod";
 
 //Admin
-export type Admin = z.infer<typeof AdminSchema>;
-export const AdminSchema = z.object({
+export const adminListItemSchema = z.object({
   id: z.string(),
   username: z.string().min(3, "Username must be at least 3 characters long"),
   firstName: z.string(),
@@ -14,8 +13,7 @@ export const AdminSchema = z.object({
   updatedAt: z.string().nullable(),
 })
 
-export type AdminFormCreate = z.infer<typeof CreateAdminUserSchema>;
-export const CreateAdminUserSchema = z.object({
+export const createAdminUserSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters long"),
   password: z.string().min(8, "Password must be at least 8 characters long"),
   email: z.email().min(1, 'Email is required'),
@@ -24,8 +22,7 @@ export const CreateAdminUserSchema = z.object({
   status: z.string().min(1, 'Status is required'),
 })
 
-export type AdminFormEdit = z.infer<typeof EditAdminUserSchema>;
-export const EditAdminUserSchema = z.object({
+export const editAdminUserSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters long"),
   password: z.string(),
   email: z.email().min(1, 'Email is required'),
@@ -42,10 +39,9 @@ export const EditAdminUserSchema = z.object({
   }
 });
 
-export type AdminUserBaseForm = z.infer<typeof AdminUserSchema>;
-export const AdminUserSchema = z.object({
+export const adminListSchema = z.object({
   message: z.string(),
-  data: z.array(AdminSchema),
+  data: z.array(adminListItemSchema),
   metadata: z.object({
     page: z.number(),
     limit: z.number(),
@@ -55,20 +51,18 @@ export const AdminUserSchema = z.object({
   })
 })
 
-export type AdminUserResponse = z.infer<typeof AdminResponseSchema>;
-export const AdminResponseSchema = z.object({
+export const adminResponseSchema = z.object({
   message: z.string(),
   data: z.boolean()
 })
 
-export type AdminDetailResponse = z.infer<typeof AdminDetailResponseSchema>;
-export const AdminDetailResponseSchema = z.object({
+
+export const adminDetailResponseSchema = z.object({
   message: z.string(),
-  data: AdminSchema
+  data: adminListItemSchema
 })
 
-export type GetAdminsParams = z.infer<typeof GetAdminsParamsSchema>;
-export const GetAdminsParamsSchema = z.object({
+export const adminsParamsSchema = z.object({
   page: z.number().optional(),
   limit: z.number().optional(),
   offset: z.number().optional(),

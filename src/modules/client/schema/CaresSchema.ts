@@ -1,7 +1,6 @@
 import * as z from "zod"
 
-export type GetCaresParams = z.infer<typeof GetCaresParamsSchema>;
-export const GetCaresParamsSchema = z.object({
+export const caresParamsSchema = z.object({
     page: z.number().optional(),
     limit: z.number().optional(),
     offset: z.number().optional(),
@@ -12,8 +11,7 @@ export const GetCaresParamsSchema = z.object({
     f_status: z.string().optional(),
 });
 
-export type Cares = z.infer<typeof CaresSchema>;
-export const CaresSchema = z.object({
+export const caresListItemSchema = z.object({
     id: z.string(),
     doulaId: z.string(),
     userId: z.string(),
@@ -47,10 +45,9 @@ export const CaresSchema = z.object({
     }).nullable(),
 });
 
-export type CaresBaseForm = z.infer<typeof CaresBaseFormSchema>
-export const CaresBaseFormSchema = z.object({
+export const caresListSchema = z.object({
     message: z.string(),
-    data: z.array(CaresSchema),
+    data: z.array(caresListItemSchema),
     metadata: z.object({
         page: z.number(),
         limit: z.number(),
@@ -60,8 +57,8 @@ export const CaresBaseFormSchema = z.object({
     })
 })
 
-export type CaresResponse = z.infer<typeof CaresResponseSchema>
-export const CaresResponseSchema = z.object({
+
+export const caresResponseSchema = z.object({
     message: z.string(),
-    data: CaresSchema
+    data: caresListItemSchema
 })

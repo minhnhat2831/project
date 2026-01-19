@@ -1,9 +1,9 @@
 import { create } from "zustand"
-import type { Admin } from "../schema/AdminUserSchema"
+import type { adminListItem } from "../schema/AdminUserSchema.type"
 
 interface AdminStore {
-    selectedAdmin: Admin | null,
-    setSelectedAdmin: (admin: Admin) => void
+    selectedAdmin: adminListItem | null,
+    setSelectedAdmin: (admin: adminListItem) => void
 }
 
 export const useAdminStore = create<AdminStore>((set) => ({
