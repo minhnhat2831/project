@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { icons } from "@/components/common/base/Icon";
+import { Icons } from "@/components/common/base/Icon";
 import Button from "@/components/common/form/Button";
 import { usePdStore } from "../store/useSelectedPd";
 import { useModalStore } from "@/hooks/useModalStore";
@@ -30,7 +30,7 @@ export default function PdDelete() {
     return (<>
         <PopupConfirm open={open} onOpenChange={setOpen}>
             <div className="px-8 mt-5">
-                <icons.Error className="text-red-500" fontSize="large" />
+                <Icons.Error className="text-red-500" fontSize="large" />
             </div>
             <div className="px-8">
                 <h1 className="text-2xl font-bold">Confirm Delete Pd-Session?</h1>

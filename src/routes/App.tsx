@@ -21,7 +21,8 @@ import {
   VoucherViewPage,
   HelpDocumentPage,
   SearchSettingPage,
-  NotFoundPage
+  NotFoundPage,
+  CashTransactionPage
 } from "./LazyRouter"
 
 function App() {
@@ -68,6 +69,8 @@ function App() {
             <Route path="help-documents" element={<HelpDocumentPage />}></Route>
             
             <Route path="search-settings" element={<SearchSettingPage />}></Route>
+
+            <Route path="cash-transaction" element={<CashTransactionPage />}></Route>
           </Route>
           
           <Route path="*" element={<NotFoundPage />}></Route>

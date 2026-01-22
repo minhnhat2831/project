@@ -1,5 +1,4 @@
 import { useModalStore } from "@/hooks/useModalStore"
-import { useStore } from "@/hooks/useStore"
 import Header from "@/layouts/Header"
 import Button from "@/components/common/form/Button"
 import HelpDocumentFormModal from "./HelpDocumentFormModal"
@@ -7,7 +6,6 @@ import HelpDocumentDelete from "./HelpDocumentDelete"
 
 export default function HelpDocumentModal() {
     const { setOpen, typeMode, setTypeMode } = useModalStore()
-    const { search, setSearch } = useStore()
 
     const renderModal = () => {
         switch (typeMode) {
@@ -39,7 +37,6 @@ export default function HelpDocumentModal() {
                         Create
                     </Button>
                 </>}
-                searchValue={search} onSearchChange={setSearch}
             />
             {renderModal()}
         </>)

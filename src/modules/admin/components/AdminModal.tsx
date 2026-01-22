@@ -1,13 +1,11 @@
 import Button from "@/components/common/form/Button";
 import Header from "@/layouts/Header";
 import { useModalStore } from "@/hooks/useModalStore";
-import { useStore } from "@/hooks/useStore";
 import AdminDelete from "./AdminDelete";
 import AdminFormModal from "./AdminFormModal";
 
 export default function AdminModal() {
     const { setOpen, setTypeMode, typeMode } = useModalStore()
-    const { search, setSearch } = useStore()
     const adminData = localStorage.getItem("admin")
     const admin = adminData ? JSON.parse(adminData) : null
 
@@ -44,7 +42,6 @@ export default function AdminModal() {
                     )}
                 </>
             }
-            searchValue={search} onSearchChange={setSearch}
         />
         {renderModal()}
     </>)

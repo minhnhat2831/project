@@ -1,5 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { icons } from "@/components/common/base/Icon";
+import { Icons } from "@/components/common/base/Icon";
 import { formatDate } from "@/components/common/base/FormatDate";
 import type { doulaPackageListItem } from "../../schema/types/DoulaPackageSchema.type";
 
@@ -57,7 +57,7 @@ export const columns: ColumnDef<doulaPackageListItem>[] = [
       return (
         <div className="flex gap-3">
           <button onClick={() => onView(doula)}>
-            <icons.Eye className="text-red-400 cursor-pointer" />
+            <Icons.Eye className="text-red-400 cursor-pointer" />
           </button>
         </div>
       )

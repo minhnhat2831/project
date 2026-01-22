@@ -16,3 +16,4 @@ export const VoucherViewPage = lazy(() => import("../modules/voucher/pages/Vouch
 export const HelpDocumentPage = lazy(() => import("../modules/help-document/pages/HelpDocumentPage"))
 export const SearchSettingPage = lazy(() => import("../modules/search-setting/pages/SearchSettingPage"))
 export const NotFoundPage = lazy(() => import("../modules/error/pages/NotFoundPage"))
+export const CashTransactionPage = lazy(() => import("../modules/cashTransaction/pages/CashTransactionPage"))

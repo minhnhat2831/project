@@ -1,4 +1,4 @@
-import { icons } from "@/components/common/base/Icon";
+import { Icons } from "@/components/common/base/Icon";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { columns } from "../../components/columns/TransactionColumns";
 import TableData from "@/components/common/base/TableData";
@@ -35,7 +35,7 @@ export default function DoulaSubscription() {
                     <div className="border rounded-xl w-100 p-4 mt-5 bg-gray-100 shadow-2xl">
                         <div className="flex justify-between">
                             <div className="flex">
-                                <icons.Subscription />
+                                <Icons.Subscription />
                                 <p>{subscription?.subscription.name}</p>
                             </div>
                             <p className={`${subscription?.status === "cancelled" ? "text-xl font-bold text-red-500" : "text-xl font-bold text-green-500"}`}>{subscription?.status}</p>

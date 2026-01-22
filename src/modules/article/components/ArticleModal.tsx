@@ -1,13 +1,11 @@
 import Button from "@/components/common/form/Button";
 import { useModalStore } from "@/hooks/useModalStore";
 import Header from "@/layouts/Header";
-import { useStore } from "@/hooks/useStore";
 import ArticleFormModal from "./ArticleFormModal";
 import ArticleDelete from "./ArticleDelete";
 
 export default function ArticleModal() {
     const { setOpen, setTypeMode, typeMode } = useModalStore()
-    const { search, setSearch } = useStore();
 
     const renderModal = () => {
         switch (typeMode) {
@@ -36,7 +34,6 @@ export default function ArticleModal() {
                 </Button>
             </>
         }
-            searchValue={search} onSearchChange={setSearch}
         />
         {renderModal()}
     </>)

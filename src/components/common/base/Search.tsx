@@ -1,19 +1,21 @@
-import InputField from "../form/Input"
+import { useQueryParams } from "@/hooks/useQueryParams";
+import InputField from "../form/Input";
 
 type SearchProps = {
-  Svalue?: string
-  onChange?: ((value: string) => any),
-  hidden?: string
-}
+  hidden?: string;
+};
 
-export const Search = ({ Svalue, onChange, hidden }: SearchProps) => {
+export const Search = ({ hidden }: SearchProps) => {
+  const { handleSearchQuery } = useQueryParams()
+  const { search, setSearch } = handleSearchQuery();
+
   return (
     <InputField
       className={`sm:w-full lg:w-100 ${hidden}`}
       variant="search"
-      value={Svalue ?? ""}
+      value={search}
       placeholder="Search"
-      onChange={(e) => onChange?.(e.target.value)}
+      onChange={(e) => setSearch(e.target.value)}
     />
-  )
-}
+  );
+};

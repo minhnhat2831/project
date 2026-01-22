@@ -1,17 +1,17 @@
 
 import Button from "@/components/common/form/Button";
 import PasswordInput from "@/components/common/form/PasswordInput";
-import SelectForm from "@/components/common/form/Select";
+import SelectForm from "@/components/common/form/SelectForm";
 import InputField from "@/components/common/form/Input";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useModalStore } from "@/hooks/useModalStore";
 import PopupCE from "@/components/common/base/PopupCE";
-import { icons } from "@/components/common/base/Icon";
+import { Icons } from "@/components/common/base/Icon";
 import { useAdminStore } from "../store/useSeletedAdminStore";
 import { usePasswordStore } from "@/hooks/usePasswordToggle";
 import { toast } from "react-toastify";
-import type {adminFormCreate, adminFormEdit } from "../schema/AdminUserSchema.type";
+import type { adminFormCreate, adminFormEdit } from "../schema/AdminUserSchema.type";
 import { createAdminUserSchema, editAdminUserSchema } from "../schema/AdminUserSchema";
 import useAdmin from "../hooks/useAdmin";
 
@@ -27,24 +27,24 @@ export default function AdminFormModal({ type }: props) {
     const { useCreateAdmin, useEditAdmin, useAdminDetail } = useAdmin()
     const isEdit = typeMode === "edit";
     const { data: dataDetail } = useAdminDetail(isEdit ? selectedAdmin?.id : undefined);
-    const { register, handleSubmit, reset,setError, formState: { errors } } = useForm<AdminFormValues>({
+    const { register, handleSubmit,control, reset, setError, formState: { errors } } = useForm<AdminFormValues>({
         resolver: zodResolver(
             type === "create" ? createAdminUserSchema : editAdminUserSchema),
-            values : {
-                username: dataDetail?.username ?? "",
-                firstName: dataDetail?.firstName ?? "",
-                lastName: dataDetail?.lastName ?? "",
-                email: dataDetail?.email ?? "",
-                status: dataDetail?.status ?? "",
-                password: "",
-            }
+        values: {
+            username: dataDetail?.username ?? "",
+            firstName: dataDetail?.firstName ?? "",
+            lastName: dataDetail?.lastName ?? "",
+            email: dataDetail?.email ?? "",
+            status: dataDetail?.status ?? "",
+            password: "",
+        }
     });
 
     const onSubmit = async (data: AdminFormValues) => {
         if (isEdit) {
             if (!dataDetail) return
             useEditAdmin.mutate(
-                { data: data as adminFormEdit, id: dataDetail.id},
+                { data: data as adminFormEdit, id: dataDetail.id },
                 {
                     onSuccess: () => {
                         reset(data)
@@ -94,7 +94,7 @@ export default function AdminFormModal({ type }: props) {
                         setOpen(!open)
                         reset()
                     }
-                    }><icons.Close />
+                    }><Icons.Close />
                 </Button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full py-2">
@@ -137,12 +137,26 @@ export default function AdminFormModal({ type }: props) {
                     error={errors.email?.message}
                 />
 
-                <SelectForm label="Status" {...register("status")}
-                    error={errors.status?.message}>
-                    <option value="" hidden>Select status</option>
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
-                </SelectForm>
+                <Controller
+                    control={control}
+                    name="status"
+                    render={({ field }) => (
+                        <SelectForm
+                            label="Status"
+                            options={[
+                                { value: "active", label: "Active" },
+                                { value: "inactive", label: "Inactive" },
+                            ]}
+                            value={
+                                field.value
+                                    ? { value: field.value, label: field.value }
+                                    : null
+                            }
+                            onChange={(option) => field.onChange(option?.value)}
+                            error={errors.status?.message}
+                        />
+                    )}
+                />
 
                 <PasswordInput
                     label="Password"
@@ -151,9 +165,8 @@ export default function AdminFormModal({ type }: props) {
                     showPassword={openPassword}
                     error={errors.password?.message}
                 />
-
                 <div className="px-6 py-4 mt-auto border-t bg-white">
-                    <Button type="submit" variant={isEdit ? "edit" : "create"}>
+                    <Button type="submit" variant={isEdit ? "edit" : "create"} >
                         {isEdit ? "Update" : "Create"}
                     </Button>
                 </div>

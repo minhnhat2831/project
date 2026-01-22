@@ -8,7 +8,6 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
@@ -20,8 +19,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 import MarkunreadMailboxOutlinedIcon from '@mui/icons-material/MarkunreadMailboxOutlined';
 import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded';
+import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
+import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 
-export const icons = {
+export const Icons = {
   Person: PersonIcon,
   ChatBubble: ChatBubbleOutlineOutlinedIcon,
   CorporateFare: CorporateFareIcon,
@@ -32,7 +34,7 @@ export const icons = {
   Menu : MenuIcon,
   Pen : BorderColorIcon,
   Trash : DeleteOutlineIcon,
-  Error : ErrorOutlineIcon,
+  Error : ErrorOutlineOutlinedIcon,
   Eye : RemoveRedEyeIcon,
   EyeOff : VisibilityOffRoundedIcon,
   NonAvatar : AccountCircleIcon,
@@ -43,5 +45,7 @@ export const icons = {
   Star : StarIcon,
   Close : CloseIcon,
   Sort : UnfoldMoreIcon,
-  Box : MarkunreadMailboxOutlinedIcon
+  Box : MarkunreadMailboxOutlinedIcon,
+  Bank : AccountBalanceOutlinedIcon,
+  Upload : FileUploadOutlinedIcon,
 };

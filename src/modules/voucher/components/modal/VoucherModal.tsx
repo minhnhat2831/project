@@ -1,5 +1,4 @@
 import { useModalStore } from "@/hooks/useModalStore";
-import { useStore } from "@/hooks/useStore";
 import Header from "@/layouts/Header";
 import Button from "@/components/common/form/Button";
 import VoucherFormModal from "./VoucherFormModal";
@@ -7,8 +6,7 @@ import VoucherEdit from "./VoucherEdit";
 
 export default function VoucherModal() {
     const { setOpen, typeMode, setTypeMode } = useModalStore()
-    const { search, setSearch } = useStore()
-    
+
     const renderModal = () => {
         switch(typeMode){
             case "create" : 
@@ -35,9 +33,8 @@ export default function VoucherModal() {
                     Create
                 </Button>      
             </>}
-
-            searchValue={search} onSearchChange={setSearch}
-        />
+            />
         {renderModal()}
+        
     </>)
 }

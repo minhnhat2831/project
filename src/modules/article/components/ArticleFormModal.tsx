@@ -1,13 +1,13 @@
-import { icons } from "@/components/common/base/Icon"
+import { Icons } from "@/components/common/base/Icon"
 import Button from "@/components/common/form/Button"
 import Image from "@/components/common/form/Image"
 import InputField from "@/components/common/form/Input"
 import TextArea from "@/components/common/form/TextArea"
 import { useArticleStore } from "../store/useSelectedArticle"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useModalStore } from "@/hooks/useModalStore"
-import SelectForm from "@/components/common/form/Select"
+import SelectForm from "@/components/common/form/SelectForm"
 import PopupCE from "@/components/common/base/PopupCE"
 import { toast } from "react-toastify"
 import { useCategoryDropDownQuery } from "@/hooks/useCategoryDropDownQuery"
@@ -26,17 +26,17 @@ export default function ArticleFormModal({ type }: props) {
     const { useCreateArticle, useEditArticle, useArticleDetail } = useArticle()
     const { data: articleDetail } = useArticleDetail(isEdit ? selectedArticle?.id : "")
     const { register, handleSubmit, control, reset, setError, formState: { errors } } =
-        useForm<articleRequest>({   
+        useForm<articleRequest>({
             resolver: zodResolver(articleRequestScheme),
-                values : {
-                    title: articleDetail?.title ?? "",
-                    author: articleDetail?.author ?? "",
-                    status: articleDetail?.status ?? "",
-                    categoryId: articleDetail?.categoryId ?? "",
-                    timeToRead: articleDetail?.timeToRead ?? 0,
-                    content: articleDetail?.content ?? "",
-                    picture: articleDetail?.picture?.uri ?? ""
-                }
+            values: {
+                title: articleDetail?.title ?? "",
+                author: articleDetail?.author ?? "",
+                status: articleDetail?.status ?? "",
+                categoryId: articleDetail?.categoryId ?? "",
+                timeToRead: articleDetail?.timeToRead ?? 0,
+                content: articleDetail?.content ?? "",
+                picture: articleDetail?.picture?.uri ?? ""
+            }
         })
     const { data: category } = useCategoryDropDownQuery()
 
@@ -75,8 +75,14 @@ export default function ArticleFormModal({ type }: props) {
         } catch (error: any) {
             toast.error(error.response?.data?.message)
         }
-
     };
+
+    const categoryOptions =
+        category?.map((item) => ({
+            value: item.id,
+            label: item.name,
+        })) ?? [];
+
     return (<>
         <PopupCE open={open} onOpenChange={setOpen}>
             <div className="w-full h-1/12 border-b px-5 flex justify-between items-center">
@@ -88,7 +94,7 @@ export default function ArticleFormModal({ type }: props) {
                         setOpen(!open)
                         reset()
                     }
-                    }><icons.Close />
+                    }><Icons.Close />
                 </Button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full overflow-auto">
@@ -109,25 +115,46 @@ export default function ArticleFormModal({ type }: props) {
                         {...register("author")}
                         error={errors.author?.message}>
                     </InputField>
-                    <SelectForm label="Status"
-                        {...register("status")}
-                        error={errors.status?.message}>
-                        <option value="" hidden>Select Status</option>
-                        <option value="published">Published</option>
-                        <option value="unpublished">Unpublished</option>
-                        <option value="draft">Draft</option>
-                    </SelectForm>
+                    
+                    <Controller
+                        control={control}
+                        name="status"
+                        render={({ field }) => (
+                            <SelectForm
+                                label="Status"
+                                options={[
+                                    { value: "published", label: "published" },
+                                    { value: "unpublished", label: "unpublished" },
+                                    { value: "draft", label: "draft" },
+                                ]}
+                                value={
+                                    field.value
+                                        ? { value: field.value, label: field.value }
+                                        : null
+                                }
+                                onChange={(option) => field.onChange(option?.value)}
+                                error={errors.status?.message}
+                            />
+                        )}
+                    />
 
-                    <SelectForm label="Category"
-                        {...register("categoryId")}
-                        error={errors.categoryId?.message}>
-                        {category.map((category, index) => (
-                            <>
-                                <option value="" hidden>Select Category</option>
-                                <option key={index} value={category.id}>{category.name}</option>
-                            </>
-                        ))}
-                    </SelectForm >
+                    <Controller
+                        control={control}
+                        name="categoryId"
+                        render={({ field }) => (
+                            <SelectForm
+                                label="Category"
+                                options={categoryOptions}
+                                value={
+                                    categoryOptions.find(
+                                        (option) => option.value === field.value
+                                    ) ?? null
+                                }
+                                onChange={(option) => field.onChange(option?.value)}
+                                error={errors.status?.message}
+                            />
+                        )}
+                    />
 
                     <InputField
                         label="Duration (Ex: 3 mins) "

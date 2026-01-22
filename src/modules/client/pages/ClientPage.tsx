@@ -8,7 +8,7 @@ import { Container } from "../container/Container";
 import useClient from "../hooks/useClient";
 
 export default function ClientPage() {
-    const { search, setSearch, pageIndex, pageSize, setPagination } = useStore()
+    const { pageIndex, pageSize, setPagination } = useStore()
     const { useGetAllClient } = useClient()
     const { data, loading, metadata } = useGetAllClient()
 
@@ -25,7 +25,7 @@ export default function ClientPage() {
     })
     return (<>
         <Container>
-            <Header href="/admin/clients" childrenHref="Admin / Client Management" searchValue={search} onSearchChange={setSearch} />
+            <Header href="/admin/clients" childrenHref="Admin / Client Management" />
             <TableData
                 loading={loading}
                 table={table}

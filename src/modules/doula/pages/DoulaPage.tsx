@@ -8,7 +8,7 @@ import Header from "@/layouts/Header";
 import useDoula from "../hooks/useDoula";
 
 export default function DoulaPage() {
-    const { pageIndex, pageSize, setPagination, search, setSearch } = useStore()
+    const { pageIndex, pageSize, setPagination } = useStore()
     const { useGetAllDoula } = useDoula()
     const { data, loading, metadata } = useGetAllDoula()
 
@@ -26,7 +26,7 @@ export default function DoulaPage() {
 
     return (<>
         <Container>
-            <Header href="/admin/doulas" childrenHref="Admin / Doula Management" searchValue={search} onSearchChange={setSearch} />
+            <Header href="/admin/doulas" childrenHref="Admin / Doula Management" />
             <TableData
                 loading={loading}
                 table={table}
