@@ -2,12 +2,12 @@ import PopupCE from "@/components/common/base/PopupCE"
 import Button from "@/components/common/form/Button"
 import Image from "@/components/common/form/Image"
 import InputField from "@/components/common/form/Input"
-import SelectForm from "@/components/common/form/Select"
+import SelectForm from "@/components/common/form/SelectForm"
 import { useModalStore } from "@/hooks/useModalStore"
 import { useCategoryStore } from "../store/useSelectedCategory"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { icons } from "@/components/common/base/Icon"
+import { Controller, useForm } from "react-hook-form"
+import { Icons } from "@/components/common/base/Icon"
 import { toast } from "react-toastify"
 import useCategory from "../hooks/useCategory"
 import { categoryRequestSchemas } from "../schema/CategorySchema"
@@ -128,7 +128,7 @@ export default function CategoryFormModal({ type }: props) {
                     onClick={() => {
                         setOpen(!open)
                         reset()
-                    }}><icons.Close />
+                    }}><Icons.Close />
                 </Button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full overflow-auto">
@@ -153,17 +153,26 @@ export default function CategoryFormModal({ type }: props) {
                         error={errors.name?.message}>
                     </InputField>
 
-                    <SelectForm
-                        label="Status"
-                        {...register("status", {
-                            required: "This field is required"
-                        })}
-                        error={errors.status?.message}
-                    >
-                        <option value="" hidden>Selecte Status</option>
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
-                    </SelectForm>
+                    <Controller
+                        control={control}
+                        name="status"
+                        render={({ field }) => (
+                            <SelectForm
+                                label="Status"
+                                options={[
+                                    { value: "active", label: "Active" },
+                                    { value: "inactive", label: "Inactive" },
+                                ]}
+                                value={
+                                    field.value
+                                        ? { value: field.value, label: field.value }
+                                        : null
+                                }
+                                onChange={(option) => field.onChange(option?.value)}
+                                error={errors.status?.message}
+                            />
+                        )}
+                    />
 
                     <Image
                         name="image"

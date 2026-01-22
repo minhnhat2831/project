@@ -1,12 +1,12 @@
-import { icons } from "@/components/common/base/Icon"
+import { Icons } from "@/components/common/base/Icon"
 import PopupCE from "@/components/common/base/PopupCE"
 import Button from "@/components/common/form/Button"
 import PhoneInput from "@/components/common/form/PhoneInput"
-import SelectForm from "@/components/common/form/Select"
+import SelectForm from "@/components/common/form/SelectForm"
 import { countryCodes } from "@/constants/countryCode"
 import { useModalStore } from "@/hooks/useModalStore"
 import { toast } from "react-toastify"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useDoulaStore } from "../../store/useSelectedDoula"
 import useDoula from "../../hooks/useDoula"
@@ -22,16 +22,16 @@ export default function DoulaFormModal({ type }: props) {
     const { selectedDoula } = useDoulaStore()
     const { useEditDoula, useDoulaDetail } = useDoula()
     const { data: doulaDetail } = useDoulaDetail(type === 'edit' ? selectedDoula?.id : "")
-    const { register, handleSubmit, reset, formState: { errors } } =
+    const { register, handleSubmit,control, reset, formState: { errors } } =
         useForm<doulaRequest>({
             resolver: zodResolver(doulaRequestSchema),
             values: {
-                    user: {
-                        phoneNumber: doulaDetail?.user?.phoneNumber ?? "",
-                        countryCode: doulaDetail?.user?.countryCode ?? "",
-                    },
-                    status: doulaDetail?.status ?? ""
-                }
+                user: {
+                    phoneNumber: doulaDetail?.user?.phoneNumber ?? "",
+                    countryCode: doulaDetail?.user?.countryCode ?? "",
+                },
+                status: doulaDetail?.status ?? ""
+            }
 
         })
 
@@ -59,24 +59,25 @@ export default function DoulaFormModal({ type }: props) {
                     onClick={() => {
                         setOpen(!open)
                         reset()
-                    }}><icons.Close />
+                    }}><Icons.Close />
                 </Button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full">
                 <div className="h-6/9 flex-1">
                     <label className="block mb-2 px-4">Phone Number<span className="text-red-500">*</span></label>
                     <div className="flex items-end">
-                        <SelectForm
-                            label=""
-                            className="w-24 shrink-0"
-                            {...register("user.countryCode")}
-                        >
-                            {countryCodes.map((c) => (
-                                <option key={c.code} value={c.code}>
-                                    {c.code}
-                                </option>
-                            ))}
-                        </SelectForm>
+                        <div className="px-4 mb-4">
+                            <select
+                                className="w-20 shrink-0 bg-white border h-12 pl-2 rounded shadow-xl"
+                                {...register("user.countryCode")}
+                            >
+                                {countryCodes.map((c) => (
+                                    <option key={c.code} value={c.code}>
+                                        {c.code}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
 
                         <div className="flex-1">
                             <PhoneInput
@@ -89,15 +90,26 @@ export default function DoulaFormModal({ type }: props) {
                         {errors.user?.phoneNumber?.message}
                     </div>
 
-                    <SelectForm
-                        label="Status"
-                        {...register("status")}
-                        error={errors.status?.message}
-                    >
-                        <option value="" hidden>Selecte Status</option>
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
-                    </SelectForm>
+                    <Controller
+                        control={control}
+                        name="status"
+                        render={({ field }) => (
+                            <SelectForm
+                                label="Status"
+                                options={[
+                                    { value: "active", label: "Active" },
+                                    { value: "inactive", label: "Inactive" },
+                                ]}
+                                value={
+                                    field.value
+                                        ? { value: field.value, label: field.value }
+                                        : null
+                                }
+                                onChange={(option) => field.onChange(option?.value)}
+                                error={errors.status?.message}
+                            />
+                        )}
+                    />
                 </div>
                 <div className="px-6 py-4 mt-auto border-t bg-white">
                     <Button>Update</Button>

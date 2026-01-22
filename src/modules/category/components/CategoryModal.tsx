@@ -1,13 +1,11 @@
 import Button from "@/components/common/form/Button";
 import { useModalStore } from "@/hooks/useModalStore";
 import Header from "@/layouts/Header";
-import { useStore } from "@/hooks/useStore";
 import CategoryFormModal from "./CategoryFormModal";
 import CategoryDelete from "./CategoryDelete";
 
 export default function CategoryModal() {
     const { setOpen, typeMode, setTypeMode } = useModalStore()
-    const { search, setSearch } = useStore()
 
     const renderModal = () => {
         switch (typeMode) {
@@ -38,7 +36,6 @@ export default function CategoryModal() {
                 </Button>
             </>
         }
-            searchValue={search} onSearchChange={setSearch}
         />
         {renderModal()}
     </>)

@@ -1,4 +1,3 @@
-import { useStore } from "@/hooks/useStore"
 import { useQuery } from "@tanstack/react-query"
 import { useDebounce } from "use-debounce"
 import type { adminListItem , adminList } from "../schema/AdminUserSchema.type"
@@ -7,11 +6,15 @@ import { toast } from "react-toastify"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { createAdmin, deleteAdmin, editAdmin } from "../api/api"
 import type { adminFormEdit } from "../schema/AdminUserSchema.type"
+import { useStore } from "@/hooks/useStore"
+import { useQueryParams } from "@/hooks/useQueryParams"
 
 export default function useAdmin() {
     const queryClient = useQueryClient()
     const useGetAllAdmin = () => {
-        const { search, pageIndex, pageSize, sort } = useStore()
+        const { sort, pageIndex, pageSize} = useStore()
+        const { handleSearchQuery } = useQueryParams()
+        const { search } = handleSearchQuery()
         const [debouncedSearch] = useDebounce(search, 500)
 
         const query = useQuery<adminList>({

@@ -1,13 +1,11 @@
 import { useModalStore } from "@/hooks/useModalStore"
 import Header from "@/layouts/Header"
 import Button from "@/components/common/form/Button"
-import { useStore } from "@/hooks/useStore"
 import PdFormModal from "./PdFormModal"
 import PdDelete from "./PdDelete"
 
 export default function PdModal() {
     const { setOpen, typeMode, setTypeMode } = useModalStore()
-    const { search, setSearch } = useStore();
 
     const renderModal = () => {
         switch(typeMode){
@@ -36,7 +34,6 @@ export default function PdModal() {
                 </Button>     
             </>
         } 
-            searchValue={search} onSearchChange={setSearch}
         />
         {renderModal()}
     </>)

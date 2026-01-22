@@ -1,5 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { icons } from "@/components/common/base/Icon";
+import { Icons } from "@/components/common/base/Icon";
 import { formatDate } from "@/components/common/base/FormatDate";
 import Avatar from "@mui/material/Avatar";
 import { useClientStore } from "../store/useSelectedClient";
@@ -106,13 +106,13 @@ export const columns: ColumnDef<clientListItem>[] = [
             return (
                 <div className="flex gap-3">
                     <button onClick={handleView}>
-                        <icons.Eye className="text-red-400 cursor-pointer" />
+                        <Icons.Eye className="text-red-400 cursor-pointer" />
                     </button>
                     <button onClick={handleEdit}>
-                        <icons.Pen className="text-red-400 cursor-pointer" />
+                        <Icons.Pen className="text-red-400 cursor-pointer" />
                     </button>
                     <button onClick={handleDelete}>
-                        <icons.Trash className="text-gray-600 cursor-pointer" />
+                        <Icons.Trash className="text-gray-600 cursor-pointer" />
                     </button>
                 </div>
             )

@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router";
 import Header from "@/layouts/Header";
-import { icons } from "@/components/common/base/Icon";
+import { Icons } from "@/components/common/base/Icon";
 import Nav from "../components/common/Nav";
 import DoulaInformation from "./tab-content/DoulaInformation";
 import DoulaSubscription from "./tab-content/DoulaSubscription";
@@ -42,8 +42,8 @@ export default function DoulaViewPage() {
 
             <div className="w-full h-screen py-2 px-5 bg-gray-100">
                 <div className="flex justify-between px-2 py-4">
-                    <button className="cursor-pointer" onClick={() => nav("/admin/doulas")}><icons.ArrowBack />Back</button>
-                    <button className="cursor-pointer" onClick={handleEdit}><icons.Pen className="text-red-400" />Edit</button>
+                    <button className="cursor-pointer" onClick={() => nav("/admin/doulas")}><Icons.ArrowBack />Back</button>
+                    <button className="cursor-pointer" onClick={handleEdit}><Icons.Pen className="text-red-400" />Edit</button>
                 </div>
                 <div className="px-2 py-2 bg-white">
                     {/* info */}

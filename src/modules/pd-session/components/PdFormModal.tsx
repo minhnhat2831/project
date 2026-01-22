@@ -1,12 +1,12 @@
 import { useModalStore } from "@/hooks/useModalStore"
 import { usePdStore } from "../store/useSelectedPd"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "react-toastify"
 import Button from "@/components/common/form/Button"
-import { icons } from "@/components/common/base/Icon"
+import { Icons } from "@/components/common/base/Icon"
 import InputField from "@/components/common/form/Input"
-import SelectForm from "@/components/common/form/Select"
+import SelectForm from "@/components/common/form/SelectForm"
 import Image from "@/components/common/form/Image"
 import TextArea from "@/components/common/form/TextArea"
 import PopupCE from "@/components/common/base/PopupCE"
@@ -23,20 +23,20 @@ export default function PdFormModal({ type }: props) {
     const { open, setOpen, typeMode } = useModalStore()
     const { selectedPd } = usePdStore()
     const isEdit = typeMode === "edit"
-    const { useCreatePdSession, useEditPdSession, usePdSessionDetail} = usePdSession()
+    const { useCreatePdSession, useEditPdSession, usePdSessionDetail } = usePdSession()
     const { data: pdsessionId } = usePdSessionDetail(isEdit ? selectedPd?.id : "")
     const { register, handleSubmit, reset, setError, control, formState: { errors } } =
         useForm<pdRequest>({
             resolver: zodResolver(pdRequestScheme),
-            values:{
-                    title: pdsessionId?.title ?? "",
-                    author: pdsessionId?.author ?? "",
-                    status: pdsessionId?.status ?? "",
-                    categoryId: pdsessionId?.categoryId ?? "",
-                    timeToRead: pdsessionId?.timeToRead ?? 0,
-                    picture: pdsessionId?.picture?.uri ?? selectedPd?.picture?.uri ?? "",
-                    content: pdsessionId?.content ?? "",
-                }            
+            values: {
+                title: pdsessionId?.title ?? "",
+                author: pdsessionId?.author ?? "",
+                status: pdsessionId?.status ?? "",
+                categoryId: pdsessionId?.categoryId ?? "",
+                timeToRead: pdsessionId?.timeToRead ?? 0,
+                picture: pdsessionId?.picture?.uri ?? selectedPd?.picture?.uri ?? "",
+                content: pdsessionId?.content ?? "",
+            }
         })
     const { data: category } = useCategoryDropDownQuery()
 
@@ -73,6 +73,13 @@ export default function PdFormModal({ type }: props) {
             toast.error(error.response?.data?.message)
         }
     };
+
+    const categoryOptions =
+        category?.map((item) => ({
+            value: item.id,
+            label: item.name,
+        })) ?? [];
+        
     return (<>
         <PopupCE open={open} onOpenChange={setOpen}>
             <div className="w-full h-1/12 border-b px-5 flex justify-between items-center">
@@ -83,7 +90,7 @@ export default function PdFormModal({ type }: props) {
                     onClick={() => {
                         setOpen(!open)
                         reset()
-                    }}><icons.Close />
+                    }}><Icons.Close />
                 </Button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full overflow-auto">
@@ -104,25 +111,45 @@ export default function PdFormModal({ type }: props) {
                         {...register("author")}
                         error={errors.author?.message}>
                     </InputField>
-                    <SelectForm label="Status"
-                        {...register("status")}
-                        error={errors.status?.message}>
-                        <option value="" hidden>Select Status</option>
-                        <option value="published">Published</option>
-                        <option value="unpublished">Unpublished</option>
-                        <option value="draft">Draft</option>
-                    </SelectForm>
+                    <Controller
+                        control={control}
+                        name="status"
+                        render={({ field }) => (
+                            <SelectForm
+                                label="Status"
+                                options={[
+                                    { value: "published", label: "published" },
+                                    { value: "unpublished", label: "unpublished" },
+                                    { value: "draft", label: "draft" },
+                                ]}
+                                value={
+                                    field.value
+                                        ? { value: field.value, label: field.value }
+                                        : null
+                                }
+                                onChange={(option) => field.onChange(option?.value)}
+                                error={errors.status?.message}
+                            />
+                        )}
+                    />
 
-                    <SelectForm label="Category"
-                        {...register("categoryId")}
-                        error={errors.categoryId?.message}>
-                        {category.map((category, index) => (
-                            <>
-                                <option value="" hidden>Select category</option>
-                                <option key={index} value={category.id}>{category.name}</option>
-                            </>
-                        ))}
-                    </SelectForm >
+                    <Controller
+                        control={control}
+                        name="categoryId"
+                        render={({ field }) => (
+                            <SelectForm
+                                label="Category"
+                                options={categoryOptions}
+                                value={
+                                    categoryOptions.find(
+                                        (option) => option.value === field.value
+                                    ) ?? null
+                                }
+                                onChange={(option) => field.onChange(option?.value)}
+                                error={errors.status?.message}
+                            />
+                        )}
+                    />
 
                     <InputField
                         label="Duration (Ex: 3 mins) "

@@ -4,7 +4,7 @@ import { useSettingStore } from "../store/useSelectedSetting"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Button from "@/components/common/form/Button"
-import { icons } from "@/components/common/base/Icon"
+import { Icons } from "@/components/common/base/Icon"
 import InputField from "@/components/common/form/Input"
 import useSearchSetting from "../hooks/useSearchSetting"
 import type { searchSettingRequest } from "../schema/SearchSettingSchema.type"
@@ -68,7 +68,7 @@ export default function SearchSettingFormModal({ type }: props) {
                     onClick={() => {
                         setOpen(!open)
                         reset()
-                    }}><icons.Close />
+                    }}><Icons.Close />
                 </Button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full overflow-auto">

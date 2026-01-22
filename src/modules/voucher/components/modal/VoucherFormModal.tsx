@@ -1,11 +1,11 @@
-import { icons } from "@/components/common/base/Icon"
+import { Icons } from "@/components/common/base/Icon"
 import PopupCE from "@/components/common/base/PopupCE"
 import Button from "@/components/common/form/Button"
 import InputField from "@/components/common/form/Input"
-import SelectForm from "@/components/common/form/Select"
+import SelectForm from "@/components/common/form/SelectForm"
 import { useModalStore } from "@/hooks/useModalStore"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import useVoucher from "../../hooks/useVoucher"
 import type { voucherRequest } from "../../schema/VoucherSchema.type"
@@ -18,7 +18,7 @@ interface props {
 export default function VoucherFormModal({ type }: props) {
     const { open, setOpen } = useModalStore()
     const { useCreateVoucher } = useVoucher()
-    const { register, handleSubmit, reset, setError, formState: { errors } } = useForm<voucherRequest>({
+    const { register, handleSubmit, reset,control, setError, formState: { errors } } = useForm<voucherRequest>({
         resolver: zodResolver(voucherRequestScheme),
         values: {
             code: "",
@@ -125,7 +125,7 @@ export default function VoucherFormModal({ type }: props) {
                     onClick={() => {
                         setOpen(!open)
                         reset()
-                    }}><icons.Close />
+                    }}><Icons.Close />
                 </Button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full overflow-auto">
@@ -161,7 +161,6 @@ export default function VoucherFormModal({ type }: props) {
                             variant="form"
                             inputSize="lg"
                             type="Date"
-                            className="mr-5"
                             placeholder="End Date"
                             {...register("endDate")}
                             error={errors.endDate?.message}>
@@ -178,15 +177,26 @@ export default function VoucherFormModal({ type }: props) {
                         error={errors.quantityUse?.message}>
                     </InputField>
 
-                    <SelectForm label="Type of Coupon"
-                        {...register("type", {
-                            required: "This field is required"
-                        })}
-                        error={errors.type?.message}>
-                        <option value="" hidden>Select Type</option>
-                        <option value="percentage">Percentage</option>
-                        <option value="fixed">Fixed</option>
-                    </SelectForm>
+                    <Controller
+                        control={control}
+                        name="type"
+                        render={({ field }) => (
+                            <SelectForm
+                                label="Status"
+                                options={[
+                                    { value: "percentage", label: "percentage" },
+                                    { value: "fixed", label: "fixed" },
+                                ]}
+                                value={
+                                    field.value
+                                        ? { value: field.value, label: field.value }
+                                        : null
+                                }
+                                onChange={(option) => field.onChange(option?.value)}
+                                error={errors.status?.message}
+                            />
+                        )}
+                    />
 
                     <InputField
                         label="Amount (%)"
