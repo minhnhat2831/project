@@ -5,43 +5,30 @@ import CashTransactionFormDetail from "./cashTransactionForm/CashTransactionForm
 import CashTransactionFormDocument from "./cashTransactionForm/CashTransactionDocument";
 import CashTransactionFormInternal from "./cashTransactionForm/CashTransactionInternal";
 import { Icons } from "@/components/common/base/Icon";
-import { FormProvider, useForm } from "react-hook-form";
-import type { cashTransactionRequest } from "../../schema/Schema.type";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { cashTransactionRequestSchema } from "../../schema/Schema";
+import { FormProvider } from "react-hook-form";
+import type { cashTransactionFormList } from "../../schema/Schema.type";
+import useTransactionForm from "../../hooks/useTransactionForm";
 
 interface props {
-    type?: "Debit" | "Credit"
+    typeOpen?: "Debit" | "Credit"
 }
 
-export default function CashTransactionFormModal({ type }: props) {
+export default function CashTransactionFormModal({ typeOpen }: props) {
     const { open, setOpen } = useModalCreateStore()
-    const method = useForm<cashTransactionRequest>({
-        resolver: zodResolver(cashTransactionRequestSchema),
-        values  : {
-            transactionType: "",
-            orgNum: "",    //clientName
-            subOrgNum: "", //Sub-Org Name
-            currency: "",
-            amount: 0,
-            effectiveDo: new Date().toISOString().split("T")[0] ?? "",
-            description: "",
-            bankAccountUid: "",
-            comments: "",
-            files : [],
-            createdDo: new Date().toISOString().split("T")[0],
-        }
-    })
+    const { method, mapFormToPayload } = useTransactionForm()
 
-    const onSubmit = (data: cashTransactionRequest) => {
+    const onSubmit = (data: cashTransactionFormList) => {
+        const payload = mapFormToPayload(data)
         console.log("SUBMIT DATA:", data)
+        console.log("SUBMIT DATA PAYLOAD:", payload)
+        method.reset()
     }
 
     return (<>
         <PopupForm open={open} onOpenChange={setOpen}>
             <>
                 <div className="w-full h-1/12 px-4 pt-2 flex justify-between items-center">
-                    <h2 className="text-xl font-medium">Create Transaction - {type}</h2>
+                    <h2 className="text-xl font-medium">Create Transaction - {typeOpen}</h2>
                     <Button variant="close" onClick={() => {
                         setOpen(false)
                         method.reset()
@@ -52,17 +39,20 @@ export default function CashTransactionFormModal({ type }: props) {
                     <Icons.Error className="text-blue-500 mr-1" /><p>This transaction is in <span className="font-bold">Draft</span> status. Please update the transaction details before submitting it to Checker. Once approved by Checker, the status will change to <span className="font-bold">Completed</span></p>
                 </div>
                 <FormProvider {...method} >
-                    <form onSubmit={method.handleSubmit(onSubmit)} className="flex flex-col h-full overflow-auto">
+                    <form onSubmit={method.handleSubmit(onSubmit,
+                        (errors) => {
+                            console.log("SUBMIT ERROR:", errors)
+                        }
+                    )} className="flex flex-col h-full overflow-auto">
                         <div className="py-6 px-2 h-6/9 flex-1 overflow-auto bg-gray-100">
                             {/* Transaction Details */}
-                            <CashTransactionFormDetail type={type} />
+                            <CashTransactionFormDetail typeMode={typeOpen} />
 
                             {/* Document Attachment */}
                             <CashTransactionFormDocument />
 
                             {/* Internal Comments */}
                             <CashTransactionFormInternal />
-
                         </div>
 
                         <div className="flex justify-end px-6 rounded-b-xl py-4 mt-auto border-t bg-white">
@@ -92,7 +82,6 @@ export default function CashTransactionFormModal({ type }: props) {
                     </form>
                 </FormProvider>
             </>
-
         </PopupForm>
     </>)
 }

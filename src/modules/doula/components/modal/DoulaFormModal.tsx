@@ -2,16 +2,16 @@ import { Icons } from "@/components/common/base/Icon"
 import PopupCE from "@/components/common/base/PopupCE"
 import Button from "@/components/common/form/Button"
 import PhoneInput from "@/components/common/form/PhoneInput"
-import SelectForm from "@/components/common/form/SelectForm"
 import { countryCodes } from "@/constants/countryCode"
 import { useModalStore } from "@/hooks/useModalStore"
 import { toast } from "react-toastify"
-import { Controller, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useDoulaStore } from "../../store/useSelectedDoula"
 import useDoula from "../../hooks/useDoula"
 import type { doulaRequest } from "../../schema/types/DoulaSchema.type"
 import { doulaRequestSchema } from "../../schema/schema/DoulaSchema"
+import SelectF from "@/components/common/form/Select"
 
 interface props {
     type: "create" | "edit"
@@ -22,7 +22,7 @@ export default function DoulaFormModal({ type }: props) {
     const { selectedDoula } = useDoulaStore()
     const { useEditDoula, useDoulaDetail } = useDoula()
     const { data: doulaDetail } = useDoulaDetail(type === 'edit' ? selectedDoula?.id : "")
-    const { register, handleSubmit,control, reset, formState: { errors } } =
+    const { register, handleSubmit, reset, formState: { errors } } =
         useForm<doulaRequest>({
             resolver: zodResolver(doulaRequestSchema),
             values: {
@@ -66,18 +66,17 @@ export default function DoulaFormModal({ type }: props) {
                 <div className="h-6/9 flex-1">
                     <label className="block mb-2 px-4">Phone Number<span className="text-red-500">*</span></label>
                     <div className="flex items-end">
-                        <div className="px-4 mb-4">
-                            <select
-                                className="w-20 shrink-0 bg-white border h-12 pl-2 rounded shadow-xl"
-                                {...register("user.countryCode")}
-                            >
-                                {countryCodes.map((c) => (
-                                    <option key={c.code} value={c.code}>
-                                        {c.code}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+                        <SelectF
+                            label=""
+                            className="w-24 shrink-0"
+                            {...register("user.countryCode")}
+                        >
+                            {countryCodes.map((c) => (
+                                <option key={c.code} value={c.code}>
+                                    {c.code}
+                                </option>
+                            ))}
+                        </SelectF>
 
                         <div className="flex-1">
                             <PhoneInput
@@ -90,31 +89,19 @@ export default function DoulaFormModal({ type }: props) {
                         {errors.user?.phoneNumber?.message}
                     </div>
 
-                    <Controller
-                        control={control}
-                        name="status"
-                        render={({ field }) => (
-                            <SelectForm
-                                label="Status"
-                                options={[
-                                    { value: "active", label: "Active" },
-                                    { value: "inactive", label: "Inactive" },
-                                ]}
-                                value={
-                                    field.value
-                                        ? { value: field.value, label: field.value }
-                                        : null
-                                }
-                                onChange={(option) => field.onChange(option?.value)}
-                                error={errors.status?.message}
-                            />
-                        )}
-                    />
+                    <SelectF
+                        label="Status"
+                        {...register("status")}
+                        error={errors.status?.message}
+                    >
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </SelectF>
                 </div>
                 <div className="px-6 py-4 mt-auto border-t bg-white">
                     <Button>Update</Button>
                 </div>
             </form>
-        </PopupCE>
+        </PopupCE >
     </>)
 }

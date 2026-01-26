@@ -21,5 +21,19 @@ export const useOrg = () => {
     });
   };
 
-  return { useGetListOrgs, useGetListSubOrgs };
+    const useGetOrgById = (
+    orgId?: string,
+    options?: {
+      onSuccess?: (org: any) => void
+    }
+  ) => {
+    return useQuery({
+      queryKey: ["org", orgId],
+      queryFn: async () => {
+        const orgs = await fetchListOrg()
+        orgs.data.find((o: any) => o.id === orgId)
+      },
+    });
+  }
+  return { useGetListOrgs, useGetListSubOrgs, useGetOrgById };
 };

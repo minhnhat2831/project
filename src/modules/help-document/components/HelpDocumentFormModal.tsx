@@ -2,16 +2,16 @@ import PopupCE from "@/components/common/base/PopupCE"
 import { useModalStore } from "@/hooks/useModalStore"
 import { useDocumentStore } from "../store/useSelectedDocument"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Controller, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import Button from "@/components/common/form/Button"
 import { Icons } from "@/components/common/base/Icon"
 import InputField from "@/components/common/form/Input"
-import SelectForm from "@/components/common/form/SelectForm"
 import TextArea from "@/components/common/form/TextArea"
 import useHelpDocument from "../hooks/useHelpDocument"
 import { helpDocumentRequestSchema } from "../schema/HelpDocumentSchema"
 import type { helpDocumentRequest } from "../schema/HelpDocumentSchema.type"
+import SelectF from "@/components/common/form/Select"
 
 interface props {
     type: "create" | "edit"
@@ -23,7 +23,7 @@ export default function HelpDocumentFormModal({ type }: props) {
     const { selectedDocument } = useDocumentStore()
     const { useCreateHelpDocument, useEditHelpDocument, useHelpDocumentDetail } = useHelpDocument()
     const { data: helpDocumentDetail } = useHelpDocumentDetail(isEdit ? selectedDocument?.id : "")
-    const { register, handleSubmit,control, reset, setError, formState: { errors } } = useForm<helpDocumentRequest>({
+    const { register, handleSubmit, reset, setError, formState: { errors } } = useForm<helpDocumentRequest>({
         resolver: zodResolver(helpDocumentRequestSchema),
         values: isEdit ? {
             title: helpDocumentDetail?.title ?? "",
@@ -106,26 +106,13 @@ export default function HelpDocumentFormModal({ type }: props) {
                         error={errors.title?.message}>
                     </InputField>
 
-                    <Controller
-                        control={control}
-                        name="status"
-                        render={({ field }) => (
-                            <SelectForm
-                                label="Status"
-                                options={[
-                                    { value: "active", label: "Active" },
-                                    { value: "inactive", label: "Inactive" },
-                                ]}
-                                value={
-                                    field.value
-                                        ? { value: field.value, label: field.value }
-                                        : null
-                                }
-                                onChange={(option) => field.onChange(option?.value)}
-                                error={errors.status?.message}
-                            />
-                        )}
-                    />
+                    <SelectF label="Status"
+                        {...register("status")}
+                        error={errors.status?.message}>
+                        <option value="" hidden>Select Status</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </SelectF>
 
                     <TextArea
                         label="Content"

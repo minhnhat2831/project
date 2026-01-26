@@ -1,27 +1,28 @@
+import { Icons } from "@/components/common/base/Icon";
 import DateInput from "@/components/common/form/DateTimeInput";
-import InputField from "@/components/common/form/Input"
+import InputForm from "@/components/common/form/InputForm";
+import SelectForm from "@/components/common/form/SelectForm";
 import { useBankAccount } from "@/modules/cashTransaction/hooks/useBankAccount";
 import { useCurrency } from "@/modules/cashTransaction/hooks/useCurrency";
 import { useOrg } from "@/modules/cashTransaction/hooks/useOrg"
 import type { orgs, subOrgs } from "@/modules/cashTransaction/schema/Schema.type";
-import { Controller, useFormContext } from "react-hook-form";
-import Select from "react-select"
+import { Controller, get, useFormContext } from "react-hook-form";
 
-export default function CashTransactionFormDebit({ type }: { type: "Debit" | "Credit" }) {
+export default function CashTransactionFormDebit({ transactionType }: { transactionType: "Debit" | "Debit(other)" }) {
     const { useGetListOrgs, useGetListSubOrgs } = useOrg();
     const { data, isLoading } = useGetListOrgs();
-    const { control, watch } = useFormContext()
-    const watchOrg = watch("orgNum")
+    const { control, watch, formState: { errors } } = useFormContext()
+    const watchOrg = watch("data.orgNum.id")
 
     const { data: subOrgData } = useGetListSubOrgs(watchOrg, {
         enabled: !!watchOrg,
     });
-    const watchCurrent = watch("currency")
+    const watchCurrent = watch("data.currency")
 
     const { getCurrencies } = useCurrency();
     const { data: currencyData } = getCurrencies();
     const { getBankAccounts } = useBankAccount();
-    const { data: bankAccountData } = getBankAccounts(watchCurrent, type);
+    const { data: bankAccountData } = getBankAccounts(watchCurrent, transactionType);
 
     const subOrgOptions =
         subOrgData?.data
@@ -30,106 +31,99 @@ export default function CashTransactionFormDebit({ type }: { type: "Debit" | "Cr
                 label: sub.name,
             })) ?? []
 
+    const option = data?.data?.map((org: orgs) => ({
+        value: org.id,
+        label: org.shortName,
+    }))
+
     return (<>
         <div className="flex py-5 items-center">
-            <label className="mr-14 mt-1">Client Name</label>
-            <Controller
-                name="orgNum"
+            <label className="mr-26 mt-1">Client Name</label>
+            <SelectForm
+                name="data.orgNum.id"
+                isLoading={isLoading}
                 control={control}
-                render={({ field }) => (
-                    <Select
-                        className="w-auto"
-                        isLoading={isLoading}
-                        isClearable
-                        options={data?.data?.map((org: orgs) => ({
-                            value: org.id,
-                            label: org.shortName,
-                        }))}
-                        value={field.value
-                            ? {
-                                value: field.value,
-                                label:
-                                    data?.data?.find(o => o.id === field.value)?.shortName,
-                            }
-                            : null}
-                        onChange={(option) => field.onChange(option?.value ?? null)}
-                    ></Select>
-                )}
+                options={option}
+                error={get(errors, "data.orgNum.id.message")}
             />
         </div>
 
         <div className="flex py-5 items-center">
-            <label className="mr-9 mt-1 text-center">Sub-Org Name</label>
-            <Controller
-                name="subOrgNum"
+            <label className="mr-21 mt-1">Sub-Org Name</label>
+            <SelectForm
+                name="data.subOrgNum.subOrgId"
                 control={control}
-                render={({ field }) => (
-                    <Select
-                        className="w-auto"
-                        isClearable
-                        isDisabled={!watchOrg}
-                        options={subOrgOptions}
-                        value={
-                            field.value
-                                ? subOrgOptions.find(o => o.value === field.value) ?? null
-                                : (subOrgOptions.length === 1 ? subOrgOptions[0] : null)
-                        }
-                        onChange={(option) => field.onChange(option?.value ?? null)}
-                    />
-                )}
+                isDisabled={!watchOrg}
+                options={subOrgOptions}
+                error={get(errors, "data.subOrgNum.subOrgId.message")}
             />
         </div>
 
         <div className="flex py-5 items-center">
-            <label className="mr-14 mt-1">Transaction ID</label>
+            <label className="mr-24 mt-1">Transaction ID</label>
             <p> - </p>
         </div>
 
         <div className="flex py-5 items-center">
-            <label className="mr-17 mt-1">Currency<span className="text-red-500"> *</span></label>
-            <Controller
-                name="currency"
+            <label className="mr-29 mt-1">Currency<span className="text-red-500"> *</span></label>
+            <SelectForm
+                name="data.currency"
                 control={control}
-                render={({ field }) => (
-                    <Select
-                        className="w-auto"
-                        isClearable
-                        options={currencyData?.map((currency) => ({
-                            value: currency,
-                            label: currency,
-                        }))}
-                        value={field.value
-                            ? {
-                                value: field.value,
-                                label: field.value
-                            }
-                            : null}
-                        onChange={(option) => field.onChange(option?.value ?? null)}
-                    />
-                )}
+                options={currencyData?.map((currency) => ({
+                    value: currency,
+                    label: currency,
+                }))}
+                error={get(errors, "data.currency.message")}
             />
         </div>
 
         <div className="flex items-center">
-            <label className="mr-14 mt-1 ">Amount<span className="text-red-500"> *</span></label>
-            <Controller
-                name="amount"
+            <label className="mr-26 mt-1 ">Amount<span className="text-red-500"> *</span></label>
+            <InputForm
+                name="data.amount"
                 control={control}
-                render={({ field }) => (
-                    <InputField variant="form"
-                        type="number"
-                        inputSize="lg"
-                        value={field.value}
-                        onChange={e => field.onChange(Number(e.target.value))}>
-                    </InputField>
-                )}
-            />
+                type="number"
+                error={get(errors, "data.amount.message")}
+            >
+            </InputForm>
         </div>
 
+        {transactionType === "Debit(other)" && <>
+            <div className="flex items-center">
+                <label className="mr-30 mt-1 ">Fees<span><Icons.Error /></span></label>
+                <InputForm
+                    name="data.feesAmt"
+                    control={control}
+                    type="number"
+                    error={get(errors, "data.feesAmt.message")}
+                ></InputForm>
+            </div>
+
+            <div className="flex items-center">
+                <label className="mr-15 mt-1 ">GST Amount<span><Icons.Error /></span></label>
+                <InputForm
+                    name="data.gstAmt"
+                    control={control}
+                    type="number"
+                    error={get(errors, "data.gstAmt.message")}
+                ></InputForm>
+            </div>
+
+            <div className="flex items-center">
+                <label className="mr-2 mt-1 ">Bank Charges Amount<span className="text-red-500"> *</span></label>
+                <InputForm
+                    name="data.bankChargesAmt"
+                    control={control}
+                    type="number"
+                    error={get(errors, "data.bankChargesAmt.message")}
+                ></InputForm>
+            </div>
+        </>}
+
         <div className="flex py-5 items-center">
-            <label className="mr-4 mt-1">Effective Date<span className="text-red-500"> *</span></label>
+            <label className="mr-17 mt-1">Effective Date<span className="text-red-500"> *</span></label>
             <Controller
-                name="effectiveDo"
+                name="data.effectiveDo"
                 control={control}
                 render={({ field }) => (
                     <DateInput {...field} />
@@ -138,58 +132,32 @@ export default function CashTransactionFormDebit({ type }: { type: "Debit" | "Cr
         </div>
 
         <div className="flex py-5 items-center">
-            <label className="mr-2 mt-1">Bank Details (From)</label>
-            <Controller
-                name="bankAccountUid"
+            <label className="mr-13 mt-1">Bank Details (From)</label>
+            <SelectForm
+                name="data.bankAccountUid.bankAccountUid"
                 control={control}
-                render={({ field }) => (
-                    <Select
-                        className="w-auto"
-                        isClearable
-                        options={
-                            bankAccountData?.data.map(bank => ({
-                                value: bank.bankAccountUid,
-                                label: bank.beneficiaryName,
-                            })) ?? []
-                        }
-                        value={
-                            field.value
-                                ? {
-                                    value: field.value,
-                                    label:
-                                        bankAccountData?.data.find(
-                                            b => b.bankAccountUid === field.value
-                                        )?.beneficiaryName,
-                                }
-                                : null
-                        }
-                        onChange={option =>
-                            field.onChange(option?.value ?? null)
-                        }
-                    />
-                )}
+                options={bankAccountData?.data.map(bank => ({
+                    value: bank.bankAccountUid,
+                    label: bank.beneficiaryName,
+                })) ?? []}
+                error={get(errors, "data.bankAccountUid.bankAccountUid.message")}
             />
         </div>
 
         <div className="flex py-5 items-center">
-            <label className="mr-11 mt-1">Description</label>
-            <Controller
-                name="description"
+            <label className="mr-23 mt-1">Description</label>
+            <InputForm
+                name="data.description"
                 control={control}
-                render={({ field }) => (
-                    <InputField
-                        variant="form"
-                        inputSize="lg"
-                        value={field.value}
-                        onChange={e => field.onChange((e.target.value))}
-                    ></InputField>
-                )}
-            />
+                type="text"
+                error={get(errors, "data.description.message")}
+            ></InputForm>
         </div>
+
         <div className="flex py-5 items-center">
-            <label className="mr-5 mt-1">Created Date<span className="text-red-500"> *</span></label>
+            <label className="mr-17 mt-1">Created Date<span className="text-red-500"> *</span></label>
             <Controller
-                name="createdDo"
+                name="data.createdDo"
                 control={control}
                 render={({ field }) => (
                     <DateInput {...field} disabled />

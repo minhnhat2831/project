@@ -3,7 +3,7 @@ import { flexRender, type Table } from "@tanstack/react-table"
 
 interface Iprops<T> {
     loading: boolean,
-    pagination: React.ReactNode,
+    pagination?: React.ReactNode,
     table: Table<T>
 }
 

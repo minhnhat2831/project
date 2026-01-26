@@ -32,6 +32,7 @@ export default function PopupForm({ open, onOpenChange, children }: PopupProps) 
           onInteractOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
         >
+          <Dialog.Description></Dialog.Description>
           <Dialog.Title className="sr-only">
             Popup Form
           </Dialog.Title>

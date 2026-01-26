@@ -9,13 +9,14 @@ interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant
   size?: ButtonSize
-  loading?: boolean
+  loading?: boolean,
 }
 
 export default function Button({
   className,
   variant = "create",
   size = "md",
+  type = "button",
   loading = false,
   children,
   disabled,
@@ -23,6 +24,7 @@ export default function Button({
 }: ButtonProps) {
   return (
     <button
+      type={type}
       disabled={disabled || loading}
       className={cn(
         buttonVariants.base,

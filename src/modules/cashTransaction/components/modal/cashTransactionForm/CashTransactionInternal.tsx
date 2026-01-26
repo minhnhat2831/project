@@ -13,7 +13,7 @@ export default function CashTransactionFormInternal() {
                 onClick={() => setOpenForm(!openForm)}
             >
                 <p className="font-bold">Internal Comment</p>
-                <div className="ml-auto transition-transform duration-200">
+                <div className="ml-auto transition-all duration-200">
                     {openForm ? <Icons.ExpandLess /> : <Icons.ExpandMore />}
                 </div>
             </div>
@@ -23,11 +23,10 @@ export default function CashTransactionFormInternal() {
                          ${openForm ? "h-60 pt-4" : "h-0 p-0"}`}
             >
                 <Controller
-                    name="comments"
+                    name="data.comments"
                     control={control}
                     render={({ field }) => (
-                        <TextArea placeholder="Comment here..." {...field}>
-                            
+                        <TextArea placeholder="Comment here..." {...field}>  
                         </TextArea>
                     )}
                 />

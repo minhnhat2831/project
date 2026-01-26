@@ -2,11 +2,11 @@ import PopupCE from "@/components/common/base/PopupCE"
 import Button from "@/components/common/form/Button"
 import Image from "@/components/common/form/Image"
 import InputField from "@/components/common/form/Input"
-import SelectForm from "@/components/common/form/SelectForm"
+import SelectF from "@/components/common/form/Select"
 import { useModalStore } from "@/hooks/useModalStore"
 import { useCategoryStore } from "../store/useSelectedCategory"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Controller, useForm } from "react-hook-form"
+import {  useForm } from "react-hook-form"
 import { Icons } from "@/components/common/base/Icon"
 import { toast } from "react-toastify"
 import useCategory from "../hooks/useCategory"
@@ -153,26 +153,17 @@ export default function CategoryFormModal({ type }: props) {
                         error={errors.name?.message}>
                     </InputField>
 
-                    <Controller
-                        control={control}
-                        name="status"
-                        render={({ field }) => (
-                            <SelectForm
-                                label="Status"
-                                options={[
-                                    { value: "active", label: "Active" },
-                                    { value: "inactive", label: "Inactive" },
-                                ]}
-                                value={
-                                    field.value
-                                        ? { value: field.value, label: field.value }
-                                        : null
-                                }
-                                onChange={(option) => field.onChange(option?.value)}
-                                error={errors.status?.message}
-                            />
-                        )}
-                    />
+                    <SelectF
+                        label="Status"
+                        {...register("status", {
+                            required: "This field is required"
+                        })}
+                        error={errors.status?.message}
+                    >
+                        <option value="" hidden>Selecte Status</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </SelectF>
 
                     <Image
                         name="image"
