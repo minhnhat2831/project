@@ -1,5 +1,6 @@
 import axios from "axios";
 import { DEFAULT_API , API_ENDPOINTS} from "./api";
+import { toast } from "react-toastify";
 
 const axiosInstance = axios.create({
   baseURL: DEFAULT_API.BASE_URL,
@@ -49,6 +50,7 @@ axiosInstance.interceptors.response.use(
         return axiosInstance(originalRequest);
       } catch (err) {
         localStorage.clear();
+        toast.error("401 Auth")
         window.location.href = "/";
       }
     }

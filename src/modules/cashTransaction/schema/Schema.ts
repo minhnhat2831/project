@@ -1,6 +1,6 @@
 import * as z from "zod"
 
-const required = "this field is required"
+const required = "This field is required"
 
 export const bankAccountListSchema = z.object({
     bankAccountUid: z.string(),
@@ -10,6 +10,7 @@ export const bankAccountListSchema = z.object({
     beneficiaryBankAccountNumber: z.string(),
     beneficiaryBankSwift: z.string(),
     correspondentBankName: z.string(),
+    correspondentBankSwift : z.string(),
     displayName: z.string()
 })
 
@@ -50,21 +51,21 @@ export const subOrgsListSchema = z.record(
     z.array(subOrgSchema)
 )
 
-export const cashTransactionFormSchema = z.object({
-    orgNum: z.string().nullable(),
-    subOrgNum: z.string().nullable(),
-    transactionType: z.string().nullable(),
-    currency: z.string().nullable(),
-    amount: z.string().nullable(),
-    effectiveDo: z.string().nullable(),
-    description: z.string().nullable(),
-    feesAmt: z.string().nullable().nullable(),
-    gstAmt: z.string().nullable().nullable(),
-    bankChargesAmt: z.string().nullable(),
+export const cashTransactionPayLoadSchema = z.object({
+    orgNum: z.string().min(1, required).nullable(),
+    subOrgNum: z.string().min(1, required).nullable(),
+    transactionType: z.string().min(1, required).nullable(),
+    currency: z.string().min(1, required).nullable(),
+    amount: z.number().min(1, required).nullable(),
+    effectiveDo: z.string().min(1, required).nullable(),
+    description: z.string().min(1, required).nullable(),
+    feesAmt: z.number().nullable(),
+    gstAmt: z.number().nullable(),
+    bankChargesAmt: z.number().nullable(),
     bankAccountUid: z.string().nullable(),
-    createdDo: z.string().nullable(),
+    createdDo: z.string().min(1, required).nullable(),
     comments: z.string().nullable(),
-    files: z.string().array(),
+    files: z.string().array().nullable(),
     couponPayments: z.object({
         clientName: z.string().nullable(),
         organizationNum: z.string().nullable(),
@@ -80,40 +81,42 @@ export const cashTransactionFormSchema = z.object({
     paymentDo: z.string().nullable()
 })
 
-//Bỏ 2 cái request sài cashTransactionFormSchema
-export const cashTransactionRequestSchema = z.object({
-    orgNum: z.string().min(1, required),
-    subOrgNum: z.string().min(1, required),
-    transactionType: z.string().min(1, required),
-    currency: z.string().min(1, required),
-    amount: z.number().min(1, required),
-    effectiveDo: z.string().min(1, required),
-    description: z.string().min(1, required),
-    bankAccountUid: z.string().min(1, required),
-    createdDo: z.string().min(1, required),
+export const cashTransactionPayLoadListSchema = z.object({
+    action: z.string(),
+    data: cashTransactionPayLoadSchema
+})
+
+export const cashTransactionFormSchema = z.object({
+    orgNum: orgsSchema,
+    subOrgNum: subOrgSchema,
+    transactionType: z.string().nullable(),
+    currency: z.string().min(1, required).nullable(),
+    amount: z.number().min(1, required).nullable(),
+    effectiveDo: z.string().min(1, required).nullable(),
+    description: z.string().min(1, required).nullable(),
+    feesAmt: z.number().nullable(),
+    gstAmt: z.number().nullable(),
+    bankChargesAmt: z.number().nullable(),
+    bankAccountUid: bankAccountListSchema,
+    createdDo: z.string().min(1, required).nullable(),
     comments: z.string().nullable(),
-    files: z.string().array().optional()
+    files: z.string().array().nullable(),
+    couponPayments: z.object({
+        clientName: z.string().nullable(),
+        organizationNum: z.string().nullable(),
+        subOrganizationNum: z.string().nullable(),
+        subAccountNum: z.string().nullable(),
+        cashOrderAmt: z.number().nullable(),
+        currency: z.string().nullable(),
+        bankAccountTo: z.string().nullable()
+    }).nullable(),
+    totalCouponAmount: z.number().nullable(),
+    isin: z.string().nullable(),
+    couponPercentageRate: z.number().nullable(),
+    paymentDo: z.string().nullable()
 })
 
-export const cashTransactionWithdrawalRequestSchema = z.object({
-    orgNum: z.string(),
-    subOrgNum: z.string(),
-    transactionType: z.string(),
-    currency: z.string(),
-    amount: z.number(),
-    effectiveDo: z.string(),
-    feesAmt: z.string(),
-    gstAmt: z.string(),
-    bankChargesAmt: z.string(),
-    description: z.string(),
-    bankAccountUid: z.string(),
-    createdDo: z.string(),
-    comments: z.string(),
-    files: z.string().array(),
-})
-///
-
-export const cashTransactionListSchema = z.object({
+export const cashTransactionFormListSchema = z.object({
     action: z.string(),
     data: cashTransactionFormSchema
 })

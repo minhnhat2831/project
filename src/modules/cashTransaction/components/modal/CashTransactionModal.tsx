@@ -11,9 +11,9 @@ export default function CashTransactionModal() {
 
     const renderModal = () => {
         if (typeMode === "Debit") {
-            return <CashTransactionFormModal type="Debit" />;
+            return <CashTransactionFormModal typeOpen="Debit" />;
         } else {
-            return <CashTransactionFormModal type="Credit" />;
+            return <CashTransactionFormModal typeOpen="Credit" />;
         }
     }
 

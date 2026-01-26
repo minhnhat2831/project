@@ -1,9 +1,8 @@
 
 import Button from "@/components/common/form/Button";
 import PasswordInput from "@/components/common/form/PasswordInput";
-import SelectForm from "@/components/common/form/SelectForm";
 import InputField from "@/components/common/form/Input";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useModalStore } from "@/hooks/useModalStore";
 import PopupCE from "@/components/common/base/PopupCE";
@@ -14,6 +13,7 @@ import { toast } from "react-toastify";
 import type { adminFormCreate, adminFormEdit } from "../schema/AdminUserSchema.type";
 import { createAdminUserSchema, editAdminUserSchema } from "../schema/AdminUserSchema";
 import useAdmin from "../hooks/useAdmin";
+import SelectF from "@/components/common/form/Select";
 
 type AdminFormValues = adminFormCreate | adminFormEdit;
 interface props {
@@ -27,7 +27,7 @@ export default function AdminFormModal({ type }: props) {
     const { useCreateAdmin, useEditAdmin, useAdminDetail } = useAdmin()
     const isEdit = typeMode === "edit";
     const { data: dataDetail } = useAdminDetail(isEdit ? selectedAdmin?.id : undefined);
-    const { register, handleSubmit,control, reset, setError, formState: { errors } } = useForm<AdminFormValues>({
+    const { register, handleSubmit, reset, setError, formState: { errors } } = useForm<AdminFormValues>({
         resolver: zodResolver(
             type === "create" ? createAdminUserSchema : editAdminUserSchema),
         values: {
@@ -137,27 +137,14 @@ export default function AdminFormModal({ type }: props) {
                     error={errors.email?.message}
                 />
 
-                <Controller
-                    control={control}
-                    name="status"
-                    render={({ field }) => (
-                        <SelectForm
-                            label="Status"
-                            options={[
-                                { value: "active", label: "Active" },
-                                { value: "inactive", label: "Inactive" },
-                            ]}
-                            value={
-                                field.value
-                                    ? { value: field.value, label: field.value }
-                                    : null
-                            }
-                            onChange={(option) => field.onChange(option?.value)}
-                            error={errors.status?.message}
-                        />
-                    )}
-                />
-
+                <SelectF 
+                    label="Status" {...register("status")}
+                    error={errors.status?.message}>
+                    <option value="" hidden>Select status</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </SelectF>
+                
                 <PasswordInput
                     label="Password"
                     placeholder="Password"

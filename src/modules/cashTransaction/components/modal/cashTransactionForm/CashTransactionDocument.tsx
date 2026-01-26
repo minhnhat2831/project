@@ -15,7 +15,7 @@ export default function CashTransactionFormDocument() {
         onClick={() => setOpenForm(!openForm)}
       >
         <p className="font-bold">Document Attachment</p>
-        <div className="ml-auto transition-transform duration-200">
+        <div className="ml-auto transition-all duration-200">
           {openForm ? <Icons.ExpandLess /> : <Icons.ExpandMore />}
         </div>
       </div>

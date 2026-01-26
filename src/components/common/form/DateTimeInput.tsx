@@ -38,8 +38,8 @@ export default function DateInput({
         onChange={onChange}
         className={
           disabled
-            ? "border ml-4 h-12 rounded-md px-3 py-2 text-md bg-gray-200 cursor-not-allowed"
-            : "border ml-4 h-12 rounded-md px-3 py-2 text-md"
+            ? "border ml-4 w-100 h-10 rounded-md px-3 py-2 text-md shadow-md bg-gray-200 cursor-not-allowed"
+            : "border ml-4 w-100 h-10 rounded-md px-3 py-2 text-md shadow-md"
         }
       />
     </div>

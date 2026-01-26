@@ -22,6 +22,7 @@ export default function PopupCreate({ open, onOpenChange, children }: PopupProps
             rounded shadow-xl p-4
           "
                 >
+                    <Dialog.Description></Dialog.Description>
                     <Dialog.Title></Dialog.Title>
                     {children}
                 </Dialog.Content>

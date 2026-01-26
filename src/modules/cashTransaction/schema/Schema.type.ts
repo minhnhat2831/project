@@ -1,17 +1,17 @@
 import * as z from "zod"
 import type { 
     bankAccountListSchema, 
-    cashTransactionListSchema, 
+    cashTransactionFormListSchema, 
     cashTransactionFormSchema, 
-    cashTransactionRequestSchema, 
-    cashTransactionWithdrawalRequestSchema, 
+    cashTransactionPayLoadListSchema, 
+    cashTransactionPayLoadSchema, 
     currencyListSchema, 
     isinHoldingListSchema, 
     isinsListSchema, 
     orgsListSchema, 
     orgsSchema, 
     subOrgSchema, 
-    subOrgsListSchema 
+    subOrgsListSchema, 
 } from "./Schema"
 
 export type bankAccountList = z.infer<typeof bankAccountListSchema>
@@ -23,8 +23,10 @@ export type subOrgs = z.infer<typeof subOrgSchema>
 export type orgs = z.infer<typeof orgsSchema>
 export type subOrgsList = z.infer<typeof subOrgsListSchema>
 
-export type cashTransactionList = z.infer<typeof cashTransactionListSchema>
-export type cashTransactionForm = z.infer<typeof cashTransactionFormSchema>
+//Form Payload gửi lên API
+export type cashTransactionPayLoad = z.infer<typeof cashTransactionPayLoadSchema>
+export type cashTransactionPayLoadList = z.infer<typeof cashTransactionPayLoadListSchema>
 
-export type cashTransactionRequest = z.infer<typeof cashTransactionRequestSchema>
-export type cashTransactionWithdrawalRequest = z.infer<typeof cashTransactionWithdrawalRequestSchema>
+//Form 
+export type cashTransactionForm= z.infer<typeof cashTransactionFormSchema>
+export type cashTransactionFormList = z.infer<typeof cashTransactionFormListSchema>

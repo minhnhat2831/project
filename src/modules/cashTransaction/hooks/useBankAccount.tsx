@@ -15,5 +15,23 @@ export const useBankAccount = () => {
         })
     };
 
-    return { getBankAccounts };
+    const useGetBankAccountById = (
+    bankAccountUid?: string,
+    options?: {
+      enabled?: boolean
+      onSuccess?: (bank: any) => void
+    }
+  ) => {
+    return useQuery({
+      queryKey: ["bankAccount", bankAccountUid],
+      enabled: !!bankAccountUid && options?.enabled !== false,
+      queryFn: async () => {
+        const banks = await fetchListBankAccount({})
+        return banks.data.find(
+          (b: any) => b.bankAccountUid === bankAccountUid
+        )
+      },
+    })}
+
+    return { getBankAccounts, useGetBankAccountById };
 }   

@@ -2,7 +2,7 @@ export const inputVariants = {
     base: 'border h-10 px-4 py-4 rounded shadow-md text-md',
     size: {
         sm: "w-12",
-        md: "w-fit",
+        md: "w-100",
         lg: "w-full"
     },
     variant: {
