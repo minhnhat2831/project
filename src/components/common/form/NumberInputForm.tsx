@@ -1,14 +1,14 @@
 import { Controller, type Control, type FieldValues } from "react-hook-form";
-import InputField from "./Input";
+import { NumericFormat } from 'react-number-format'
 
 interface BaseInputProps {
     label?: string,
     error?: any,
     name: string,
-    control: Control<FieldValues>,
+    control: Control<FieldValues>
 }
 
-export default function InputForm({
+export default function NumberInputForm({
     label,
     error,
     name,
@@ -28,15 +28,17 @@ export default function InputForm({
                 control={control}
                 render={({ field }) => {
                     return (
-                        <InputField
-                            variant="form"
-                            className="ml-auto"
-                            inputSize="md"
+                        <NumericFormat
+                            className="border h-10 px-4 py-4 rounded shadow-md text-md w-100 focus:outline focus:outline-green-300 hover:outline hover:outline-green-300 mb-2 mt-2"
                             value={field.value}
-                            onChange={e => {
-                                field.onChange(e.target.value)
-                            }}>
-                        </InputField>
+                            onValueChange={(values) => field.onChange(values.floatValue || 0)}
+                            thousandSeparator=","
+                            decimalSeparator="."
+                            decimalScale={2}
+                            fixedDecimalScale
+                            allowNegative={false}
+                            placeholder="0.00"
+                        />
                     );
                 }}
             />

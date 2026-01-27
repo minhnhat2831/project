@@ -1,32 +1,32 @@
 import { Icons } from "@/components/common/base/Icon"
 import TextArea from "@/components/common/form/TextArea"
-import { useState } from "react"
+import { useOpenStoreStore } from "@/modules/cashTransaction/store/useopenFormStore"
 import { Controller, useFormContext } from "react-hook-form"
 
 export default function CashTransactionFormInternal() {
-    const [openForm, setOpenForm] = useState(true)
+    const { open, setOpen } = useOpenStoreStore()
     const { control } = useFormContext()
     return (<>
-        <div className={`bg-white rounded-sm mb-5 transition-all duration-500 ease-in-out shadow-xl ${openForm ? "h-80" : "h-12"}`}>
+        <div className={`bg-white rounded-sm mb-5 transition-all duration-500 ease-in-out shadow-xl ${open ? "h-auto" : "h-12"}`}>
             <div
                 className="w-full border-b h-12 px-4 flex items-center cursor-pointer"
-                onClick={() => setOpenForm(!openForm)}
+                onClick={() => setOpen(!open)}
             >
                 <p className="font-bold">Internal Comment</p>
                 <div className="ml-auto transition-all duration-200">
-                    {openForm ? <Icons.ExpandLess /> : <Icons.ExpandMore />}
+                    {open ? <Icons.ExpandLess /> : <Icons.ExpandMore />}
                 </div>
             </div>
 
             <div
                 className={`overflow-hidden transition-all duration-500 ease-in-out
-                         ${openForm ? "h-60 pt-4" : "h-0 p-0"}`}
+                         ${open ? "h-auto pt-4 pb-5" : "h-0 p-0"}`}
             >
                 <Controller
                     name="data.comments"
                     control={control}
                     render={({ field }) => (
-                        <TextArea placeholder="Comment here..." {...field}>  
+                        <TextArea placeholder="Comment here..." {...field}>
                         </TextArea>
                     )}
                 />

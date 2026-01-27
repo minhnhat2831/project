@@ -9,17 +9,14 @@ import { FormProvider } from "react-hook-form";
 import type { cashTransactionFormList } from "../../schema/Schema.type";
 import useTransactionForm from "../../hooks/useTransactionForm";
 
-interface props {
-    typeOpen?: "Debit" | "Credit"
-}
-
-export default function CashTransactionFormModal({ typeOpen }: props) {
+export default function CashTransactionFormModal() {
     const { open, setOpen } = useModalCreateStore()
     const { method, mapFormToPayload } = useTransactionForm()
+    const { typeMode } = useModalCreateStore()
 
     const onSubmit = (data: cashTransactionFormList) => {
         const payload = mapFormToPayload(data)
-        console.log("SUBMIT DATA:", data)
+        //console.log("SUBMIT DATA:", data)
         console.log("SUBMIT DATA PAYLOAD:", payload)
         method.reset()
     }
@@ -28,7 +25,7 @@ export default function CashTransactionFormModal({ typeOpen }: props) {
         <PopupForm open={open} onOpenChange={setOpen}>
             <>
                 <div className="w-full h-1/12 px-4 pt-2 flex justify-between items-center">
-                    <h2 className="text-xl font-medium">Create Transaction - {typeOpen}</h2>
+                    <h2 className="text-xl font-medium">Create Transaction - {typeMode}</h2>
                     <Button variant="close" onClick={() => {
                         setOpen(false)
                         method.reset()
@@ -46,7 +43,7 @@ export default function CashTransactionFormModal({ typeOpen }: props) {
                     )} className="flex flex-col h-full overflow-auto">
                         <div className="py-6 px-2 h-6/9 flex-1 overflow-auto bg-gray-100">
                             {/* Transaction Details */}
-                            <CashTransactionFormDetail typeMode={typeOpen} />
+                            <CashTransactionFormDetail />
 
                             {/* Document Attachment */}
                             <CashTransactionFormDocument />

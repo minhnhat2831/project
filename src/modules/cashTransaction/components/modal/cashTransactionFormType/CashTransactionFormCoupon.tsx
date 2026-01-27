@@ -24,7 +24,6 @@ export default function CashTransactionFormCoupon() {
             <InputForm
                 name="couponPayments.cashOrderAmt"
                 control={control}
-                type="number"
                 error={errors?.couponPayments?.message}
             >
             </InputForm>
@@ -46,7 +45,6 @@ export default function CashTransactionFormCoupon() {
             <InputForm
                 name="description"
                 control={control}
-                type="text"
                 error={errors?.description?.message}
             >
             </InputForm>

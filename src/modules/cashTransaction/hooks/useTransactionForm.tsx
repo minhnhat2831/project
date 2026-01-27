@@ -4,13 +4,12 @@ import type { cashTransactionFormList, cashTransactionPayLoadList } from "../sch
 import { cashTransactionFormListSchema } from "../schema/Schema"
 import { useOrg } from "./useOrg"
 import { useBankAccount } from "./useBankAccount"
-import { mockSubOrgs } from "../mock-data/org"
 
 export default function useTransactionForm() {
     const method = useForm<cashTransactionFormList>({
         resolver: zodResolver(cashTransactionFormListSchema),
-        values: {
-            action: "Request-Draft",
+        defaultValues: {
+            action: "Draft",
             data: {
                 transactionType: "",
                 orgNum: {
@@ -48,7 +47,7 @@ export default function useTransactionForm() {
                     cashOrderAmt: 0,
                     clientName: "",
                     currency: "",
-                    organizationNum: "0",
+                    organizationNum: "",
                     subAccountNum: "",
                     subOrganizationNum: ""
                 },
@@ -68,7 +67,7 @@ export default function useTransactionForm() {
     const subOrgId = watch("data.subOrgNum.subOrgId")
     const bankAccountId = watch("data.bankAccountUid.bankAccountUid")
 
-    const { useGetOrgById, useGetListSubOrgs } = useOrg();
+    const { useGetOrgById, useGetSubOrgById } = useOrg();
     const { useGetBankAccountById } = useBankAccount();
     useGetOrgById(orgId, 
         {
@@ -78,15 +77,12 @@ export default function useTransactionForm() {
         },
     });
 
-    useGetListSubOrgs(orgId, { enabled: !!orgId });
-    if (subOrgId && orgId) {
-        const subOrg = mockSubOrgs[orgId]?.find(
-            s => s.subOrgId === subOrgId
-        );
-        if (subOrg) {
+    useGetSubOrgById(subOrgId, orgId,{
+        onSuccess:(subOrg) => {
+            if(!subOrg) return
             setValue("data.subOrgNum", subOrg);
         }
-    }
+    } )
 
     useGetBankAccountById(bankAccountId, {
         onSuccess: (bank) => {
@@ -100,8 +96,8 @@ export default function useTransactionForm() {
             action: form.action,
             data: {
                 transactionType: form.data.transactionType,
-                orgNum: form.data.orgNum.id,
-                subOrgNum: form.data.subOrgNum.name,
+                orgNum : form.data.orgNum.id,
+                subOrgNum: form.data.subOrgNum.subOrgId,
                 currency: form.data.currency,
                 amount: form.data.amount,
                 effectiveDo: form.data.effectiveDo,

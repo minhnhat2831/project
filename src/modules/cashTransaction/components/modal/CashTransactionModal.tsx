@@ -7,14 +7,10 @@ import { useModalCreateStore } from "../../store/useModalCreateStore";
 
 export default function CashTransactionModal() {
     const { open, setOpen } = useModalStore()
-    const { setOpen: setOpenModal, typeMode, setTypeMode } = useModalCreateStore()
+    const { setOpen: setOpenModal, setTypeMode } = useModalCreateStore()
 
     const renderModal = () => {
-        if (typeMode === "Debit") {
-            return <CashTransactionFormModal typeOpen="Debit" />;
-        } else {
-            return <CashTransactionFormModal typeOpen="Credit" />;
-        }
+        return <CashTransactionFormModal />;
     }
 
     return (<>
@@ -36,7 +32,7 @@ export default function CashTransactionModal() {
                                 setTypeMode("Debit"),
                                 setOpenModal(true)
                                 setOpen(false)
-                                }
+                            }
                             }>
                             Debit
                         </Button>
@@ -47,7 +43,7 @@ export default function CashTransactionModal() {
                                 setTypeMode("Credit")
                                 setOpenModal(true)
                                 setOpen(false)
-                                }
+                            }
                             }>
                             Credit
                         </Button>
