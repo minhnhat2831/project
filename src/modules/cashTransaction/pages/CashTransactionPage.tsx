@@ -11,7 +11,6 @@ export default function CashTransactionPage() {
     const { data, loading, metadata } = useGetAllVoucher()
     const { pageIndex, pageSize, setPagination } = useStore()
 
-
     const table = useReactTable({
         data,
         columns,

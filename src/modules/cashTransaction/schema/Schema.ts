@@ -10,7 +10,7 @@ export const bankAccountListSchema = z.object({
     beneficiaryBankAccountNumber: z.string(),
     beneficiaryBankSwift: z.string(),
     correspondentBankName: z.string(),
-    correspondentBankSwift : z.string(),
+    correspondentBankSwift: z.string(),
     displayName: z.string()
 })
 
@@ -65,7 +65,7 @@ export const cashTransactionPayLoadSchema = z.object({
     bankAccountUid: z.string().nullable(),
     createdDo: z.string().min(1, required).nullable(),
     comments: z.string().nullable(),
-    files: z.string().array().nullable(),
+    files: z.array(z.instanceof(File)).optional(),
     couponPayments: z.object({
         clientName: z.string().nullable(),
         organizationNum: z.string().nullable(),
@@ -89,7 +89,7 @@ export const cashTransactionPayLoadListSchema = z.object({
 export const cashTransactionFormSchema = z.object({
     orgNum: orgsSchema,
     subOrgNum: subOrgSchema,
-    transactionType: z.string().nullable(),
+    transactionType: z.string().min(1, required).nullable(),
     currency: z.string().min(1, required).nullable(),
     amount: z.number().min(1, required).nullable(),
     effectiveDo: z.string().min(1, required).nullable(),
@@ -100,16 +100,16 @@ export const cashTransactionFormSchema = z.object({
     bankAccountUid: bankAccountListSchema,
     createdDo: z.string().min(1, required).nullable(),
     comments: z.string().nullable(),
-    files: z.string().array().nullable(),
+    files: z.array(z.instanceof(File)).optional(),
     couponPayments: z.object({
-        clientName: z.string().nullable(),
-        organizationNum: z.string().nullable(),
-        subOrganizationNum: z.string().nullable(),
-        subAccountNum: z.string().nullable(),
-        cashOrderAmt: z.number().nullable(),
-        currency: z.string().nullable(),
-        bankAccountTo: z.string().nullable()
-    }).nullable(),
+            clientName: z.string().nullable(),
+            organizationNum: z.string().nullable(),
+            subOrganizationNum: z.string().nullable(),
+            subAccountNum: z.string().nullable(),
+            cashOrderAmt: z.number().nullable(),
+            currency: z.string().nullable(),
+            bankAccountTo: z.string().nullable()
+        }).nullable(),
     totalCouponAmount: z.number().nullable(),
     isin: z.string().nullable(),
     couponPercentageRate: z.number().nullable(),

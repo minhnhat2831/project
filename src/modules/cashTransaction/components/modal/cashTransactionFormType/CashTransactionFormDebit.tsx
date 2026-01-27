@@ -1,6 +1,7 @@
 import { Icons } from "@/components/common/base/Icon";
 import DateInput from "@/components/common/form/DateTimeInput";
 import InputForm from "@/components/common/form/InputForm";
+import NumberInputForm from "@/components/common/form/NumberInputForm";
 import SelectForm from "@/components/common/form/SelectForm";
 import { useBankAccount } from "@/modules/cashTransaction/hooks/useBankAccount";
 import { useCurrency } from "@/modules/cashTransaction/hooks/useCurrency";
@@ -8,17 +9,15 @@ import { useOrg } from "@/modules/cashTransaction/hooks/useOrg"
 import type { orgs, subOrgs } from "@/modules/cashTransaction/schema/Schema.type";
 import { Controller, get, useFormContext } from "react-hook-form";
 
-export default function CashTransactionFormDebit({ transactionType }: { transactionType: "Debit" | "Debit(other)" }) {
+export default function CashTransactionFormDebit({ transactionType }: { transactionType: string }) {
     const { useGetListOrgs, useGetListSubOrgs } = useOrg();
     const { data, isLoading } = useGetListOrgs();
-    const { control, watch, formState: { errors } } = useFormContext()
+    const { control, watch, formState: { errors }, setValue } = useFormContext()
     const watchOrg = watch("data.orgNum.id")
-
     const { data: subOrgData } = useGetListSubOrgs(watchOrg, {
         enabled: !!watchOrg,
     });
     const watchCurrent = watch("data.currency")
-
     const { getCurrencies } = useCurrency();
     const { data: currencyData } = getCurrencies();
     const { getBankAccounts } = useBankAccount();
@@ -35,6 +34,13 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
         value: org.id,
         label: org.shortName,
     }))
+
+    function checkType() {
+        if (transactionType === "Debit (Others)" || transactionType === "Credit (Others)") {
+            return true
+        }
+        return false
+    }
 
     return (<>
         <div className="flex py-5 items-center">
@@ -77,46 +83,42 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
             />
         </div>
 
-        <div className="flex items-center">
-            <label className="mr-26 mt-1 ">Amount<span className="text-red-500"> *</span></label>
-            <InputForm
+        <div className="flex py-5 items-center">
+            <label className="mr-30 mt-1 ">Amount<span className="text-red-500"> *</span></label>
+            <NumberInputForm
                 name="data.amount"
                 control={control}
-                type="number"
                 error={get(errors, "data.amount.message")}
             >
-            </InputForm>
+            </NumberInputForm>
         </div>
 
-        {transactionType === "Debit(other)" && <>
-            <div className="flex items-center">
-                <label className="mr-30 mt-1 ">Fees<span><Icons.Error /></span></label>
-                <InputForm
+        {checkType() && <>
+            <div className="flex py-5 items-center">
+                <label className="mr-33 mt-1 ">Fees<span><Icons.Error /></span></label>
+                <NumberInputForm
                     name="data.feesAmt"
                     control={control}
-                    type="number"
                     error={get(errors, "data.feesAmt.message")}
-                ></InputForm>
+                ></NumberInputForm>
             </div>
 
-            <div className="flex items-center">
-                <label className="mr-15 mt-1 ">GST Amount<span><Icons.Error /></span></label>
-                <InputForm
+            <div className="flex py-5 items-center">
+                <label className="mr-19 mt-1 ">GST Amount<span><Icons.Error /></span></label>
+                <NumberInputForm
                     name="data.gstAmt"
                     control={control}
-                    type="number"
                     error={get(errors, "data.gstAmt.message")}
-                ></InputForm>
+                ></NumberInputForm>
             </div>
 
-            <div className="flex items-center">
-                <label className="mr-2 mt-1 ">Bank Charges Amount<span className="text-red-500"> *</span></label>
-                <InputForm
+            <div className="flex py-5 items-center">
+                <label className="mt-1 mr-6">Bank Charges Amount<span className="text-red-500"> *</span></label>
+                <NumberInputForm
                     name="data.bankChargesAmt"
                     control={control}
-                    type="number"
                     error={get(errors, "data.bankChargesAmt.message")}
-                ></InputForm>
+                ></NumberInputForm>
             </div>
         </>}
 
@@ -140,6 +142,15 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
                     value: bank.bankAccountUid,
                     label: bank.beneficiaryName,
                 })) ?? []}
+                onValueChange={(bankAccountUid) => {
+                    const selectedBank = bankAccountData?.data.find(
+                        bank => bank.bankAccountUid === bankAccountUid
+                    );
+
+                    if (selectedBank?.currency) {
+                        setValue("data.currency", selectedBank.currency);
+                    }
+                }}
                 error={get(errors, "data.bankAccountUid.bankAccountUid.message")}
             />
         </div>
@@ -149,13 +160,12 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
             <InputForm
                 name="data.description"
                 control={control}
-                type="text"
                 error={get(errors, "data.description.message")}
             ></InputForm>
         </div>
 
         <div className="flex py-5 items-center">
-            <label className="mr-17 mt-1">Created Date<span className="text-red-500"> *</span></label>
+            <label className="mr-18 mt-1">Created Date<span className="text-red-500"> *</span></label>
             <Controller
                 name="data.createdDo"
                 control={control}

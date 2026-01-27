@@ -1,52 +1,97 @@
-import { useState } from "react"
 import { Icons } from "@/components/common/base/Icon"
 import InputField from "@/components/common/form/Input"
+import { useOpenStoreStore } from "@/modules/cashTransaction/store/useopenFormStore"
+import { Controller, useFormContext } from "react-hook-form"
 
 export default function CashTransactionFormDocument() {
-  const [openForm, setOpenForm] = useState(true)
+  const { open, setOpen } = useOpenStoreStore()
+  const { control, watch, setValue } = useFormContext()
+
+  const files = watch("data.files") || []
+
+  const handleAddFiles = (e : React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = Array.from(e.target.files ?? [])
+    const newFiles = [...files, ...selectedFiles]
+
+    setValue("data.files", newFiles, { shouldDirty: true })
+    e.target.value = ""
+  }
+
+  const handleRemoveFile = (index : number) => {
+    const newFiles = files.filter((_file: File, i: number)  => i !== index)
+    setValue("data.files", newFiles, { shouldDirty: true })
+  }
+
+  const formatFileSize = (size : number) => {
+    if (size < 1024) return `${size} B`
+    if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)} KB`
+    return `${(size / 1024 / 1024).toFixed(1)} MB`
+  }
 
   return (
-    <div
-      className={`bg-white rounded-sm mb-5 transition-all duration-500 ease-in-out shadow-xl
-        ${openForm ? "h-80" : "h-12"}`}
-    >
+    <div className={`bg-white rounded-sm mb-5 shadow-xl ${open ? "h-auto" : "h-12"}`}>
       <div
         className="flex items-center px-4 h-12 border-b cursor-pointer"
-        onClick={() => setOpenForm(!openForm)}
+        onClick={() => setOpen(!open)}
       >
         <p className="font-bold">Document Attachment</p>
-        <div className="ml-auto transition-all duration-200">
-          {openForm ? <Icons.ExpandLess /> : <Icons.ExpandMore />}
+        <div className="ml-auto">
+          {open ? <Icons.ExpandLess /> : <Icons.ExpandMore />}
         </div>
       </div>
 
-      <div
-        className={`overflow-hidden transition-all duration-500 ease-in-out
-          ${openForm ? "h-64 p-4" : "h-0 p-0"}`}
-      >
-        <div className="h-full border-2 border-dashed rounded-lg flex flex-col items-center justify-center text-center">
-          <p className="text-gray-600 mb-2">
-            Drag and drop your files here or
-          </p>
+      <div className={`${open ? "p-4" : "h-0 p-0"} transition-all`}>
+        <div className="border-2 border-dashed rounded-lg p-6 flex flex-col items-center text-center">
+          <p className="text-gray-600 mb-2">Drag and drop your files here or</p>
 
-          <label className="cursor-pointer">
-            <span className="inline-flex items-center px-4 py-2 border border-red-500 text-red-500 rounded-md hover:bg-red-50 transition">
-              <Icons.Upload className="mr-2" />
-              Browse Files
-            </span>
-            <InputField
-              type="file"
-              className="hidden"
-            />
-          </label>
+          <Controller
+            name="data.files"
+            control={control}
+            render={() => (
+              <label className="cursor-pointer">
+                <span className="inline-flex items-center px-4 py-2 border border-red-500 text-red-500 rounded-md">
+                  <Icons.Upload className="mr-2" />
+                  Browse Files
+                </span>
+                <InputField
+                  type="file"
+                  multiple
+                  accept=".pdf,.doc,.docx"
+                  className="hidden"
+                  onChange={handleAddFiles}
+                />
+              </label>
+            )}
+          />
 
-          <p className="text-xs text-gray-500 mt-4">
-            Files has a maximum size of 5MB
-          </p>
-          <p className="text-xs text-gray-500">
-            Upload pdf, docx, doc file type only.
-          </p>
+          <p className="text-xs text-gray-500 mt-4">Max size: 5MB</p>
         </div>
+
+        {files.length > 0 && (
+          <div className="mt-4 space-y-2">
+            {files.map((file: File, index: number) => (
+              <div
+                key={index}
+                className="flex items-center px-3 py-2 border rounded-md bg-gray-50"
+              >
+                <Icons.Upload className="mr-2 text-gray-500" />
+
+                <div className="flex-1">
+                  <p className="text-sm font-medium truncate">{file.name}</p>
+                  <p className="text-xs text-gray-500">{formatFileSize(file.size)}</p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => handleRemoveFile(index)}
+                  className="text-gray-400 hover:text-red-500"
+                >
+                  <Icons.Close />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )

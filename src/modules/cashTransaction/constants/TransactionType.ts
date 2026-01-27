@@ -2,7 +2,7 @@ export const transactionTypeDebit = [
     { value: 'Fees', label: 'Fees' },
     { value: 'TaxWithholding', label: 'Tax Withholding' },
     { value: 'Withdrawal', label: 'Withdrawal' },
-    { value: 'Debit', label: 'Debit (Others)' },
+    { value: 'Debit (Others)', label: 'Debit (Others)' },
 ]
 
 export const transactionTypeCredit = [

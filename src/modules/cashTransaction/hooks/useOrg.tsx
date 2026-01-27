@@ -2,7 +2,7 @@ import { fetchListOrg, fetchListSubOrg } from "../api/api";
 import { useQuery } from "@tanstack/react-query";
 
 export const useOrg = () => {
-  
+
   const useGetListOrgs = () => {
     return useQuery({
       queryKey: ["orgs"],
@@ -21,7 +21,25 @@ export const useOrg = () => {
     });
   };
 
-    const useGetOrgById = (
+  const useGetSubOrgById = (
+    subOrgId?: string,
+    orgId?: string,
+    options?: {
+      onSuccess?: (org: any) => void
+    }
+  ) => {
+    return useQuery({
+      queryKey: ["subOrgs", subOrgId],
+      queryFn: async () => {
+        const mo = await fetchListSubOrg(orgId);
+        mo.data?.find(
+          s => s.subOrgId === subOrgId
+        );
+      }
+    })
+  }
+
+  const useGetOrgById = (
     orgId?: string,
     options?: {
       onSuccess?: (org: any) => void
@@ -35,5 +53,5 @@ export const useOrg = () => {
       },
     });
   }
-  return { useGetListOrgs, useGetListSubOrgs, useGetOrgById };
+  return { useGetListOrgs, useGetListSubOrgs, useGetOrgById, useGetSubOrgById };
 };
