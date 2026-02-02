@@ -40,7 +40,7 @@ export default function CashTransactionFormDocument() {
         </div>
       </div>
 
-      <div className={`${open ? "p-4" : "h-0 p-0"} transition-all`}>
+      <div className={`${open ? "h-auto p-4" : "h-0 p-0"} overflow-hidden px-4 transition-all duration-400 ease-in-out`}>
         <div className="border-2 border-dashed rounded-lg p-6 flex flex-col items-center text-center">
           <p className="text-gray-600 mb-2">Drag and drop your files here or</p>
 
@@ -77,14 +77,14 @@ export default function CashTransactionFormDocument() {
                 <Icons.Upload className="mr-2 text-gray-500" />
 
                 <div className="flex-1">
-                  <p className="text-sm font-medium truncate">{file.name}</p>
+                  <p className="text-sm font-medium truncate w-50 sm:w-100 md:w-full">{file.name}</p>
                   <p className="text-xs text-gray-500">{formatFileSize(file.size)}</p>
                 </div>
 
                 <button
                   type="button"
                   onClick={() => handleRemoveFile(index)}
-                  className="text-gray-400 hover:text-red-500"
+                  className=" text-gray-400 hover:text-red-500"
                 >
                   <Icons.Close />
                 </button>

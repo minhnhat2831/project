@@ -1,11 +1,13 @@
 interface DateInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
-  disabled?: boolean
+  disabled?: boolean,
+  error? : any
 }
 
 export default function DateInput({
   disabled,
   value,
+  error,
   onChange,
   ...rest
 }: DateInputProps) {
@@ -38,10 +40,11 @@ export default function DateInput({
         onChange={onChange}
         className={
           disabled
-            ? "border ml-4 w-100 h-10 rounded-md px-3 py-2 text-md shadow-md bg-gray-200 cursor-not-allowed"
-            : "border ml-4 w-100 h-10 rounded-md px-3 py-2 text-md shadow-md"
+            ? "border w-100 h-10 rounded-md px-3 py-2 text-md shadow-md bg-gray-200 cursor-not-allowed"
+            : "border w-100 h-10 rounded-md px-3 py-2 text-md shadow-md"
         }
       />
+      {error && <p className="text-red-500 text-sm px-4 mt-1">{error}</p>}
     </div>
   )
 }

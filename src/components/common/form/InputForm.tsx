@@ -6,6 +6,7 @@ interface BaseInputProps {
     error?: any,
     name: string,
     control: Control<FieldValues>,
+    type? : string
 }
 
 export default function InputForm({
@@ -13,6 +14,7 @@ export default function InputForm({
     error,
     name,
     control,
+    type
 }: BaseInputProps) {
     return (<>
         <div className="mt-auto">
@@ -30,11 +32,17 @@ export default function InputForm({
                     return (
                         <InputField
                             variant="form"
+                            type={type}
                             className="ml-auto"
                             inputSize="md"
                             value={field.value}
                             onChange={e => {
-                                field.onChange(e.target.value)
+                                if(type === "number"){
+                                    field.onChange(Number(e.target.value))
+                                }else{
+                                    field.onChange((e.target.value))
+                                }
+                                
                             }}>
                         </InputField>
                     );

@@ -3,6 +3,7 @@ import DateInput from "@/components/common/form/DateTimeInput";
 import InputForm from "@/components/common/form/InputForm";
 import NumberInputForm from "@/components/common/form/NumberInputForm";
 import SelectForm from "@/components/common/form/SelectForm";
+import { TRANSACTION_CREDIT_ENUM, TRANSACTION_DEBIT_ENUM } from "@/modules/cashTransaction/constants/TransactionType";
 import { useBankAccount } from "@/modules/cashTransaction/hooks/useBankAccount";
 import { useCurrency } from "@/modules/cashTransaction/hooks/useCurrency";
 import { useOrg } from "@/modules/cashTransaction/hooks/useOrg"
@@ -30,13 +31,42 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
                 label: sub.name,
             })) ?? []
 
-    const option = data?.data?.map((org: orgs) => ({
+    const orgOption = data?.data?.map((org: orgs) => ({
         value: org.id,
         label: org.shortName,
     }))
 
+    function getFirstValue() {
+        if (subOrgOptions.length === 1) {
+            setValue("data.subOrgNum.subOrgId", subOrgOptions[0].value);
+        }else{
+            setValue("data.subOrgNum.subOrgId", "")
+        }
+    }
+
+    const currencyOption = currencyData?.map((currency) => ({
+        value: currency,
+        label: currency,
+    }))
+
+    const bankAccountOption = bankAccountData?.data.map(bank => ({
+        value: bank.bankAccountUid,
+        label: bank.displayName,
+    })) ?? []
+
+    function checkBankForCurrency(bankAccountUid: string | null) {
+        const selectedBank = bankAccountData?.data.find(
+            bank => bank.bankAccountUid === bankAccountUid
+        );
+
+        if (selectedBank?.currency) {
+            setValue("data.currency", selectedBank.currency);
+        }
+    }
+
     function checkType() {
-        if (transactionType === "Debit (Others)" || transactionType === "Credit (Others)") {
+        if (transactionType === TRANSACTION_DEBIT_ENUM.DEBIT_OTHER
+            || transactionType === TRANSACTION_CREDIT_ENUM.CREDIT_OTHER) {
             return true
         }
         return false
@@ -44,18 +74,19 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
 
     return (<>
         <div className="flex py-5 items-center">
-            <label className="mr-26 mt-1">Client Name</label>
+            <label className="mt-1 w-50">Client Name</label>
             <SelectForm
                 name="data.orgNum.id"
                 isLoading={isLoading}
                 control={control}
-                options={option}
+                options={orgOption}
+                onValueChange={getFirstValue}
                 error={get(errors, "data.orgNum.id.message")}
             />
         </div>
 
         <div className="flex py-5 items-center">
-            <label className="mr-21 mt-1">Sub-Org Name</label>
+            <label className="mt-1 w-50">Sub-Org Name</label>
             <SelectForm
                 name="data.subOrgNum.subOrgId"
                 control={control}
@@ -66,25 +97,22 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
         </div>
 
         <div className="flex py-5 items-center">
-            <label className="mr-24 mt-1">Transaction ID</label>
+            <label className="w-50 mt-1">Transaction ID</label>
             <p> - </p>
         </div>
 
         <div className="flex py-5 items-center">
-            <label className="mr-29 mt-1">Currency<span className="text-red-500"> *</span></label>
+            <label className="w-50 mt-1">Currency<span className="text-red-500"> *</span></label>
             <SelectForm
                 name="data.currency"
                 control={control}
-                options={currencyData?.map((currency) => ({
-                    value: currency,
-                    label: currency,
-                }))}
+                options={currencyOption}
                 error={get(errors, "data.currency.message")}
             />
         </div>
 
         <div className="flex py-5 items-center">
-            <label className="mr-30 mt-1 ">Amount<span className="text-red-500"> *</span></label>
+            <label className="w-50 mt-1">Amount<span className="text-red-500"> *</span></label>
             <NumberInputForm
                 name="data.amount"
                 control={control}
@@ -95,7 +123,7 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
 
         {checkType() && <>
             <div className="flex py-5 items-center">
-                <label className="mr-33 mt-1 ">Fees<span><Icons.Error /></span></label>
+                <label className="w-50 mt-1 ">Fees<span><Icons.Error /></span></label>
                 <NumberInputForm
                     name="data.feesAmt"
                     control={control}
@@ -104,7 +132,7 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
             </div>
 
             <div className="flex py-5 items-center">
-                <label className="mr-19 mt-1 ">GST Amount<span><Icons.Error /></span></label>
+                <label className="w-50 mt-1">GST Amount<span><Icons.Error /></span></label>
                 <NumberInputForm
                     name="data.gstAmt"
                     control={control}
@@ -113,7 +141,7 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
             </div>
 
             <div className="flex py-5 items-center">
-                <label className="mt-1 mr-6">Bank Charges Amount<span className="text-red-500"> *</span></label>
+                <label className="mt-1 w-50">Bank Charges Amount<span className="text-red-500"> *</span></label>
                 <NumberInputForm
                     name="data.bankChargesAmt"
                     control={control}
@@ -123,7 +151,7 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
         </>}
 
         <div className="flex py-5 items-center">
-            <label className="mr-17 mt-1">Effective Date<span className="text-red-500"> *</span></label>
+            <label className="w-50 mt-1">Effective Date<span className="text-red-500"> *</span></label>
             <Controller
                 name="data.effectiveDo"
                 control={control}
@@ -134,29 +162,18 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
         </div>
 
         <div className="flex py-5 items-center">
-            <label className="mr-13 mt-1">Bank Details (From)</label>
+            <label className="w-50 mt-1">Bank Details (From)</label>
             <SelectForm
                 name="data.bankAccountUid.bankAccountUid"
                 control={control}
-                options={bankAccountData?.data.map(bank => ({
-                    value: bank.bankAccountUid,
-                    label: bank.beneficiaryName,
-                })) ?? []}
-                onValueChange={(bankAccountUid) => {
-                    const selectedBank = bankAccountData?.data.find(
-                        bank => bank.bankAccountUid === bankAccountUid
-                    );
-
-                    if (selectedBank?.currency) {
-                        setValue("data.currency", selectedBank.currency);
-                    }
-                }}
+                options={bankAccountOption}
+                onValueChange={checkBankForCurrency}
                 error={get(errors, "data.bankAccountUid.bankAccountUid.message")}
             />
         </div>
 
         <div className="flex py-5 items-center">
-            <label className="mr-23 mt-1">Description</label>
+            <label className="w-46 mt-1">Description</label>
             <InputForm
                 name="data.description"
                 control={control}
@@ -165,7 +182,7 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
         </div>
 
         <div className="flex py-5 items-center">
-            <label className="mr-18 mt-1">Created Date<span className="text-red-500"> *</span></label>
+            <label className="w-50 mt-1">Created Date<span className="text-red-500"> *</span></label>
             <Controller
                 name="data.createdDo"
                 control={control}
