@@ -6,6 +6,8 @@ interface BaseInputProps {
     error?: any,
     name: string,
     control: Control<FieldValues>
+    disabled? : boolean,
+    className? : string
 }
 
 export default function NumberInputForm({
@@ -13,6 +15,8 @@ export default function NumberInputForm({
     error,
     name,
     control,
+    disabled = false,
+    className
 }: BaseInputProps) {
     return (<>
         <div className="mt-auto">
@@ -29,7 +33,7 @@ export default function NumberInputForm({
                 render={({ field }) => {
                     return (
                         <NumericFormat
-                            className="border h-10 px-4 py-4 rounded shadow-md text-md w-100 focus:outline focus:outline-green-300 hover:outline hover:outline-green-300 mb-2 mt-2"
+                        className={`border h-10 px-4 py-4 rounded shadow-md text-md w-100 focus:outline focus:outline-green-300 hover:outline hover:outline-green-300 mb-2 mt-2 ${className}`}
                             value={field.value}
                             onValueChange={(values) => field.onChange(values.floatValue || 0)}
                             thousandSeparator=","
@@ -37,6 +41,7 @@ export default function NumberInputForm({
                             decimalScale={2}
                             fixedDecimalScale
                             allowNegative={false}
+                            disabled={disabled}
                             placeholder="0.00"
                         />
                     );

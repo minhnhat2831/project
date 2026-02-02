@@ -42,7 +42,7 @@ export default function useTransactionForm() {
                 comments: "",
                 files: [],
                 bankChargesAmt: 0,
-                couponPayments: {
+                couponPayments:[{
                     bankAccountTo: "",
                     cashOrderAmt: 0,
                     clientName: "",
@@ -50,14 +50,14 @@ export default function useTransactionForm() {
                     organizationNum: "",
                     subAccountNum: "",
                     subOrganizationNum: ""
-                },
+                }],
                 couponPercentageRate: 0,
                 feesAmt: 0,
                 gstAmt: 0,
                 isin: "",
                 paymentDo: "",
                 totalCouponAmount: 0,
-                createdDo: new Date().toISOString().split("T")[0],
+                createdDo: new Date().toISOString().split("T")[0] ?? "",
             }
         }
     })

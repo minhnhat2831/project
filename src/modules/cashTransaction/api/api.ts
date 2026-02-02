@@ -1,7 +1,8 @@
 import { mockBankAccounts } from "@/modules/cashTransaction/mock-data/bank-account";
 import { mockCurrencies } from "@/modules/cashTransaction/mock-data/currency";
 import { mockOrgs, mockSubOrgs } from "@/modules/cashTransaction/mock-data/org";
-import type { bankAccountList, currenciesList, orgs, subOrgs } from "../schema/Schema.type";
+import type { bankAccountList, currenciesList, isinHoldingList, isinsList, orgs, subOrgs } from "../schema/Schema.type";
+import { mockIsinHolding, mockIsins } from "../mock-data/isin";
 
 export const fetchListOrg = async () => {
   return new Promise<{ data: orgs[] }>((resolve) =>
@@ -47,6 +48,30 @@ export const fetchListBankAccount = async ({
       () =>
         resolve({
           data: filteredAccounts,
+        }),
+      500,
+    ),
+  );
+};
+
+export const fetchListIsins = async () => {
+  return new Promise<{ data: isinsList[] }>((resolve) =>
+    setTimeout(
+      () =>
+        resolve({
+          data: mockIsins,
+        }),
+      500,
+    ),
+  );
+};
+
+export const fetchListIsinsHolding = async (isin?: string) => {
+  return new Promise<{ data: isinHoldingList[] }>((resolve) =>
+    setTimeout(
+      () =>
+        resolve({
+          data: mockIsinHolding[isin as string] || [],
         }),
       500,
     ),

@@ -4,6 +4,7 @@ import { useModalStore } from "@/hooks/useModalStore";
 import Button from "@/components/common/form/Button";
 import CashTransactionFormModal from "./CashTransactionFormModal";
 import { useModalCreateStore } from "../../store/useModalCreateStore";
+import { TRANSACTION_TYPE_ENUM, TRANSACTION_TYPE_KEY } from "../../constants/TransactionType";
 
 export default function CashTransactionModal() {
     const { open, setOpen } = useModalStore()
@@ -34,7 +35,7 @@ export default function CashTransactionModal() {
                                 setOpen(false)
                             }
                             }>
-                            Debit
+                            {TRANSACTION_TYPE_KEY[TRANSACTION_TYPE_ENUM.DEBIT]}
                         </Button>
                         <Button
                             variant="normal"
@@ -45,7 +46,7 @@ export default function CashTransactionModal() {
                                 setOpen(false)
                             }
                             }>
-                            Credit
+                            {TRANSACTION_TYPE_KEY[TRANSACTION_TYPE_ENUM.CREDIT]}
                         </Button>
                     </PopupCreate>
                 </>

@@ -6,6 +6,7 @@ import type {
     cashTransactionPayLoadListSchema, 
     cashTransactionPayLoadSchema, 
     currencyListSchema, 
+    isinHoldingListItemSchema, 
     isinHoldingListSchema, 
     isinsListSchema, 
     orgsListSchema, 
@@ -18,6 +19,7 @@ export type bankAccountList = z.infer<typeof bankAccountListSchema>
 export type currenciesList = z.infer<typeof currencyListSchema>
 export type isinsList = z.infer<typeof isinsListSchema>
 export type isinHoldingList = z.infer<typeof isinHoldingListSchema>
+export type isinHoldingListItem = z.infer<typeof isinHoldingListItemSchema>
 export type orgsList = z.infer<typeof orgsListSchema>
 export type subOrgs = z.infer<typeof subOrgSchema>
 export type orgs = z.infer<typeof orgsSchema>
