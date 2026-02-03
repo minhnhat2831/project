@@ -1,6 +1,6 @@
 import * as React from "react"
 import { cn } from "@/lib/cn"
-import { inputVariants } from "../ui/Input.style";
+import { inputVariants } from "../../ui/Input.style";
 
 type InputVariant = keyof typeof inputVariants.variant
 type InputSize = keyof typeof inputVariants.size

@@ -1,7 +1,7 @@
 
-import Button from "@/components/common/form/Button";
-import PasswordInput from "@/components/common/form/PasswordInput";
-import InputField from "@/components/common/form/Input";
+import Button from "@/components/common/form/baseForm/Button";
+import PasswordInput from "@/components/common/form/baseForm/PasswordInput";
+import InputField from "@/components/common/form/baseForm/Input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useModalStore } from "@/hooks/useModalStore";
@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 import type { adminFormCreate, adminFormEdit } from "../schema/AdminUserSchema.type";
 import { createAdminUserSchema, editAdminUserSchema } from "../schema/AdminUserSchema";
 import useAdmin from "../hooks/useAdmin";
-import SelectF from "@/components/common/form/Select";
+import SelectF from "@/components/common/form/baseForm/Select";
 
 type AdminFormValues = adminFormCreate | adminFormEdit;
 interface props {

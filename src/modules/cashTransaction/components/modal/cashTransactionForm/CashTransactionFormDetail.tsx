@@ -6,22 +6,22 @@ import {
     transactionTypeDebit 
 } from "../../../constants/TransactionType";
 import ButtonStatus from "../../common/ButtonStatus";
-import CashTransactionFormCredit from "../cashTransactionFormType/CashTransactionFormCoupon";
 import { get, useFormContext } from "react-hook-form";
 import CashTransactionFormDebit from "../cashTransactionFormType/CashTransactionFormDebit";
-import SelectForm from "@/components/common/form/SelectForm";
+import SelectForm from "@/components/common/form/controllerForm/SelectForm";
 import { useModalCreateStore } from "@/modules/cashTransaction/store/useModalCreateStore";
 import { useOpenStoreStore } from "@/modules/cashTransaction/store/useopenFormStore";
+import CashTransactionFormCoupon from "../cashTransactionFormType/CashTransactionFormCoupon";
 
 export default function CashTransactionFormDetail() {
     const { open, setOpen } = useOpenStoreStore()
-    const { control, watch, formState: { errors }, setValue, reset } = useFormContext()
+    const { control, watch, formState: { errors }, setValue, reset, clearErrors } = useFormContext()
     const { typeMode } = useModalCreateStore()
     const watchType = watch("data.transactionType")
 
     const renderModal = () => {
         if (watchType === TRANSACTION_CREDIT_ENUM.COUPON_PAYMENT) {
-            return <CashTransactionFormCredit />
+            return <CashTransactionFormCoupon />
         } else if ((typeMode === "Debit" || typeMode === "Credit")
             && (watchType != "" && watchType != null)) {
             return <CashTransactionFormDebit transactionType={watchType} />
@@ -42,6 +42,7 @@ export default function CashTransactionFormDetail() {
         if(watchType === null){
             reset()
         }
+        clearErrors()
     }
 
     return (

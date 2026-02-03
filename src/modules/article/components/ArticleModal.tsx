@@ -1,4 +1,4 @@
-import Button from "@/components/common/form/Button";
+import Button from "@/components/common/form/baseForm/Button";
 import { useModalStore } from "@/hooks/useModalStore";
 import Header from "@/layouts/Header";
 import ArticleFormModal from "./ArticleFormModal";

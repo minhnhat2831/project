@@ -1,5 +1,5 @@
 import { Icons } from "@/components/common/base/Icon"
-import InputField from "@/components/common/form/Input"
+import InputField from "@/components/common/form/baseForm/Input"
 import { useOpenStoreStore } from "@/modules/cashTransaction/store/useopenFormStore"
 import { Controller, useFormContext } from "react-hook-form"
 

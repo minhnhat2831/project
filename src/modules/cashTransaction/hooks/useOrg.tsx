@@ -34,7 +34,7 @@ export const useOrg = () => {
         const mo = await fetchListSubOrg(orgId);
         mo.data?.find(
           s => s.subOrgId === subOrgId
-        );
+        )
       }
     })
   }

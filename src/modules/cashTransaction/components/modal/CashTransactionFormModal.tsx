@@ -1,5 +1,5 @@
 import PopupForm from "../common/PopupForm";
-import Button from "@/components/common/form/Button";
+import Button from "@/components/common/form/baseForm/Button";
 import { useModalCreateStore } from "../../store/useModalCreateStore";
 import CashTransactionFormDetail from "./cashTransactionForm/CashTransactionFormDetail";
 import CashTransactionFormDocument from "./cashTransactionForm/CashTransactionDocument";
@@ -69,7 +69,8 @@ export default function CashTransactionFormModal() {
                                     type="button"
                                     variant="normal"
                                     size="sm"
-                                    className="w-40 mr-1 border text-red-500 hover:bg-gray-200 overflow-hidden">
+                                    className="w-40 mr-1 border text-red-500 hover:bg-gray-200 overflow-hidden"
+                                    onClick={() => setType("confirm")}>
                                     Save and Close
                                 </Button>
                                 <Button
@@ -77,8 +78,9 @@ export default function CashTransactionFormModal() {
                                     variant="normal"
                                     size="sm"
                                     onClick={method.handleSubmit(
-                                        () => setType("confirm"),
-                                        (errors) => console.log("SUBMIT ERROR:", errors)
+                                        () =>
+                                            setType("confirm"),
+                                            (errors) => console.log("SUBMIT ERROR:", errors)
                                     )}
                                     className="w-40 bg-red-500 text-white hover:bg-blue-400 overflow-hidden">
                                     Save and Submit

@@ -44,7 +44,7 @@ export default function DateInput({
             : "border w-100 h-10 rounded-md px-3 py-2 text-md shadow-md"
         }
       />
-      {error && <p className="text-red-500 text-sm px-4 mt-1">{error}</p>}
+      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
     </div>
   )
 }
