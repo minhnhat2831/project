@@ -1,4 +1,4 @@
-import { Icons } from "../base/Icon"
+import { Icons } from "../../base/Icon"
 import { usePasswordStore } from "@/hooks/usePasswordToggle";
 
 interface props extends React.InputHTMLAttributes<HTMLInputElement> {

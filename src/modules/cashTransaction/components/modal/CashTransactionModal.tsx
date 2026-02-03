@@ -1,7 +1,7 @@
 import Header from "@/layouts/Header";
 import PopupCreate from "../common/PopupCreate";
 import { useModalStore } from "@/hooks/useModalStore";
-import Button from "@/components/common/form/Button";
+import Button from "@/components/common/form/baseForm/Button";
 import CashTransactionFormModal from "./CashTransactionFormModal";
 import { useModalCreateStore } from "../../store/useModalCreateStore";
 import { TRANSACTION_TYPE_ENUM, TRANSACTION_TYPE_KEY } from "../../constants/TransactionType";

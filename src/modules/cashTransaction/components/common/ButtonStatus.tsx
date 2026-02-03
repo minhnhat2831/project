@@ -1,4 +1,4 @@
-import Button from "@/components/common/form/Button";
+import Button from "@/components/common/form/baseForm/Button";
 import { useFormContext } from "react-hook-form";
 
 export default function ButtonStatus() {

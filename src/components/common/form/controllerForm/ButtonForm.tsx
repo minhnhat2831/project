@@ -1,5 +1,5 @@
 import { Controller, type Control, type FieldValues } from "react-hook-form";
-import Button from "./Button";
+import Button from "../baseForm/Button";
 
 interface BaseButtonProps {
     label?: string,

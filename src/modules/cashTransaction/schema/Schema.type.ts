@@ -1,10 +1,12 @@
 import * as z from "zod"
 import type { 
     bankAccountListSchema, 
+    cashTransactionCouponPayLoadListSchema, 
+    cashTransactionCouponPayLoadSchema, 
+    cashTransactionDebitPayLoadListSchema, 
+    cashTransactionDebitPayLoadSchema, 
     cashTransactionFormListSchema, 
     cashTransactionFormSchema, 
-    cashTransactionPayLoadListSchema, 
-    cashTransactionPayLoadSchema, 
     currencyListSchema, 
     isinHoldingListItemSchema, 
     isinHoldingListSchema, 
@@ -26,8 +28,11 @@ export type orgs = z.infer<typeof orgsSchema>
 export type subOrgsList = z.infer<typeof subOrgsListSchema>
 
 //Form Payload gửi lên API
-export type cashTransactionPayLoad = z.infer<typeof cashTransactionPayLoadSchema>
-export type cashTransactionPayLoadList = z.infer<typeof cashTransactionPayLoadListSchema>
+export type cashTransactionDebitPayLoad = z.infer<typeof cashTransactionDebitPayLoadSchema>
+export type cashTransactionDebitPayLoadList = z.infer<typeof cashTransactionDebitPayLoadListSchema>
+
+export type cashTransactionCouponPayLoad = z.infer<typeof cashTransactionCouponPayLoadSchema>
+export type cashTransactionCouponPayLoadList = z.infer<typeof cashTransactionCouponPayLoadListSchema>
 
 //Form 
 export type cashTransactionForm= z.infer<typeof cashTransactionFormSchema>

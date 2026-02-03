@@ -1,6 +1,6 @@
 import { Icons } from "@/components/common/base/Icon"
 import { toast } from "react-toastify"
-import Button from "@/components/common/form/Button"
+import Button from "@/components/common/form/baseForm/Button"
 import { useArticleStore } from "../store/useSelectedArticle"
 import PopupConfirm from "@/components/common/base/PopupConfirm"
 import { useModalStore } from "@/hooks/useModalStore"

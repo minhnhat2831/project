@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import type { cashTransactionFormList, cashTransactionPayLoadList } from "../schema/Schema.type"
+import type { cashTransactionCouponPayLoadList, cashTransactionDebitPayLoadList, cashTransactionFormList } from "../schema/Schema.type"
 import { cashTransactionFormListSchema } from "../schema/Schema"
 import { useOrg } from "./useOrg"
 import { useBankAccount } from "./useBankAccount"
@@ -46,7 +46,6 @@ export default function useTransactionForm() {
                     bankAccountTo: "",
                     cashOrderAmt: 0,
                     clientName: "",
-                    currency: "",
                     organizationNum: "",
                     subAccountNum: "",
                     subOrganizationNum: ""
@@ -55,7 +54,7 @@ export default function useTransactionForm() {
                 feesAmt: 0,
                 gstAmt: 0,
                 isin: "",
-                paymentDo: "",
+                paymentDo: new Date().toISOString().split("T")[0] ?? "",
                 totalCouponAmount: 0,
                 createdDo: new Date().toISOString().split("T")[0] ?? "",
             }
@@ -91,7 +90,7 @@ export default function useTransactionForm() {
         },
     });
 
-    function mapFormToPayload(form: cashTransactionFormList): cashTransactionPayLoadList {
+    function debitMapFormToPayload(form: cashTransactionFormList): cashTransactionDebitPayLoadList {
         return {
             action: form.action,
             data: {
@@ -106,6 +105,22 @@ export default function useTransactionForm() {
                 comments: form.data.comments,
                 files: form.data.files,
                 bankChargesAmt: form.data.bankChargesAmt,
+                feesAmt: form.data.feesAmt,
+                gstAmt: form.data.gstAmt,
+                createdDo: form.data.createdDo,
+            }
+        }
+    }
+
+    function couponMapFormToPayload(form: cashTransactionFormList): cashTransactionCouponPayLoadList {
+        return {
+            action: form.action,
+            data: {
+                transactionType: form.data.transactionType,
+                currency: form.data.currency,
+                description: form.data.description,
+                comments: form.data.comments,
+                files: form.data.files,
                 couponPayments: form.data.couponPayments,
                 couponPercentageRate: form.data.couponPercentageRate,
                 feesAmt: form.data.feesAmt,
@@ -113,13 +128,13 @@ export default function useTransactionForm() {
                 isin: form.data.isin,
                 paymentDo: form.data.paymentDo,
                 totalCouponAmount: form.data.totalCouponAmount,
-                createdDo: form.data.createdDo,
             }
         }
     }
 
     return {
         method,
-        mapFormToPayload
+        debitMapFormToPayload,
+        couponMapFormToPayload
     }
 }

@@ -1,12 +1,13 @@
 import { Controller, type Control, type FieldValues } from "react-hook-form";
-import InputField from "./Input";
+import InputField from "../baseForm/Input";
 
 interface BaseInputProps {
     label?: string,
     error?: any,
     name: string,
     control: Control<FieldValues>,
-    type? : string
+    type?: string,
+    onValueChange?: (value: string | number | null) => void;
 }
 
 export default function InputForm({
@@ -14,7 +15,8 @@ export default function InputForm({
     error,
     name,
     control,
-    type
+    type,
+    onValueChange
 }: BaseInputProps) {
     return (<>
         <div className="mt-auto">
@@ -37,12 +39,14 @@ export default function InputForm({
                             inputSize="md"
                             value={field.value}
                             onChange={e => {
-                                if(type === "number"){
+                                const value = e.target.value ?? null;
+                                if (type === "number") {
+                                    onValueChange?.(value);
                                     field.onChange(Number(e.target.value))
-                                }else{
-                                    field.onChange((e.target.value))
+                                } else {
+                                    onValueChange?.(value);
+                                    field.onChange(e.target.value)
                                 }
-                                
                             }}>
                         </InputField>
                     );

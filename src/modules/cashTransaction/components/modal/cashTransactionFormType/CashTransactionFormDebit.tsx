@@ -1,8 +1,8 @@
 import { Icons } from "@/components/common/base/Icon";
-import DateInput from "@/components/common/form/DateTimeInput";
-import InputForm from "@/components/common/form/InputForm";
-import NumberInputForm from "@/components/common/form/NumberInputForm";
-import SelectForm from "@/components/common/form/SelectForm";
+import DateInput from "@/components/common/form/baseForm/DateTimeInput";
+import InputForm from "@/components/common/form/controllerForm/InputForm";
+import NumberInputForm from "@/components/common/form/controllerForm/NumberInputForm";
+import SelectForm from "@/components/common/form/controllerForm/SelectForm";
 import { TRANSACTION_CREDIT_ENUM, TRANSACTION_DEBIT_ENUM } from "@/modules/cashTransaction/constants/TransactionType";
 import { useBankAccount } from "@/modules/cashTransaction/hooks/useBankAccount";
 import { useCurrency } from "@/modules/cashTransaction/hooks/useCurrency";

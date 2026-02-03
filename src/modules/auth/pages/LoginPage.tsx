@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form"
-import InputField from "@/components/common/form/Input"
+import InputField from "@/components/common/form/baseForm/Input"
 import { getLogin } from "../api/api";
 import { useNavigate } from "react-router";
 import { API } from "@/services/api";
 import { toast, ToastContainer } from "react-toastify";
-import Button from "@/components/common/form/Button";
+import Button from "@/components/common/form/baseForm/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import PasswordInput from "@/components/common/form/PasswordInput";
+import PasswordInput from "@/components/common/form/baseForm/PasswordInput";
 import { usePasswordStore } from "@/hooks/usePasswordToggle";
 import { loginRequestSchema } from "../schema/LoginSchema";
 import type { loginRequest } from "../schema/LoginSchema.type";

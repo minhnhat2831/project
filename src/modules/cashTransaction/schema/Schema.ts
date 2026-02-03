@@ -24,9 +24,12 @@ export const isinsListSchema = z.object({
 })
 
 export const isinHoldingListSchema = z.object({
-    organizationName: z.string(),
-    subOrganizationName: z.string(),
-    effectiveValueAmt: z.number(),
+    clientName: z.string().optional(),
+    subOrganizationName: z.string().optional(),
+    effectiveValueAmt: z.number().optional(),
+    organizationNum: z.string().optional(),
+    subOrganizationNum: z.string().optional(),
+    subAccountNum: z.string().optional()
 })
 
 export const isinHoldingListItemSchema = z.array(isinHoldingListSchema)
@@ -58,51 +61,65 @@ export const couponPaymentsSchema = z.object({
     subOrganizationNum: z.string().nullable(),
     subAccountNum: z.string().nullable(),
     cashOrderAmt: z.number().nullable(),
-    currency: z.string().nullable(),
     bankAccountTo: z.string().nullable(),
-}).nullable()
+}).nullable().optional()
 
-export const cashTransactionPayLoadSchema = z.object({
-    orgNum: z.string().nullable(),
-    subOrgNum: z.string().nullable(),
-    transactionType: z.string().nullable(),
-    currency: z.string().nullable(),                  //
-    amount: z.number().nullable(),
-    effectiveDo: z.string().nullable(),
-    description: z.string().nullable(),
-    feesAmt: z.number().nullable(),
-    gstAmt: z.number().nullable(),
-    bankChargesAmt: z.number().nullable(),
-    bankAccountUid: z.string().nullable(),
-    createdDo: z.string().min(1, required).nullable(),
-    comments: z.string().nullable(),
+export const cashTransactionDebitPayLoadSchema = z.object({
+    orgNum: z.string().nullable().optional(),
+    subOrgNum: z.string().nullable().optional(),
+    transactionType: z.string().nullable().optional(),
+    currency: z.string().nullable().optional(),                  //
+    amount: z.number().nullable().optional(),
+    effectiveDo: z.string().nullable().optional(),
+    description: z.string().nullable().optional(),
+    feesAmt: z.number().nullable().optional(),
+    gstAmt: z.number().nullable().optional(),
+    bankChargesAmt: z.number().nullable().optional(),
+    bankAccountUid: z.string().nullable().optional(),
+    createdDo: z.string().min(1, required).nullable().optional(),
+    comments: z.string().nullable().optional(),
     files: z.array(z.instanceof(File)).optional(),
-    couponPayments: z.array(couponPaymentsSchema),
-    totalCouponAmount: z.number().nullable(),
-    isin: z.string().nullable(),
-    couponPercentageRate: z.number().nullable(),
-    paymentDo: z.string().nullable()
 })
 
-export const cashTransactionPayLoadListSchema = z.object({
+export const cashTransactionDebitPayLoadListSchema = z.object({
     action: z.string(),
-    data: cashTransactionPayLoadSchema
+    data: cashTransactionDebitPayLoadSchema
+})
+
+export const cashTransactionCouponPayLoadSchema = z.object({
+    transactionType: z.string().nullable().optional(),
+    currency: z.string().nullable().optional(),                  //
+    description: z.string().nullable().optional(),
+    feesAmt: z.number().nullable().optional(),
+    gstAmt: z.number().nullable().optional(),
+    comments: z.string().nullable().optional(),
+    files: z.array(z.instanceof(File)).optional(),
+    couponPayments: z.array(couponPaymentsSchema),
+    totalCouponAmount: z.number().nullable().optional(),
+    isin: z.string().nullable().optional(),
+    couponPercentageRate: z.number().nullable().optional(),
+    paymentDo: z.string().nullable().optional()
+})
+
+export const cashTransactionCouponPayLoadListSchema = z.object({
+    action: z.string(),
+    data: cashTransactionCouponPayLoadSchema
 })
 
 export const cashTransactionFormSchema = z.object({
     orgNum: orgsSchema,
     subOrgNum: subOrgSchema,
-    transactionType: z.string().min(1, required).nullable(),
-    currency: z.string().nullable(),
-    amount: z.number().nullable(),
-    effectiveDo: z.string().nullable(),
-    description: z.string().min(1, required).nullable(),
-    feesAmt: z.number().nullable(),
-    gstAmt: z.number().nullable(),
-    bankChargesAmt: z.number().nullable(),
+    transactionType: z.string().min(1, required).nullable().optional(),
+    currency: z.string().nullable().optional(),
+    amount: z.number().nullable().optional(),
+    effectiveDo: z.string().nullable().optional(),
+    description: z.string().min(1, required).nullable().optional(),
+    feesAmt: z.number().nullable().optional(),
+    gstAmt: z.number().nullable().optional(),
+    bankChargesAmt: z.number().nullable().optional(),
     bankAccountUid: bankAccountListSchema,
-    createdDo: z.string().nullable(),
-    comments: z.string().nullable(),
+    createdDo: z.string().nullable().optional(),
+    comments: z.string().nullable().optional(),
     files: z.array(z.instanceof(File)).optional(),
     couponPayments: z.array(z.object({
         clientName: z.string().nullable(),
@@ -110,14 +127,12 @@ export const cashTransactionFormSchema = z.object({
         subOrganizationNum: z.string().nullable(),
         subAccountNum: z.string().nullable(),
         cashOrderAmt: z.number().nullable(),
-        currency: z.string().nullable(),
         bankAccountTo: z.string().nullable(),
-        netPaymentAmount: z.number().optional()
     })),
-    totalCouponAmount: z.number().nullable(),
-    isin: z.string().nullable(),
-    couponPercentageRate: z.number().nullable(),
-    paymentDo: z.string().nullable()
+    totalCouponAmount: z.number().nullable().optional(),
+    isin: z.string().nullable().optional(),
+    couponPercentageRate: z.number().nullable().optional(),
+    paymentDo: z.string().nullable().optional()
 }).superRefine((data, ctx) => {
     const isCoupon = data.transactionType === TRANSACTION_CREDIT_ENUM.COUPON_PAYMENT
 
@@ -129,13 +144,6 @@ export const cashTransactionFormSchema = z.object({
                 path: ["isin"]
             })
         }
-        if (!data.totalCouponAmount) {
-            ctx.addIssue({
-                code: z.ZodIssueCode.custom,
-                message: required,
-                path: ["totalCouponAmount"]
-            })
-        }
         if (!data.paymentDo) {
             ctx.addIssue({
                 code: z.ZodIssueCode.custom,
@@ -143,13 +151,15 @@ export const cashTransactionFormSchema = z.object({
                 path: ["paymentDo"]
             })
         }
-        if (!data.couponPercentageRate) {
-            ctx.addIssue({
-                code: z.ZodIssueCode.custom,
-                message: required,
-                path: ["couponPercentageRate"]
-            })
-        }
+        data.couponPayments?.forEach((item, index) => {
+            if (!item.bankAccountTo) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: required,
+                    path: ["couponPayments", index, "bankAccountTo"]
+                })
+            }
+        })
     } else {
         if (!data.currency) {
             ctx.addIssue({

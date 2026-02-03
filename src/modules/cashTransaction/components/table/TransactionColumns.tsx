@@ -1,6 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { isinHoldingList } from "../../schema/Schema.type";
-import InputField from "@/components/common/form/Input";
+import InputField from "@/components/common/form/baseForm/Input";
 
 export const columns : ColumnDef<isinHoldingList>[] = [
     {

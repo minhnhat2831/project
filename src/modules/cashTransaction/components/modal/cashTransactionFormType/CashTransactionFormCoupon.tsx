@@ -1,24 +1,38 @@
-import DateInput from "@/components/common/form/DateTimeInput"
-import InputForm from "@/components/common/form/InputForm"
-import SelectForm from "@/components/common/form/SelectForm"
+import DateInput from "@/components/common/form/baseForm/DateTimeInput"
+import InputForm from "@/components/common/form/controllerForm/InputForm"
+import SelectForm from "@/components/common/form/controllerForm/SelectForm"
 import { useIsin } from "@/modules/cashTransaction/hooks/useIsin"
 import type { bankAccountList, isinsList } from "@/modules/cashTransaction/schema/Schema.type"
-import { Controller, get, useFormContext, useWatch } from "react-hook-form"
-import { useEffect } from "react"
-import NumberInputForm from "@/components/common/form/NumberInputForm"
+import { Controller, get, useFormContext } from "react-hook-form"
+import NumberInputForm from "@/components/common/form/controllerForm/NumberInputForm"
 import { useBankAccount } from "@/modules/cashTransaction/hooks/useBankAccount"
+import { useEffect } from "react"
 
 export default function CashTransactionFormCoupon() {
+    const { control, formState: { errors }, watch, setValue, getValues } = useFormContext()
     const { getIsin, getIsinHolding } = useIsin()
     const { data: isinData } = getIsin()
-    const { getBankAccounts } = useBankAccount()
-    const { data: bankAccountData } = getBankAccounts()
-    const { control, formState: { errors }, watch, setValue } = useFormContext()
 
     const watchIsin = watch("data.isin");
+    const isinCurrency = isinData?.data.find(f => f.isin === watchIsin)?.currency
+    const { getBankAccounts } = useBankAccount()
+    const { data: bankAccountData } = getBankAccounts(isinCurrency)
+
     const { data: isinHoldingData } = getIsinHolding(watchIsin, {
-        enabled: !!watchIsin
-    });
+            enabled: !!watchIsin
+        // ,onSuccess: (data: isinHoldingList) => {
+        //     if (!isinHoldingData?.data?.length) return
+
+        //     setValue("data.couponPayments", ({
+        //         bankAccountTo: "",
+        //         cashOrderAmt: Number(data.effectiveValueAmt || 0),
+        //         clientName: data.clientName,
+        //         organizationNum: data.organizationNum,
+        //         subOrganizationNum: data.subOrganizationNum,
+        //         subAccountNum: data.subAccountNum,
+        //     }))
+        // }
+    })
 
     const bankAccountOption = bankAccountData?.data.map((bank: bankAccountList) => ({
         value: bank.bankAccountUid,
@@ -39,52 +53,46 @@ export default function CashTransactionFormCoupon() {
             isinHoldingData.data.map((item) => ({
                 bankAccountTo: "",
                 cashOrderAmt: Number(item.effectiveValueAmt || 0),
-                clientName: item.organizationName,
-                organizationNum: null,
-                subOrganizationNum: null,
-                subAccountNum: null,
-                currency: "",
+                clientName: item.clientName,
+                organizationNum: item.organizationNum,
+                subOrganizationNum: item.subOrganizationNum,
+                subAccountNum: item.subAccountNum,
             }))
         )
+        setValue("data.currency", isinCurrency)
     }, [isinHoldingData, setValue])
 
-    const watchCouponRate = watch("data.couponPercentageRate")
-    const watchCouponPayments = useWatch({
-        control,
-        name: "data.couponPayments"
-    })
+    // useEffect(() => {
+    //     if (!Array.isArray(watchCouponPayments)) {
+    //         setValue("data.totalCouponAmount", 0)
+    //         return
+    //     }
 
-    useEffect(() => {
-        if (!Array.isArray(watchCouponPayments)) {
-            setValue("data.totalCouponAmount", 0)
-            return
-        }
+    //     const total = watchCouponPayments.reduce(
+    //         (sum, p) => sum + Number(p?.netPaymentAmount || 0), 0
+    //     )
 
-        const total = watchCouponPayments.reduce(
-            (sum, p) => sum + Number(p?.netPaymentAmount || 0), 0
-        )
+    //     setValue("data.totalCouponAmount", total, {
+    //         shouldDirty: true,
+    //         shouldTouch: true
+    //     })
+    // }, [watchCouponPayments, setValue])
 
-        setValue("data.totalCouponAmount", total, {
-            shouldDirty: true,
-            shouldTouch: true
-        })
-    }, [watchCouponPayments, setValue])
+    // useEffect(() => {
+    //     if (!watchCouponRate || !Array.isArray(watchCouponPayments)) return
 
-    useEffect(() => {
-        if (!watchCouponRate || !Array.isArray(watchCouponPayments)) return
+    //     const rate = Number(watchCouponRate) * 0.01
 
-        const rate = Number(watchCouponRate) * 0.01
+    //     watchCouponPayments.forEach((p, index) => {
+    //         const net = rate * Number(p.cashOrderAmt || 0)
 
-        watchCouponPayments.forEach((p, index) => {
-            const net = rate * Number(p.cashOrderAmt || 0)
-
-            setValue(
-                `data.couponPayments.${index}.netPaymentAmount`,
-                net,
-                { shouldDirty: true }
-            )
-        })
-    }, [watchCouponRate])
+    //         setValue(
+    //             `data.couponPayments.${index}.netPaymentAmount`,
+    //             net,
+    //             { shouldDirty: true }
+    //         )
+    //     })
+    // }, [watchCouponRate])
 
     return (<>
         <div className="flex py-5 items-center">
@@ -96,12 +104,14 @@ export default function CashTransactionFormCoupon() {
                 error={get(errors, "data.isin.message")}
             ></SelectForm>
         </div>
+
         <div className="flex py-5 items-center">
             <label className="w-50 mr-2 mt-1">Security Name</label>
             {watchIsin
                 ? isinData?.data.find(i => i.isin === watchIsin)?.securityName
                 : "---"}
         </div>
+
         <div className="flex py-5 items-center">
             <label className="w-46 mt-1">Coupon Payment Rate</label>
             <InputForm
@@ -109,6 +119,23 @@ export default function CashTransactionFormCoupon() {
                 type="number"
                 control={control}
                 error={get(errors, "data.couponPercentageRate.message")}
+                onValueChange={(e) => {
+                    const payments = getValues("data.couponPayments") || []
+                    const rate = Number(e) * 0.01
+
+                    const updated = payments.map((p: { cashOrderAmt: number }) => ({
+                        ...p, netPaymentAmount: rate * Number(p.cashOrderAmt || 0)
+                    }))
+
+                    updated.forEach((p: any, index: number) => {
+                        setValue(`data.couponPayments.${index}.netPaymentAmount`, p.netPaymentAmount)
+                    })
+
+                    const total = updated.reduce(
+                        (sum: number, p: any) => sum + Number(p.netPaymentAmount || 0), 0)
+
+                    setValue("data.totalCouponAmount", total)
+                }}
             >
             </InputForm>
             <p>%</p>
@@ -136,7 +163,7 @@ export default function CashTransactionFormCoupon() {
                     <>{isinHoldingData?.data.map((isins, index) => (
                         <tr key={index}>
                             <td className="px-3 py-3 border font-serif">
-                                <span>{`${isins.organizationName} / ${isins.subOrganizationName}`}</span>
+                                <span>{`${isins.clientName} / ${isins.subOrganizationName}`}</span>
                             </td>
 
                             <td className="px-3 py-3 border font-serif">
@@ -144,8 +171,8 @@ export default function CashTransactionFormCoupon() {
                                     name={`data.couponPayments.${index}.bankAccountTo`}
                                     control={control}
                                     options={bankAccountOption}
+                                    error={get(errors, `data.couponPayments.${index}.bankAccountTo.message`)}
                                 />
-
                             </td>
 
                             <td className="px-3 py-3 border font-serif">
@@ -161,9 +188,22 @@ export default function CashTransactionFormCoupon() {
                                 <NumberInputForm
                                     control={control}
                                     name={`data.couponPayments.${index}.netPaymentAmount`}
+                                    onValueChange={(value) => {
+                                        const currentPayments = getValues("data.couponPayments") || []
+
+                                        const nextPayments = currentPayments.map((p: any, i: number) =>
+                                            i === index ? { ...p, netPaymentAmount: value } : p)
+
+                                        const total = nextPayments.reduce(
+                                            (sum: number, p: any) => sum + Number(p.netPaymentAmount || 0), 0)
+
+                                        setValue("data.totalCouponAmount", total, {
+                                            shouldDirty: true,
+                                            shouldTouch: true
+                                        })
+                                    }}
                                 >
                                 </NumberInputForm>
-
                             </td>
                         </tr>
                     ))}</>
@@ -189,7 +229,7 @@ export default function CashTransactionFormCoupon() {
                 control={control}
                 render={({ field }) => {
                     return <DateInput {...field}
-                    error={get(errors, "data.paymentDo.message")}
+                        error={get(errors, "data.paymentDo.message")}
                     />
                 }}
             />

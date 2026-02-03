@@ -1,5 +1,5 @@
 import { useQueryParams } from "@/hooks/useQueryParams";
-import InputField from "../form/Input";
+import InputField from "../form/baseForm/Input";
 
 type SearchProps = {
   hidden?: string;

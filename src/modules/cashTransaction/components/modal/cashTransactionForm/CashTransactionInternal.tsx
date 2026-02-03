@@ -1,5 +1,5 @@
 import { Icons } from "@/components/common/base/Icon"
-import TextArea from "@/components/common/form/TextArea"
+import TextArea from "@/components/common/form/baseForm/TextArea"
 import { useOpenStoreStore } from "@/modules/cashTransaction/store/useopenFormStore"
 import { Controller, useFormContext } from "react-hook-form"
 
