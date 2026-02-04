@@ -69,3 +69,16 @@ export const transactionTypeCredit = [
         label: TRANSACTION_CREDIT_KEY[TRANSACTION_CREDIT_ENUM.CREDIT_OTHER] 
     },
 ]
+
+export const TRANSACTION_TYPE_LABEL_MAP: Record<string, string> = {
+    // Debit
+    fees: 'Fees',
+    'tax-withholding': 'Tax Withholding',
+    withdrawal: 'Withdrawal',
+    'debit-others': 'Debit (Others)',
+
+    // Credit
+    'coupon-payment': 'Coupon Payment',
+    deposit: 'Deposit',
+    'credit-others': 'Credit (Others)',
+}

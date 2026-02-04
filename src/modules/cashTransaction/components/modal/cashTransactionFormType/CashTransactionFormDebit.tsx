@@ -33,7 +33,7 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
 
     const orgOption = data?.data?.map((org: orgs) => ({
         value: org.id,
-        label: org.shortName,
+        label: org.name,
     }))
 
     function getFirstValue() {
@@ -65,8 +65,8 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
     }
 
     function checkType() {
-        if (transactionType === TRANSACTION_DEBIT_ENUM.DEBIT_OTHER
-            || transactionType === TRANSACTION_CREDIT_ENUM.CREDIT_OTHER) {
+        if (transactionType === TRANSACTION_DEBIT_ENUM.WITHDRAWAL
+            || transactionType === TRANSACTION_CREDIT_ENUM.DEPOSIT) {
             return true
         }
         return false
