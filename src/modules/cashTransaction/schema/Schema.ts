@@ -92,6 +92,7 @@ export const cashTransactionCouponPayLoadSchema = z.object({
     description: z.string().nullable().optional(),
     feesAmt: z.number().nullable().optional(),
     gstAmt: z.number().nullable().optional(),
+    bankChargesAmt: z.number().nullable().optional(),
     comments: z.string().nullable().optional(),
     files: z.array(z.instanceof(File)).optional(),
     couponPayments: z.array(couponPaymentsSchema),

@@ -54,6 +54,7 @@ export default function CashTransactionFormCoupon() {
                 bankAccountTo: "",
                 cashOrderAmt: Number(item.effectiveValueAmt || 0),
                 clientName: item.clientName,
+                subOrganizationName: item.subOrganizationName,
                 organizationNum: item.organizationNum,
                 subOrganizationNum: item.subOrganizationNum,
                 subAccountNum: item.subAccountNum,
@@ -61,38 +62,6 @@ export default function CashTransactionFormCoupon() {
         )
         setValue("data.currency", isinCurrency)
     }, [isinHoldingData, setValue])
-
-    // useEffect(() => {
-    //     if (!Array.isArray(watchCouponPayments)) {
-    //         setValue("data.totalCouponAmount", 0)
-    //         return
-    //     }
-
-    //     const total = watchCouponPayments.reduce(
-    //         (sum, p) => sum + Number(p?.netPaymentAmount || 0), 0
-    //     )
-
-    //     setValue("data.totalCouponAmount", total, {
-    //         shouldDirty: true,
-    //         shouldTouch: true
-    //     })
-    // }, [watchCouponPayments, setValue])
-
-    // useEffect(() => {
-    //     if (!watchCouponRate || !Array.isArray(watchCouponPayments)) return
-
-    //     const rate = Number(watchCouponRate) * 0.01
-
-    //     watchCouponPayments.forEach((p, index) => {
-    //         const net = rate * Number(p.cashOrderAmt || 0)
-
-    //         setValue(
-    //             `data.couponPayments.${index}.netPaymentAmount`,
-    //             net,
-    //             { shouldDirty: true }
-    //         )
-    //     })
-    // }, [watchCouponRate])
 
     return (<>
         <div className="flex py-5 items-center">
@@ -213,6 +182,7 @@ export default function CashTransactionFormCoupon() {
 
         <div className="flex py-5 items-center">
             <label className="w-50 mt-1">Total Payment Amount</label>
+            {isinCurrency}
             <NumberInputForm
                 name='data.totalCouponAmount'
                 control={control}
