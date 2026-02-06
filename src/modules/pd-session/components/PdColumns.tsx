@@ -3,7 +3,7 @@ import { Icons } from "@/components/common/base/Icon";
 import { useModalStore } from "@/hooks/useModalStore";
 import { usePdStore } from "../store/useSelectedPd";
 import { SortHeader } from "@/components/common/base/SortHeader";
-import { formatDate } from "@/components/common/base/FormatDate";
+import { formatDateTime } from "@/components/common/base/FormatDate";
 import type { pdListItem } from "../schema/PdSchema.type";
 
 export const columns: ColumnDef<pdListItem>[] = [
@@ -28,7 +28,7 @@ export const columns: ColumnDef<pdListItem>[] = [
         header: () => <SortHeader columnKey="createdAt" title="Created Date" />,
         cell: ({ getValue }) => {
             const date = getValue<string>()
-            return <div>{formatDate(date)}</div>
+            return <div>{formatDateTime(date)}</div>
         }
     },
     {

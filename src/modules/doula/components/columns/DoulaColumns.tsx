@@ -1,6 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { Icons } from "@/components/common/base/Icon"
-import { formatDate } from "@/components/common/base/FormatDate";
+import { formatDateTime } from "@/components/common/base/FormatDate";
 import Avatar from "@mui/material/Avatar";
 import { useDoulaStore } from "../../store/useSelectedDoula";
 import { useModalStore } from "@/hooks/useModalStore";
@@ -45,7 +45,7 @@ export const columns: ColumnDef<doulaListItem>[] = [
     header: "birthDate",
     cell: ({ getValue }) => {
       const bd = getValue<Date>()
-      return <div>{formatDate(bd)}</div>
+      return <div>{formatDateTime(bd)}</div>
     }
   },
   {
@@ -57,7 +57,7 @@ export const columns: ColumnDef<doulaListItem>[] = [
     header: () => <SortHeader columnKey="createdAt" title="CreatedAt" />,
     cell: ({ getValue }) => {
       const createdAt = getValue<Date>()
-      return <div>{formatDate(createdAt)}</div>
+      return <div>{formatDateTime(createdAt)}</div>
     }
   },
   {

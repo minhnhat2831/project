@@ -1,7 +1,7 @@
 import { Icons } from "@/components/common/base/Icon";
 import Header from "@/layouts/Header";
 import { useNavigate, useParams } from "react-router";
-import { formatDate } from "@/components/common/base/FormatDate";
+import { formatDateTime } from "@/components/common/base/FormatDate";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { columns } from "../components/columns/DoulaVoucherColumns";
 import { useStore } from "@/hooks/useStore";
@@ -47,11 +47,11 @@ export default function VoucherViewPage() {
                         </div>
                         <div>
                             <p>Start Date</p>
-                            <p className="font-bold">{formatDate(voucherId?.startDate)}</p>
+                            <p className="font-bold">{formatDateTime(voucherId?.startDate)}</p>
                         </div>
                         <div>
                             <p>End Date</p>
-                            <p className="font-bold">{formatDate(voucherId?.endDate)}</p>
+                            <p className="font-bold">{formatDateTime(voucherId?.endDate)}</p>
                         </div>
 
                         <div>

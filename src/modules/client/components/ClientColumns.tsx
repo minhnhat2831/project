@@ -1,6 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { Icons } from "@/components/common/base/Icon";
-import { formatDate } from "@/components/common/base/FormatDate";
+import { formatDateTime } from "@/components/common/base/FormatDate";
 import Avatar from "@mui/material/Avatar";
 import { useClientStore } from "../store/useSelectedClient";
 import { useNavigate } from "react-router";
@@ -48,7 +48,7 @@ export const columns: ColumnDef<clientListItem>[] = [
         header: "birthDate",
         cell: ({ getValue }) => {
             const birthday = getValue<Date>()
-            return <div>{formatDate(birthday)}</div>
+            return <div>{formatDateTime(birthday)}</div>
         }
     },
     {
@@ -60,7 +60,7 @@ export const columns: ColumnDef<clientListItem>[] = [
         header: () => <SortHeader columnKey="createdAt" title="CreatedAt" />,
         cell: ({ getValue }) => {
             const createdAt = getValue<Date>()
-            return <div>{formatDate(createdAt)}</div>
+            return <div>{formatDateTime(createdAt)}</div>
         }
     },
     {

@@ -4,7 +4,7 @@ import { columns } from "../../components/columns/TransactionColumns";
 import TableData from "@/components/common/base/TableData";
 import TablePagination from "@/components/common/base/TablePagination";
 import { useParams } from "react-router";
-import { formatDate } from "@/components/common/base/FormatDate";
+import { formatDateTime } from "@/components/common/base/FormatDate";
 import { useStore } from "@/hooks/useStore";
 import { useTransactionQuery } from "../../hooks/useTransaction";
 import { useDoulaSubscriptionQuery } from "../../hooks/useDoulaSubscription";
@@ -46,11 +46,11 @@ export default function DoulaSubscription() {
                         </div>
                         <div className="flex justify-between">
                             <p>Started</p>
-                            <p>{formatDate(subscription?.createdAt)}</p>
+                            <p>{formatDateTime(subscription?.createdAt)}</p>
                         </div>
                         <div className="flex justify-between">
                             <p>Ends</p>
-                            <p>{formatDate(subscription?.endTime)}</p>
+                            <p>{formatDateTime(subscription?.endTime)}</p>
                         </div>
                     </div>
                 </>}

@@ -2,7 +2,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { useSettingStore } from "../store/useSelectedSetting";
 import { useModalStore } from "@/hooks/useModalStore";
 import { Icons } from "@/components/common/base/Icon";
-import { formatDate } from "@/components/common/base/FormatDate";
+import { formatDateTime } from "@/components/common/base/FormatDate";
 import type { searchSettingListItem } from "../schema/SearchSettingSchema.type";
 
 export const columns: ColumnDef<searchSettingListItem>[] = [
@@ -23,7 +23,7 @@ export const columns: ColumnDef<searchSettingListItem>[] = [
         header: "Created Date",
         cell: ({ getValue }) => {
             const date = getValue<string>()
-            return <div>{formatDate(date)}</div>
+            return <div>{formatDateTime(date)}</div>
         }
     },
     {

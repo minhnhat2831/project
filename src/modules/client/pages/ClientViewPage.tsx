@@ -2,7 +2,7 @@ import { Icons } from "@/components/common/base/Icon";
 import Header from "@/layouts/Header";
 import Avatar from "@mui/material/Avatar";
 import { useNavigate, useParams } from "react-router";
-import { formatDate } from "@/components/common/base/FormatDate";
+import { formatDateTime } from "@/components/common/base/FormatDate";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { columns } from "../components/PackageColumns";
 import { useStore } from "@/hooks/useStore";
@@ -77,7 +77,7 @@ export default function ClientViewPage() {
                         </div>
                         <div>
                             <p>Birthday</p>
-                            {formatDate(client?.birthDate)}
+                            {formatDateTime(client?.birthDate)}
                         </div>
                         <div>
                             <p>Address</p>

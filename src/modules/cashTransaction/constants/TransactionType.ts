@@ -1,13 +1,17 @@
 //Gửi lên BE
 export enum TRANSACTION_TYPE_ENUM {
     DEBIT = "debit",
-    CREDIT = "credit"
+    CREDIT = "credit",
+    DEPOSIT = 'deposit',
+    COUPON_PAYMENT = 'coupon-payment'
 }
 
 //Hiện thị lên UI
 export const TRANSACTION_TYPE_KEY = {
     [TRANSACTION_TYPE_ENUM.DEBIT]: 'Debit',
-    [TRANSACTION_TYPE_ENUM.CREDIT]: 'Credit'
+    [TRANSACTION_TYPE_ENUM.CREDIT]: 'Credit',
+    [TRANSACTION_TYPE_ENUM.DEPOSIT] : 'Deposit',
+    [TRANSACTION_TYPE_ENUM.COUPON_PAYMENT] : 'Coupon Payment'
 }
 
 export enum TRANSACTION_DEBIT_ENUM {

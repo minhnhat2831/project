@@ -1,6 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { Icons } from "@/components/common/base/Icon";
-import { formatDate } from "@/components/common/base/FormatDate";
+import { formatDateTime } from "@/components/common/base/FormatDate";
 import type { doulaPackageListItem } from "../../schema/types/DoulaPackageSchema.type";
 
 export const columns: ColumnDef<doulaPackageListItem>[] = [
@@ -41,7 +41,7 @@ export const columns: ColumnDef<doulaPackageListItem>[] = [
     header: "Created date",
     cell: ({ getValue }) => {
       const createdAt = getValue<string>()
-      return <div>{formatDate(createdAt)}</div>
+      return <div>{formatDateTime(createdAt)}</div>
     }
   },
   {
