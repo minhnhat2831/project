@@ -5,13 +5,23 @@ import Button from "@/components/common/form/baseForm/Button";
 import CashTransactionFormModal from "./CashTransactionFormModal";
 import { useModalCreateStore } from "../../store/useModalCreateStore";
 import { TRANSACTION_TYPE_ENUM, TRANSACTION_TYPE_KEY } from "../../constants/TransactionType";
+import FormDetail from "../common/FormDetail";
+import { useModalTypeStore } from "../../store/useModalTypeStore";
 
 export default function CashTransactionModal() {
     const { open, setOpen } = useModalStore()
     const { setOpen: setOpenModal, setTypeMode } = useModalCreateStore()
+    const { typeOpen, setTypeOpen } = useModalTypeStore()
 
     const renderModal = () => {
-        return <CashTransactionFormModal />;
+        switch (typeOpen) {
+            case "Create":
+                return <CashTransactionFormModal />;
+            case "View":
+                return <FormDetail />
+            default:
+                return null
+        }
     }
 
     return (<>
@@ -31,6 +41,7 @@ export default function CashTransactionModal() {
                             className="text-left px-1 hover:bg-gray-200"
                             onClick={() => {
                                 setTypeMode("Debit"),
+                                setTypeOpen("Create")
                                 setOpenModal(true)
                                 setOpen(false)
                             }
@@ -42,6 +53,7 @@ export default function CashTransactionModal() {
                             className="text-left px-1 hover:bg-gray-200"
                             onClick={() => {
                                 setTypeMode("Credit")
+                                setTypeOpen("Create")
                                 setOpenModal(true)
                                 setOpen(false)
                             }

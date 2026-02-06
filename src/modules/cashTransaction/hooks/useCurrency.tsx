@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchListCurrency } from "../api/api";
 
 export const useCurrency = () => {
-    const getCurrencies = () => {
+    const useGetCurrencies = () => {
         return useQuery({
             queryKey: ["currencies"],
             queryFn: async () => {
@@ -11,5 +11,5 @@ export const useCurrency = () => {
         })
     };
 
-    return { getCurrencies };
+    return { useGetCurrencies };
 }

@@ -1,10 +1,10 @@
 import { Icons } from "@/components/common/base/Icon"
 import InputField from "@/components/common/form/baseForm/Input"
-import { useOpenStoreStore } from "@/modules/cashTransaction/store/useopenFormStore"
+import { useOpenFormStore } from "@/modules/cashTransaction/store/useModalFormStore"
 import { Controller, useFormContext } from "react-hook-form"
 
 export default function CashTransactionFormDocument() {
-  const { open, setOpen } = useOpenStoreStore()
+  const { open, setOpen } = useOpenFormStore()
   const { control, watch, setValue } = useFormContext()
 
   const files = watch("data.files") || []

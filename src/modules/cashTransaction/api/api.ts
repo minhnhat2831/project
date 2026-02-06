@@ -1,8 +1,9 @@
 import { mockBankAccounts } from "@/modules/cashTransaction/mock-data/bank-account";
 import { mockCurrencies } from "@/modules/cashTransaction/mock-data/currency";
 import { mockOrgs, mockSubOrgs } from "@/modules/cashTransaction/mock-data/org";
-import type { bankAccountList, currenciesList, isinHoldingList, isinsList, orgs, subOrgs } from "../schema/Schema.type";
+import type { bankAccountList, cashTransactionList, cashTransactionListItem, currenciesList, isinHoldingList, isinsList, orgs, subOrgs } from "../schema/Schema.type";
 import { mockIsinHolding, mockIsins } from "../mock-data/isin";
+import { mockListData, mockListDetail } from "../mock-data/list-detail";
 
 export const fetchListOrg = async () => {
   return new Promise<{ data: orgs[] }>((resolve) =>
@@ -37,7 +38,7 @@ export const fetchListCurrency = async () => {
 export const fetchListBankAccount = async ({
   currency,
 }: {
-  currency?: string;
+  currency?: string | null;
   type?: string;
 }) => {
   const filteredAccounts = !!currency
@@ -75,5 +76,34 @@ export const fetchListIsinsHolding = async (isin?: string) => {
         }),
       500,
     ),
+  );
+};
+
+export const fetchListData = async () => {
+  return new Promise<{ data: cashTransactionList[] }>((resolve) =>
+    setTimeout(
+      () =>
+        resolve({
+          data: mockListData,
+        }),
+      500,
+    ),
+  );
+};
+
+export const fetchTransactionDetail = async (transactionId?: string,
+) => {
+  return new Promise<{ data: cashTransactionListItem | null }>((resolve) =>
+    setTimeout(() => {
+      const detail =
+        mockListDetail.find(
+          (item) =>
+            item.cashOrderData.transactionId === transactionId,
+        ) || null;
+
+      resolve({
+        data: detail as cashTransactionListItem | null,
+      });
+    }, 500),
   );
 };

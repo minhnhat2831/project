@@ -1,23 +1,18 @@
 import { create } from "zustand"
 
-type Mode = "Debit" | "Credit"
 type Type = "Create" | "View"
 interface ModalStoreState {
     open: boolean
     setOpen: (value: boolean) => void
     reset: () => void
-    typeMode: Mode
-    setTypeMode: (typeMode: Mode) => void
     typeOpen: Type
     setTypeOpen:(typeOpen: Type) => void
 }
 
-export const useModalCreateStore = create<ModalStoreState>((set) => ({
-    open: false,
-    typeMode: "Debit",
+export const useModalTypeStore = create<ModalStoreState>((set) => ({
+    open: true,
     typeOpen: "Create",
     setOpen: (open) => set({ open }),
-    setTypeMode: (typeMode) => set({ typeMode }),
     setTypeOpen: (typeOpen) => set({ typeOpen }),
     reset: () =>
         set({

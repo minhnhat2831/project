@@ -5,8 +5,11 @@ import type {
     cashTransactionCouponPayLoadSchema, 
     cashTransactionDebitPayLoadListSchema, 
     cashTransactionDebitPayLoadSchema, 
+    cashTransactionDetailSchema, 
     cashTransactionFormListSchema, 
     cashTransactionFormSchema, 
+    cashTransactionListItemSchema, 
+    cashTransactionListSchema, 
     currencyListSchema, 
     isinHoldingListItemSchema, 
     isinHoldingListSchema, 
@@ -26,6 +29,9 @@ export type orgsList = z.infer<typeof orgsListSchema>
 export type subOrgs = z.infer<typeof subOrgSchema>
 export type orgs = z.infer<typeof orgsSchema>
 export type subOrgsList = z.infer<typeof subOrgsListSchema>
+export type cashTransactionList = z.infer<typeof cashTransactionListSchema>
+export type cashTransactionListItem = z.infer<typeof cashTransactionListItemSchema>
+export type cashTransactionDetail = z.infer<typeof cashTransactionDetailSchema>
 
 //Form Payload gửi lên API
 export type cashTransactionDebitPayLoad = z.infer<typeof cashTransactionDebitPayLoadSchema>
