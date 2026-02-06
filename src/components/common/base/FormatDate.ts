@@ -1,4 +1,4 @@
-export const formatDate = (date: Date | string | null | undefined) => {
+export const formatDateTime = (date: Date | string | null | undefined) => {
   if (!date) return "N/A"
   return new Intl.DateTimeFormat("vi-VN", {
     day: "2-digit",

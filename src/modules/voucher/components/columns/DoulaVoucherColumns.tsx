@@ -1,5 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { formatDate } from "@/components/common/base/FormatDate";
+import { formatDateTime } from "@/components/common/base/FormatDate";
 import type { voucherDoulaListItem } from "../../schema/VoucherSchema.type";
 
 export const columns: ColumnDef<voucherDoulaListItem>[] = [
@@ -12,7 +12,7 @@ export const columns: ColumnDef<voucherDoulaListItem>[] = [
         header: "Date",
         cell: ({ getValue }) => {
             const date = getValue<string>()
-            return <div>{formatDate(date)}</div>
+            return <div>{formatDateTime(date)}</div>
         }
     }
 ]

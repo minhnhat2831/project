@@ -1,7 +1,7 @@
 import { Icons } from "@/components/common/base/Icon";
 import Header from "@/layouts/Header";
 import { useNavigate, useParams } from "react-router";
-import { formatDate } from "@/components/common/base/FormatDate";
+import { formatDateTime } from "@/components/common/base/FormatDate";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { columns } from "../components/columns/DoulaPackageDetailColumns";
 import TableData from "@/components/common/base/TableData";
@@ -63,7 +63,7 @@ export default function PackagePage() {
                         </div>
                         <div>
                             <p className="font-bold">Created date</p>
-                            <span>{formatDate(packageData?.createdAt)}</span>
+                            <span>{formatDateTime(packageData?.createdAt)}</span>
                         </div>
                     </div>
                     <div className="px-5">

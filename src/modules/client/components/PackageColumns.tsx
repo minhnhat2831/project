@@ -1,5 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { formatDate } from "@/components/common/base/FormatDate";
+import { formatDateTime } from "@/components/common/base/FormatDate";
 import { SortHeader } from "@/components/common/base/SortHeader";
 import type { caresListItem } from "../schema/CaresSchema.type";
 
@@ -17,7 +17,7 @@ export const columns: ColumnDef<caresListItem>[] = [
         header: () => <SortHeader columnKey="startDate" title="StartDate" />,
         cell: ({ getValue }) => {
             const date = getValue<string>()
-            return <div>{formatDate(date)}</div>
+            return <div>{formatDateTime(date)}</div>
         }
     },
     {

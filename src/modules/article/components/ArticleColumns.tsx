@@ -3,7 +3,7 @@ import { useModalStore } from "@/hooks/useModalStore";
 import { Icons } from "@/components/common/base/Icon";
 import { useArticleStore } from "../store/useSelectedArticle";
 import { SortHeader } from "@/components/common/base/SortHeader";
-import { formatDate } from "@/components/common/base/FormatDate";
+import { formatDateTime } from "@/components/common/base/FormatDate";
 import type { articleListItem } from "../schema/ArticleScheme.type";
 
 export const ArticleColumns: ColumnDef<articleListItem>[] = [
@@ -28,7 +28,7 @@ export const ArticleColumns: ColumnDef<articleListItem>[] = [
         header: () => <SortHeader columnKey="createdAt" title="Created Date" />,
         cell: ({ getValue }) => {
             const date = getValue<string>()
-            return <div>{formatDate(date)}</div>
+            return <div>{formatDateTime(date)}</div>
         }
     },
     {

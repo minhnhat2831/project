@@ -1,5 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { formatDate } from "@/components/common/base/FormatDate";
+import { formatDateTime } from "@/components/common/base/FormatDate";
 import type { transactionListItem } from "../../schema/types/TransactionSchema.type";
 
 export const columns: ColumnDef<transactionListItem>[] = [
@@ -8,7 +8,7 @@ export const columns: ColumnDef<transactionListItem>[] = [
         header: "Date",
         cell: ({ getValue }) => {
             const createdAt = getValue<string>()
-            return <div>{formatDate(createdAt)}</div>
+            return <div>{formatDateTime(createdAt)}</div>
         }
     },
     {

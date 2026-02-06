@@ -1,5 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { formatDate } from "@/components/common/base/FormatDate";
+import { formatDateTime } from "@/components/common/base/FormatDate";
 import { Icons } from "@/components/common/base/Icon";
 import { useModalStore } from "@/hooks/useModalStore";
 import { useCategoryStore } from "../store/useSelectedCategory";
@@ -41,7 +41,7 @@ export const columns: ColumnDef<categoryListItem>[] = [
         header: () => <SortHeader columnKey="createdAt" title="Created Date" />,
         cell: ({ getValue }) => {
             const date = getValue<string>()
-            return <div>{formatDate(date)}</div>
+            return <div>{formatDateTime(date)}</div>
         }
     },
     {

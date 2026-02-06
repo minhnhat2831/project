@@ -1,5 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { formatDate } from "@/components/common/base/FormatDate";
+import { formatDateTime } from "@/components/common/base/FormatDate";
 import { useModalStore } from "@/hooks/useModalStore";
 import { useVoucherStore } from "../../store/useSelectedVoucher";
 import { Icons } from "@/components/common/base/Icon";
@@ -37,7 +37,7 @@ export const columns: ColumnDef<voucherListItem>[] = [
         header: () => <SortHeader columnKey="startDate" title="Start Date" />,
         cell: ({ getValue }) => {
             const date = getValue<string>()
-            return <div>{formatDate(date)}</div>
+            return <div>{formatDateTime(date)}</div>
         }
     },
     {
@@ -45,7 +45,7 @@ export const columns: ColumnDef<voucherListItem>[] = [
         header: () => <SortHeader columnKey="endDate" title="End Date" />,
         cell: ({ getValue }) => {
             const date = getValue<string>()
-            return <div>{formatDate(date)}</div>
+            return <div>{formatDateTime(date)}</div>
         }
     },
     {

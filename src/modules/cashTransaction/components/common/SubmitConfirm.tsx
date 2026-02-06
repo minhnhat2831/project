@@ -7,6 +7,8 @@ import { TRANSACTION_CREDIT_ENUM, TRANSACTION_DEBIT_ENUM, TRANSACTION_TYPE_LABEL
 import useTransactionForm from "../../hooks/useTransactionForm"
 import ConfirmField from "./ConfirmField"
 import { useBankAccount } from "../../hooks/useBankAccount"
+import { formatDate } from "@/utils/formatDate"
+import { formatter } from "@/utils/formatNumber"
 
 export default function SubmitConfirm({ onBack, onSubmit }: { onBack: () => void, onSubmit: () => void }) {
     const { setOpen } = useModalCreateStore()
@@ -26,18 +28,6 @@ export default function SubmitConfirm({ onBack, onSubmit }: { onBack: () => void
     const mappedData = watchAll.data.transactionType === TRANSACTION_CREDIT_ENUM.COUPON_PAYMENT
         ? couponMapFormToPayload(data)
         : debitMapFormToPayload(data)
-
-    const formatter = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: watchAll.data.currency ? watchAll.data.currency : "VND" });
-
-    const formatDate = (dateStr: string) => {
-        const dateObj = new Date(dateStr);
-        const formattedDate = dateObj.toLocaleDateString('en-GB', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric'
-        }).replace(',', '');
-        return formattedDate
-    };
 
     const formatTransactionType = (value?: string) => {
         if (!value) return '-'
@@ -59,13 +49,13 @@ export default function SubmitConfirm({ onBack, onSubmit }: { onBack: () => void
                         <ConfirmField label="Client Name" text={(watchAll.data.orgNum.name) || "-"} />
                         <ConfirmField label="Sub Org Name" text={(watchAll.data.subOrgNum.name) || "-"} />
                         <ConfirmField label="Currency" text={watchAll.data.currency || "-"} />
-                        <ConfirmField label="Amount" text={formatter.format(watchAll.data.amount)} />
+                        <ConfirmField label="Amount" text={formatter(watchAll.data.currency).format(watchAll.data.amount)} />
                         <ConfirmField label="Effective Date" text={formatDate(watchAll.data.effectiveDo)} />
                         <ConfirmField label="Description" text={watchAll.data.description || "-"} />
                         {(watchAll.data.transactionType === TRANSACTION_DEBIT_ENUM.WITHDRAWAL || watchAll.data.transactionType === TRANSACTION_CREDIT_ENUM.DEPOSIT) && <>
-                            <ConfirmField label="Fees Amt" text={formatter.format(watchAll.data.feesAmt)} />
-                            <ConfirmField label="Gst Amt" text={formatter.format(watchAll.data.gstAmt)} />
-                            <ConfirmField label="Bank Charges Amt" text={formatter.format(watchAll.data.bankChargesAmt)} /></>}
+                            <ConfirmField label="Fees Amt" text={formatter(watchAll.data.currency).format(watchAll.data.feesAmt)} />
+                            <ConfirmField label="Gst Amt" text={formatter(watchAll.data.currency).format(watchAll.data.gstAmt)} />
+                            <ConfirmField label="Bank Charges Amt" text={formatter(watchAll.data.currency).format(watchAll.data.bankChargesAmt)} /></>}
                         <ConfirmField label="Bank Account" text={(watchAll.data.bankAccountUid?.displayName) || "-"} />
                         <ConfirmField label="Created Date" text={formatDate(watchAll.data.createdDo)} />
                         <ConfirmField label="Comments" text={watchAll.data.comments || "-"} />
@@ -93,12 +83,12 @@ export default function SubmitConfirm({ onBack, onSubmit }: { onBack: () => void
                                 <p className="font-semibold">* Coupon Payment : {index + 1}</p>
                                 <ConfirmField label=" - Client Name" text={item.clientName || "-"} />
                                 <ConfirmField label=" - SubOrg Name" text={item.subOrganizationName || "-"} />
-                                <ConfirmField label=" - Cash Order Amt" text={formatter.format(item.cashOrderAmt)} />
+                                <ConfirmField label=" - Cash Order Amt" text={formatter(watchAll.data.currency).format(item.cashOrderAmt)} />
                                 <ConfirmField label=" - Bank-Account(To)" text={formatBank(item.bankAccountTo) || "-"} />
                             </div>
                         ))}
                         <ConfirmField label="Coupon Percentage Rate" text={`${watchAll.data.couponPercentageRate} %`} />
-                        <ConfirmField label="Total Coupon Amount" text={formatter.format(watchAll.data.totalCouponAmount)} />
+                        <ConfirmField label="Total Coupon Amount" text={formatter(watchAll.data.currency).format(watchAll.data.totalCouponAmount)} />
                         <ConfirmField label="Payment Date" text={formatDate(watchAll.data.paymentDo)} />
                         <ConfirmField label="Description" text={watchAll.data.description || "-"} />
                         <ConfirmField label="Comments" text={watchAll.data.comments || "-"} />

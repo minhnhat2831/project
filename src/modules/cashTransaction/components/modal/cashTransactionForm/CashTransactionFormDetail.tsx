@@ -55,7 +55,7 @@ export default function CashTransactionFormDetail() {
 
     return (
         <>
-            <div className={`bg-white rounded-sm mb-5  transition-all duration-600 ease-in-out shadow-xl
+            <div className={`bg-white rounded-sm mb-5 transition-all duration-600 ease-in-out shadow-xl
             ${open ? (watchType ? "h-auto" : "h-50") : "h-12"}`}>
                 <div
                     className="border-b h-12 px-4 flex items-center cursor-pointer "

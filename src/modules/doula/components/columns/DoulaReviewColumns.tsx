@@ -1,5 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { formatDate } from "@/components/common/base/FormatDate";
+import { formatDateTime } from "@/components/common/base/FormatDate";
 import { Icons } from "@/components/common/base/Icon";
 import Avatar from "@mui/material/Avatar";
 import type { doulaReviewListItem } from "../../schema/types/DoulaReviewSchema.type";
@@ -37,7 +37,7 @@ export const columns: ColumnDef<doulaReviewListItem>[] = [
         header: "Date",
         cell: ({ getValue }) => {
             const date = getValue<string>()
-            return <div>{formatDate(date)}</div>
+            return <div>{formatDateTime(date)}</div>
         }
     },
     {

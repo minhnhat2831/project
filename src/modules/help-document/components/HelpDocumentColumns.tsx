@@ -1,6 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { SortHeader } from "@/components/common/base/SortHeader";
-import { formatDate } from "@/components/common/base/FormatDate";
+import { formatDateTime } from "@/components/common/base/FormatDate";
 import { Icons } from "@/components/common/base/Icon";
 import { useModalStore } from "@/hooks/useModalStore";
 import { useDocumentStore } from "../store/useSelectedDocument";
@@ -36,7 +36,7 @@ export const columns: ColumnDef<helpDocumentListItem>[] = [
     header: () => <SortHeader columnKey="createdAt" title="Created Date" />,
     cell: ({ getValue }) => {
       const date = getValue<string>()
-      return <div>{formatDate(date)}</div>
+      return <div>{formatDateTime(date)}</div>
     }
   },
   {

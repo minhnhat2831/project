@@ -6,7 +6,7 @@ import DoulaInformation from "./tab-content/DoulaInformation";
 import DoulaSubscription from "./tab-content/DoulaSubscription";
 import DoulaPackages from "./tab-content/DoulaPackages";
 import DoulaReviews from "./tab-content/DoulaReviews";
-import { formatDate } from "@/components/common/base/FormatDate";
+import { formatDateTime } from "@/components/common/base/FormatDate";
 import Avatar from "@mui/material/Avatar";
 import { useDoulaStore } from "../store/useSelectedDoula";
 import { useModalStore } from "@/hooks/useModalStore";
@@ -75,7 +75,7 @@ export default function DoulaViewPage() {
 
                             <div>
                                 <p>Birthday</p>
-                                <p>{formatDate(doula?.user.birthDate)}</p>
+                                <p>{formatDateTime(doula?.user.birthDate)}</p>
                             </div>
                             <div>
                                 <p>Address</p>

@@ -1,6 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table"
 import Avatar from "@mui/material/Avatar"
-import { formatDate } from "@/components/common/base/FormatDate"
+import { formatDateTime } from "@/components/common/base/FormatDate"
 import type { caresListItem } from "../../schema/types/DoulaPackageSchema.type"
 
 export const columns: ColumnDef<caresListItem>[] = [
@@ -29,7 +29,7 @@ export const columns: ColumnDef<caresListItem>[] = [
     accessorKey: "createdAt",
     cell: ({ getValue }) => {
       const date = getValue<string>()
-      return <div>{formatDate(date)}</div>
+      return <div>{formatDateTime(date)}</div>
     }
   },
   {
