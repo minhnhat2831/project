@@ -1,13 +1,15 @@
 import { Controller, type Control, type FieldValues } from "react-hook-form";
 import Select, { type GroupBase, type OptionsOrGroups } from "react-select";
 
+type Option = { value: string | null; label: string | null };
+
 interface BaseSelectProps {
     label?: string;
     error?: any;
     name: string;
     options?: OptionsOrGroups<
-        { value: string; label: string },
-        GroupBase<{ value: string; label: string }>
+        Option,
+        GroupBase<Option>
     >;
     control: Control<FieldValues>;
     isLoading?: boolean;
@@ -18,8 +20,6 @@ interface BaseSelectProps {
     isDisabled?: boolean;
     onValueChange?: (value: string | null) => void;
 }
-
-type Option = { value: string; label: string };
 
 function isOption(
     opt: Option | GroupBase<Option>
@@ -72,10 +72,9 @@ export default function SelectForm({
                             isSearchable={isSearchable}
                             isClearable={isClearable}
                             isDisabled={isDisabled}
-                            value={flatOptions.find(opt => opt.value === field.value) ??
-                                (flatOptions.length === 1 ? flatOptions[0] : null)}
+                            value={flatOptions.find(opt => opt.value === field.value) ?? null}
                             onChange={(option) => {
-                                const value = option?.value ?? null;
+                                const value = option?.value ?? null
                                 field.onChange(value);
                                 onValueChange?.(value);
                             }}

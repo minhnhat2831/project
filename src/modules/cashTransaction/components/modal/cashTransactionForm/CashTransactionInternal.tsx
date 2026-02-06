@@ -1,10 +1,10 @@
 import { Icons } from "@/components/common/base/Icon"
 import TextArea from "@/components/common/form/baseForm/TextArea"
-import { useOpenStoreStore } from "@/modules/cashTransaction/store/useopenFormStore"
+import { useOpenFormStore } from "@/modules/cashTransaction/store/useModalFormStore"
 import { Controller, useFormContext } from "react-hook-form"
 
 export default function CashTransactionFormInternal() {
-    const { open, setOpen } = useOpenStoreStore()
+    const { open, setOpen } = useOpenFormStore()
     const { control } = useFormContext()
     return (<>
         <div className={`bg-white rounded-sm mb-5 transition-all duration-500 ease-in-out shadow-xl ${open ? "h-auto" : "h-12"}`}>

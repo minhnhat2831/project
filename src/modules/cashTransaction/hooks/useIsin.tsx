@@ -3,7 +3,7 @@ import { fetchListIsins, fetchListIsinsHolding } from "../api/api";
 import type { isinHoldingList } from "../schema/Schema.type";
 
 export const useIsin = () => {
-    const getIsin = () => {
+    const useGetIsin = () => {
         return useQuery({
             queryKey: ["isin"],
             queryFn: async () => {
@@ -12,7 +12,7 @@ export const useIsin = () => {
         })
     };
 
-    const getIsinHolding = (
+    const useGetIsinHolding = (
         isin?: string,
         options?: {
             enabled?: boolean,
@@ -27,5 +27,5 @@ export const useIsin = () => {
         })
     }
 
-    return { getIsin, getIsinHolding };
+    return { useGetIsin, useGetIsinHolding };
 }

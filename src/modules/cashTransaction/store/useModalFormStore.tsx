@@ -6,7 +6,7 @@ interface ModalStoreState {
     reset: () => void
 }
 
-export const useOpenStoreStore = create<ModalStoreState>((set) => ({
+export const useOpenFormStore = create<ModalStoreState>((set) => ({
     open: true,
     setOpen: (open) => set({ open }),
     reset: () =>

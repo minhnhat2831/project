@@ -3,8 +3,8 @@ import { fetchListBankAccount } from "../api/api";
 
 export const useBankAccount = () => {
 
-    const getBankAccounts = (
-        currency?: string,
+    const useGetBankAccounts = (
+        currency?: string | null,
         type?: string,
     ) => {
         return useQuery({
@@ -33,5 +33,5 @@ export const useBankAccount = () => {
       },
     })}
 
-    return { getBankAccounts, useGetBankAccountById };
+    return { useGetBankAccounts, useGetBankAccountById };
 }   

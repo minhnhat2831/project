@@ -7,8 +7,8 @@ import CashTransactionFormInternal from "./cashTransactionForm/CashTransactionIn
 import { Icons } from "@/components/common/base/Icon";
 import { FormProvider } from "react-hook-form";
 import useTransactionForm from "../../hooks/useTransactionForm";
-import SubmitConfirm from "../common/SubmitComfirm";
-import { useModalConfirmStore } from "../../store/useModelConfirmStore";
+import SubmitConfirm from "../common/SubmitConfirm";
+import { useModalConfirmStore } from "../../store/useModalConfirmStore";
 
 export default function CashTransactionFormModal() {
     const { open, setOpen, typeMode } = useModalCreateStore()

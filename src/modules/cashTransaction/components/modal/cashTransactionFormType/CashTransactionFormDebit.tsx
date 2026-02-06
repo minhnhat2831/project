@@ -18,11 +18,12 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
     const { data: subOrgData } = useGetListSubOrgs(watchOrg, {
         enabled: !!watchOrg,
     });
-    const watchCurrent = watch("data.currency")
-    const { getCurrencies } = useCurrency();
-    const { data: currencyData } = getCurrencies();
-    const { getBankAccounts } = useBankAccount();
-    const { data: bankAccountData } = getBankAccounts(watchCurrent, transactionType);
+
+    const watchCurrency = watch("data.currency")
+    const { useGetCurrencies } = useCurrency();
+    const { data: currencyData } = useGetCurrencies();
+    const { useGetBankAccounts } = useBankAccount();
+    const { data: bankAccountData } = useGetBankAccounts(watchCurrency, transactionType);
 
     const subOrgOptions =
         subOrgData?.data
@@ -36,13 +37,23 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
         label: org.name,
     }))
 
-    function getFirstValue() {
-        if (subOrgOptions.length === 1) {
-            setValue("data.subOrgNum.subOrgId", subOrgOptions[0].value);
-        }else{
-            setValue("data.subOrgNum.subOrgId", "")
-        }
-    }
+    // const getFirstValue = () => {
+    //     if (!subOrgData?.data) return;
+
+    //     if (subOrgData.data.length !== 1) {
+    //         setValue("data.subOrgNum", null);
+    //         return;
+    //     }
+
+    //     const subOrg = subOrgData.data[0];
+
+    //     setValue("data.subOrgNum", {
+    //         subOrgId: subOrg.subOrgId,
+    //         name: subOrg.name,
+    //         description: subOrg.description,
+    //         orgId: subOrg.orgId,
+    //     });
+    // }
 
     const currencyOption = currencyData?.map((currency) => ({
         value: currency,
@@ -50,18 +61,37 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
     }))
 
     const bankAccountOption = bankAccountData?.data.map(bank => ({
-        value: bank.bankAccountUid,
-        label: bank.displayName,
+        value: bank?.bankAccountUid,
+        label: bank?.displayName,
     })) ?? []
 
-    function checkBankForCurrency(bankAccountUid: string | null) {
+    const checkBankForCurrency = (bankAccountUid: string | null) => {
+        if (!bankAccountUid) {
+            setValue("data.bankAccountUid.bankAccountUid", "");
+            return;
+        }
         const selectedBank = bankAccountData?.data.find(
-            bank => bank.bankAccountUid === bankAccountUid
+            bank => bank?.bankAccountUid === bankAccountUid
         );
 
         if (selectedBank?.currency) {
             setValue("data.currency", selectedBank.currency);
         }
+
+        if (!selectedBank) return
+
+        setValue("data.bankAccountUid",
+            {
+                bankAccountUid: selectedBank.bankAccountUid,
+                currency: selectedBank.currency,
+                beneficiaryName: selectedBank.beneficiaryName,
+                beneficiaryBankName: selectedBank.beneficiaryBankName,
+                beneficiaryBankAccountNumber: selectedBank.beneficiaryBankAccountNumber,
+                beneficiaryBankSwift: selectedBank.beneficiaryBankSwift,
+                correspondentBankName: selectedBank.correspondentBankName,
+                correspondentBankSwift: selectedBank.correspondentBankSwift,
+                displayName: selectedBank.displayName,
+            })
     }
 
     function checkType() {
@@ -74,56 +104,90 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
 
     return (<>
         <div className="flex py-5 items-center">
-            <label className="mt-1 w-50">Client Name</label>
+            <label className="mt-1 w-50 shrink-0">Client Name</label>
             <SelectForm
                 name="data.orgNum.id"
                 isLoading={isLoading}
                 control={control}
                 options={orgOption}
-                onValueChange={getFirstValue}
+                onValueChange={(value) => {
+                    setValue("data.subOrgNum", "")
+                    setValue("data.subOrgNum.subOrgId", "")
+                    const org = data?.data.find(f => f.id === value)
+                    if (!org) return
+
+                    setValue("data.orgNum",
+                        {
+                            id: org.id,
+                            name: org.name,
+                            shortName: org.shortName,
+                            countryCode: org.countryCode
+                        })
+
+
+                }}
                 error={get(errors, "data.orgNum.id.message")}
             />
         </div>
 
         <div className="flex py-5 items-center">
-            <label className="mt-1 w-50">Sub-Org Name</label>
+            <label className="mt-1 w-50 shrink-0">Sub-Org Name</label>
             <SelectForm
                 name="data.subOrgNum.subOrgId"
                 control={control}
                 isDisabled={!watchOrg}
                 options={subOrgOptions}
+                onValueChange={(value) => {
+                    setValue("data.subOrgNum.subOrgId", value, {
+                        shouldDirty: true,
+                        shouldTouch: true
+                    })
+                    const subOrg = subOrgData?.data.find(f => f.subOrgId === value)
+                    if (!subOrg) return ""
+
+                    setValue("data.subOrgNum",
+                        {
+                            name: subOrg.name,
+                            description: subOrg.description,
+                            subOrgId: subOrg.subOrgId,
+                            orgId: subOrg.orgId
+                        })
+                }}
                 error={get(errors, "data.subOrgNum.subOrgId.message")}
             />
         </div>
 
         <div className="flex py-5 items-center">
-            <label className="w-50 mt-1">Transaction ID</label>
+            <label className="w-50 mt-1 shrink-0">Transaction ID</label>
             <p> - </p>
         </div>
 
         <div className="flex py-5 items-center">
-            <label className="w-50 mt-1">Currency<span className="text-red-500"> *</span></label>
+            <label className="w-50 mt-1 shrink-0">Currency<span className="text-red-500"> *</span></label>
             <SelectForm
                 name="data.currency"
                 control={control}
                 options={currencyOption}
+                onValueChange={(value) => {
+                    setValue("data.currency", value)
+                    setValue("data.bankAccountUid.bankAccountUid", "")
+                }}
                 error={get(errors, "data.currency.message")}
             />
         </div>
 
         <div className="flex py-5 items-center">
-            <label className="w-50 mt-1">Amount<span className="text-red-500"> *</span></label>
+            <label className="w-50 mt-1 shrink-0">Amount<span className="text-red-500"> *</span></label>
             <NumberInputForm
                 name="data.amount"
                 control={control}
-                error={get(errors, "data.amount.message")}
             >
             </NumberInputForm>
         </div>
 
         {checkType() && <>
             <div className="flex py-5 items-center">
-                <label className="w-50 mt-1 ">Fees<span><Icons.Error /></span></label>
+                <label className="w-50 mt-1 shrink-0">Fees<span><Icons.Error /></span></label>
                 <NumberInputForm
                     name="data.feesAmt"
                     control={control}
@@ -132,7 +196,7 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
             </div>
 
             <div className="flex py-5 items-center">
-                <label className="w-50 mt-1">GST Amount<span><Icons.Error /></span></label>
+                <label className="w-50 mt-1 shrink-0">GST Amount<span><Icons.Error /></span></label>
                 <NumberInputForm
                     name="data.gstAmt"
                     control={control}
@@ -141,7 +205,7 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
             </div>
 
             <div className="flex py-5 items-center">
-                <label className="mt-1 w-50">Bank Charges Amount<span className="text-red-500"> *</span></label>
+                <label className="mt-1 w-50 shrink-0">Bank Charges Amount<span className="text-red-500"> *</span></label>
                 <NumberInputForm
                     name="data.bankChargesAmt"
                     control={control}
@@ -151,7 +215,7 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
         </>}
 
         <div className="flex py-5 items-center">
-            <label className="w-50 mt-1">Effective Date<span className="text-red-500"> *</span></label>
+            <label className="w-50 mt-1 shrink-0">Effective Date<span className="text-red-500"> *</span></label>
             <Controller
                 name="data.effectiveDo"
                 control={control}
@@ -162,18 +226,20 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
         </div>
 
         <div className="flex py-5 items-center">
-            <label className="w-50 mt-1">Bank Details (From)</label>
+            <label className="w-50 mt-1 shrink-0">Bank Details (From)</label>
             <SelectForm
                 name="data.bankAccountUid.bankAccountUid"
                 control={control}
                 options={bankAccountOption}
-                onValueChange={checkBankForCurrency}
-                error={get(errors, "data.bankAccountUid.bankAccountUid.message")}
+                onValueChange={(value) => {
+                    checkBankForCurrency(value)
+                }}
+                error={get(errors, "data.bankAccountUid.message")}
             />
         </div>
 
         <div className="flex py-5 items-center">
-            <label className="w-46 mt-1">Description</label>
+            <label className="w-46 mt-1 shrink-0">Description<span className="text-red-500"> *</span></label>
             <InputForm
                 name="data.description"
                 control={control}
@@ -182,7 +248,7 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
         </div>
 
         <div className="flex py-5 items-center">
-            <label className="w-50 mt-1">Created Date<span className="text-red-500"> *</span></label>
+            <label className="w-50 mt-1 shrink-0">Created Date<span className="text-red-500"> *</span></label>
             <Controller
                 name="data.createdDo"
                 control={control}
