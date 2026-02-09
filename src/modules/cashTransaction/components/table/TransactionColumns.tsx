@@ -1,9 +1,10 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { cashTransactionList } from "../../schema/Schema.type";
 import { Icons } from "@/components/common/base/Icon";
-import { TRANSACTION_TYPE_LABEL_MAP } from "../../constants/TransactionType";
+import { TRANSACTION_STATUS_LABEL_MAP, TRANSACTION_TYPE_LABEL_MAP } from "../../constants/TransactionType";
 import { useModalTypeStore } from "../../store/useModalTypeStore";
 import { useDataStore } from "../../store/useDataStore";
+import { formatDate } from "@/utils/formatDate";
 
 export const columns: ColumnDef<cashTransactionList>[] = [
     {
@@ -11,7 +12,7 @@ export const columns: ColumnDef<cashTransactionList>[] = [
         header: "Created Date",
         cell: ({ getValue }) => {
             const data = getValue<string>()
-            return (data || "-")
+            return (formatDate(data) || "-")
         }
     },
     {
@@ -19,7 +20,7 @@ export const columns: ColumnDef<cashTransactionList>[] = [
         header: "Effective Date",
         cell: ({ getValue }) => {
             const data = getValue<string>()
-            return (data || "-")
+            return (formatDate(data) || "-")
         }
     },
     {
@@ -126,6 +127,18 @@ export const columns: ColumnDef<cashTransactionList>[] = [
             const formatter = new Intl.NumberFormat('en-US');
             const data = getValue<number>()
             return (formatter.format(data) || "-")
+        }
+    },
+    {
+        accessorKey: "orderStatus",
+        header: "Status",
+        cell: ({ getValue }) => {
+            const formatTransactionType = (value?: string) => {
+                if (!value) return '-'
+                return TRANSACTION_STATUS_LABEL_MAP[value] ?? value
+            }
+            const data = getValue<string>()
+            return (formatTransactionType(data) || "-")
         }
     },
     {

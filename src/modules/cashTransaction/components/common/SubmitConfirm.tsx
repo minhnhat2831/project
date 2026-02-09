@@ -16,10 +16,10 @@ export default function SubmitConfirm({ onBack, onSubmit }: { onBack: () => void
     const { couponMapFormToPayload, debitMapFormToPayload } = useTransactionForm()
     const { getValues, watch } = useFormContext()
     const { useGetBankAccounts } = useBankAccount()
-    const { data : bankData } = useGetBankAccounts()
+    const { data: bankData } = useGetBankAccounts()
     const watchAll = watch()
 
-    const formatBank = (value : string) => {
+    const formatBank = (value: string) => {
         const bank = bankData?.data.find(f => f.bankAccountUid === value)?.displayName
         return bank
     }
@@ -32,6 +32,34 @@ export default function SubmitConfirm({ onBack, onSubmit }: { onBack: () => void
     const formatTransactionType = (value?: string) => {
         if (!value) return '-'
         return TRANSACTION_TYPE_LABEL_MAP[value] ?? value
+    }
+
+    function checkType(value: "Fees" | "GST" | "BankCharges") {
+        if (watchAll.data.transactionType === TRANSACTION_DEBIT_ENUM.TAX_WITHHOLDING) {
+            return false
+        }
+
+        switch (value) {
+            case "GST":
+                return true
+
+            case "Fees":
+                return [
+                    TRANSACTION_DEBIT_ENUM.WITHDRAWAL,
+                    TRANSACTION_DEBIT_ENUM.DEBIT_OTHER,
+                    TRANSACTION_CREDIT_ENUM.DEPOSIT,
+                    TRANSACTION_CREDIT_ENUM.CREDIT_OTHER,
+                ].includes(watchAll.data.transactionType as TRANSACTION_DEBIT_ENUM | TRANSACTION_CREDIT_ENUM)
+
+            case "BankCharges":
+                return [
+                    TRANSACTION_DEBIT_ENUM.WITHDRAWAL,
+                    TRANSACTION_DEBIT_ENUM.DEBIT_OTHER,
+                ].includes(watchAll.data.transactionType as TRANSACTION_DEBIT_ENUM)
+
+            default:
+                return false
+        }
     }
 
     return (
@@ -52,10 +80,9 @@ export default function SubmitConfirm({ onBack, onSubmit }: { onBack: () => void
                         <ConfirmField label="Amount" text={formatter(watchAll.data.currency).format(watchAll.data.amount)} />
                         <ConfirmField label="Effective Date" text={formatDate(watchAll.data.effectiveDo)} />
                         <ConfirmField label="Description" text={watchAll.data.description || "-"} />
-                        {(watchAll.data.transactionType === TRANSACTION_DEBIT_ENUM.WITHDRAWAL || watchAll.data.transactionType === TRANSACTION_CREDIT_ENUM.DEPOSIT) && <>
-                            <ConfirmField label="Fees Amt" text={formatter(watchAll.data.currency).format(watchAll.data.feesAmt)} />
-                            <ConfirmField label="Gst Amt" text={formatter(watchAll.data.currency).format(watchAll.data.gstAmt)} />
-                            <ConfirmField label="Bank Charges Amt" text={formatter(watchAll.data.currency).format(watchAll.data.bankChargesAmt)} /></>}
+                        {checkType("Fees") && <ConfirmField label="Fees Amt" text={formatter(watchAll.data.currency).format(watchAll.data.feesAmt)} />}
+                        {checkType("GST") && <ConfirmField label="Gst Amt" text={formatter(watchAll.data.currency).format(watchAll.data.gstAmt)} />}
+                        {checkType("BankCharges") && <ConfirmField label="Bank Charges Amt" text={formatter(watchAll.data.currency).format(watchAll.data.bankChargesAmt)} />}
                         <ConfirmField label="Bank Account" text={(watchAll.data.bankAccountUid?.displayName) || "-"} />
                         <ConfirmField label="Created Date" text={formatDate(watchAll.data.createdDo)} />
                         <ConfirmField label="Comments" text={watchAll.data.comments || "-"} />

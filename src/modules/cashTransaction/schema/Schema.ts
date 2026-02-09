@@ -222,6 +222,7 @@ export const cashTransactionListSchema = z.object({
   securityName: z.string().nullable(),
 
   currency: z.string(),
+  amount : z.number(),
 
   description: z.string().nullable(),
   submitType: z.string(),
@@ -267,7 +268,7 @@ export const cashTransactionDetailSchema = z.object({
   transactionId: z.string(),
   cashOrderNum: z.string().nullable(),
   couponOrderNum: z.string().nullable(),
-
+  amount : z.number(),
   orderStatus: z.string(),
   orderStatusAlias: z.string(),
 
