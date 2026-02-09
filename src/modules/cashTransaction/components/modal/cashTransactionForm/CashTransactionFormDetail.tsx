@@ -20,7 +20,7 @@ export default function CashTransactionFormDetail() {
     const { typeMode } = useModalCreateStore()
     const watchType = watch("data.transactionType")
     const watchIsin = watch("data.isin");
-    console.log(watchIsin)
+
     const renderModal = () => {
         if (watchType === TRANSACTION_CREDIT_ENUM.COUPON_PAYMENT) {
             return <CashTransactionFormCoupon />

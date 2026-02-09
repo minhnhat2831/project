@@ -94,12 +94,52 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
             })
     }
 
-    function checkType() {
-        if (transactionType === TRANSACTION_DEBIT_ENUM.WITHDRAWAL
-            || transactionType === TRANSACTION_CREDIT_ENUM.DEPOSIT) {
-            return true
+    function checkType(value: "Fees" | "GST" | "BankCharges") {
+        // if (transactionType === TRANSACTION_DEBIT_ENUM.TAX_WITHHOLDING) {
+        //     return false
+        // }
+        // if (value === 'GST') {
+        //     return true
+        // }
+        // if ((transactionType === TRANSACTION_DEBIT_ENUM.WITHDRAWAL
+        //     || transactionType === TRANSACTION_CREDIT_ENUM.DEPOSIT
+        //     || transactionType === TRANSACTION_DEBIT_ENUM.DEBIT_OTHER
+        //     || transactionType === TRANSACTION_CREDIT_ENUM.CREDIT_OTHER)
+        //     && value === "Fees") {
+        //     return true
+        // }
+        // if ((transactionType === TRANSACTION_DEBIT_ENUM.WITHDRAWAL
+        //     || transactionType === TRANSACTION_DEBIT_ENUM.DEBIT_OTHER)
+        //     && value === "BankCharges") {
+        //     return true
+        // }
+        // return false
+
+        if (transactionType === TRANSACTION_DEBIT_ENUM.TAX_WITHHOLDING) {
+            return false
         }
-        return false
+
+        switch (value) {
+            case "GST":
+                return true
+
+            case "Fees":
+                return [
+                    TRANSACTION_DEBIT_ENUM.WITHDRAWAL,
+                    TRANSACTION_DEBIT_ENUM.DEBIT_OTHER,
+                    TRANSACTION_CREDIT_ENUM.DEPOSIT,
+                    TRANSACTION_CREDIT_ENUM.CREDIT_OTHER,
+                ].includes(transactionType as TRANSACTION_DEBIT_ENUM | TRANSACTION_CREDIT_ENUM)
+
+            case "BankCharges":
+                return [
+                    TRANSACTION_DEBIT_ENUM.WITHDRAWAL,
+                    TRANSACTION_DEBIT_ENUM.DEBIT_OTHER,
+                ].includes(transactionType as TRANSACTION_DEBIT_ENUM)
+
+            default:
+                return false
+        }
     }
 
     return (<>
@@ -185,7 +225,7 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
             </NumberInputForm>
         </div>
 
-        {checkType() && <>
+        {checkType("Fees") &&
             <div className="flex py-5 items-center">
                 <label className="w-50 mt-1 shrink-0">Fees<span><Icons.Error /></span></label>
                 <NumberInputForm
@@ -193,8 +233,9 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
                     control={control}
                     error={get(errors, "data.feesAmt.message")}
                 ></NumberInputForm>
-            </div>
+            </div>}
 
+        {checkType("GST") &&
             <div className="flex py-5 items-center">
                 <label className="w-50 mt-1 shrink-0">GST Amount<span><Icons.Error /></span></label>
                 <NumberInputForm
@@ -202,8 +243,9 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
                     control={control}
                     error={get(errors, "data.gstAmt.message")}
                 ></NumberInputForm>
-            </div>
+            </div>}
 
+        {checkType("BankCharges") &&
             <div className="flex py-5 items-center">
                 <label className="mt-1 w-50 shrink-0">Bank Charges Amount<span className="text-red-500"> *</span></label>
                 <NumberInputForm
@@ -212,7 +254,7 @@ export default function CashTransactionFormDebit({ transactionType }: { transact
                     error={get(errors, "data.bankChargesAmt.message")}
                 ></NumberInputForm>
             </div>
-        </>}
+        }
 
         <div className="flex py-5 items-center">
             <label className="w-50 mt-1 shrink-0">Effective Date<span className="text-red-500"> *</span></label>

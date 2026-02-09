@@ -51,7 +51,7 @@ export default function LoginPage() {
     return (<>
         <ToastContainer />
         <div className="h-screen justify-center flex items-center bg-[url(/bg.jpg)] bg-cover">
-            <div className="w-90 h-100 rounded-3xl bg-white px-8 py-15">
+            <div className="w-90 h-auto rounded-3xl bg-white px-8 py-15">
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="text-center w-full h-10">
                         <p className="font-bold text-2xl">CMS Login</p>

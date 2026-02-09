@@ -2,7 +2,7 @@ import type { ReactNode } from "react"
 
 interface props {
     label? : string,
-    text? : string | number
+    text? : string | number | null
     children? : ReactNode
 }
 
